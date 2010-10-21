@@ -1,0 +1,5 @@
+%h1
+	Edit Link
+	
+- form_for [ @owner, @link ] do |f|
+	= render :partial => 'add_edit_form', :locals => { :f => f, :m => 'Create'}

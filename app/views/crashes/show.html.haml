@@ -1,0 +1,19 @@
+%h4
+	= simple_format @crash.message
+%h5
+	= link_to "Back to Crash List", crashes_path
+
+%h5 Occured on:
+= format_date @crash.created_at
+
+%h5 Referrer:
+= @crash.referrer
+
+%h5 Request URL:
+= @crash.requested_url
+
+
+
+%p
+	%h5 Trace:
+	= simple_format @crash.backtrace

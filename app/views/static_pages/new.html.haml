@@ -1,0 +1,4 @@
+%h3 New static_page
+
+-form_for @static_page do |f|
+    =render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}

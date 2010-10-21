@@ -1,0 +1,11 @@
+%h1
+	There have been
+	= pluralize Crash.count, "crash"
+	
+.digg_pagination
+	.page_info
+		= page_entries_info @crashes
+	= will_paginate @crashes
+
+%table
+	= render @crashes

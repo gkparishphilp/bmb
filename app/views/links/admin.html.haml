@@ -1,0 +1,16 @@
+%h1 
+	Site Link Admin:
+%table.admin_table
+	- for link in @owner.links
+		%tr
+			%td
+				= link_to link.title, link.url
+			%td
+				= link_to image_tag( 'edit.png', :width => 20 ), edit_site_link_path( @owner, link )
+				= link_to 'edit', edit_site_link_path( @owner, link )
+			%td
+				= link_to image_tag( 'trash.png', :width => 20 ), site_link_path( @owner, link ), :method => :delete, :confirm => 'Are you sure you want to delete this link?'
+				= link_to 'delete', site_link_path( @owner, link ), :method => :delete, :confirm => 'Are you sure you want to delete this link?'
+	
+- form_for [ @owner, Link.new ] do |f|
+	= render :partial => 'add_edit_form', :locals => { :f => f, :m => 'Create'}

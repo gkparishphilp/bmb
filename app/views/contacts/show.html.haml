@@ -1,0 +1,33 @@
+%h3 contact
+%p
+	%b At:
+	= format_date @contact.created_at
+%p
+	%b From Email:
+	=@contact.email
+%p
+	%b Subject:
+	=@contact.subject
+%p
+	%b Ip:
+	=@contact.ip
+%p
+	%b Content:
+	=@contact.content
+
+- if @contact.crash
+	%h4 Associated Crash
+	
+	%p
+		%b= link_to snip( @contact.crash.message, 25 ), @contact.crash
+		
+	%p
+		%b Referrer:
+		= @contact.crash.referrer
+	%p
+		%b Request URL:
+		= @contact.crash.requested_url
+
+.actions
+
+=link_to 'Back', contacts_path
