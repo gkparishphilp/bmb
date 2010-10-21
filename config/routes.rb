@@ -1,5 +1,21 @@
 Backmybook::Application.routes.draw do
-  # The priority is based upon order of creation:
+  
+	root :to => "site#index"
+
+	resources :blog do
+		collection do
+			get 'admin'
+		end
+	end
+	
+	resources :articles do
+		resources :comments
+	end
+		
+		
+
+
+# The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:

@@ -1,0 +1,38 @@
+@mixin flash( $color ) 
+	:border 2px solid $color
+	:cursor pointer
+	:padding 5px
+	
+
+body
+
+	
+#container
+	:width 990px
+	:margin 0 auto
+	:border 1px solid #009
+	:min-height 600px
+
+img
+	:border none
+	
+label
+	:display block
+
+h1
+	:font-size 300%
+	
+
+// Flashes
+#flash
+	:width 100%
+	:margin 0 auto
+	.error
+		:background #ffd1d6 url(../images/close_error.png) top right no-repeat
+		@include flash( #ff3333 )
+	.success
+		:background #e6efc2 url(../images/close_success.png) top right no-repeat
+		@include flash( #c6d880 )
+	.notice
+		:background #fff6bf url(../images/close_notice.png) top right no-repeat
+		@include flash( #ffd324 ) 

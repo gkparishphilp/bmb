@@ -1,0 +1,44 @@
+.section_title
+	Recent Posts
+#recent_posts
+	- for article in Article.recent.published
+		.recent_title
+			= link_to article.title, blog_path( article )
+		.recent_preview
+			= snip article.content, 140
+
+.section_title
+	Topics
+#recent_posts
+	- for topic in @topics
+		.recent_title
+			= link_to topic.name.capitalize, blog_index_path( :topic => topic.name )
+			(
+			= topic.count
+			)
+
+.section_title
+	Archives
+#recent_posts
+	- for archive in @archives
+		.recent_title
+			= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_path + "/#{archive.month}/#{archive.year}"
+
+- unless @links.nil? || @links.empty?
+	.section_title
+		Links
+	#recent_posts
+		- for link in @links
+			.recent_title
+				= link_to link.title, link.url
+
+- unless @tweets.nil? || @tweets.first.nil?
+	.section_title
+		Todo on Twitter
+	#recent_posts
+		- for tweet in @tweets
+			.recent_title
+				= link_to image_tag( tweet.user.profile_image_url, :width => 24, :valign => :middle ), "http://twitter.com/#{tweet.user.screen_name}"
+				= link_to "@#{tweet.user.screen_name}", "http://twitter.com/#{tweet.user.screen_name}"
+			.recent_preview
+				= linkify tweet.text, "true"

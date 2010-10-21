@@ -1,0 +1,52 @@
+%h4
+	Add a Comment
+- if @commentable_parent
+	- form_for( [ @commentable_parent, @commentable, @comment] ) do |f| 
+		%br
+		= f.text_area :content, :class => 'long_desc_area'
+		%br
+
+		- if @current_user.anonymous?
+
+			= f.label :name, "Name: (required)"
+			= f.text_field :name
+
+			= f.label :email, "Email: (required, but won't be published)"
+			= f.text_field :email
+
+			= f.label :name, "Website or Blog Name: (optional)"
+			= f.text_field :website_name
+
+			= f.label :name, "Website or Blog URL: (optional)"
+			= f.text_field :website_url
+
+			- unless @current_user.human?
+				= recaptcha_tags :display => { :theme=>"clean" }
+
+		%br
+		= f.submit 'Create', :class=>'button'
+- else
+	- form_for [ @commentable, @comment]  do |f|
+		%br
+		= f.text_area :content, :class => 'long_desc_area'
+		%br
+
+		- if @current_user.anonymous?
+
+			= f.label :name, "Name: (required)"
+			= f.text_field :name
+
+			= f.label :email, "Email: (required, but won't be published)"
+			= f.text_field :email
+
+			= f.label :name, "Website or Blog Name: (optional)"
+			= f.text_field :website_name
+
+			= f.label :name, "Website or Blog URL: (optional)"
+			= f.text_field :website_url
+
+			- unless @current_user.human?
+				= recaptcha_tags :display => { :theme=>"clean" }
+
+		%br
+		= f.submit 'Create', :class=>'button'

@@ -1,0 +1,45 @@
+.pagination
+  :background white
+  a, span
+    :padding .2em .5em
+    :display block
+    :float left
+    :margin-right 1px
+  span.disabled
+    :color #999
+    :border 1px solid #DDD
+  span.current
+    :font-weight bold
+
+    :background #2191c7
+    :color white
+    :border 1px solid #2E6AB1
+  a
+    :text-decoration none
+    :color #105CB6
+    :border 1px solid #9AAFE5
+    &:hover, &:focus
+      :color #2191c7
+      :border-color #2191c7
+  .page_info
+    :background #2191c7
+    :color white
+    :padding 5px 20px
+    :width 760px
+    :margin-bottom .3em
+    b
+      :color #003
+      :background = #2191c7 + 80
+      :padding .1em .25em
+    
+  //self-clearing method:
+  &:after
+    :content "."
+    :display block
+    :height 0
+    :clear both
+    :visibility hidden
+  * html &
+    :height 1%
+  *:first-child+html &
+    :overflow hidden

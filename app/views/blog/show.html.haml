@@ -1,0 +1,56 @@
+%h1
+	= link_to 'The todo Blog', blog_index_path
+	<a href="http://feeds.feedburner.com/todo" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0; height:24px;"/></a>
+#article_list
+	.article_header
+		%h2
+			= link_to_unless_current @article.title, blog_path( @article )
+			-if @current_user.admin?
+				=link_to image_tag( 'edit.png' ), edit_blog_path( @article )
+		
+		%span.article_meta
+			- if @article.comments_allowed?
+				= link_to pluralize ( @article.comments.count, "Comment" ), blog_path( @article ) + "#comments"
+			%br
+			- unless @article.topics.empty?
+				#article_topics
+					Filed under:
+					- for topic in @article.topics
+						= link_to separated_list( @article.topics, topic.name, "," ), blog_index_path( :topic => topic.name )
+
+	.article_content
+		= @article.content
+				
+	#share
+		%iframe( src="http://www.facebook.com/plugins/like.php?href=#{blog_url( @article )}&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true")
+
+		%a( href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="gkparishphilp" )
+			Tweet
+		%script( type="text/javascript" src="http://platform.twitter.com/widgets.js" )
+		-#
+			|
+			%a{:href=>"http://www.stumbleupon.com/submit?url=#{blog_url( @article )}&title=#{@article.title}"}
+				%img(border="0" src="http://cdn.stumble-upon.com/images/32x32_su_solid.gif" width="20" height="20" alt="Stumble!")
+			%a.link{:href=>"http://www.stumbleupon.com/submit?url=#{blog_url( @article )}&title=#{@article.title}"}
+				Stumble It
+			|
+			%a{:href=>"http://digg.com/submit?phase=2&url=#{blog_url( @article )}&title=#{@article.title}"}
+				%img(src="http://digg.com/img/badges/32x32-digg-guy.png" width="20" height="20" alt="Digg!" border="0")
+			%a.link{:href=>"http://digg.com/submit?phase=2&url=#{blog_url( @article )}&title=#{@article.title}"}
+				Digg It
+			
+	- unless @article.related_articles.empty?
+		#related
+			%h3 Related Posts
+			- for article in @article.related_articles
+				= link_to article.title, blog_path( article )
+
+	- if @article.comments_allowed?
+		- unless @article.comments.empty?
+			#comments
+				%h3 Comments
+				= render :partial => 'comments/comment', :collection => @article.comments
+		#new_comment
+			= render :partial=>'comments/new'
+#right_bar
+	= render :partial => 'sidebar'

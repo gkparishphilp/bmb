@@ -1,0 +1,26 @@
+= f.label "Title:"
+= f.text_field :title, :class => 'title'
+%br
+= f.cktext_area :content, :class => 'long_desc_area'
+%br
+
+= f.label "Publish On:"
+= f.text_field :publish_on
+%br
+= f.label 'Topics:'
+= f.text_field :topic_list
+%br
+= f.label 'Tags:'
+= f.text_field :tag_list
+
+= f.label "Snip Preview at Character:"
+= f.text_field :snip_at, :style => 'width:50px;'
+
+%br
+= f.check_box :comments_allowed, {}, 'true', 'false'
+Allow Comments
+= f.label "Status:"
+= f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
+
+%br
+= submit_tag

@@ -1,0 +1,6 @@
+%h1
+	Edit it!  
+	= @article.title
+
+- form_for @article, :url => blog_path( @article ), :html => { :method => :put } do |f|
+	= render :partial => 'add_edit_form', :locals => { :f => f, :m => 'Create' }
