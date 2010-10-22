@@ -22,6 +22,11 @@ class Article < ActiveRecord::Base
 		order( 'publish_on desc' )
 	}
 	
+	scope :year, lambda { |*args| 
+		where( " year(publish_on) = ?", (args.first || Time.now.year) )
+		order( 'publish_on desc' )
+	}
+	
 	
 	def related_articles
 		articles = Article.published.tagged_with( self.tags )

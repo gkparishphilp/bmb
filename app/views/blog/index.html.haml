@@ -18,6 +18,11 @@
 		for
 		= Date::MONTHNAMES[@month.to_i]
 		= @year
+- elsif @year
+	%h4
+		= pluralize @articles.count, 'Article'
+		for
+		= @year
 #article_list
 	- for article in @articles
 		= render article

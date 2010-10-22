@@ -3,7 +3,7 @@ class Comment < ActiveRecord::Base
 	before_save :strip_website_url
     
 	belongs_to  :commentable, :polymorphic => :true
-	#belongs_to  :user
+	belongs_to  :user
     
 	validates_format_of :email, :if => :anonymous?,
 						:with => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i,

@@ -13,7 +13,7 @@ class TopicsController < ApplicationController
 		@posts = @topic.posts.paginate :page => params[:page], :order => 'created_at ASC', :per_page => 10
 		@post = Post.new
 		
-		rs = @topic.raw_stats.create :name => 'view', :ip => request.ip
+		#rs = @topic.raw_stats.create :name => 'view', :ip => request.ip
 	end
 
 	def edit

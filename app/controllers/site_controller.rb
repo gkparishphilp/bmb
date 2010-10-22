@@ -5,11 +5,11 @@ class SiteController < ApplicationController
 	end
 	
 	def admin
-
+		@site = Site.first
 	end
 	
 	def go_twitter
-		oauth.set_callback_url( ret_twitter_site_url )
+		oauth.set_callback_url( ret_twitter_site_index_url )
 	  
 		session['rtoken'] = oauth.request_token.token
 		session['rsecret'] = oauth.request_token.secret
@@ -35,16 +35,14 @@ class SiteController < ApplicationController
 		site = Site.first
 
 		if site.twitter_account
-			site.twitter_account.update_attributes( :twit_token => token, :twit_secret => secret, :twit_id => @profile.id, 
+			site.twitter_account.update_attributes( :token => token, :secret => secret, :twit_id => @profile.id, 
 												:twit_name => @profile.screen_name )
 		else
-			site.create_twitter_account( :twit_token => token, :twit_secret => secret, :twit_id => @profile.id, 
+			site.create_twitter_account( :token => token, :secret => secret, :twit_id => @profile.id, 
 												:twit_name => @profile.screen_name )
 		end
 		
-	
-
-		redirect_to admin_site_path
+		redirect_to admin_site_index_path
 	  
 	end
 	

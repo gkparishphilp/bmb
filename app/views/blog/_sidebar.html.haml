@@ -22,7 +22,7 @@
 #recent_posts
 	- for archive in @archives
 		.recent_title
-			= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_path + "/#{archive.month}/#{archive.year}"
+			= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_path + "/archive/#{archive.year}/#{archive.month}"
 
 - unless @links.nil? || @links.empty?
 	.section_title

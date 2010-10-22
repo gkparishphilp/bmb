@@ -1,6 +1,6 @@
 class Topic < Post
 	belongs_to  :forum
-	#belongs_to  :user
+	belongs_to  :user
 	has_many    :posts
 
 	has_many :raw_stats, :as => :statable

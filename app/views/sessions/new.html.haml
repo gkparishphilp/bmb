@@ -1,0 +1,41 @@
+- if @current_user.anonymous?
+	#openID
+		%h3.blueText
+			Log in using a third-party account...
+		#twitter
+			- form_tag go_twitter_sessions_path do
+				= image_submit_tag 'twitter_button.png'
+
+		%p
+			%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
+
+	#oldSchool
+		%h3.blueText
+			Or, Log In the Old-School Way
+		- form_tag :controller=>'sessions' do
+			= hidden_field_tag :dest, @dest
+			%label
+				Email:
+			= text_field_tag :email, params[:email], :class => :login_email
+			%label
+				Password:
+			= password_field_tag	:password, params[:password], :class => :login_email
+			%br
+			%br
+			= submit_tag	"Login", :class => :login_button
+			|
+			= link_to 'Cancel', root_path, :class => :cancel_button
+			|
+			= link_to 'Register', new_user_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
+			%br
+			(
+			= link_to "Forgot Password?", forgot_path
+			)
+			
+- else
+	%h2 
+		You are already logged in as:
+		= @current_user.user_name
+	If this is not you, please 
+	= link_to "Logout", logout_path
+	and log back in with your account.

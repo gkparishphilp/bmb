@@ -1,16 +1,68 @@
 Backmybook::Application.routes.draw do
   
 	root :to => "site#index"
-
-	resources :blog do
-		collection do
-			get 'admin'
-		end
-	end
 	
 	resources :articles do
 		resources :comments
 	end
+
+	resources :blog do
+		get 'admin', :on => :collection
+	end
+	
+	resources :contacts
+	resources :crashes
+
+	
+	resources :forums do
+		get 'admin', :on => :collection
+		resources :topics do
+			resources :posts
+		end
+	end
+	
+	resources :sessions do
+		collection do
+			get 'pending'
+			get 'ret_twitter'
+			post 'go_twitter'
+		end
+	end
+	
+	resources :site do
+		collection do
+			get 'admin'
+			get 'ret_twitter'
+			post 'go_twitter'
+		end
+		resources :links do
+			get 'admin', :on => :collection
+		end
+	end
+	
+	resources :static_pages, :as => 'pages' do
+		get 'admin', :on => :collection
+	end
+	
+	resources  :users do
+		collection do
+			get 'admin'
+			post 'update_password'
+		end
+		get 'resend', :on => :member
+	end
+	
+	match '/activate' => 'users#activate', :as => 'activate'
+	match '/admin' => 'site#admin', :as => 'admin'
+	match '/forgot' => 'users#forgot_password', :as => 'forgot'
+	match '/logout' => 'sessions#destroy', :as => 'logout'
+	match '/login' => 'sessions#new', :as => 'login'
+	match '/reset' => 'users#reset_password', :as => 'reset'
+	match '/rpx' => 'rpx#index', :as => 'rpx'
+	
+	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
+	
+	match "/:permalink", :to => 'static_pages#show'
 		
 		
 

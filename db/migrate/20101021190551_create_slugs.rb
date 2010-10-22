@@ -1,6 +1,6 @@
 class CreateSlugs < ActiveRecord::Migration
 	def self.up
-		create_table :slugs do |t|
+		create_table :slugs, :force => true do |t|
 			t.string :name
 			t.integer :sluggable_id
 			t.integer :sequence, :null => false, :default => 1

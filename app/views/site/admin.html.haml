@@ -1,0 +1,10 @@
+%h1 
+	Site Settings Admin
+	
+%h3 Twitter Account:
+- if @site.twitter_account
+	The Site is broadcasting on Twitter User:
+	%b= @site.twitter_account.twit_name
+
+- form_tag go_twitter_site_index_path do
+	= image_submit_tag 'twitter_button.png'

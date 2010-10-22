@@ -1,0 +1,27 @@
+%div[topic]
+	.post_user
+		.post_username
+			=link_to topic.user.user_name, topic.user
+		.post_avatar
+			=link_to image_tag( topic.user.avatar, :width => 60 ), topic.user
+		.post_user_joined
+			Member Since: 
+			%br
+			= format_date_only topic.user.created_at
+		.post_count
+			= pluralize topic.user.posts.count, 'post'
+	.post_body
+		.post_header
+			%span.post_subject
+				= topic.title
+			%span.post_meta
+				Posted:
+				= format_date topic.created_at
+				= pluralize topic.posts.count, 'reply'
+			-if topic.user == @current_user
+				%span.edit_post
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_topic_path( @forum, topic)
+					= link_to "Edit", edit_forum_topic_path( @forum, topic)
+		.post_content
+			= topic.content
+%br.clear

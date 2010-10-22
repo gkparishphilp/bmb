@@ -46,7 +46,8 @@
 			= f.text_field :website_url
 
 			- unless @current_user.human?
-				= recaptcha_tags :display => { :theme=>"clean" }
+				#recap
+					= ( recaptcha_tags :display => { :theme=>"clean" } ).html_safe
 
 		%br
 		= f.submit 'Create', :class=>'button'

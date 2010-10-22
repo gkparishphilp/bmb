@@ -1,0 +1,11 @@
+.user
+	.user_name
+		= @user.user_name
+	.pic
+		= user_photo( @user, 60 )
+	.data
+		Member Since:
+		%br
+		= format_date_only @user.created_at
+	
+	

@@ -1,0 +1,49 @@
+.forum_nav
+	.breadcrumb
+		=link_to APP_NAME, root_path
+		>
+		=link_to "Forums", forums_path
+		>
+		=link_to @forum.name, forum_topics_path( @forum )
+		>
+		%b= @topic.title
+	.reply_link
+		-if @current_user.anonymous?
+			%b=link_to "Login", new_session_path + "?dest=" + new_forum_topic_post_path( @forum, @topic )
+			or
+			%b=link_to "Register", new_user_path + "?dest=" + new_forum_topic_post_path( @forum, @topic )
+			to post a reply
+		-else
+			= link_to image_tag( 'add_comment.png', :width => 20 ), new_forum_topic_post_path( @forum, @topic )
+			%b= link_to "Reply", new_forum_topic_post_path( @forum, @topic )
+%br.clear
+- if @posts.total_pages > 1
+	.digg_pagination
+		.page_info
+			= page_entries_info @posts
+		= will_paginate @posts
+
+#topic
+	= render @topic
+		
+#posts
+	- @posts.each do |post|
+		= render post
+
+%br
+
+- if @posts.total_pages > 1
+	.digg_pagination
+		.page_info
+			= page_entries_info @posts
+		= will_paginate @posts
+
+- unless @current_user.anonymous?
+	#quick_post
+		%h3
+			Quick Reply:
+		- form_for ([ @forum, @topic, @post]) do |f|
+
+			=f.text_area :content
+			%br
+			= f.submit "Add"

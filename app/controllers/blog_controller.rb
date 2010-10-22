@@ -3,18 +3,18 @@ class BlogController < ApplicationController
 	before_filter	:get_sidebar_data, :only => [:index, :show]
 	
 	def admin
-		@articles = Article.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+		@articles = Article.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 	end
 	
 	def index
-		if @month = params[:tag]
+		if @tag = params[:tag]
             @articles = Article.tagged_with( @tag ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
 		elsif @topic = params[:topic]
 			@articles = Article.tagged_with( @topic ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
-		elsif params[:month] && params[:year]
-			@month = params[:month] 
-			@year = params[:year]
-			@articles = Article.month_year( @month, @year ).published.paginate :page => params[:page], :per_page => 10
+		elsif ( @month = params[:month] ) && ( @year = params[:year] )
+			@articles = Article.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+		elsif @year = params[:year]
+			@articles = Article.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
 			@articles = Article.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
@@ -56,7 +56,7 @@ class BlogController < ApplicationController
 			
 			#Site.first.tweet( "New blog post: #{@article.title}. ", "http://todo.com/blog/#{@article.id}" ) unless Site.first.twitter_name.nil?
 			
-			redirect_to admin_blog_path 
+			redirect_to admin_blog_index_path 
 		else
 			pop_flash 'Oooops, Blog Post not saved', :error, @article
 			render :action => "new" 

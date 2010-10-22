@@ -1,2 +1,30 @@
 #header
-	This is the header
+	#logo
+		= link_to "ToDo", root_path
+	
+	- if @current_user
+		- if @current_user.anonymous?
+			#user_capsule
+				= image_tag @current_user.avatar, :width => 20
+				%span#usernameDisplay
+					=@current_user.user_name
+				%span#notUser
+					= link_to "Register", new_user_path + '?dest=' + (params['dest'] ? params['dest'] : request.request_uri)
+					&#47;
+					= link_to "Login", new_session_path + '?dest=' + (params['dest'] ? params['dest'] : request.request_uri)
+		- else
+			#user_capsule
+				%span#usernameDisplay
+					
+					= link_to image_tag( @current_user.avatar, :width => 20 ), user_path( @current_user )
+					= link_to @current_user.user_name, user_path( @current_user )
+				%span#notUser
+					(
+					-#
+						- if @current_user.facebook_user? && facebook_session
+							%a{:href=>"#", :onclick=>"FB.Connect.logoutAndRedirect('/logout')"}
+								Logout
+						- else
+					= link_to "Logout", logout_path + '?dest=' + request.request_uri
+					)
+	%br.clear

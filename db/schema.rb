@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101021192111) do
+ActiveRecord::Schema.define(:version => 20101022001242) do
 
   create_table "articles", :force => true do |t|
     t.integer  "owner_id"
@@ -73,6 +73,21 @@ ActiveRecord::Schema.define(:version => 20101021192111) do
     t.datetime "updated_at"
   end
 
+  create_table "fb_accounts", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "email_hash"
+    t.string   "fb_name"
+    t.string   "fb_session_key"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "fb_user_id",     :limit => 8
+  end
+
+  add_index "fb_accounts", ["email_hash"], :name => "index_fb_accounts_on_email_hash"
+  add_index "fb_accounts", ["owner_id"], :name => "index_fb_accounts_on_owner_id"
+
   create_table "forums", :force => true do |t|
     t.string   "name"
     t.integer  "owner_id"
@@ -99,6 +114,18 @@ ActiveRecord::Schema.define(:version => 20101021192111) do
   end
 
   add_index "links", ["owner_id"], :name => "index_links_on_owner_id"
+
+  create_table "openids", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "identifier"
+    t.string   "name"
+    t.string   "provider"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "openids", ["user_id"], :name => "index_openids_on_user_id"
 
   create_table "posts", :force => true do |t|
     t.integer  "forum_id"
@@ -133,6 +160,15 @@ ActiveRecord::Schema.define(:version => 20101021192111) do
   end
 
   add_index "raw_stats", ["statable_id"], :name => "index_raw_stats_on_statable_id"
+
+  create_table "roles", :force => true do |t|
+    t.string "name"
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer "role_id"
+    t.integer "user_id"
+  end
 
   create_table "sites", :force => true do |t|
     t.string   "name"
@@ -185,5 +221,59 @@ ActiveRecord::Schema.define(:version => 20101021192111) do
   create_table "tags", :force => true do |t|
     t.string "name"
   end
+
+  create_table "twitter_accounts", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "token"
+    t.string   "secret"
+    t.string   "twit_name"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "twit_id",    :limit => 8
+  end
+
+  add_index "twitter_accounts", ["owner_id"], :name => "index_twitter_accounts_on_owner_id"
+
+  create_table "users", :force => true do |t|
+    t.string   "email"
+    t.string   "user_name"
+    t.integer  "score",                                   :default => 0
+    t.string   "website_name"
+    t.string   "website_url"
+    t.string   "hashed_password"
+    t.string   "salt"
+    t.string   "remember_token"
+    t.datetime "remember_token_expires_at"
+    t.string   "activation_code"
+    t.datetime "activated_at"
+    t.string   "status"
+    t.integer  "name_changes",                            :default => 3
+    t.string   "fname"
+    t.string   "lname"
+    t.string   "street"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "geo_state_id"
+    t.string   "zip"
+    t.string   "ssn"
+    t.string   "phone"
+    t.string   "photo_url"
+    t.string   "orig_ip"
+    t.string   "last_ip"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.string   "paypal_id",                 :limit => 13
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "users", ["activation_code"], :name => "index_users_on_activation_code"
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
+  add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
 
 end
