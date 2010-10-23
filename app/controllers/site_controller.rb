@@ -1,13 +1,14 @@
 class SiteController < ApplicationController
 	before_filter	:require_admin, :except => :index
-	def index
-
-	end
 	
 	def admin
 		@site = Site.first
 	end
 	
+	def index
+
+	end
+
 	def go_twitter
 		oauth.set_callback_url( ret_twitter_site_index_url )
 	  

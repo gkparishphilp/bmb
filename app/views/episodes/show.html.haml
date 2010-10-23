@@ -1,0 +1,37 @@
+%h2 
+	= link_to @podcast.title, @podcast
+	>
+	= @episode.title
+- if @episode.subtitle
+	= @episode.subtitle
+%br
+%br
+%b Duration:
+%br
+= @episode.duration
+%br
+%b Summary:
+%br
+= simple_format @episode.summary
+
+%br
+%br
+= link_to "Download", download_podcast_episode_path( @podcast, @episode ), :class => 'green_button'
+%br
+%br
+%h3 Listen Now:
+
+%embed( src= "http://www.google.com/reader/ui/3523697345-audio-player.swf" quality="best" width="400" height="27" type="application/x-shockwave-flash" flashvars= "audioUrl=#{@episode.url}" pluginspage="http://www.macromedia.com/go/getflashplayer")
+%br
+%br
+- unless @episode.transcript.empty?
+	%h3 Transcript:
+	= simple_format @episode.transcript
+	
+%br
+%br	
+
+%h3 Comments
+
+= render :partial => "/comments/comment", :collection => @episode.comments
+= render :partial=>'comments/new'

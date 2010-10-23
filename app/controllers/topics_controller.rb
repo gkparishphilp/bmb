@@ -55,7 +55,7 @@ class TopicsController < ApplicationController
 		end
 	end
 	
-	private
+private
 
 	def get_parent
 		@forum_id = params[:forum_id]

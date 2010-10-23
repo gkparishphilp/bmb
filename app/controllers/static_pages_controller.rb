@@ -4,6 +4,7 @@ class StaticPagesController < ApplicationController
 
 	def admin
 		@pages = StaticPage.all
+		@routes = APP_ROUTE_PATHS.map { |route| route.path.to_s.match( /\w+\W/ ).to_s.chop }.uniq
 	end
 
 	def show
@@ -13,6 +14,12 @@ class StaticPagesController < ApplicationController
 		else
 			@static_page = StaticPage.find params[:id]
 		end
+		
+		unless @static_page.redirect_path.blank?
+			redirect_to @static_page.redirect_to, :status => :moved_permanently
+			return false
+		end
+		
 		set_meta @static_page.title, @static_page.content
 	end
 
@@ -32,7 +39,7 @@ class StaticPagesController < ApplicationController
 			pop_flash 'StaticPage was successfully created.'
 			redirect_to admin_static_pages_path
 		else
-			pop_flash 'Oooops, StaticPage not saved...  ', 'error', @static_page
+			pop_flash 'Oooops, StaticPage not saved...  ', :error, @static_page
 			render :action => :new
 		end
 	end

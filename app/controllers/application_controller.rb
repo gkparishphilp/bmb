@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 	before_filter :fetch_logged_in_user
 
 
-	protected
+protected
 	
 	def fetch_logged_in_user
 		@current_user = (session[:user_id] && User.find(session[:user_id])) || User.anonymous
@@ -11,11 +11,11 @@ class ApplicationController < ActionController::Base
 	end
 	
 	def pop_flash( message, code = :success, *object )
-		flash[code] = message
+		flash[code] = "<b>#{message}</b>"
 		
 		object.each do |obj|
 			obj.errors.each do |field, msg|
-				flash[code] += "<br>" + field + ": " if field
+				flash[code] += "<br>" + field.to_s + ": " if field
 				flash[code] += " " + msg 
 			end
 		end

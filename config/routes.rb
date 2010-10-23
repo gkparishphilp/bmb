@@ -21,6 +21,14 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+	resources :podcasts do
+		get 'admin', :on => :collection
+		resources :episodes do
+			get 'download', :on => :member
+			resources :comments
+		end
+	end
+	
 	resources :sessions do
 		collection do
 			get 'pending'
@@ -40,7 +48,7 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
-	resources :static_pages, :as => 'pages' do
+	resources :static_pages do
 		get 'admin', :on => :collection
 	end
 	

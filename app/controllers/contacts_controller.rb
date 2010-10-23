@@ -1,6 +1,10 @@
 class ContactsController < ApplicationController
 	before_filter   :require_admin, :except=>[:new, :create]
 	
+	def admin
+		@contacts = Contact.all
+	end
+	
 	def index
 		@contacts = Contact.all
 	end

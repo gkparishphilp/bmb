@@ -2,9 +2,14 @@ class StaticPage < ActiveRecord::Base
 	before_create 	:set_description
 	before_save		:clean_permalink
     
-	validates_uniqueness_of	:permalink
 	validate    			:valid_permalink?
 
+
+	def self.invalid_permalinks
+		invalid_words = APP_ROUTE_PATHS.map { |route| route.path.to_s.match( /\w+\W/ ).to_s.chop }.uniq
+		invalid_words += StaticPage.select(:permalink).map { |p| p.permalink }
+	end
+	
 protected 
 	def set_description
 		self.description = self.content[0..200] if self.description.blank?
@@ -16,9 +21,7 @@ protected
     
 private
 	def valid_permalink?
-		@invalid_words = ActionController::Routing.possible_controllers
-		@invalid_words += ['index', 'logout']
-		if @invalid_words.include?( permalink )
+		if StaticPage.invalid_permalinks.include?( permalink )
 			errors.add( :permalink, "Conflicts with existing routes." )
 		end
 	end

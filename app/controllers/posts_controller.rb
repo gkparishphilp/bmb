@@ -41,7 +41,7 @@ class PostsController < ApplicationController
 		end
 	end
 	
-	private
+private
 	
 	def get_parent
 		@forum = Forum.find params[:forum_id] if params[:forum_id]

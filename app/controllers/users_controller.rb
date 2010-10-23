@@ -39,22 +39,22 @@ class UsersController < ApplicationController
 		@a = params[:a]
 	end
 
-  def edit
-    @user = User.find params[:id] 
-    if @current_user.anonymous?
-        flash[:notice] = "Can't edit this user"
-        redirect_to root_path
-        return false
-    end
+	def edit
+		@user = User.find params[:id] 
+		if @current_user.anonymous?
+			flash[:notice] = "Can't edit this user"
+			redirect_to root_path
+			return false
+		end
 
-    if @user != @current_user || !@current_user.admin?
-        flash[:notice] = "Can't edit this user"
-        redirect_to root_path
-        return false
-    end
+		if @user != @current_user || !@current_user.admin?
+			flash[:notice] = "Can't edit this user"
+			redirect_to root_path
+			return false
+		end
     
-    @roles = Role.all
-  end
+		@roles = Role.all
+	end
 
 	def create
 		@user = User.new params[:user]
@@ -113,71 +113,61 @@ class UsersController < ApplicationController
 		end
 	end
 
-  def destroy
-    @user = User.find(params[:id])
-    @user.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(users_url) }
-      format.xml  { head :ok }
-    end
-  end
-  
-	def add_email
-
+	def destroy
+		@user = User.find params[:id]
+		@user.destroy
 	end
   
-  def forgot_password
-    if request.post?
-      user = User.find_by_email(params[:email])
-      if user
-        user.create_remember_token
-        user.reload
-		email_args = {:user => user}
-        email = UserMailer.deliver_forgot_pass(email_args)
-        flash[:notice] = "Email sent to "  + user.email + ".  Please follow the enclosed instructions to recover your password."
-        redirect_to root_path
-      else
-        params[:email] = nil
-        flash[:notice] = "No user with that email."
-      end
-    end
-  end
+	def forgot_password
+		if request.post?
+			user = User.find_by_email(params[:email])
+			if user
+				user.create_remember_token
+				user.reload
+				email_args = {:user => user}
+				email = UserMailer.deliver_forgot_pass(email_args)
+				flash[:notice] = "Email sent to "  + user.email + ".  Please follow the enclosed instructions to recover your password."
+				redirect_to root_path
+			else
+				params[:email] = nil
+				flash[:notice] = "No user with that email."
+			end
+		end
+	end
   
-  def reset_password
-    if !session[:user_id].nil?
-      # a user is logged in, 
-      @user = User.find(session[:user_id])
-    elsif params[:token]
-      valid_token_user = User.find_by_remember_token(params[:token]) #can add date expiry later
-      if !valid_token_user
-        flash[:notice] = "Invalid password reset token"
-        redirect_to :controller => "session", :action => "new"
-        return false
-      end
-      @user =  valid_token_user
-    else
-      flash[:notice] = "No access without credential"
-      redirect_to :controller => "session", :action => "new"
-      return false
-    end
+	def reset_password
+		if !session[:user_id].nil?
+			# a user is logged in, 
+			@user = User.find session[:user_id]
+		elsif params[:token]
+			valid_token_user = User.find_by_remember_token(params[:token]) #can add date expiry later
+			if !valid_token_user
+				flash[:notice] = "Invalid password reset token"
+				redirect_to :controller => "session", :action => "new"
+				return false
+			end
+			@user =  valid_token_user
+		else
+			flash[:notice] = "No access without credential"
+			redirect_to :controller => "session", :action => "new"
+			return false
+		end
       
-    if request.post?
-      if (params[:password] == params[:password_confirmation] && !params[:password].empty? )
-        @user.password = params[:password]
-        @user.remember_token = nil
-        @user.save!
-        flash[:notice] = "Password updated"
+		if request.post?
+			if (params[:password] == params[:password_confirmation] && !params[:password].empty? )
+				@user.password = params[:password]
+				@user.remember_token = nil
+				@user.save!
+				flash[:notice] = "Password updated"
   
-        #just in case we're coming from forgot pw / email flow
-        session[:user_id] = @user.id 
-        redirect_to root_path
-      else
-        flash[:notice] = "Passwords must match"
-      end
-    end
-    
-  end
+				#just in case we're coming from forgot pw / email flow
+				session[:user_id] = @user.id 
+				redirect_to root_path
+			else
+				flash[:notice] = "Passwords must match"
+			end
+		end
+	end
 
 	def update_password
 		current_password = params[:current_password]

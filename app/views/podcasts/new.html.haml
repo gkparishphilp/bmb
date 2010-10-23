@@ -1,0 +1,4 @@
+%h1 New podcast
+
+-form_for @podcast do |f|
+	=render :partial => 'form', :locals => {:f => f, :m => 'Create'}

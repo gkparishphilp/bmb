@@ -30,8 +30,12 @@ class CommentsController < ApplicationController
 		# redirect_to polymorphic_url @commentable
 		# we're going back to the parent resource no matter what...
 		# But the site blog is a special case since it uses a different controller
-		# from the resource name, and has no parent
-		redirect_to blog_path @commentable
+		# from the resource name
+		if ( @commentable.is_a? Article ) && ( @commentable_parent.is_a? Site )
+			redirect_to blog_path @commentable
+		else
+			redirect_to polymorphic_path [ @commentable_parent, @commentable ] 
+		end
 		
 	end #create
 
@@ -60,8 +64,13 @@ class CommentsController < ApplicationController
 private 
 
 	def get_commentable
-		# so far, only articles are commentable
-		@commentable = Article.find params[:article_id] if params[:article_id]
+		if params[:article_id] 
+			@commentable = Article.find params[:article_id]
+			@commentable_parent = @commentable.author
+		else
+			@commentable = Episode.find params[:episode_id]
+			@commentable_parent = @commentable.podcast
+		end
 	end 
 	
 	

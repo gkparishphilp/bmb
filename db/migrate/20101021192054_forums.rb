@@ -1,26 +1,26 @@
 class Forums < ActiveRecord::Migration
 	def self.up
 		create_table :forums, :force => true do |t|
-			t.string   "name"
-			t.integer  "owner_id"
-			t.string   "owner_type"
-			t.string   "availability"
-			t.string   "description"
-			t.string   "cached_slug"
+			t.string	:name
+			t.integer	:owner_id
+			t.string	:owner_type
+			t.string	:availability
+			t.string	:description
+			t.string	:cached_slug
 			t.timestamps
 		end
 		
 		create_table :posts, :force => true do |t|
-			t.integer  "forum_id"
-			t.integer  "topic_id"
-			t.integer  "reply_to_post_id"
-			t.integer  "user_id"
-			t.string   "title"
-			t.text     "content"
-			t.integer  "view_count", :default => 0
-			t.string   "ip"
-			t.string   "type"
-			t.string   "cached_slug"
+			t.integer	:forum_id
+			t.integer	:topic_id
+			t.integer	:reply_to_post_id
+			t.integer	:user_id
+			t.string	:title
+			t.text		:content
+			t.integer	:view_count, :default => 0
+			t.string	:ip
+			t.string	:type
+			t.string	:cached_slug
 			t.timestamps
 		end
 		

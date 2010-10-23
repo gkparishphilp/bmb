@@ -1,8 +1,9 @@
 %h1 
 	Static Pages Admin
 
-.actions
-	=link_to 'New', new_static_page_path, :class => 'green_button'
+.new_button
+	= link_to image_tag( 'add.png', :width => 16 ), new_static_page_path
+	=link_to 'New', new_static_page_path
 
 %br
 %br

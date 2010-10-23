@@ -1,0 +1,23 @@
+#upload_pane
+	%h3 
+		New Episode for
+		= @podcast.title
+
+	-form_for [ @podcast, @episode ], :html => { :multipart => true } do |f|
+		=render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+	
+
+#upload_progress
+	= image_tag 'books_loading.gif'
+	%br
+	Please don't navigate away from this page until the upload is complete.
+
+#upload_notice
+	&nbsp;
+%br
+%center
+	By uploading content to BackMyBook, you agree to our 
+	= link_to "terms of service", "/terms", :target => "_blank"
+	and our 
+	= link_to "content publishing agreement", "/content", :target => "_blank"
+	&#46;
