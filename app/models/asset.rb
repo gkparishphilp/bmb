@@ -14,7 +14,7 @@ class Asset < ActiveRecord::Base
 		else
 			# return the contents of the content_location.content DB field
 			return self.content_location.content
-		else
+		end
 	end
 	
 end

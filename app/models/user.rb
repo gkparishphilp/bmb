@@ -2,7 +2,7 @@ require 'digest/sha1'
 
 class User < ActiveRecord::Base
 	# Constants    --------------------------------------
-	ANONYMOUS_ID = 2
+	ANONYMOUS_ID = 1
 
 	# Filters		--------------------------------------
 	before_create   :set_status

@@ -6,16 +6,14 @@ class UsersController < ApplicationController
 	end
 	
 	def show
-		unless @current_user.admin?
-			if [1, 2].include? params[:id].to_i 
-				flash[:notice] = "Invalid User"
-				redirect_to root_path
-				return false
-			end
-		end
 		
 		@user = User.find(params[:id])
 		
+		@user.anonymous?
+			flash[:notice] = "Invalid User"
+			redirect_to root_path
+			return false
+		end
 		
 		# first things first, public or private?
 		if @user == @current_user

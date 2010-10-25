@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101022001242) do
+ActiveRecord::Schema.define(:version => 20101025171002) do
 
   create_table "articles", :force => true do |t|
     t.integer  "owner_id"
@@ -32,6 +32,52 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "articles", ["cached_slug"], :name => "index_articles_on_cached_slug", :unique => true
   add_index "articles", ["owner_id"], :name => "index_articles_on_owner_id"
 
+  create_table "assets", :force => true do |t|
+    t.integer  "book_id"
+    t.integer  "content_location_id"
+    t.string   "name"
+    t.string   "format"
+    t.integer  "price"
+    t.integer  "download_count",      :default => 0
+    t.string   "asset_type"
+    t.integer  "word_count"
+    t.string   "origin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "authors", :force => true do |t|
+    t.string   "pen_name"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "book_identifiers", :force => true do |t|
+    t.integer  "book_id"
+    t.string   "identifier_type"
+    t.string   "identifier"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "books", :force => true do |t|
+    t.string   "title"
+    t.integer  "author_id"
+    t.integer  "genre_id"
+    t.integer  "view_count",     :default => 0
+    t.string   "subtitle"
+    t.text     "description"
+    t.string   "status"
+    t.string   "age_aprop"
+    t.float    "rating_average"
+    t.string   "backing_url"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "comments", :force => true do |t|
     t.integer  "user_id"
     t.integer  "commentable_id"
@@ -52,6 +98,7 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "contacts", :force => true do |t|
+    t.integer  "site_id"
     t.string   "email"
     t.string   "subject"
     t.string   "ip"
@@ -64,6 +111,14 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "contacts", ["crash_id"], :name => "index_contacts_on_crash_id"
   add_index "contacts", ["email"], :name => "index_contacts_on_email"
 
+  create_table "content_locations", :force => true do |t|
+    t.integer  "asset_id"
+    t.string   "path"
+    t.text     "content",    :limit => 2147483647
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "crashes", :force => true do |t|
     t.string   "message"
     t.string   "requested_url"
@@ -72,6 +127,26 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "episodes", :force => true do |t|
+    t.integer  "podcast_id"
+    t.string   "status"
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "keywords"
+    t.string   "duration"
+    t.text     "description"
+    t.integer  "filesize"
+    t.string   "filename"
+    t.string   "explicit"
+    t.text     "transcript"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "episodes", ["podcast_id"], :name => "index_episodes_on_podcast_id"
+  add_index "episodes", ["title"], :name => "index_episodes_on_title"
 
   create_table "fb_accounts", :force => true do |t|
     t.integer  "owner_id"
@@ -102,6 +177,15 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "forums", ["cached_slug"], :name => "index_forums_on_cached_slug", :unique => true
   add_index "forums", ["owner_id"], :name => "index_forums_on_owner_id"
 
+  create_table "genres", :force => true do |t|
+    t.integer  "parent_id"
+    t.string   "name"
+    t.string   "description"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "links", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -126,6 +210,26 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   end
 
   add_index "openids", ["user_id"], :name => "index_openids_on_user_id"
+
+  create_table "podcasts", :force => true do |t|
+    t.integer  "owner_id"
+    t.integer  "owner_type"
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "itunes_id"
+    t.text     "description"
+    t.string   "duration"
+    t.string   "filename"
+    t.string   "keywords"
+    t.integer  "filesize"
+    t.string   "explicit"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "podcasts", ["owner_id"], :name => "index_podcasts_on_owner_id"
+  add_index "podcasts", ["title"], :name => "index_podcasts_on_title"
 
   create_table "posts", :force => true do |t|
     t.integer  "forum_id"
@@ -160,6 +264,25 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   end
 
   add_index "raw_stats", ["statable_id"], :name => "index_raw_stats_on_statable_id"
+
+  create_table "readings", :force => true do |t|
+    t.integer  "book_id"
+    t.integer  "user_id"
+    t.integer  "page_number"
+    t.string   "reading_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "reviews", :force => true do |t|
+    t.integer  "reviewable_id"
+    t.string   "reviewable_type"
+    t.integer  "user_id"
+    t.integer  "score"
+    t.text     "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "roles", :force => true do |t|
     t.string "name"
@@ -197,6 +320,7 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "title"
     t.string   "description"
     t.string   "permalink"
+    t.string   "redirect_path"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -236,7 +360,19 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
 
   add_index "twitter_accounts", ["owner_id"], :name => "index_twitter_accounts_on_owner_id"
 
+  create_table "upload_files", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.string   "title"
+    t.string   "ext"
+    t.string   "file_path"
+    t.string   "ip"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
+    t.integer  "site_id"
     t.string   "email"
     t.string   "user_name"
     t.integer  "score",                                   :default => 0
@@ -249,9 +385,10 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "activation_code"
     t.datetime "activated_at"
     t.string   "status"
+    t.string   "cached_slug"
     t.integer  "name_changes",                            :default => 3
-    t.string   "fname"
-    t.string   "lname"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "street"
     t.string   "street2"
     t.string   "city"
@@ -259,9 +396,9 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "zip"
     t.string   "ssn"
     t.string   "phone"
-    t.string   "photo_url"
     t.string   "orig_ip"
     t.string   "last_ip"
+    t.string   "photo_url"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"

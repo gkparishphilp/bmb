@@ -70,15 +70,6 @@ class CreateBooks < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		create_table :reviews, :force => true do |t|
-			t.integer	:reviewable_id
-			t.string	:reviewable_type
-			t.integer	:user_id
-			t.integer	:score
-			t.text		:content
-			
-			t.timestamps
-		end
 		
 		create_table :upload_files, :force => true do |t|
 			t.integer	:user_id
@@ -101,7 +92,6 @@ class CreateBooks < ActiveRecord::Migration
 		drop_table :content_locations
 		drop_table :genres
 		drop_table :readings
-		drop_table :reviews
 		drop_table :upload_files
 		
 	end
