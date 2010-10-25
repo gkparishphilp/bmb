@@ -31,6 +31,8 @@ class User < ActiveRecord::Base
 	has_one		:twitter_account, 	:as => :owner
 	has_one		:facebook_account, 	:as => :owner
 	
+	has_one		:author
+	
 	# Plugins	--------------------------------------
 
 	has_friendly_id   :user_name, :use_slug => :true
