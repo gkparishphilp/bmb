@@ -7,7 +7,11 @@ class Ecom < ActiveRecord::Migration
 			t.string	:name
 			t.text		:description
 			t.integer	:price
-			# art?
+			t.string	:artwork_url
+			t.string	:artwork_file_name
+		    t.string	:artwork_content_type
+		    t.integer	:artwork_file_size
+		    t.datetime	:artwork_updated_at
 			
 			t.timestamps
 		end
@@ -23,9 +27,10 @@ class Ecom < ActiveRecord::Migration
 		create_table :coupons, :force => true do |t|
 			t.integer	:owner_id
 			t.string	:owner_type # site for global stuff or author to scope on suthor's specific stuff
-			t.string	:code
+			t.string	:code # need to validate unique on code
 			t.string	:description
-			t.datetime	:expiration_date
+			t.datetime	:expiration_date # nil = infinite
+			t.integer	:redemptions_allowed, :default => -1 # neg numbers or nil = infinite
 			t.string	:discount_type # cents, or percent
 			t.integer	:discount
 			t.string	:valid_for_item_type # book, merch, subs
@@ -43,6 +48,7 @@ class Ecom < ActiveRecord::Migration
 			t.string	:city
 			t.string	:geo_state_id
 			t.string	:zip
+			t.string	:phone
 			
 			t.timestamps
 		end
@@ -59,13 +65,20 @@ class Ecom < ActiveRecord::Migration
 			t.integer	:owner
 			t.string	:owner_type
 			t.string	:name
+			t.integer	:inventory_count, :default => -1 # neg numbers of nil = infinite
 			t.integer	:price
+			t.string	:artwork_url
+			t.string	:artwork_file_name
+		    t.string	:artwork_content_type
+		    t.integer	:artwork_file_size
+		    t.datetime	:artwork_updated_at
 			
 			t.timestamps
 		end
 		
 		create_table :orders, :force => true do |t|
 			t.integer	:user_id
+			t.string	:sku
 			t.string	:email
 			t.string	:ip
 			t.integer	:price
@@ -108,6 +121,7 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :royalties, :force => true do |t|
 			t.integer	:author_id
+			t.integer	:order_transaction_id
 			t.boolean	:paid
 			
 			t.timestamps
@@ -139,7 +153,6 @@ class Ecom < ActiveRecord::Migration
 			
 			t.timestamps
 		end
-		
 		
 	end
 

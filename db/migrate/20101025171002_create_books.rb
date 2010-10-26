@@ -16,12 +16,12 @@ class CreateBooks < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		# todo -- stub books model; flesh out
 		create_table :books do |t|
 			t.string	:title
 			t.integer	:author_id
 			t.integer	:genre_id
 			t.integer	:view_count, :default => 0
+			t.integer	:score
 			t.string	:subtitle
 			t.text		:description
 			t.string	:status
@@ -29,6 +29,11 @@ class CreateBooks < ActiveRecord::Migration
 			t.float		:rating_average
 			t.string	:backing_url # traffic cannon
 			t.string	:cached_slug
+			t.string	:cover_art_url
+			t.string	:cover_art_file_name
+		    t.string	:cover_art_content_type
+		    t.integer	:cover_art_file_size
+		    t.datetime	:cover_art_updated_at
 			
 			t.timestamps
 		end
