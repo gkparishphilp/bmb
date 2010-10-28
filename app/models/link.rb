@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: links
+#
+#  id          :integer(4)      not null, primary key
+#  owner_id    :integer(4)
+#  owner_type  :string(255)
+#  title       :string(255)
+#  url         :string(255)
+#  description :string(255)
+#  link_type   :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Link < ActiveRecord::Base
 	
 	before_validation :clean_url

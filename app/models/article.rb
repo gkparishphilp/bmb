@@ -1,17 +1,24 @@
-# t.integer  "owner_id"
-# t.string   "owner_type"
-# t.string   "title"
-# t.string   "excerpt"
-# t.integer  "snip_at"
-# t.integer  "view_count",       :default => 0
-# t.text     "content"
-# t.string   "status"
-# t.boolean  "comments_allowed"
-# t.datetime "publish_on"
-# t.string   "article_type"
-# t.string   "cached_slug"
-# t.datetime "created_at"
-# t.datetime "updated_at"
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: articles
+#
+#  id               :integer(4)      not null, primary key
+#  owner_id         :integer(4)
+#  owner_type       :string(255)
+#  title            :string(255)
+#  excerpt          :string(255)
+#  snip_at          :integer(4)
+#  view_count       :integer(4)      default(0)
+#  content          :text
+#  status           :string(255)
+#  comments_allowed :boolean(1)
+#  publish_on       :datetime
+#  article_type     :string(255)
+#  cached_slug      :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
+#
 
 class Article < ActiveRecord::Base
 	has_many	:comments, :as => :commentable

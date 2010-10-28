@@ -1,3 +1,23 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: comments
+#
+#  id                  :integer(4)      not null, primary key
+#  user_id             :integer(4)
+#  commentable_id      :integer(4)
+#  commentable_type    :string(255)
+#  reply_to_comment_id :integer(4)
+#  name                :string(255)
+#  email               :string(255)
+#  website_name        :string(255)
+#  website_url         :string(255)
+#  ip                  :string(255)
+#  content             :text
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+
 class Comment < ActiveRecord::Base
     
 	before_save :strip_website_url

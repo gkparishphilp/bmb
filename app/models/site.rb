@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: sites
+#
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  owner_id   :integer(4)
+#  owner_type :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Site < ActiveRecord::Base
 	
 	has_many :links, :as => :owner
