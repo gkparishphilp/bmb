@@ -1,29 +1,17 @@
 class MerchesController < ApplicationController
-  # GET /merches
-  # GET /merches.xml
+
   def index
     @merches = Merch.all
 
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @merches }
-    end
   end
 
-  # GET /merches/1
-  # GET /merches/1.xml
+
   def show
     @merch = Merch.find(params[:id])
 	@orderable = @merch
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @merch }
-    end
   end
 
-  # GET /merches/new
-  # GET /merches/new.xml
   def new
     @merch = Merch.new
 
@@ -33,16 +21,15 @@ class MerchesController < ApplicationController
     end
   end
 
-  # GET /merches/1/edit
+
   def edit
     @merch = Merch.find(params[:id])
   end
 
-  # POST /merches
-  # POST /merches.xml
+
   def create
-    @merch = Merch.new(params[:merch])
-	@merch.price = price_in_cents(params[:merch][:price])
+    @merch = Merch.new params[:merch]
+	@merch.price.gsub!( /./, "" )
 	
     respond_to do |format|
       if @merch.save
@@ -55,11 +42,9 @@ class MerchesController < ApplicationController
     end
   end
 
-  # PUT /merches/1
-  # PUT /merches/1.xml
+
   def update
-    @merch = Merch.find(params[:id])
-	params[:merch][:price] = price_in_cents(params[:merch][:price])
+    @merch = Merch.find params[:id]
 	
     respond_to do |format|
       if @merch.update_attributes(params[:merch])

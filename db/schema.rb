@@ -285,6 +285,20 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   add_index "episodes", ["podcast_id"], :name => "index_episodes_on_podcast_id"
   add_index "episodes", ["title"], :name => "index_episodes_on_title"
 
+  create_table "events", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string   "location"
+    t.string   "event_type"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "fb_accounts", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -356,7 +370,6 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD:db/schema.rb
   create_table "merches", :force => true do |t|
     t.integer  "owner"
     t.string   "owner_type"
@@ -413,7 +426,8 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
 
   create_table "orders", :force => true do |t|
     t.integer  "user_id"
-    t.string   "sku"
+    t.integer  "ordered_id"
+    t.integer  "ordered_type"
     t.string   "email"
     t.string   "ip"
     t.integer  "price"

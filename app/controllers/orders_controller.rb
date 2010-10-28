@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
 	before_filter :get_form_data, :only => :new
-	before_filter :get_orderable
+	before_filter :get_ordered
 	
   # GET /orders
   # GET /orders.xml
@@ -28,7 +28,6 @@ class OrdersController < ApplicationController
   # GET /orders/new.xml
   def new
     @order = Order.new
-	@orderable = Merch.find 1
   end
 
   # GET /orders/1/edit
@@ -39,7 +38,7 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.xml
   def create
-    @order = Order.new(params[:order])
+    @order = Order.new params[:order]
 	@order.ip = request.remote_ip
 
     respond_to do |format|
@@ -74,12 +73,9 @@ class OrdersController < ApplicationController
   def destroy
     @order = Order.find(params[:id])
     @order.destroy
-
-    respond_to do |format|
-      format.html { redirect_to(orders_url) }
-      format.xml  { head :ok }
-    end
   end
+
+private
 
 	def get_form_data
 		@months = {'01' => 1, '02' => 2, '03' => 3, '04' => 4, '05' => 5, '06' => 6, '07' => 7, '08' => 8, '09' => 9, '10' => 10, '11' => 11, '12' => 12 }.sort
@@ -87,9 +83,12 @@ class OrdersController < ApplicationController
 		@states = GeoState.find_all_by_country 'US'
 	end
 
-	def get_orderable
-		if params[:merch_id]
-			@orderable = Merch.find params[:merch_id]
+	def get_ordered
+		case params[:ordered_type]
+			when 'Merch'
+				@ordered = Merch.find params[:ordered_id]
+			when 'Bundle'
+				@ordered = Bundle.find params[:ordered_id]
 		end
 	end
 

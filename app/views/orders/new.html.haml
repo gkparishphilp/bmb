@@ -1,17 +1,17 @@
 %h1 
 	Purchase
-	= @orderable.title
+	= @ordered.title
 %h3.greenText
 	Price: 
-	%span#price( price="#{@orderable.price}")
-		= number_to_currency @orderable.price.to_f / 100
+	%span#price
+		= number_to_currency @ordered.price.to_f / 100
 	
 #checkout
 	
 	-form_for @order do |f|
 		%table
 		
-			= f.hidden_field :price, :value => @orderable.price
+			= f.hidden_field :price, :value => @ordered.price
 			%tr
 				%td
 				%td 
@@ -88,7 +88,7 @@
 					%td= f.text_field :email
 					
 
-		= f.submit "Buy", :class => :blue_button	
+		= f.submit "Buy"
 
 			
 		%br

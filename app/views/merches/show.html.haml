@@ -7,7 +7,7 @@
 %p
 	=image_tag @merch.artwork(:thumb)
 %p
-	=link_to 'Buy Now', new_order_path(@orderable)
+	=link_to 'Buy Now', new_order_path( :ordered_id => @merch.id, :ordered_type => @merch.class.to_s )
 
 
 %p
