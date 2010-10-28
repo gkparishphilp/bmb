@@ -50,6 +50,8 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.integer  "user_id"
     t.integer  "featured_book_id"
     t.string   "pen_name"
+    t.string   "subdomain"
+    t.string   "domain"
     t.text     "bio"
     t.integer  "score"
     t.string   "cached_slug"
@@ -354,6 +356,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.datetime "updated_at"
   end
 
+<<<<<<< HEAD:db/schema.rb
   create_table "merches", :force => true do |t|
     t.integer  "owner"
     t.string   "owner_type"
@@ -417,8 +420,6 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.string   "status"
     t.string   "paypal_express_token"
     t.string   "paypal_express_payer_id"
-    t.integer  "orderable_id"
-    t.integer  "orderable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

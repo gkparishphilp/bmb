@@ -1,3 +1,17 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: genres
+#
+#  id          :integer(4)      not null, primary key
+#  parent_id   :integer(4)
+#  name        :string(255)
+#  description :string(255)
+#  cached_slug :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Genre < ActiveRecord::Base
 
     has_many    :books
