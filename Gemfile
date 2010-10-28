@@ -10,6 +10,7 @@ gem 'acts-as-taggable-on'
 gem 'jquery-rails'
 gem 'paperclip'
 gem 'twitter'
+gem 'activemerchant', :require => "active_merchant"
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"

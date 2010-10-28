@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101025171002) do
+ActiveRecord::Schema.define(:version => 20101026212141) do
 
   create_table "articles", :force => true do |t|
     t.integer  "owner_id"
@@ -47,8 +47,58 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   end
 
   create_table "authors", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "featured_book_id"
     t.string   "pen_name"
+    t.text     "bio"
+    t.integer  "score"
     t.string   "cached_slug"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
+    t.string   "photo_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "backing_events", :force => true do |t|
+    t.integer  "backing_id"
+    t.string   "event_type"
+    t.string   "url"
+    t.string   "ip"
+    t.integer  "points",     :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "backings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "book_id"
+    t.integer  "points",      :default => 0
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "badges", :force => true do |t|
+    t.string   "name"
+    t.string   "display_name"
+    t.string   "badge_type"
+    t.string   "description"
+    t.integer  "level"
+    t.string   "artwork_file_name"
+    t.string   "artwork_content_type"
+    t.integer  "artwork_file_size"
+    t.datetime "artwork_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "badgings", :force => true do |t|
+    t.integer  "badge_id"
+    t.integer  "badgeable_id"
+    t.string   "badgeable_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -66,7 +116,8 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.string   "title"
     t.integer  "author_id"
     t.integer  "genre_id"
-    t.integer  "view_count",     :default => 0
+    t.integer  "view_count",             :default => 0
+    t.integer  "score"
     t.string   "subtitle"
     t.text     "description"
     t.string   "status"
@@ -74,6 +125,34 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.float    "rating_average"
     t.string   "backing_url"
     t.string   "cached_slug"
+    t.string   "cover_art_url"
+    t.string   "cover_art_file_name"
+    t.string   "cover_art_content_type"
+    t.integer  "cover_art_file_size"
+    t.datetime "cover_art_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bundle_assets", :force => true do |t|
+    t.integer  "bundle_id"
+    t.integer  "asset_id"
+    t.string   "asset_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "bundles", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "price"
+    t.string   "artwork_url"
+    t.string   "artwork_file_name"
+    t.string   "artwork_content_type"
+    t.integer  "artwork_file_size"
+    t.datetime "artwork_updated_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -119,11 +198,67 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.datetime "updated_at"
   end
 
+  create_table "coupons", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "code"
+    t.string   "description"
+    t.datetime "expiration_date"
+    t.integer  "redemptions_allowed", :default => -1
+    t.string   "discount_type"
+    t.integer  "discount"
+    t.string   "valid_for_item_type"
+    t.integer  "valid_for_item_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "crashes", :force => true do |t|
     t.string   "message"
     t.string   "requested_url"
     t.string   "referrer"
     t.text     "backtrace"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "email_campaigns", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.integer  "email_template_id"
+    t.string   "name"
+    t.string   "status"
+    t.string   "campaign_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "email_deliveries", :force => true do |t|
+    t.integer  "email_subscribing"
+    t.integer  "campaign_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "email_messages", :force => true do |t|
+    t.integer  "email_campaign_id"
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "deliver_at"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "email_subscribings", :force => true do |t|
+    t.integer  "subscribed_to_id"
+    t.string   "subscribed_to_type"
+    t.integer  "subscriber_id"
+    t.integer  "subscriber_type"
+    t.string   "email_address"
+    t.string   "name"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -186,6 +321,28 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.datetime "updated_at"
   end
 
+  create_table "geo_addresses", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "address_type"
+    t.string   "name"
+    t.string   "street"
+    t.string   "street2"
+    t.string   "city"
+    t.string   "geo_state_id"
+    t.string   "zip"
+    t.string   "phone"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "geo_states", :force => true do |t|
+    t.string   "name"
+    t.string   "abbrev"
+    t.string   "country"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "links", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -197,7 +354,34 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.datetime "updated_at"
   end
 
-  add_index "links", ["owner_id"], :name => "index_links_on_owner_id"
+  create_table "merches", :force => true do |t|
+    t.integer  "owner"
+    t.string   "owner_type"
+    t.string   "title"
+    t.text     "description"
+    t.integer  "inventory_count",      :default => -1
+    t.integer  "price"
+    t.string   "artwork_url"
+    t.string   "artwork_file_name"
+    t.string   "artwork_content_type"
+    t.integer  "artwork_file_size"
+    t.datetime "artwork_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "messages", :force => true do |t|
+    t.integer  "to_id"
+    t.string   "to_type"
+    t.integer  "from_id"
+    t.string   "from_type"
+    t.string   "subject"
+    t.text     "content"
+    t.datetime "deliver_at"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "openids", :force => true do |t|
     t.integer  "user_id"
@@ -210,6 +394,43 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   end
 
   add_index "openids", ["user_id"], :name => "index_openids_on_user_id"
+
+  create_table "order_transactions", :force => true do |t|
+    t.integer  "order_id"
+    t.integer  "price"
+    t.string   "message"
+    t.string   "reference"
+    t.string   "action"
+    t.text     "params"
+    t.boolean  "success"
+    t.boolean  "test"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "sku"
+    t.string   "email"
+    t.string   "ip"
+    t.integer  "price"
+    t.string   "status"
+    t.string   "paypal_express_token"
+    t.string   "paypal_express_payer_id"
+    t.integer  "orderable_id"
+    t.integer  "orderable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "ownings", :force => true do |t|
+    t.integer  "owned_id"
+    t.string   "owned_type"
+    t.integer  "user_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "podcasts", :force => true do |t|
     t.integer  "owner_id"
@@ -252,6 +473,28 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   add_index "posts", ["topic_id"], :name => "index_posts_on_topic_id"
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
+  create_table "raw_backing_events", :force => true do |t|
+    t.integer  "backing_id"
+    t.integer  "backing_event_id"
+    t.string   "event_type"
+    t.string   "url"
+    t.string   "ip"
+    t.integer  "points",           :default => 0
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "raw_stat_events", :force => true do |t|
+    t.string   "name"
+    t.integer  "statable_id"
+    t.string   "statable_type"
+    t.string   "ip"
+    t.integer  "count",         :default => 0
+    t.string   "extra_data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "raw_stats", :force => true do |t|
     t.string   "name"
     t.integer  "statable_id"
@@ -274,6 +517,14 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.datetime "updated_at"
   end
 
+  create_table "redemptions", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "coupon_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "reviews", :force => true do |t|
     t.integer  "reviewable_id"
     t.string   "reviewable_type"
@@ -291,6 +542,14 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   create_table "roles_users", :id => false, :force => true do |t|
     t.integer "role_id"
     t.integer "user_id"
+  end
+
+  create_table "royalties", :force => true do |t|
+    t.integer  "author_id"
+    t.integer  "order_transaction_id"
+    t.boolean  "paid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "sites", :force => true do |t|
@@ -315,6 +574,17 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], :name => "index_slugs_on_n_s_s_and_s", :unique => true
   add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
 
+  create_table "stat_events", :force => true do |t|
+    t.string   "name"
+    t.integer  "statable_id"
+    t.string   "statable_type"
+    t.string   "ip"
+    t.integer  "count",         :default => 0
+    t.string   "extra_data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "static_pages", :force => true do |t|
     t.integer  "site_id"
     t.string   "title"
@@ -328,6 +598,32 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
 
   add_index "static_pages", ["permalink"], :name => "index_static_pages_on_permalink"
   add_index "static_pages", ["site_id"], :name => "index_static_pages_on_site_id"
+
+  create_table "subscribings", :force => true do |t|
+    t.integer  "subscription_id"
+    t.integer  "user_id"
+    t.integer  "order_id"
+    t.string   "status"
+    t.string   "profile_id"
+    t.datetime "expiration_date"
+    t.string   "origin"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "name"
+    t.string   "description"
+    t.string   "periodicity"
+    t.integer  "price"
+    t.integer  "monthly_email_limit"
+    t.integer  "redemptions_remaining"
+    t.integer  "subscription_length_in_days"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -346,6 +642,26 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.string "name"
   end
 
+  create_table "themes", :force => true do |t|
+    t.integer  "author_id"
+    t.string   "bg_color"
+    t.string   "text_color"
+    t.string   "link_color"
+    t.string   "bg_img_file_name"
+    t.string   "bg_img_content_type"
+    t.integer  "bg_img_file_size"
+    t.datetime "bg_img_updated_at"
+    t.string   "bg_repeat"
+    t.string   "bg_img_url"
+    t.string   "banner_img_file_name"
+    t.string   "banner_img_content_type"
+    t.integer  "banner_img_file_size"
+    t.datetime "banner_img_updated_at"
+    t.string   "banner_img_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "twitter_accounts", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
@@ -359,6 +675,15 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
   end
 
   add_index "twitter_accounts", ["owner_id"], :name => "index_twitter_accounts_on_owner_id"
+
+  create_table "upload_email_lists", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "file_name"
+    t.string   "file_path"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "upload_files", :force => true do |t|
     t.integer  "user_id"
@@ -389,13 +714,7 @@ ActiveRecord::Schema.define(:version => 20101025171002) do
     t.integer  "name_changes",                            :default => 3
     t.string   "first_name"
     t.string   "last_name"
-    t.string   "street"
-    t.string   "street2"
-    t.string   "city"
-    t.string   "geo_state_id"
-    t.string   "zip"
-    t.string   "ssn"
-    t.string   "phone"
+    t.string   "tax_id"
     t.string   "orig_ip"
     t.string   "last_ip"
     t.string   "photo_url"

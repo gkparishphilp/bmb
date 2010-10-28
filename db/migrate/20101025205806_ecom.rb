@@ -61,18 +61,18 @@ class Ecom < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		create_table :merch, :force => true do |t|
+		create_table :merches, :force => true do |t|
 			t.integer	:owner
 			t.string	:owner_type
-			t.string	:name
+			t.string	:title
+			t.text		:description
 			t.integer	:inventory_count, :default => -1 # neg numbers of nil = infinite
 			t.integer	:price
 			t.string	:artwork_url
 			t.string	:artwork_file_name
-		    t.string	:artwork_content_type
-		    t.integer	:artwork_file_size
-		    t.datetime	:artwork_updated_at
-			
+			t.string	:artwork_content_type
+			t.integer	:artwork_file_size
+			t.datetime	:artwork_updated_at
 			t.timestamps
 		end
 		
@@ -85,7 +85,8 @@ class Ecom < ActiveRecord::Migration
 			t.string	:status
 			t.string	:paypal_express_token
 			t.string	:paypal_express_payer_id
-			
+			t.integer	:orderable_id
+			t.integer	:orderable_type
 			t.timestamps
 		end
 		

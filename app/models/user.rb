@@ -32,6 +32,7 @@ class User < ActiveRecord::Base
 	has_one		:facebook_account, 	:as => :owner
 	
 	has_one		:author
+	has_many	:orders
 	
 	# Plugins	--------------------------------------
 

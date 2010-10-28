@@ -1,0 +1,4 @@
+%h1 Editing Merchandise
+
+- form_for @merch, :html => {:multipart => true} do |f|
+	= render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Update'}

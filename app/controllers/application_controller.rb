@@ -57,4 +57,20 @@ protected
 		@description = description.first[0..200] unless description.first.blank?
 	end
 	
+	def price_in_cents(price)
+		unless price.is_a? Float
+			price = price.to_f
+		end
+		pic = (price.round(2) * 100).to_i
+		return pic
+	end
+	
+	def price_in_dollars(price)
+		unless price.is_a? Fixnum
+			price = price.to_i
+		end
+		pid = price.to_f / 100
+		return pid
+	end
+	
 end

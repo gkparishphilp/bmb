@@ -1,5 +1,11 @@
 Backmybook::Application.routes.draw do
   
+  resources :order_transactions
+
+  resources :orders
+
+  resources :merches
+
 	root :to => "site#index"
 	
 	resources :articles do

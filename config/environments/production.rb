@@ -46,4 +46,15 @@ Backmybook::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  config.after_initialize do
+	ActiveMerchant::Billing::Base.mode = :production
+	paypal_options = {
+		:login => 'groundswellent_api1.gmail.com',
+		:password => '89Z5E5VEQYVKJJY8',
+		:signature    => 'AFcWxV21C7fd0v3bYYYRCpSSRl31AEZNnXp9SNTX04KYyPfPm1U7iRMc'
+	}
+	::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+	::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+	
 end

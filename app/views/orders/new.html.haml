@@ -1,0 +1,94 @@
+%h1 
+	Purchase
+	= @orderable.title
+%h3.greenText
+	Price: 
+	%span#price( price="#{@orderable.price}")
+		= number_to_currency @orderable.price.to_f / 100
+	
+#checkout
+	
+	-form_for [@orderable, @order] do |f|
+		%table
+		
+			= f.hidden_field :price, :value => @orderable.price
+			%tr
+				%td
+				%td 
+					%h3 Payment Information
+					(Only US Credit Cards Accepted)
+			%tr
+				%td
+					%b Payment Method:
+				%td#pay_select
+					= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
+					&nbsp &nbsp &nbsp
+
+		#cc_info
+			%table						
+				%tr
+					%td
+						%b Card Number:
+					- @order.card_number = '4411037113154626' if Rails.env.development?
+					%td= f.text_field :card_number
+
+				%tr
+					%td
+						%b Card Security Code (CVV):
+						-  @order.card_cvv = '123' if Rails.env.development?
+					%td
+						= f.text_field :card_cvv
+						&nbsp;&nbsp;
+						= image_tag 'card_images/cvv.png', :align => 'center'
+
+				%tr
+					%td 
+						%b Card Expiration
+						- @order.card_exp_year = '2013' if Rails.env.development?
+					%td
+						= f.select :card_exp_month, @months
+						&nbsp;/&nbsp;
+						= f.select :card_exp_year, @years
+
+				-# TODO If no billing info, then show this part of the form
+				%tr
+					%td 
+					%td 
+						%h3 Billing Info
+				%tr
+					%td
+						%b First Name:
+					%td= f.text_field :fname
+
+				%tr
+					%td
+						%b Last Name:
+					%td= f.text_field :lname
+				%tr
+					%td
+						%b Address:
+					%td= f.text_field :address1
+
+				%tr
+					%td
+						%b City:
+					%td=f.text_field :city
+
+				%tr
+					%td
+						%b State:
+					%td
+						= f.collection_select :geo_state, @states, :id, :name
+						&nbsp;&nbsp;
+						%b Zip Code:
+						=f.text_field :zip
+				%tr
+					%td
+						%b E-mail:
+					%td= f.text_field :email
+					
+
+		= f.submit "Buy", :class => :blue_button	
+
+			
+		%br
