@@ -27,8 +27,8 @@ class OrdersController < ApplicationController
   # GET /orders/new
   # GET /orders/new.xml
   def new
-	crap
     @order = Order.new
+	@orderable = Merch.find 1
   end
 
   # GET /orders/1/edit

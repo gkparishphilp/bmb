@@ -8,7 +8,7 @@
 	
 #checkout
 	
-	-form_for [@orderable, @order] do |f|
+	-form_for @order do |f|
 		%table
 		
 			= f.hidden_field :price, :value => @orderable.price
