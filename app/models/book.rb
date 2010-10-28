@@ -1,5 +1,24 @@
+# t.string   "title"
+# t.integer  "author_id"
+# t.integer  "genre_id"
+# t.integer  "view_count", default => 0
+# t.integer  "score"
+# t.string   "subtitle"
+# t.text     "description"
+# t.string   "status"
+# t.string   "age_aprop"
+# t.float    "rating_average"
+# t.string   "backing_url"
+# t.string   "cached_slug"
+# t.string   "cover_art_url"
+# t.string   "cover_art_file_name"
+# t.string   "cover_art_content_type"
+# t.integer  "cover_art_file_size"
+# t.datetime "cover_art_updated_at"
+# t.datetime "created_at"
+# t.datetime "updated_at"
+
 class Book < ActiveRecord::Base
-	# todo -- stub book model
 	# represents a "title" or "work"
 	
 	belongs_to	:author

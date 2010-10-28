@@ -1,3 +1,18 @@
+# t.integer  "owner_id"
+# t.string   "owner_type"
+# t.string   "title"
+# t.string   "excerpt"
+# t.integer  "snip_at"
+# t.integer  "view_count",       :default => 0
+# t.text     "content"
+# t.string   "status"
+# t.boolean  "comments_allowed"
+# t.datetime "publish_on"
+# t.string   "article_type"
+# t.string   "cached_slug"
+# t.datetime "created_at"
+# t.datetime "updated_at"
+
 class Article < ActiveRecord::Base
 	has_many	:comments, :as => :commentable
 	has_many	:raw_stats, :as => :statable

@@ -24,6 +24,20 @@ class Polymorphs < ActiveRecord::Migration
 			t.timestamps
 		end
 		
+		create_table :events, :force => true do |t|
+			t.integer	:owner_id
+			t.string	:owner_type
+			t.string	:title
+			t.text		:description
+			t.datetime	:starts_at
+			t.datetime	:ends_at
+			t.string	:location
+			t.string	:event_type
+			t.string	:status
+			
+			t.timestamps
+		end
+		
 		create_table :links, :force => true do |t|
 			t.integer	:owner_id
 			t.string	:owner_type
@@ -61,6 +75,7 @@ class Polymorphs < ActiveRecord::Migration
 	end
 
 	def self.down
+		drop_table :events
 		drop_table :badgings
 		drop_table :badges
 		drop_table :messages

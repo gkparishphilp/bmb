@@ -5,6 +5,8 @@ class CreateAuthors < ActiveRecord::Migration
 			t.integer	:user_id
 			t.integer	:featured_book_id
 			t.string	:pen_name
+			t.string	:subdomain
+			t.string	:domain
 			t.text		:bio
 			t.integer	:score
 			t.string	:cached_slug
