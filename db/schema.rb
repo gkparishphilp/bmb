@@ -427,7 +427,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "orders", :force => true do |t|
     t.integer  "user_id"
     t.integer  "ordered_id"
-    t.integer  "ordered_type"
+    t.string   "ordered_type"
     t.string   "email"
     t.string   "ip"
     t.integer  "price"

@@ -12,6 +12,7 @@ class MerchesController < ApplicationController
 
   end
 
+
   def new
     @merch = Merch.new
 
@@ -21,7 +22,6 @@ class MerchesController < ApplicationController
     end
   end
 
-
   def edit
     @merch = Merch.find(params[:id])
   end
@@ -29,15 +29,12 @@ class MerchesController < ApplicationController
 
   def create
     @merch = Merch.new params[:merch]
-	@merch.price.gsub!( /./, "" )
 	
     respond_to do |format|
       if @merch.save
-        format.html { redirect_to(@merch, :notice => "Merch was successfully created.") }
-        format.xml  { render :xml => @merch, :status => :created, :location => @merch }
+		redirect_to(@merch, :notice => "Merch was successfully created.") 
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @merch.errors, :status => :unprocessable_entity }
+        render :action => "new" 
       end
     end
   end
@@ -57,8 +54,7 @@ class MerchesController < ApplicationController
     end
   end
 
-  # DELETE /merches/1
-  # DELETE /merches/1.xml
+
   def destroy
     @merch = Merch.find(params[:id])
     @merch.destroy
