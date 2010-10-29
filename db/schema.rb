@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101022001242) do
+ActiveRecord::Schema.define(:version => 20101023200310) do
 
   create_table "articles", :force => true do |t|
     t.integer  "owner_id"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
 
   create_table "contacts", :force => true do |t|
+    t.integer  "site_id"
     t.string   "email"
     t.string   "subject"
     t.string   "ip"
@@ -72,6 +73,26 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "episodes", :force => true do |t|
+    t.integer  "podcast_id"
+    t.string   "status"
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "keywords"
+    t.string   "duration"
+    t.text     "description"
+    t.integer  "filesize"
+    t.string   "filename"
+    t.string   "explicit"
+    t.text     "transcript"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "episodes", ["podcast_id"], :name => "index_episodes_on_podcast_id"
+  add_index "episodes", ["title"], :name => "index_episodes_on_title"
 
   create_table "fb_accounts", :force => true do |t|
     t.integer  "owner_id"
@@ -126,6 +147,26 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   end
 
   add_index "openids", ["user_id"], :name => "index_openids_on_user_id"
+
+  create_table "podcasts", :force => true do |t|
+    t.integer  "owner_id"
+    t.integer  "owner_type"
+    t.string   "title"
+    t.string   "subtitle"
+    t.string   "itunes_id"
+    t.text     "description"
+    t.string   "duration"
+    t.string   "filename"
+    t.string   "keywords"
+    t.integer  "filesize"
+    t.string   "explicit"
+    t.string   "cached_slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "podcasts", ["owner_id"], :name => "index_podcasts_on_owner_id"
+  add_index "podcasts", ["title"], :name => "index_podcasts_on_title"
 
   create_table "posts", :force => true do |t|
     t.integer  "forum_id"
@@ -197,6 +238,7 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "title"
     t.string   "description"
     t.string   "permalink"
+    t.string   "redirect_path"
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -237,6 +279,7 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
   add_index "twitter_accounts", ["owner_id"], :name => "index_twitter_accounts_on_owner_id"
 
   create_table "users", :force => true do |t|
+    t.integer  "site_id"
     t.string   "email"
     t.string   "user_name"
     t.integer  "score",                                   :default => 0
@@ -249,9 +292,10 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "activation_code"
     t.datetime "activated_at"
     t.string   "status"
+    t.string   "cached_slug"
     t.integer  "name_changes",                            :default => 3
-    t.string   "fname"
-    t.string   "lname"
+    t.string   "first_name"
+    t.string   "last_name"
     t.string   "street"
     t.string   "street2"
     t.string   "city"
@@ -259,9 +303,9 @@ ActiveRecord::Schema.define(:version => 20101022001242) do
     t.string   "zip"
     t.string   "ssn"
     t.string   "phone"
-    t.string   "photo_url"
     t.string   "orig_ip"
     t.string   "last_ip"
+    t.string   "photo_url"
     t.string   "photo_file_name"
     t.string   "photo_content_type"
     t.integer  "photo_file_size"
