@@ -27,8 +27,8 @@ class OrdersController < ApplicationController
 	def new
 		@order = Order.new
 		unless @current_user.anonymous?
-			@billing_addresses = @current_user.addresses
-			@shipping_addresses = @current_user.addresses
+			@billing_addresses = @current_user.geo_addresses.where("address_type = 'billing'")
+			@shipping_addresses = @current_user.geo_addresses.where("address_type = 'shipping'")
 		end
 	end
 

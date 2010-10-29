@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
 	has_many	:comments
 	has_one		:twitter_account, 	:as => :owner
 	has_one		:facebook_account, 	:as => :owner
+	has_many 	:geo_addresses
 	
 	has_one		:author
 	has_many	:orders
