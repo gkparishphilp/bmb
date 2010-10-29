@@ -21,8 +21,7 @@ class Users < ActiveRecord::Migration
 
 			t.timestamps
 		end
-	
-	 
+
 		create_table :roles, :force => true  do |t|
 			t.string	:name
 		end
@@ -63,13 +62,7 @@ class Users < ActiveRecord::Migration
 			t.integer	:name_changes, :default => 3
 			t.string	:first_name
 			t.string	:last_name
-			t.string	:street
-			t.string	:street2
-			t.string	:city
-			t.string	:geo_state_id
-			t.string	:zip
-			t.string	:ssn
-			t.string	:phone
+			t.string	:tax_id
 		
 			t.string	:orig_ip
 			t.string	:last_ip

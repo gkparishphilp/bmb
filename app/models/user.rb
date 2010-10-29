@@ -1,8 +1,44 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: users
+#
+#  id                        :integer(4)      not null, primary key
+#  site_id                   :integer(4)
+#  email                     :string(255)
+#  user_name                 :string(255)
+#  score                     :integer(4)      default(0)
+#  website_name              :string(255)
+#  website_url               :string(255)
+#  hashed_password           :string(255)
+#  salt                      :string(255)
+#  remember_token            :string(255)
+#  remember_token_expires_at :datetime
+#  activation_code           :string(255)
+#  activated_at              :datetime
+#  status                    :string(255)
+#  cached_slug               :string(255)
+#  name_changes              :integer(4)      default(3)
+#  first_name                :string(255)
+#  last_name                 :string(255)
+#  tax_id                    :string(255)
+#  orig_ip                   :string(255)
+#  last_ip                   :string(255)
+#  photo_url                 :string(255)
+#  photo_file_name           :string(255)
+#  photo_content_type        :string(255)
+#  photo_file_size           :integer(4)
+#  photo_updated_at          :datetime
+#  paypal_id                 :string(13)
+#  created_at                :datetime
+#  updated_at                :datetime
+#
+
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
 	# Constants    --------------------------------------
-	ANONYMOUS_ID = 2
+	ANONYMOUS_ID = 1
 
 	# Filters		--------------------------------------
 	before_create   :set_status
@@ -30,6 +66,8 @@ class User < ActiveRecord::Base
 	has_many	:comments
 	has_one		:twitter_account, 	:as => :owner
 	has_one		:facebook_account, 	:as => :owner
+	
+	has_one		:author
 	
 	# Plugins	--------------------------------------
 

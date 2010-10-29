@@ -1,0 +1,24 @@
+# == Schema Information
+# Schema version: 20101026212141
+#
+# Table name: content_locations
+#
+#  id         :integer(4)      not null, primary key
+#  asset_id   :integer(4)
+#  path       :string(255)
+#  content    :text(2147483647
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  asset_id: 1
+  path: MyString
+  content: MyText
+
+two:
+  asset_id: 1
+  path: MyString
+  content: MyText
