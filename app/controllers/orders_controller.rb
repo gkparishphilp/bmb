@@ -14,6 +14,7 @@ class OrdersController < ApplicationController
 	def show
 		@order = Order.find(params[:id])
 =begin
+		# todo Need to fix this for anonymous user access
 		if @order.user != @current_user 
 			pop_flash 'Not your order', :error, @order
 			redirect_to @order
@@ -25,6 +26,10 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
+		unless @current_user.anonymous?
+			@billing_addresses = @current_user.addresses
+			@shipping_addresses = @current_user.addresses
+		end
 	end
 
 	def create
@@ -34,11 +39,13 @@ class OrdersController < ApplicationController
 		if @order.save && @order.purchase
 			pop_flash 'Order was successfully processed.'
 			@order.update_attributes :status => 'success'
+			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order
-			render :action => "new"
+			redirect_to new_order_path( :ordered_id => @order.ordered.id, :ordered_type => @order.ordered.class.to_s)
+			#TODO send back errors from Paypal here also
 		end
-		redirect_to @order
+
 	end
 
 private

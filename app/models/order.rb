@@ -133,7 +133,7 @@ class Order < ActiveRecord::Base
 	end
 
 #------------------------------------------------------------------------
-# Set up options for different types of payment calls to Paypal Gateways
+# Set up options hash for different types of payment calls to Paypal Gateways
 #------------------------------------------------------------------------
 	#Set up options hash for regular Paypal gateway call 
 	def options

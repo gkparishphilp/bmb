@@ -1,0 +1,105 @@
+- if @order.status == "failed"
+	%h1
+		Order Status
+
+	Hmm...  There was an error with your order.  Please contact our support team for assistance. 	
+	%br
+	%br Be sure to reference Order Id #  
+	=@order.id
+	
+	%br
+	%br
+	We apologize for the inconvenience and will get it sorted out as quickly as possible.
+
+-else
+	-if @order.ordered.is_a? Merch
+		-#---------------------------------------------
+		-# Show order results when item is merchandise
+		-#---------------------------------------------
+		%h1 
+			Thank you for purchasing:
+			= @order.ordered.title
+		%br
+		%br
+		It will be delivered to your address shortly.  Please
+		= link_to 'contact us', new_contact_path( :email => @order.email, :subject => "Order # #{@order.id}" )
+		if you have any questions or problems.
+
+		%table
+			%tr
+				%td Order ID
+				%td Confirmation #
+				%td Price
+
+			%tr
+				%td= @order.id
+				%td= @order.order_transactions.find_by_order_id(@order.id).reference
+				%td= number_to_currency(@order.price.to_f / 100)
+		
+		%br
+		%br
+	
+	
+	-elsif @order.ordered.is_a? Book
+		-#------------------------------------------
+		-# Show order results when item is a book
+		-#------------------------------------------
+		%h1 
+			Thank you for purchasing: 
+			= @order.ordered.title
+		%br
+		%br
+		%h4 
+			-if @current_user.anonymous?
+				A download link has been sent to your email address:
+				= @order.email
+				%br
+				Please use it to download your book and print the confirmation information below for your records.
+				%br
+				%br
+				If you have any questions, 
+				= link_to "please contact us.", new_contact_path  
+			-else
+				You can 
+				= link_to "download it here", book_path( @order.ordered )
+		%table
+			%tr
+				%td Order ID
+				%td Confirmation #
+				%td Price
+
+			%tr
+				%td= @order.id
+				%td= @order.order_transactions.find_by_order_id(@order.id).reference
+				%td= number_to_currency(@order.price.to_f / 100)
+		%br
+		%br
+	
+	
+	-elsif @order.ordered.is_a? Bundle
+		-#------------------------------------------
+		-# Show order results when item is a bundle
+		-#------------------------------------------
+	
+	-elsif @order.ordered.is_a? Subscription
+		-#-------------------------------------------------
+		-# Show order results when item is a subscription
+		-#-------------------------------------------------
+		%h1 
+			Thank you for your Subscription
+
+		%table
+			%tr
+				%td Order ID
+				%td Confirmation #
+				%td Price
+
+			%tr
+				%td= @order.id
+				%td= @order.order_transactions.find_by_order_id(@order.id).params["profile_id"]
+				%td= number_to_currency(@order.price.to_f / 100)
+
+		%br
+		Please reference the Order ID # and Confirmation # shown above if you have any questions. 
+		
+

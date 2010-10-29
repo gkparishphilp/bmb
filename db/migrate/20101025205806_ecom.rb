@@ -1,5 +1,15 @@
 class Ecom < ActiveRecord::Migration
 	def self.up
+
+		create table :addresses, :force => true do |t|
+			t.string	:address1
+			t.string	:address2
+			t.string	:city
+			t.string	:geo_state_id
+			t.string	:zip
+			t.string	:country
+			t.string	:phone
+		end
 		
 		create_table :bundles, :force => true do |t|
 			t.integer	:owner_id
