@@ -1,0 +1,20 @@
+Hi,
+<br \>
+<br \>
+This email confirms your purchase of <%= @merch.title%>.
+It will be delivered to you shortly by the author: 
+<br \>
+<br \>
+Your confirmation number is: <%= @order.order_transactions.find_by_order_id(@order.id).reference%>.
+Please use it in all correspondence regarding this order.
+<br \>
+<br \>
+If you have any problems with this item, you can contact us at: http://backmybook.com/contacts/new
+Please let us know if there is anything else we can do for you.  
+<br \>
+<br \>
+Enjoy!
+<br \>
+<br \>
+Team <%= APP_NAME%>
+

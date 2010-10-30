@@ -371,7 +371,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   end
 
   create_table "merches", :force => true do |t|
-    t.integer  "owner"
+    t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "title"
     t.text     "description"
@@ -428,6 +428,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.integer  "user_id"
     t.integer  "ordered_id"
     t.string   "ordered_type"
+    t.integer  "coupon_id"
     t.string   "email"
     t.string   "ip"
     t.integer  "price"

@@ -24,7 +24,13 @@
 				= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
 				&nbsp &nbsp &nbsp
 
-	%table						
+
+	%table		
+		%tr
+			%td
+				%b Enter Coupon Code (if applicable)
+			%td= text_field_tag :coupon_code
+					
 		%tr
 			%td
 				%b Card Number:
@@ -47,6 +53,8 @@
 				= f.select :card_exp_month, @months
 				&nbsp;/&nbsp;
 				= f.select :card_exp_year, @years
+
+
 
 		%tr
 			%td 
@@ -87,5 +95,4 @@
 
 	= f.submit "Buy"
 
-		
 	%br

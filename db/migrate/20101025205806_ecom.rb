@@ -62,7 +62,7 @@ class Ecom < ActiveRecord::Migration
 		end
 		
 		create_table :merches, :force => true do |t|
-			t.integer	:owner
+			t.integer	:owner_id
 			t.string	:owner_type
 			t.string	:title
 			t.text		:description
@@ -80,6 +80,7 @@ class Ecom < ActiveRecord::Migration
 			t.integer	:user_id
 			t.integer	:ordered_id
 			t.string	:ordered_type
+			t.integer	:coupon_id
 			t.string	:email
 			t.string	:ip
 			t.integer	:price

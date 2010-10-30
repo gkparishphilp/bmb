@@ -23,12 +23,28 @@ class Order < ActiveRecord::Base
 		:dependent => :destroy
 	
 	belongs_to :ordered, :polymorphic  => :true
+	has_one :coupon
 	
 	attr_accessor :payment_type, :card_number, :card_cvv, :fname, :lname, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	attr_accessor :address1, :address2, :city, :geo_state, :zip, :country, :phone
 	
 # TODO - need to redo validation for Rails 3...	
 #	validate_on_create :validate_card
+
+#---------------------------------------------------------------
+# Apply coupon to order
+#---------------------------------------------------------------
+	def apply_coupon
+		case discount_type=self.coupon.discount_type
+			when 'percent'
+				self.price = (self.price - (self.coupon.discount/100.0 * self.price)).round 
+			when 'cents'
+				self.price = self.price - self.coupon.discount
+		end	
+		self.price = 0 if self.price < 0
+		self.coupon.redemptions_allowed = self.coupon.redemptions_allowed - 1
+	end
+
 
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases (both regular and express)
@@ -82,19 +98,16 @@ class Order < ActiveRecord::Base
 
 	def inquire_subscription(profile_id)
 		response = GATEWAY.recurring_inquiry(profile_id)
-		# logger.debug("DEBUG INQUIRE SUBSCRIPTION #{response.inspect}")
 		return response
 	end
 	
 	def suspend_subscription(profile_id)
 		response = GATEWAY.suspend_recurring(profile_id)
-		#logger.debug("DEBUG SUSPEND SUBSCRIPTION #{response.inspect}")
 		response.success?
 	end
 	
 	def cancel_subscription(profile_id)
 		response = GATEWAY.cancel_recurring(profile_id)
-		logger.debug("DEBUG CANCEL SUBSCRIPTION #{response.inspect}")
 		response.success?
 	end
 
@@ -105,6 +118,24 @@ class Order < ActiveRecord::Base
 			answer = true if ot.success
 		end
 		return answer		
+	end
+
+#---------------------------------------------------------------
+# Actions after a successful order transaction
+#---------------------------------------------------------------
+	def post_purchase_actions
+		if self.ordered.is_a? Merch
+			UserMailer.bought_merch(self, self.ordered, self.user).deliver
+			#Update backing events
+			#Update any author sales events
+		elsif self.ordered.is_a? Asset
+			
+		elsif self.ordered.is_a? Bundle
+				
+		elsif self.ordered.is_a? Subscription
+			
+		end
+
 	end
 
 
@@ -207,6 +238,8 @@ class Order < ActiveRecord::Base
 			end
 		end
 	end
-	
+
+
+
 
 end
