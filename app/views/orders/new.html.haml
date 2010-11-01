@@ -8,6 +8,7 @@
 
 
 -form_for @order do |f|
+	
 	%table
 		= f.hidden_field :ordered_id, :value => @ordered.id
 		= f.hidden_field :ordered_type, :value => @ordered.class
@@ -23,12 +24,15 @@
 			%td
 				= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
 				&nbsp &nbsp &nbsp
-
-	%table		
-		%tr
-			%td
-				%b Enter Coupon Code (if applicable)
-			%td= text_field_tag :coupon_code
+	%br
+	%br
+	
+	%table
+		-if params[:ordered_type] != 'Subscription'
+			%tr
+				%td
+					%b Enter Coupon Code (if applicable)
+				%td= text_field_tag :coupon_code
 					
 		%tr
 			%td
@@ -55,7 +59,8 @@
 		%tr
 			%td
 				%b E-mail:
-			%td= f.text_field :email		
+			- @order.email = 'tay@backmybook.com' if Rails.env.development?
+			%td= f.text_field :email
 	%br
 	%br
 
@@ -145,97 +150,98 @@
 	%br
 	%br
 	
-	- if @current_user.shipping_addresses.empty?
-		= fields_for :shipping_address, @order.shipping_address do |ff|
+	- if params[:ordered_type] == 'Merch'
+		- if @current_user.shipping_addresses.empty?
+			= fields_for :shipping_address, @order.shipping_address do |ff|
 
-			=ff.hidden_field :user_id, :value => @current_user.id
-			=ff.hidden_field :country, :value => 'US'
-			%table
-				%tr
-					%td
-					%td 
-						%h3 Shipping Information
-				%tr
-					%td
+				=ff.hidden_field :user_id, :value => @current_user.id
+				=ff.hidden_field :country, :value => 'US'
+				%table
+					%tr
+						%td
+						%td 
+							%h3 Shipping Information
+					%tr
+						%td
 
-				%tr
-					%td
-						%b First Name:
-					%td= ff.text_field :first_name, :value => @current_user.first_name
+					%tr
+						%td
+							%b First Name:
+						%td= ff.text_field :first_name, :value => @current_user.first_name
 
-				%tr
-					%td
-						%b Last Name:
-					%td= ff.text_field :last_name, :value => @current_user.last_name
+					%tr
+						%td
+							%b Last Name:
+						%td= ff.text_field :last_name, :value => @current_user.last_name
 
 
-				%tr
-					%td
-						%b Address:
-					%td= ff.text_field :street
+					%tr
+						%td
+							%b Address:
+						%td= ff.text_field :street
 
-				%tr
-					%td
-						%b City:
-					%td= ff.text_field :city
+					%tr
+						%td
+							%b City:
+						%td= ff.text_field :city
 
-				%tr
-					%td
-						%b State:
-					%td
-						= ff.collection_select :geo_state_id, @states, :id, :name
-						&nbsp;&nbsp;
-						%b Zip Code:
-						= ff.text_field :zip
+					%tr
+						%td
+							%b State:
+						%td
+							= ff.collection_select :geo_state_id, @states, :id, :name
+							&nbsp;&nbsp;
+							%b Zip Code:
+							= ff.text_field :zip
 		
-	-else
-		Select a shipping address:
-		= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
-		%br
-		%br
-		Or enter a new shipping address
-		= check_box_tag "new_shipping_address", "new_shipping_address"
+		-else
+			Select a shipping address:
+			= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
+			%br
+			%br
+			Or enter a new shipping address
+			= check_box_tag "new_shipping_address", "new_shipping_address"
 
-		= fields_for :shipping_address, @order.shipping_address do |ff|
+			= fields_for :shipping_address, @order.shipping_address do |ff|
 
-			=ff.hidden_field :user_id, :value => @current_user.id		
-			=ff.hidden_field :country, :value => 'US'
-			%table
-				%tr
-					%td
-					%td 
-						%h3 Shipping Information
-				%tr
-					%td
+				=ff.hidden_field :user_id, :value => @current_user.id		
+				=ff.hidden_field :country, :value => 'US'
+				%table
+					%tr
+						%td
+						%td 
+							%h3 Shipping Information
+					%tr
+						%td
 
-				%tr
-					%td
-						%b First Name:
-					%td= ff.text_field :first_name, :value => @current_user.first_name
+					%tr
+						%td
+							%b First Name:
+						%td= ff.text_field :first_name, :value => @current_user.first_name
 
-				%tr
-					%td
-						%b Last Name:
-					%td= ff.text_field :last_name, :value => @current_user.last_name
+					%tr
+						%td
+							%b Last Name:
+						%td= ff.text_field :last_name, :value => @current_user.last_name
 
-				%tr
-					%td
-						%b Address:
-					%td= ff.text_field :street
+					%tr
+						%td
+							%b Address:
+						%td= ff.text_field :street
 
-				%tr
-					%td
-						%b City:
-					%td= ff.text_field :city
+					%tr
+						%td
+							%b City:
+						%td= ff.text_field :city
 
-				%tr
-					%td
-						%b State:
-					%td
-						= ff.collection_select :geo_state_id, @states, :id, :name
-						&nbsp;&nbsp;
-						%b Zip Code:
-						= ff.text_field :zip
+					%tr
+						%td
+							%b State:
+						%td
+							= ff.collection_select :geo_state_id, @states, :id, :name
+							&nbsp;&nbsp;
+							%b Zip Code:
+							= ff.text_field :zip
 		
 		
 	= f.submit "Buy"

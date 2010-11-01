@@ -29,8 +29,13 @@ class Order < ActiveRecord::Base
 	
 	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
-# TODO - need to redo validation for Rails 3...	
-#	validate_on_create :validate_card
+#---------------------------------------------------------------
+# Validations
+#---------------------------------------------------------------
+	validate_on_create	:validate_card, :validate_billing_address
+	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
+
+
 
 #---------------------------------------------------------------
 # Apply coupon to order
@@ -48,39 +53,42 @@ class Order < ActiveRecord::Base
 
 
 #-------------------------------------------------------------------------
-# Method calling Paypal Gateways for purchases (both regular and express)
+# Method calling Paypal Gateways for purchases  (regular,express, and subscription)
 #-------------------------------------------------------------------------
 	# Call Paypal and get response object
 	def purchase
-		if price > 0
-			response = process_purchase
-			order_transactions.create!(	:action => "purchase", 
-										:price => price, 
-										:success => response.success?, 
-										:reference => response.authorization,
-										:message => response.message,
-										:params => response.params,
-										:test => response.test? )
-			response.success?
-		elsif price == 0
-			order_transactions.create!( :action => "purchase",
-										:price => price, 
-										:success => true, 
-										:reference => 'BackMyBook coupon purchase',
-										:message => 'zero price purchase'
-										)
-			return true			
+		if self.ordered.is_a? Subscription
+			purchase_subscription
 		else
-			false
+			if price > 0
+				response = process_purchase
+				order_transactions.create!(	:action => "purchase", 
+											:price => price, 
+											:success => response.success?, 
+											:reference => response.authorization,
+											:message => response.message,
+											:params => response.params,
+											:test => response.test? )
+				response.success?
+			elsif price == 0
+				order_transactions.create!( :action => "purchase",
+											:price => price, 
+											:success => true, 
+											:reference => 'BackMyBook coupon purchase',
+											:message => 'zero price purchase'
+											)
+				return true			
+			else
+				false
+			end
 		end
 	end
 	
 
-
 #------------------------------------------------------------------
 # Methods calling Paypal Gateways for subscriptions
 #------------------------------------------------------------------
-	def subscription
+	def purchase_subscription
 		if price > 0
 			response = GATEWAY.recurring(price, credit_card, options_recurring)
 			order_transactions.create!(	:action => "subscription", 
@@ -91,9 +99,19 @@ class Order < ActiveRecord::Base
 										:params => response.params,
 										:test => response.test? )
 
+			if response.success?
+				Subscribing.create!(	:user_id => self.user,
+										:order_id => self.id,
+										:subscription_id  => self.ordered_id,
+										:status => 'ActiveProfile',
+										:profile_id => self.order_transactions.where("order_id = ? and success = ?",self.id, true).first.params["profile_id"],
+										:origin => 'paid'
+									)
+			end
+
 			response.success?
 		else
-			return false
+			return false		
 		end
 	end
 
@@ -111,6 +129,7 @@ class Order < ActiveRecord::Base
 		response = GATEWAY.cancel_recurring(profile_id)
 		response.success?
 	end
+	
 
 	# Return status for an order, based on Paypal's response to the order in the order_transaction 
 	def successful?
@@ -171,6 +190,7 @@ class Order < ActiveRecord::Base
 	def options
 		@options = {
 			:ip => ip,
+			:email => self.email,
 			:billing_address => {
 				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
 				:address1 => self.billing_address.street,
@@ -195,25 +215,25 @@ class Order < ActiveRecord::Base
 	
 	#Set up options hash for Paypal subscription gateway call
 	def options_recurring
-		if periodicity == 'daily'
+		if self.ordered.periodicity == 'daily'
 			period = :daily
-		elsif periodicity == 'weekly'
+		elsif self.ordered.periodicity == 'weekly'
 			period  = :weekly
-		elsif periodicity == 'monthly'
+		elsif self.ordered.periodicity == 'monthly'
 			period = :monthly
-		elsif periodicity == 'yearly'
+		elsif self.ordered.periodicity == 'yearly'
 			period = :yearly
-		elsif periodicity == 'quarterly'
+		elsif self.ordered.periodicity == 'quarterly'
 			period = :quarterly
 		else
 			period = :monthly
 		end
 		
 		@options = {
-			:ip => ip_address,
+			:ip => ip,
 			:periodicity => period,
-			:email => email,
-			:comment => description,
+			:email => self.email,
+			:comment => self.ordered.description,
 			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
 				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
@@ -230,7 +250,7 @@ class Order < ActiveRecord::Base
 
 
 #---------------------------------------------------------------
-# Validation for credit card
+# Validation for credit card, shipping address and billing address
 #---------------------------------------------------------------
 	def validate_card
 		if paypal_express_token.blank? && !credit_card.valid?
@@ -239,6 +259,24 @@ class Order < ActiveRecord::Base
 			end
 		end
 	end
+	
+	def validate_billing_address
+		if self.billing_address.invalid?
+			billing_address.errors.full_messages.each do |message|
+				errors.add_to_base message
+			end
+		end
+	end
+	
+	def validate_shipping_address
+		if self.shipping_address.invalid?
+			shipping_address.errors.full_messages.each do |message|
+				errors.add_to_base message
+			end
+		end
+	end
+
+	
 
 
 

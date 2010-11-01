@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "assets", :force => true do |t|
     t.integer  "book_id"
     t.integer  "content_location_id"
-    t.string   "name"
+    t.string   "title"
     t.string   "format"
     t.integer  "price"
     t.integer  "download_count",      :default => 0
@@ -147,7 +147,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "bundles", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.string   "name"
+    t.string   "title"
     t.text     "description"
     t.integer  "price"
     t.string   "artwork_url"
@@ -635,13 +635,14 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "subscriptions", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.string   "name"
+    t.string   "title"
     t.string   "description"
     t.string   "periodicity"
     t.integer  "price"
     t.integer  "monthly_email_limit"
     t.integer  "redemptions_remaining"
     t.integer  "subscription_length_in_days"
+    t.integer  "royalty_percentage"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

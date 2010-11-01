@@ -38,5 +38,11 @@ module Backmybook
 
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password]
+
+	# Rails 3 doesn’t autoload modules/code in lib by default now. 
+	config.autoload_paths += %W(#{config.root}/lib)
+	
+
+	
   end
 end

@@ -4,7 +4,7 @@ class Ecom < ActiveRecord::Migration
 		create_table :bundles, :force => true do |t|
 			t.integer	:owner_id
 			t.string	:owner_type
-			t.string	:name
+			t.string	:title
 			t.text		:description
 			t.integer	:price
 			t.string	:artwork_url
@@ -150,13 +150,14 @@ class Ecom < ActiveRecord::Migration
 		create_table :subscriptions, :force => true do |t|
 			t.integer	:owner_id
 			t.string	:owner_type
-			t.string	:name
+			t.string	:title
 			t.string	:description
 			t.string	:periodicity
 			t.integer	:price
 			t.integer	:monthly_email_limit
 			t.integer	:redemptions_remaining
 			t.integer	:subscription_length_in_days
+			t.integer	:royalty_percentage
 			
 			t.timestamps
 		end
