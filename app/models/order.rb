@@ -24,9 +24,10 @@ class Order < ActiveRecord::Base
 	
 	belongs_to :ordered, :polymorphic  => :true
 	has_one :coupon
+	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
+	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
 	
-	attr_accessor :payment_type, :card_number, :card_cvv, :fname, :lname, :card_exp_month, :card_exp_year, :card_type, :periodicity
-	attr_accessor :address1, :address2, :city, :geo_state, :zip, :country, :phone
+	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
 # TODO - need to redo validation for Rails 3...	
 #	validate_on_create :validate_card
@@ -149,8 +150,8 @@ class Order < ActiveRecord::Base
 			:verification_value => card_cvv,
 			:month => card_exp_month,
 			:year => card_exp_year,
-			:first_name => fname,
-			:last_name => lname
+			:first_name => self.billing_address.first_name,
+			:last_name => self.billing_address.last_name
 			)
 	end
 
@@ -171,14 +172,14 @@ class Order < ActiveRecord::Base
 		@options = {
 			:ip => ip,
 			:billing_address => {
-				:name => fname + " " + lname,
-				:address1 => address1,
-				:address2 => address2,
-				:city => city,
-				:state => geo_state,
-				:zip => zip,
-				:country => country,
-				:phone => phone
+				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
+				:address1 => self.billing_address.street,
+				:address2 => self.billing_address.street2,
+				:city => self.billing_address.city,
+				:state => self.billing_address.geo_state.abbrev,
+				:zip => self.billing_address.zip,
+				:country => self.billing_address.country,
+				:phone => self.billing_address.phone
 			}
 		}
 	end
@@ -215,14 +216,14 @@ class Order < ActiveRecord::Base
 			:comment => description,
 			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
-				:name => fname + " " + lname,
-				:address1 => address1,
-				:address2 => address2,
-				:city => city,
-				:state => geo_state,
-				:zip => zip,
-				:country => country,
-				:phone => phone
+				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
+				:address1 => self.billing_address.street,
+				:address2 => self.billing_address.street2,
+				:city => self.billing_address.city,
+				:state => self.billing_address.geo_state.abbrev,
+				:zip => self.billing_address.zip,
+				:country => self.billing_address.country,
+				:phone => self.billing_address.phone
 			}
 		}
 	end

@@ -24,7 +24,6 @@
 				= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
 				&nbsp &nbsp &nbsp
 
-
 	%table		
 		%tr
 			%td
@@ -52,47 +51,193 @@
 			%td
 				= f.select :card_exp_month, @months
 				&nbsp;/&nbsp;
-				= f.select :card_exp_year, @years
-
-
-
-		%tr
-			%td 
-			%td 
-				%h3 Billing Info
-		%tr
-			%td
-				%b First Name:
-			%td= f.text_field :fname
-
-		%tr
-			%td
-				%b Last Name:
-			%td= f.text_field :lname
-		%tr
-			%td
-				%b Address:
-			%td= f.text_field :address1
-
-		%tr
-			%td
-				%b City:
-			%td=f.text_field :city
-
-		%tr
-			%td
-				%b State:
-			%td
-				= f.collection_select :geo_state, @states, :id, :name
-				&nbsp;&nbsp;
-				%b Zip Code:
-				=f.text_field :zip
+				= f.select :card_exp_year, @years						
 		%tr
 			%td
 				%b E-mail:
-			%td= f.text_field :email
-				
+			%td= f.text_field :email		
+	%br
+	%br
 
+	- if @current_user.billing_addresses.empty? 
+		= fields_for :billing_address, @order.billing_address do |bb|
+
+			=bb.hidden_field :user_id, :value => @current_user.id
+			=bb.hidden_field :country, :value => 'US'
+			%table
+				%tr
+					%td 
+					%td 
+						%h3 Billing Info
+				%tr
+					%td
+						%b First Name:
+					%td= bb.text_field :first_name, :value => @current_user.first_name
+
+				%tr
+					%td
+						%b Last Name:
+					%td= bb.text_field :last_name, :value => @current_user.last_name
+				%tr
+					%td
+						%b Address:
+					%td= bb.text_field :street
+
+				%tr
+					%td
+						%b City:
+					%td=bb.text_field :city
+
+				%tr
+					%td
+						%b State:
+					%td
+						= bb.collection_select :geo_state_id, @states, :id, :name
+						&nbsp;&nbsp;
+						%b Zip Code:
+						=bb.text_field :zip
+
+	-else
+		Select a billing address
+		= f.collection_select :billing_address_id, @current_user.billing_addresses, :id , :street
+		%br
+		%br
+		Or enter a new billing address
+		= check_box_tag "new_billing_address", "new_billing_address"
+		= fields_for :billing_address, @order.billing_address do |bb|
+
+			=bb.hidden_field :user_id, :value => @current_user.id
+			=bb.hidden_field :country, :value => 'US'
+			%table
+				%tr
+					%td 
+					%td 
+						%h3 Billing Info
+				%tr
+					%td
+						%b First Name:
+					%td= bb.text_field :first_name, :value => @current_user.first_name
+
+				%tr
+					%td
+						%b Last Name:
+					%td= bb.text_field :last_name, :value => @current_user.last_name
+				%tr
+					%td
+						%b Address:
+					%td= bb.text_field :street
+
+				%tr
+					%td
+						%b City:
+					%td=bb.text_field :city
+
+				%tr
+					%td
+						%b State:
+					%td
+						= bb.collection_select :geo_state_id, @states, :id, :name
+						&nbsp;&nbsp;
+						%b Zip Code:
+						=bb.text_field :zip
+		
+	
+	%br
+	%br
+	
+	- if @current_user.shipping_addresses.empty?
+		= fields_for :shipping_address, @order.shipping_address do |ff|
+
+			=ff.hidden_field :user_id, :value => @current_user.id
+			=ff.hidden_field :country, :value => 'US'
+			%table
+				%tr
+					%td
+					%td 
+						%h3 Shipping Information
+				%tr
+					%td
+
+				%tr
+					%td
+						%b First Name:
+					%td= ff.text_field :first_name, :value => @current_user.first_name
+
+				%tr
+					%td
+						%b Last Name:
+					%td= ff.text_field :last_name, :value => @current_user.last_name
+
+
+				%tr
+					%td
+						%b Address:
+					%td= ff.text_field :street
+
+				%tr
+					%td
+						%b City:
+					%td= ff.text_field :city
+
+				%tr
+					%td
+						%b State:
+					%td
+						= ff.collection_select :geo_state_id, @states, :id, :name
+						&nbsp;&nbsp;
+						%b Zip Code:
+						= ff.text_field :zip
+		
+	-else
+		Select a shipping address:
+		= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
+		%br
+		%br
+		Or enter a new shipping address
+		= check_box_tag "new_shipping_address", "new_shipping_address"
+
+		= fields_for :shipping_address, @order.shipping_address do |ff|
+
+			=ff.hidden_field :user_id, :value => @current_user.id		
+			=ff.hidden_field :country, :value => 'US'
+			%table
+				%tr
+					%td
+					%td 
+						%h3 Shipping Information
+				%tr
+					%td
+
+				%tr
+					%td
+						%b First Name:
+					%td= ff.text_field :first_name, :value => @current_user.first_name
+
+				%tr
+					%td
+						%b Last Name:
+					%td= ff.text_field :last_name, :value => @current_user.last_name
+
+				%tr
+					%td
+						%b Address:
+					%td= ff.text_field :street
+
+				%tr
+					%td
+						%b City:
+					%td= ff.text_field :city
+
+				%tr
+					%td
+						%b State:
+					%td
+						= ff.collection_select :geo_state_id, @states, :id, :name
+						&nbsp;&nbsp;
+						%b Zip Code:
+						= ff.text_field :zip
+		
+		
 	= f.submit "Buy"
 
 	%br

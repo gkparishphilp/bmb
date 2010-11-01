@@ -12,5 +12,6 @@
 #
 
 class GeoState < ActiveRecord::Base
-	has_many :users
+	has_many :shipping_addresses
+	has_many :billing_address
 end

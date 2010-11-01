@@ -29,8 +29,8 @@ class OrdersController < ApplicationController
 	def new
 		@order = Order.new
 		unless @current_user.anonymous?
-			@billing_addresses = @current_user.geo_addresses.where("address_type = 'billing'")
-			@shipping_addresses = @current_user.geo_addresses.where("address_type = 'shipping'")
+			@billing_addresses = @current_user.billing_addresses
+			@shipping_addresses = @current_user.shipping_addresses
 		end
 	end
 
@@ -44,6 +44,36 @@ class OrdersController < ApplicationController
 		if !params[:coupon_code].blank?
 			@order.coupon = Coupon.where("code = ?",params[:coupon_code]).first
 			@order.apply_coupon if @order.coupon.is_valid?
+		end
+
+		if @current_user.billing_addresses.empty?
+			#User does not have an existing billing address, so create one from form data		
+			bill_address = BillingAddress.create!(params[:billing_address])
+			@order.billing_address = bill_address
+		else
+			if params[:new_billing_address]
+				#User has created a new billing address
+				bill_address = BillingAddress.create!(params[:billing_address])
+				@order.billing_address = bill_address
+			else
+				#User is using an existing billing address
+				@order.billing_address = @current_user.billing_addresses.find params[:order][:billing_address_id]
+			end
+		end
+
+		if @current_user.shipping_addresses.empty?
+			#User does not have an existing shipping address, so create one from form data 
+			ship_address = ShippingAddress.create!(params[:shipping_address])
+			@order.shipping_address = ship_address
+		else
+			if params[:new_shipping_address]
+				#User has created a new shipping address
+				ship_address = ShippingAddress.create!(params[:shipping_address])
+				@order.shipping_address = ship_address
+			else
+				#User is using an existing shipping address
+				@order.shipping_address = @current_user.shipping_addresses.find params[:order][:shipping_address_id]
+			end
 		end
 
 		if @order.save && @order.purchase
