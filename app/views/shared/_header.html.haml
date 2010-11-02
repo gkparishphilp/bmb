@@ -7,7 +7,7 @@
 			#user_capsule
 				= image_tag @current_user.avatar, :width => 20
 				%span#usernameDisplay
-					=@current_user.user_name
+					=@current_user.name
 				%span#notUser
 					= link_to "Register", new_user_path + '?dest=' + (params['dest'] ? params['dest'] : request.request_uri)
 					&#47;
@@ -17,7 +17,7 @@
 				%span#usernameDisplay
 					
 					= link_to image_tag( @current_user.avatar, :width => 20 ), user_path( @current_user )
-					= link_to @current_user.user_name, user_path( @current_user )
+					= link_to @current_user.name, user_path( @current_user )
 				%span#notUser
 					(
 					-#

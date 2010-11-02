@@ -33,8 +33,10 @@ class Ecom < ActiveRecord::Migration
 			t.integer	:redemptions_allowed, :default => -1 # neg numbers or nil = infinite
 			t.string	:discount_type # cents, or percent
 			t.integer	:discount
-			t.string	:valid_for_item_type # book, merch, subs
-			t.integer	:valid_for_item_id # for giveaways?
+			t.string	:redeemable_type # book, merch, subs
+			t.integer	:redeemable_id # for giveaways?
+			t.string	:redeemer_type
+			t.integer	:redeemer_id
 			
 			t.timestamps
 		end

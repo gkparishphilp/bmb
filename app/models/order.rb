@@ -162,7 +162,8 @@ class Order < ActiveRecord::Base
 		elsif self.ordered.is_a? Bundle
 				
 		elsif self.ordered.is_a? Subscription
-			
+			self.ordered.redemptions_remaining -= 1
+			self.ordered.save
 		end
 
 	end

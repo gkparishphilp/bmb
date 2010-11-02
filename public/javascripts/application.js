@@ -6,5 +6,7 @@ $(document).ready(function(){
 	$("#flash").click(function () {
 		$(this).fadeOut(2000);
 	});
+	
+	$('a[rel=facebox]').facebox();
 
 });

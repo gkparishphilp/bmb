@@ -6,7 +6,7 @@
 #  id                        :integer(4)      not null, primary key
 #  site_id                   :integer(4)
 #  email                     :string(255)
-#  user_name                 :string(255)
+#  name                 :string(255)
 #  score                     :integer(4)      default(0)
 #  website_name              :string(255)
 #  website_url               :string(255)
@@ -46,9 +46,9 @@ class User < ActiveRecord::Base
 
   
 	# Validations	--------------------------------------
-	validates_uniqueness_of		:user_name, :case_sensitive => false
+	validates_uniqueness_of		:name, :case_sensitive => false
 
-	validates_format_of			:user_name, :if => :old_school_user?,
+	validates_format_of			:name, :if => :old_school_user?,
 										:with => /^[A-Za-z\s\d_-]+$/
 
 	validates_confirmation_of	:password, :if => :old_school_user?
@@ -72,9 +72,11 @@ class User < ActiveRecord::Base
 	has_many	:orders
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
+	has_many	:coupons, :as => :redeemer
+
 	# Plugins	--------------------------------------
 
-	has_friendly_id   :user_name, :use_slug => :true
+	has_friendly_id   :name, :use_slug => :true
 
 	has_attached_file :photo, :styles => {
 	  :original  => "120x120#",
@@ -203,9 +205,9 @@ class User < ActiveRecord::Base
 	
 	def self.create_from_twitter( profile, token, secret )
 		name = profile.screen_name
-		name = 'TW_' + profile.screen_name if User.find_by_user_name profile.screen_name
+		name = 'TW_' + profile.screen_name if User.find_by_name profile.screen_name
 		
-		user = User.new( :user_name => name, :photo_url => profile.profile_image_url )
+		user = User.new( :name => name, :photo_url => profile.profile_image_url )
 		user.save( false )
 		
 		account = TwitterAccount.create(   :owner_id => user.id,

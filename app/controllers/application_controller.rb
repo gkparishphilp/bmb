@@ -8,7 +8,7 @@ protected
 	def fetch_logged_in_user
 		#@current_user = (session[:user_id] && User.find(session[:user_id])) || User.anonymous
 		#TODO hardcoding current user for now
-		@current_user = User.find 2
+		@current_user = User.find 3
 		@current_user.human = @current_user.logged_in? || cookies[:human] == 'true'
 	end
 	

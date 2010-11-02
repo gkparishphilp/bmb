@@ -33,6 +33,9 @@ class OrdersController < ApplicationController
 			@billing_addresses = @current_user.billing_addresses
 			@shipping_addresses = @current_user.shipping_addresses
 		end
+
+		redirect_to root_path if @ordered.is_a? Subscription and @ordered.redemptions_remaining == 0
+			
 	end
 
 	def check_order
@@ -44,7 +47,7 @@ class OrdersController < ApplicationController
 		
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
-			@order.coupon = Coupon.where("code = ?",params[:coupon_code]).first
+			@order.coupon = Coupon.find_by_code(params[:coupon_code])
 			@order.apply_coupon if @order.coupon.is_valid?
 		end
 

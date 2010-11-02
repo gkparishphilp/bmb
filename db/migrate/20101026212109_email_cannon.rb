@@ -46,6 +46,7 @@ class EmailCannon < ActiveRecord::Migration
 			t.string	:owner_type
 			t.string	:file_name
 			t.string	:file_path
+			t.string	:list_type
 			t.timestamps
 		end
 		

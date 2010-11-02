@@ -22,6 +22,7 @@
 class Merch < ActiveRecord::Base
 	belongs_to :owner, :polymorphic => true
 	has_many :orders, :as => :ordered
+	has_many :coupons, :as => :redeemable
 	
   	has_attached_file :artwork, :default_url => "/images/:class/:attachment/missing_:style.jpg",
 		:styles => {

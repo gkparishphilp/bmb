@@ -17,6 +17,13 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :contacts
+	
+	resources :coupons do
+		collection do
+			get :giveaways
+		end
+	end
+	
 	resources :crashes
 
 	
@@ -57,6 +64,8 @@ Backmybook::Application.routes.draw do
 	resources :static_pages do
 		get 'admin', :on => :collection
 	end
+	
+	resources :upload_email_lists
 	
 	resources  :users do
 		collection do

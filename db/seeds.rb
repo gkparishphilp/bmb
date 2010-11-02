@@ -3,7 +3,7 @@ puts "Setup Default Anonymous User"
 
 admin_role = Role.create(:name => 'admin')
 
-anon = User.new :user_name => 'Anonymous', :photo_url => "/images/anon_user.jpg"
+anon = User.new :name => 'Anonymous', :photo_url => "/images/anon_user.jpg"
 
 anon.save( false )
 puts "Anon saved"

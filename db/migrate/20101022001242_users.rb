@@ -46,7 +46,7 @@ class Users < ActiveRecord::Migration
 		create_table :users, :force => true do |t|
 			t.integer	:site_id
 			t.string	:email
-			t.string	:user_name
+			t.string	:name
 			t.integer	:score, :default => 0
 			t.string	:website_name
 			t.string	:website_url
@@ -84,7 +84,7 @@ class Users < ActiveRecord::Migration
 	 
 		# Need a boatload more indexes	****************
 		add_index :openids, :user_id
-		add_index :users, :user_name, :unique => true
+		add_index :users, :name, :unique => true
 		add_index :users, :email, :unique => true
 		add_index :users, :activation_code
 		add_index :users, :remember_token

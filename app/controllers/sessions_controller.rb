@@ -38,7 +38,7 @@ class SessionsController < ApplicationController
 			@current_user = session[:user_id] = nil
 			#should refactor this out???
 			cookies[:human] = nil
-			flash[:notice] = user.user_name + " logged out"
+			flash[:notice] = user.name + " logged out"
 
 			redirect_to root_path
 

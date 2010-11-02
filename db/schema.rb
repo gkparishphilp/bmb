@@ -209,8 +209,10 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.integer  "redemptions_allowed", :default => -1
     t.string   "discount_type"
     t.integer  "discount"
-    t.string   "valid_for_item_type"
-    t.integer  "valid_for_item_id"
+    t.string   "redeemable_type"
+    t.integer  "redeemable_id"
+    t.string   "redeemer_type"
+    t.integer  "redeemer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -568,6 +570,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "royalties", :force => true do |t|
     t.integer  "author_id"
     t.integer  "order_transaction_id"
+    t.integer  "amount"
     t.boolean  "paid"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -703,6 +706,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
     t.string   "owner_type"
     t.string   "file_name"
     t.string   "file_path"
+    t.string   "list_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -721,7 +725,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
   create_table "users", :force => true do |t|
     t.integer  "site_id"
     t.string   "email"
-    t.string   "user_name"
+    t.string   "name"
     t.integer  "score",                                   :default => 0
     t.string   "website_name"
     t.string   "website_url"
@@ -751,7 +755,7 @@ ActiveRecord::Schema.define(:version => 20101026212141) do
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["name"], :name => "index_users_on_name", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
-  add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
 
 end

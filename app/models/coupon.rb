@@ -1,5 +1,8 @@
 class Coupon < ActiveRecord::Base
 	belongs_to :order
+	belongs_to :owner, :polymorphic => true
+	belongs_to :redeemable, :polymorphic => true
+	belongs_to :redeemer, :polymorphic => true
 	
 	def is_valid?
 
