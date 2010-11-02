@@ -70,7 +70,8 @@ class User < ActiveRecord::Base
 	has_many	:billing_addresses
 	has_one		:author
 	has_many	:orders
-	
+	has_many	:subscribings
+	has_many	:subscriptions, :through => :subscribings
 	# Plugins	--------------------------------------
 
 	has_friendly_id   :user_name, :use_slug => :true

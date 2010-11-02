@@ -19,7 +19,7 @@
 
 class Order < ActiveRecord::Base
 	belongs_to :user
-	has_many :order_transactions,
+	has_one :order_transaction,
 		:dependent => :destroy
 	
 	belongs_to :ordered, :polymorphic  => :true
@@ -62,16 +62,19 @@ class Order < ActiveRecord::Base
 		else
 			if price > 0
 				response = process_purchase
-				order_transactions.create!(	:action => "purchase", 
+				OrderTransaction.create!(	:action => "purchase",
+											:order_id => self.id,
 											:price => price, 
 											:success => response.success?, 
 											:reference => response.authorization,
 											:message => response.message,
 											:params => response.params,
-											:test => response.test? )
+											:test => response.test? 
+											)
 				response.success?
 			elsif price == 0
-				order_transactions.create!( :action => "purchase",
+				OrderTransaction.create!( 	:action => "purchase",
+											:order_id => self.id,
 											:price => price, 
 											:success => true, 
 											:reference => 'BackMyBook coupon purchase',
@@ -88,23 +91,28 @@ class Order < ActiveRecord::Base
 #------------------------------------------------------------------
 # Methods calling Paypal Gateways for subscriptions
 #------------------------------------------------------------------
+# Subscriptions can NEVER be charged to Paypal at a price of zero or less.  Make a direct entry into the subscribings model if it is a free subscription.
+# Comped subscriptions should have the subscription_length_in_days value set, paid subscriptions should not have this set since Paypal uses periodicity	
+
 	def purchase_subscription
 		if price > 0
 			response = GATEWAY.recurring(price, credit_card, options_recurring)
-			order_transactions.create!(	:action => "subscription", 
+			OrderTransaction.create!(	:action => "subscription",
+			 							:order_id => self.id,
 										:price => price, 
 										:success => response.success?, 
 										:reference => response.authorization,
 										:message => response.message,
 										:params => response.params,
-										:test => response.test? )
+										:test => response.test? 
+										)
 
 			if response.success?
 				Subscribing.create!(	:user_id => self.user,
 										:order_id => self.id,
 										:subscription_id  => self.ordered_id,
 										:status => 'ActiveProfile',
-										:profile_id => self.order_transactions.where("order_id = ? and success = ?",self.id, true).first.params["profile_id"],
+										:profile_id => self.order_transaction.params["profile_id"],
 										:origin => 'paid'
 									)
 			end
@@ -131,15 +139,6 @@ class Order < ActiveRecord::Base
 	end
 	
 
-	# Return status for an order, based on Paypal's response to the order in the order_transaction 
-	def successful?
-		answer = false
-		for ot in self.order_transactions
-			answer = true if ot.success
-		end
-		return answer		
-	end
-
 #---------------------------------------------------------------
 # Actions after a successful order transaction
 #---------------------------------------------------------------
@@ -147,7 +146,17 @@ class Order < ActiveRecord::Base
 		if self.ordered.is_a? Merch
 			UserMailer.bought_merch(self, self.ordered, self.user).deliver
 			#Update backing events
-			#Update any author sales events
+
+			#Update any author sales events/points
+
+			#Calculate and store royalties
+			royalty = 0
+			for sub in self.ordered.owner.user.subscriptions.active
+				royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
+			end	
+
+			Royalty.create! :author_id => self.ordered.owner.id ,:order_transaction_id => self.order_transaction.id, :amount => ( self.price * (royalty.to_f/100) ).round
+
 		elsif self.ordered.is_a? Asset
 			
 		elsif self.ordered.is_a? Bundle
@@ -161,6 +170,15 @@ class Order < ActiveRecord::Base
 
   private
 
+	# Get royalty percentage
+	def get_max_royalty_percentage
+		royalty = 0
+		for sub in self.ordered.subscriptions.active.royalty_percentages
+			royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
+		end	
+		return royalty
+	end
+	
 	# Set up credit card object for gateway call
 	def credit_card
 		@credit_card ||= ActiveMerchant::Billing::CreditCard.new(

@@ -26,6 +26,7 @@ class OrdersController < ApplicationController
 =end 
 	end
 
+
 	def new
 		@order = Order.new
 		unless @current_user.anonymous?

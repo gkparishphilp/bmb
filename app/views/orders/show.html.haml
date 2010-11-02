@@ -33,7 +33,7 @@
 
 			%tr
 				%td= @order.id
-				%td= @order.order_transactions.find_by_order_id(@order.id).reference
+				%td= @order.order_transaction.reference
 				%td= number_to_currency(@order.price.to_f / 100)
 		
 		%br
@@ -70,7 +70,7 @@
 
 			%tr
 				%td= @order.id
-				%td= @order.order_transactions.find_by_order_id(@order.id).reference
+				%td= @order.order_transaction.reference
 				%td= number_to_currency(@order.price.to_f / 100)
 		%br
 		%br
@@ -96,7 +96,7 @@
 
 			%tr
 				%td= @order.id
-				%td= @order.order_transactions.find_by_order_id(@order.id).params["profile_id"]
+				%td= @order.order_transaction.params["profile_id"]
 				%td= number_to_currency(@order.price.to_f / 100)
 
 		%br

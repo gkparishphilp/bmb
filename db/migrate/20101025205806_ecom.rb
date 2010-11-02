@@ -129,6 +129,7 @@ class Ecom < ActiveRecord::Migration
 		create_table :royalties, :force => true do |t|
 			t.integer	:author_id
 			t.integer	:order_transaction_id
+			t.integer	:amount
 			t.boolean	:paid
 			
 			t.timestamps
@@ -143,7 +144,6 @@ class Ecom < ActiveRecord::Migration
 			t.string	:profile_id
 			t.datetime	:expiration_date
 			t.string	:origin
-			
 			t.timestamps
 		end
 		
@@ -171,14 +171,13 @@ class Ecom < ActiveRecord::Migration
 		drop_table :redemptioins
 		drop_table :coupons
 		drop_table :ownings
+		drop_table :subscribings_users
 		drop_table :subscribings
 		drop_table :subscriptions
 		drop_table :order_transactions
-		
 		drop_table :geo_addresses
 		drop_table :geo_states
 		drop_table :merch
-		
 		drop_table :orders
 	end
 end

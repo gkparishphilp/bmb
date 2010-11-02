@@ -27,11 +27,11 @@ class Author < ActiveRecord::Base
 	
 	
 	has_many	:books
-	
 	belongs_to	:user
 	
 	has_friendly_id	:pen_name, :use_slug => true
 	
 	has_many :merches, :as  => :owner
+	has_many :royalties
 	
 end
