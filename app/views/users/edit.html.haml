@@ -1,6 +1,6 @@
 = user_photo @user
 %font{:size=>'+2'}
-	= possessize @user.user_name
+	= possessize @user.name
 	Settings
 %br
 %br
@@ -21,7 +21,7 @@
 	= fb_login_button('window.location = "/users/link_fb";')
 
 
-- form_for @user, :html => { :multipart => true } do |f|
+= form_for @user, :html => { :multipart => true } do |f|
 	= f.error_messages
 	=f.label :website_name
 	=f.text_field :website_name
@@ -29,8 +29,8 @@
 	=f.label :website_url
 	=f.text_field :website_url
 	
-	=f.label :user_name
-	=f.text_field :user_name
+	=f.label :name
+	=f.text_field :name
 
 	%br
 	=f.submit "Update", :class => :button

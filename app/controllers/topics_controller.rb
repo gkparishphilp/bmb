@@ -5,6 +5,7 @@ class TopicsController < ApplicationController
 	def index
 		@topics = @forum.topics.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 10
 		@topic = Topic.new
+		set_meta @forum.title, @forum.description
 	end
 
 	def show
@@ -44,13 +45,10 @@ class TopicsController < ApplicationController
 		@topic.ip = request.ip
 		if ( @forum.topics << @topic )
 			flash[:notice] = "Topic added"
+			@current_user.did_post_in_the_forums @topic
 			redirect_to forum_topics_path( @topic.forum )
 		else
-			flash[:notice] = "Ooooops"
-			@topic.errors.each do |field, msg|
-				flash[:notice] += "<br>" + field + ": "if field
-				flash[:notice] += " " + msg
-			end
+			pop_flash = "Topic not saved", :error, @topic
 			redirect_to new_forum_topic_path( @topic.forum )
 		end
 	end

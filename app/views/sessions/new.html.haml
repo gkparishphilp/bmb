@@ -2,17 +2,22 @@
 	#openID
 		%h3.blueText
 			Log in using a third-party account...
+		%br
+		%br
+		#facebook
+			= form_tag go_facebook_sessions_path do
+				= image_submit_tag 'facebook_connect.png'
 		#twitter
-			- form_tag go_twitter_sessions_path do
+			= form_tag go_twitter_sessions_path do
 				= image_submit_tag 'twitter_button.png'
-
-		%p
-			%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
+		-#
+			%p
+				%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
 
 	#oldSchool
 		%h3.blueText
 			Or, Log In the Old-School Way
-		- form_tag :controller=>'sessions' do
+		= form_tag :controller=>'sessions' do
 			= hidden_field_tag :dest, @dest
 			%label
 				Email:
@@ -35,7 +40,7 @@
 - else
 	%h2 
 		You are already logged in as:
-		= @current_user.user_name
+		= @current_user.name
 	If this is not you, please 
 	= link_to "Logout", logout_path
 	and log back in with your account.

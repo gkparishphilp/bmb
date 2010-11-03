@@ -1,22 +1,23 @@
 class BlogController < ApplicationController
+	# TODO -- this requires activity plugin... also need to tweak this for author blogs rather than assuming different sites
 	before_filter   :require_admin,   :except => [:index, :show]
 	before_filter	:get_sidebar_data, :only => [:index, :show]
 	
 	def admin
-		@articles = Article.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+		@articles = @current_site.articles.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 	end
 	
 	def index
 		if @tag = params[:tag]
-            @articles = Article.tagged_with( @tag ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+            @articles = @current_site.articles.tagged_with( @tag ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
 		elsif @topic = params[:topic]
-			@articles = Article.tagged_with( @topic ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+			@articles = @current_site.articles.tagged_with( @topic ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
 		elsif ( @month = params[:month] ) && ( @year = params[:year] )
-			@articles = Article.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@articles = @current_site.articles.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		elsif @year = params[:year]
-			@articles = Article.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@articles = @current_site.articles.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@articles = Article.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+			@articles = @current_site.articles.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
 	end
 
@@ -29,6 +30,8 @@ class BlogController < ApplicationController
 		@comment = Comment.new
 		@commentable = @article
 		
+		@current_user.did_read @article unless @current_user.anonymous?
+		
 	end
 
 	def update
@@ -36,7 +39,7 @@ class BlogController < ApplicationController
 
 		if @article.update_attributes params[:article] 
 			pop_flash 'Blog Post was successfully updated.'
-			redirect_to admin_blog_path 
+			redirect_to admin_blog_index_path 
 		else
 			pop_flash 'Oooops, Blog Post not updated', :error, @article
 			render :action => "edit"
@@ -51,11 +54,17 @@ class BlogController < ApplicationController
 	def create
 		@article = Article.new params[:article]
 
-		if @article.save
+		if @current_site.articles << @article
 			pop_flash 'Blog Post was successfully created.'
-			
-			#Site.first.tweet( "New blog post: #{@article.title}. ", "http://todo.com/blog/#{@article.id}" ) unless Site.first.twitter_name.nil?
-			
+			@current_site.did_publish @article
+			if @article.published?
+				for acct in @current_site.facebook_accounts
+					acct.post_feed( "#{@current_site.name} has a new post called #{@article.title}.  Check it out at #{url_for( @article )}")
+				end
+				for acct in @current_site.twitter_accounts
+					acct.tweet( "#{@current_site.name} has a new post called #{@article.title}.", article_url( @article ) )
+				end
+			end
 			redirect_to admin_blog_index_path 
 		else
 			pop_flash 'Oooops, Blog Post not saved', :error, @article
@@ -71,7 +80,7 @@ class BlogController < ApplicationController
 		@article = Article.find params[:id]
 		@article.destroy
 		pop_flash 'Article Nuked'
-		redirect_to blog_path
+		redirect_to admin_blog_index_path
 	end
 	
 private

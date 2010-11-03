@@ -5,7 +5,7 @@
 	.article_header
 		%h2
 			= link_to_unless_current @article.title, blog_path( @article )
-			-if @current_user.admin?
+			-if @current_user.admin?( @current_site )
 				=link_to image_tag( 'edit.png' ), edit_blog_path( @article )
 		
 		%span.article_meta

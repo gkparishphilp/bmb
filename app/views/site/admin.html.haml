@@ -2,9 +2,32 @@
 	Site Settings Admin
 	
 %h3 Twitter Account:
-- if @site.twitter_account
-	The Site is broadcasting on Twitter User:
-	%b= @site.twitter_account.twit_name
-
-- form_tag go_twitter_site_index_path do
+- unless @current_site.twitter_accounts.empty?
+	The Site is broadcasting on Twitter User(s):
+	%br
+	- for acct in @current_site.twitter_accounts
+		%b= acct.name
+		%br
+%br
+Add New Twitter Account:
+= form_tag go_site_twitter_sessions_path do
 	= image_submit_tag 'twitter_button.png'
+	
+	
+	
+	
+- for acct in @current_site.facebook_accounts
+	Facebook:
+	= acct.name
+	%br
+	- for fbpg in acct.facebook_pages
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		= fbpg.page_type
+		= fbpg.name
+		%br
+	%hr
+	
+Add a Facebook Account
+#facebook
+	= form_tag go_site_facebook_sessions_path do
+		= image_submit_tag 'facebook_connect.png'

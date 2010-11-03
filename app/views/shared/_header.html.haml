@@ -1,23 +1,23 @@
 #header
 	#logo
-		= link_to "ToDo", root_path
+		= link_to @current_site.name, root_path if @current_site
 	
 	- if @current_user
 		- if @current_user.anonymous?
 			#user_capsule
 				= image_tag @current_user.avatar, :width => 20
 				%span#usernameDisplay
-					=@current_user.user_name
+					=@current_user.name
 				%span#notUser
-					= link_to "Register", new_user_path + '?dest=' + (params['dest'] ? params['dest'] : request.request_uri)
+					= link_to "Register", register_path + '?dest=' + (params['dest'] ? params['dest'] : request.fullpath )
 					&#47;
-					= link_to "Login", new_session_path + '?dest=' + (params['dest'] ? params['dest'] : request.request_uri)
+					= link_to "Login", login_path + '?dest=' + (params['dest'] ? params['dest'] : request.fullpath )
 		- else
 			#user_capsule
 				%span#usernameDisplay
 					
 					= link_to image_tag( @current_user.avatar, :width => 20 ), user_path( @current_user )
-					= link_to @current_user.user_name, user_path( @current_user )
+					= link_to @current_user.name, user_path( @current_user )
 				%span#notUser
 					(
 					-#
@@ -25,6 +25,6 @@
 							%a{:href=>"#", :onclick=>"FB.Connect.logoutAndRedirect('/logout')"}
 								Logout
 						- else
-					= link_to "Logout", logout_path + '?dest=' + request.request_uri
+					= link_to "Logout", logout_path + '?dest=' + request.fullpath
 					)
 	%br.clear

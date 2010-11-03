@@ -1,9 +1,10 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: crashes
 #
 #  id            :integer(4)      not null, primary key
+#  site_id       :integer(4)
 #  message       :string(255)
 #  requested_url :string(255)
 #  referrer      :string(255)

@@ -10,6 +10,7 @@ gem 'acts-as-taggable-on'
 gem 'jquery-rails'
 gem 'paperclip'
 gem 'twitter'
+gem 'mini_fb'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"

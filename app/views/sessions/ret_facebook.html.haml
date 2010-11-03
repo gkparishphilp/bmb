@@ -1,0 +1,21 @@
+Yay! Facebook called back!
+
+= image_tag "https://graph.facebook.com/#{@facebook_user.id}/picture"
+%br
+
+
+%h3 Response Data
+- for group in @groups.data
+	Yayyyyy!!!
+	%br
+	= group.name
+	|
+	= group.id
+	|
+	= group.administrator
+	%hr
+		
+Blahhhhh
+%br
+= @groups.data[0].name
+

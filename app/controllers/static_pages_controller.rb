@@ -3,16 +3,15 @@ class StaticPagesController < ApplicationController
 	before_filter   :require_admin, :except => [ :show  ]
 
 	def admin
-		@pages = StaticPage.all
-		@routes = APP_ROUTE_PATHS.map { |route| route.path.to_s.match( /\w+\W/ ).to_s.chop }.uniq
+		@pages = @current_site.static_pages
 	end
 
 	def show
 		if params[:permalink]
-			@static_page = StaticPage.find_by_permalink params[:permalink]
+			@static_page = @current_site.static_pages.find_by_permalink params[:permalink]
 			raise ActiveRecord::RecordNotFound if @static_page.nil?
 		else
-			@static_page = StaticPage.find params[:id]
+			@static_page = @current_site.static_pages.find params[:id]
 		end
 		
 		unless @static_page.redirect_path.blank?
@@ -35,7 +34,7 @@ class StaticPagesController < ApplicationController
 		@static_page = StaticPage.new params[:static_page]
 		@static_page.permalink = @static_page.title.gsub(/\W/, "-").downcase if @static_page.permalink.blank?
 		
-		if @static_page.save
+		if @current_site.static_pages << @static_page
 			pop_flash 'StaticPage was successfully created.'
 			redirect_to admin_static_pages_path
 		else
@@ -61,7 +60,8 @@ class StaticPagesController < ApplicationController
 		@static_page.destroy
 		
 		pop_flash 'StaticPage was successfully deleted.'
-		redirect_to static_pages_url
+		redirect_to admin_static_pages_path
 	end
 
 end
+	

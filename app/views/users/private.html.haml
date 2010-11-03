@@ -1,28 +1,49 @@
-%h2
+%h1
+	= @user.name
 	Home
 - if @welcome_message
-	%h2= @welcome_message
+	%h3= @welcome_message
 %hr
 
 - unless @current_user.has_email?
-	- form_for @current_user do |f|
+	= form_for @current_user do |f|
 		= f.label "Email"
 		= f.text_field :email
 		= f.submit "Enter"
 
-%h4
-	My News Feed
-#live_feed
-	- for item in @current_user.pfeed_inbox.reverse
-		= render :partial => 'pfeeds/pfeed', :locals => { :pfeed_item => item }
 
-%h4
-	My Favorite
-	=link_to 'Books', favorites_library_path
+%h3
+	Accounts
+
+- for acct in @user.facebook_accounts
+	Facebook:
+	= acct.name
 	%br
-	%br
-	My Total BackMyBook Points: 
-	=@total_bmb_score 
+	- for fbpg in acct.facebook_pages
+		&nbsp;&nbsp;&nbsp;&nbsp;
+		= fbpg.page_type
+		= fbpg.name
+		%br
+	%hr
+
+Add a Facebook Account:
+#facebook
+	= form_tag go_facebook_sessions_path do
+		= image_submit_tag 'facebook_connect.png'
+	
+	
+- for acct in @user.twitter_accounts
+	Twitter:
+	= acct.name
+%br
+#twitter
+	Add a Twitter Accoount
+	= form_tag go_twitter_sessions_path do
+		= image_submit_tag 'twitter_button.png'
+
+%h3
+	Activity
+= render @activities
 	
 	
 	

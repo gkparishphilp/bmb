@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: static_pages
 #
@@ -18,7 +18,9 @@ class StaticPage < ActiveRecord::Base
 	before_create 	:set_description
 	before_save		:clean_permalink
     
-	validate    			:valid_permalink?
+	validate    	:valid_permalink?
+	
+	belongs_to :site
 
 
 	def self.invalid_permalinks

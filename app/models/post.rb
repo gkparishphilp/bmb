@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: posts
 #
@@ -21,7 +21,7 @@
 class Post < ActiveRecord::Base
 	belongs_to  :topic, :class_name => "Topic", :foreign_key => :topic_id
 	belongs_to  :forum
-	#belongs_to  :user
+	belongs_to  :user
 
 	validates_presence_of :content, :message => "You have to have something to say to post :)"
 

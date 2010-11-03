@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: posts
 #
@@ -26,6 +26,7 @@ class Topic < Post
 	has_many :raw_stats, :as => :statable
 
 	has_friendly_id :title, :use_slug => :true
+	acts_as_followed
 
 	validates_presence_of	:title
 	validates_presence_of	:content, :message => "You have to have something to say to post a topic :)"

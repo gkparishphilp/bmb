@@ -1,11 +1,10 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: podcasts
 #
 #  id          :integer(4)      not null, primary key
 #  owner_id    :integer(4)
-#  owner_type  :integer(4)
 #  title       :string(255)
 #  subtitle    :string(255)
 #  itunes_id   :string(255)
@@ -15,6 +14,7 @@
 #  keywords    :string(255)
 #  filesize    :integer(4)
 #  explicit    :string(255)
+#  status      :string(255)
 #  cached_slug :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime

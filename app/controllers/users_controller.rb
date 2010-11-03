@@ -6,26 +6,20 @@ class UsersController < ApplicationController
 	end
 	
 	def show
-		
 		@user = User.find(params[:id])
-		
-		@user.anonymous?
+		if @user.anonymous?
 			flash[:notice] = "Invalid User"
 			redirect_to root_path
 			return false
 		end
-		
+
 		# first things first, public or private?
 		if @user == @current_user
-			# this is our user, go through states....
-			if @user.status == 'first'
-				render :first
-			else
-				render :private
-			end
+			@activities = Activity.feed @user
+			render :private
 		else 
 			# Let's just show the public profile
-			set_meta @user.user_name, @user.bio
+			set_meta @user.name, @user.bio
 			render	:public
 		end
 	end
@@ -60,20 +54,22 @@ class UsersController < ApplicationController
 		@user.orig_ip = request.ip
 		dest = params[:dest]
 		@user.status = 'pending'
+		@user.site = @current_site
 	
-
 		if @user.save
 			
 			@user.create_activation_code
 			@user.reload
-			@user.join_the_site
 			
-			email_args = { :user => @user }
-			email = UserMailer.deliver_welcome( email_args )
-			flash[:notice] = "User was successfully created.  An Email has been sent to "  + @user.email + ".  Please follow the enclosed instructions to activate your account."
-
+			email = UserMailer.welcome( @user, @current_site ).deliver
 			
-			redirect_to pending_sessions_path( :user_id => @user.id )
+			flash[:notice] = "User was successfully created."
+			
+			@user.did_join @current_site
+			
+			login( @user )
+			
+			redirect_to @user
 
 		else
 			pop_flash 'Ooops, User not saved.... ', 'error', @user
@@ -87,7 +83,6 @@ class UsersController < ApplicationController
 		@user = User.find(params[:id]) 
 		
 		email_changed = !params[:user][:email].blank?
-		
 		
 		if @user.update_attributes(params[:user])
 			flash[:notice] = 'User was successfully updated.'
@@ -122,13 +117,13 @@ class UsersController < ApplicationController
 			if user
 				user.create_remember_token
 				user.reload
-				email_args = {:user => user}
-				email = UserMailer.deliver_forgot_pass(email_args)
-				flash[:notice] = "Email sent to "  + user.email + ".  Please follow the enclosed instructions to recover your password."
+
+				email = UserMailer.forgot_password( @user, @current_site ).deliver
+				pop_flash = "Email sent to #{user.email}.Please follow the enclosed instructions to recover your password.", :notice
 				redirect_to root_path
 			else
 				params[:email] = nil
-				flash[:notice] = "No user with that email."
+				pop_flash "No user with that email.", :error
 			end
 		end
 	end
@@ -138,15 +133,15 @@ class UsersController < ApplicationController
 			# a user is logged in, 
 			@user = User.find session[:user_id]
 		elsif params[:token]
-			valid_token_user = User.find_by_remember_token(params[:token]) #can add date expiry later
+			valid_token_user = User.find_by_remember_token params[:token]  #can add date expiry later
 			if !valid_token_user
-				flash[:notice] = "Invalid password reset token"
+				pop_flash "Invalid password reset token", :error
 				redirect_to :controller => "session", :action => "new"
 				return false
 			end
-			@user =  valid_token_user
+			@user = valid_token_user
 		else
-			flash[:notice] = "No access without credential"
+			pop_flash "No access without credential", :error
 			redirect_to :controller => "session", :action => "new"
 			return false
 		end
@@ -159,10 +154,10 @@ class UsersController < ApplicationController
 				flash[:notice] = "Password updated"
   
 				#just in case we're coming from forgot pw / email flow
-				session[:user_id] = @user.id 
+				login( @user )
 				redirect_to root_path
 			else
-				flash[:notice] = "Passwords must match"
+				pop_flash "Passwords must match", :error
 			end
 		end
 	end
@@ -173,17 +168,17 @@ class UsersController < ApplicationController
 		new_password_confirmation = params[:new_password_confirmation]
 		
 		if @current_user != User.authenticate( @current_user.email, current_password )
-			flash[:error] = "Current Password Incorrect"
+			pop_flash "Current Password Incorrect", :error
 			redirect_to settings_path
 			return false
 		elsif new_password != new_password_confirmation
-			flash[:error] = "Password Confirmation Incorrect"
+			pop_flash "Password Confirmation Incorrect", :error
 			redirect_to settings_path
 			return false
 		else
 			@current_user.password = new_password
 			@current_user.save
-			flash[:success] = "Password Updated"
+			pop_flash "Password Updated"
 			redirect_to settings_path
 		end
 		
@@ -194,26 +189,24 @@ class UsersController < ApplicationController
 		valid_user = User.find_by_activation_code( activ_code )
 
 		if !valid_user
-			flash[:notice] = "Invalid activation code"
+			pop_flash "Invalid activation code", :error
 			redirect_to root_path
 			return false
 		else
-			flash[:notice] = "Your account has been activated"
-			valid_user.last_ip = request.ip
-			valid_user.status = "first"
-			valid_user.activated_at = Time.now
-			valid_user.save
-			session[:user_id] = valid_user.id
+			pop_flash "Your account has been activated"
+			valid_user.update_attributes :status => 'first', :activated_at => Time.now
+		
+			login( valid_user )
 			
-			redirect_to user_path( valid_user )
+			redirect_to valid_user
 		end
 	end
 	
 	def resend
 		@user = User.find params[:id]
 		email_args = { :user => @user }
-		email = UserMailer.deliver_welcome( email_args )
-		flash[:notice] = "An Email has been sent to "  + @user.email + ".  Please follow the enclosed instructions to activate your account."
+		email = UserMailer.welcome( @user, @current_site ).deliver
+		flash[:notice] = "An Email has been sent to #{@user.email}.  Please follow the enclosed instructions to fully activate your account."
 		
 		redirect_to pending_sessions_path( :user_id => @user.id )
 	end

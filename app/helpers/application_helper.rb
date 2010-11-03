@@ -17,10 +17,6 @@ module ApplicationHelper
 		return title
 	end
 	
-	def gravatar_img( email )
-		"http://gravatar.com/avatar/" + Digest::MD5.hexdigest(email) + "?d=wavatar"
-	end
-	
 	def possessize( text )
 		text ||= ''
 

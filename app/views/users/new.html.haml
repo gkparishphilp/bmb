@@ -3,7 +3,7 @@
 	%h3.blueText
 		Register using a third-party account...
 	#twitter
-		- form_tag go_twitter_sessions_path do
+		= form_tag go_twitter_sessions_path do
 			= image_submit_tag 'twitter_button.png'
 	%p
 		%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
@@ -11,7 +11,7 @@
 #oldSchool
 	%h3.blueText
 		Or, Register the Old-School Way
-	- form_for @user do |f|
+	= form_for @user do |f|
 		= hidden_field_tag :dest, @dest
 		= hidden_field_tag :a, @a
 		.fields
@@ -19,8 +19,8 @@
 			= f.label "Email"
 			= f.text_field :email, :class => :login_email
 		
-			= f.label :user_name, "User Name"
-			= f.text_field :user_name, :class => :login_email
+			= f.label :name, "User Name"
+			= f.text_field :name, :class => :login_email
 			- if @a
 				.genre * This will be the name by which you are published by default
 		

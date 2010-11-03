@@ -1,6 +1,6 @@
 %h2 
     Post a Topic in 
-    = @forum.name
+    = @forum.title
 
-- form_for ([ @forum, @topic ]), :html => { :multipart => true } do |f|
+= form_for ([ @forum, @topic ]), :html => { :multipart => true } do |f|
     =render :partial => "form", :locals => { :f => f, :m => "Add" }

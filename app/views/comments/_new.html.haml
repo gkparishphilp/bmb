@@ -1,53 +1,56 @@
 %h4
 	Add a Comment
 - if @commentable_parent
-	- form_for( [ @commentable_parent, @commentable, @comment] ) do |f| 
+	= form_for( [ @commentable_parent, @commentable, @comment] ) do |f| 
 		%br
 		= f.text_area :content, :class => 'long_desc_area'
 		%br
 
 		- if @current_user.anonymous?
 
-			= f.label :name, "Name: (required)"
-			= f.text_field :name
+			= f.label "Name: (required)"
+			= text_field_tag :name
 
-			= f.label :email, "Email: (required, but won't be published)"
-			= f.text_field :email
+			= f.label "Email: (required, but won't be published)"
+			= text_field_tag :email
 
-			= f.label :name, "Website or Blog Name: (optional)"
-			= f.text_field :website_name
+			= f.label "Website or Blog Name: (optional)"
+			= text_field_tag :website_name
 
-			= f.label :name, "Website or Blog URL: (optional)"
-			= f.text_field :website_url
+			= f.label "Website or Blog URL: (optional)"
+			= text_field_tag :website_url
 
 			- unless @current_user.human?
 				= recaptcha_tags :display => { :theme=>"clean" }
-
+		= check_box_tag :subscribe_comments, 1, true
+		Notify me of followup comments via e-mail
 		%br
 		= f.submit 'Create', :class=>'button'
 - else
-	- form_for [ @commentable, @comment]  do |f|
+	= form_for [ @commentable, @comment]  do |f|
 		%br
 		= f.text_area :content, :class => 'long_desc_area'
 		%br
 
 		- if @current_user.anonymous?
 
-			= f.label :name, "Name: (required)"
-			= f.text_field :name
+			= f.label "Name: (required)"
+			= text_field_tag :name
 
-			= f.label :email, "Email: (required, but won't be published)"
-			= f.text_field :email
+			= f.label "Email: (required, but won't be published)"
+			= text_field_tag :email
 
-			= f.label :name, "Website or Blog Name: (optional)"
-			= f.text_field :website_name
+			= f.label "Website or Blog Name: (optional)"
+			= text_field_tag :website_name
 
-			= f.label :name, "Website or Blog URL: (optional)"
-			= f.text_field :website_url
+			= f.label "Website or Blog URL: (optional)"
+			= text_field_tag :website_url
 
 			- unless @current_user.human?
 				#recap
 					= ( recaptcha_tags :display => { :theme=>"clean" } ).html_safe
 
+		= check_box_tag :subscribe_comments, 1, true
+		Notify me of followup comments via e-mail
 		%br
 		= f.submit 'Create', :class=>'button'

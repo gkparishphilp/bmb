@@ -1,21 +1,12 @@
 class PodcastsController < ApplicationController
-	before_filter	:get_owner
-	
+	# TODO - cleanup for author podcasts
 	def admin
-		if @owner
-			@podcasts = @owner.podcasts
-		else
-			@podcasts = Podcast.all
-		end
+		@podcasts = @current_site.podcasts
 	end
 	
 	
 	def index
-		if @owner
-			@podcasts = @owner.podcasts
-		else
- 			@podcasts = Podcast.all
-		end
+		@podcasts = @current_site.podcasts
 	end
 
 	def show
@@ -33,8 +24,8 @@ class PodcastsController < ApplicationController
 
 	def create
 		@podcast = Podcast.new params[:podcast]
-		# todo - won't always work -- unless podcast is always a nested resource
-		if @owner.podcasts << @podcast
+
+		if @current_site.podcasts << @podcast
 			pop_flash 'Podcast was successfully created.'
 			redirect_to @podcast
 		else
@@ -63,11 +54,6 @@ class PodcastsController < ApplicationController
 		redirect_to podcasts_url
 	end
 	
-private
-	
-	def get_owner
-		@owner = Site.find params[:site_id] if params[:site_id]
-    end
 
 
 end

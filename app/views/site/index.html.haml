@@ -1,1 +1,8 @@
-%h1 Welcome to my Site!
+%h1 
+	Welcome to
+	= @current_site.domain
+	
+- unless @activities.empty?
+	%h3 Site Activity
+	- for activity in @activities
+		= render activity

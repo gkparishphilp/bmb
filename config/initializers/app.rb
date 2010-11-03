@@ -1,4 +1,3 @@
-APP_NAME    = "todo"
-APP_DOMAIN  = "todo"
+APP_NAME    = "BmB"
 
 APP_ROUTE_PATHS = Rails.application.routes.routes

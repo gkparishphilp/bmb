@@ -5,7 +5,7 @@
 	Hmmm...  Looks like we don't have a validated email for you.  Please enter an email address below and click on the validation link that we send you.  Until then, your account won't be active.
 	%br
 	%br
-	- form_for @current_user do |f|
+	= form_for @current_user do |f|
 		= f.label "Email"
 		= f.text_field :email
 		= f.submit "Enter"

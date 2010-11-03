@@ -24,3 +24,7 @@ Backmybook::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 end
 
+# TODO - update these to the BmB FB App Keys
+FB_APP_ID = "260902867245"
+FB_API_KEY = "5f7b0c83181abea7e88bd7b9e42de985"
+FB_APP_SECRET = "b2dc621635361de10eaab4e9f90624a7"

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: articles
 #
@@ -21,12 +21,17 @@
 #
 
 class Article < ActiveRecord::Base
+	
+	belongs_to :owner, :polymorphic => true
+	
 	has_many	:comments, :as => :commentable
 	has_many	:raw_stats, :as => :statable
     
 	has_friendly_id :title, :use_slug => :true
 	acts_as_taggable_on	:topics
-	acts_as_taggable_on	:tags
+	acts_as_taggable_on	:keywords
+	acts_as_followed
+	gets_activities
 	
 	scope :published, where( "publish_on <= ? and status = 'publish'", Time.now )
 		
@@ -51,14 +56,18 @@ class Article < ActiveRecord::Base
 	
 	
 	def related_articles
-		articles = Article.published.tagged_with( self.tags )
+		return [] if self.keywords.empty?
+		articles = Article.published.tagged_with( self.keywords, :any => true ).all
 		articles.delete( self )
 		return articles
 	end
 	
-	
 	def comments_allowed?
 		return comments_allowed
+	end
+	
+	def published?
+		self.publish_on <= Time.now && self.status == 'publish'
 	end
 	
 end

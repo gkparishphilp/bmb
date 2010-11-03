@@ -2,11 +2,11 @@ class ContactsController < ApplicationController
 	before_filter   :require_admin, :except=>[:new, :create]
 	
 	def admin
-		@contacts = Contact.all
+		@contacts = @current_site.contacts.all
 	end
 	
 	def index
-		@contacts = Contact.all
+		@contacts = @current_site.contacts.all
 	end
 
 	def show
@@ -25,10 +25,8 @@ class ContactsController < ApplicationController
 		@contact = Contact.new params[:contact]
 		@contact.ip = request.ip
 		
-		if @contact.save
+		if @current_site.contacts << contact
 			pop_flash 'Thank you for your message.'
-			#email_args = {:subject => 'New contact email', :content => @contact.content}
-			#send_email = MassMailer.deliver_admin_email(email_args)
 			redirect_to root_path
 		else
 			pop_flash 'Oooops, Contact not saved...', :error, @contact
@@ -49,7 +47,7 @@ class ContactsController < ApplicationController
 	end
 
 	def destroy
-		@contact = Contact.find(params[:id])
+		@contact = Contact.find params[:id]
 		@contact.destroy
 		
 		pop_flash 'Contact was successfully deleted.'

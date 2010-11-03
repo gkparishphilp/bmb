@@ -14,7 +14,7 @@
 		- @forums.each do |forum|
 			%tr
 				%td
-					%b= link_to forum.name, forum_topics_path( forum )
+					%b= link_to forum.title, forum_topics_path( forum )
 					%br
 					= forum.description
 				%td
@@ -26,7 +26,7 @@
 						= link_to format_date(forum.posts.last.created_at), custom_post_path( forum, forum.posts.last.topic, forum.posts.last )
 						%br
 						by
-						= link_to forum.posts.last.user.user_name, forum.posts.last.user
+						= link_to forum.posts.last.user.name, forum.posts.last.user
 					- else
 						&#45;&#45;&#45;
 

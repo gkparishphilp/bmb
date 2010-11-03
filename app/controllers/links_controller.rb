@@ -2,7 +2,7 @@ class LinksController < ApplicationController
 	before_filter	:get_owner
 	
 	def admin
-		@owner = Site.first
+		@owner = @current_site
 	end
 	
 	def new
@@ -19,7 +19,7 @@ class LinksController < ApplicationController
 
 		if @owner.links << @link
 			pop_flash 'Link was successfully created.', 'success'
-			redirect_to admin_site_links_path( @owner )
+			redirect_to admin_links_path
 		else
 			pop_flash 'Oooops, Link not saved...', 'error', @link
 			render :action => :new

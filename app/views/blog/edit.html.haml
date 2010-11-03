@@ -2,5 +2,5 @@
 	Edit it!  
 	= @article.title
 
-- form_for @article, :url => blog_path( @article ), :html => { :method => :put } do |f|
+= form_for @article, :url => blog_path( @article ), :html => { :method => :put } do |f|
 	= render :partial => 'form', :locals => { :f => f, :m => 'Create' }

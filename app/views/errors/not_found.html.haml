@@ -6,7 +6,7 @@
 We've been notified of the error, but you can give us additional information below, such as what you were looking for, or what link you clicked that caused the error:
 %br
 %br
-- form_for Contact.new do |f|
+= form_for Contact.new do |f|
 	- if @crash
 		= f.hidden_field :crash_id, :value => @crash.id 
 	%p

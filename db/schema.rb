@@ -10,7 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101023200310) do
+ActiveRecord::Schema.define(:version => 20101103181324) do
+
+  create_table "activities", :force => true do |t|
+    t.integer  "actor_id",                            :null => false
+    t.string   "actor_type",                          :null => false
+    t.integer  "target_id",                           :null => false
+    t.string   "target_type",                         :null => false
+    t.string   "verb"
+    t.string   "activity_type"
+    t.string   "status",        :default => "active"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "activities", ["actor_id", "actor_type"], :name => "fk_actor"
+  add_index "activities", ["target_id", "target_type"], :name => "fk_target"
 
   create_table "articles", :force => true do |t|
     t.integer  "owner_id"
@@ -164,10 +179,6 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
     t.integer  "commentable_id"
     t.string   "commentable_type"
     t.integer  "reply_to_comment_id"
-    t.string   "name"
-    t.string   "email"
-    t.string   "website_name"
-    t.string   "website_url"
     t.string   "ip"
     t.text     "content"
     t.datetime "created_at"
@@ -216,6 +227,7 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   end
 
   create_table "crashes", :force => true do |t|
+    t.integer  "site_id"
     t.string   "message"
     t.string   "requested_url"
     t.string   "referrer"
@@ -267,7 +279,6 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
 
   create_table "episodes", :force => true do |t|
     t.integer  "podcast_id"
-    t.string   "status"
     t.string   "title"
     t.string   "subtitle"
     t.string   "keywords"
@@ -277,6 +288,7 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
     t.string   "filename"
     t.string   "explicit"
     t.text     "transcript"
+    t.string   "status"
     t.string   "cached_slug"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -285,25 +297,63 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   add_index "episodes", ["podcast_id"], :name => "index_episodes_on_podcast_id"
   add_index "episodes", ["title"], :name => "index_episodes_on_title"
 
-  create_table "fb_accounts", :force => true do |t|
+  create_table "events", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
-    t.string   "email_hash"
-    t.string   "fb_name"
-    t.string   "fb_session_key"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.string   "location"
+    t.string   "event_type"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "fb_user_id",     :limit => 8
   end
 
-  add_index "fb_accounts", ["email_hash"], :name => "index_fb_accounts_on_email_hash"
-  add_index "fb_accounts", ["owner_id"], :name => "index_fb_accounts_on_owner_id"
-
-  create_table "forums", :force => true do |t|
-    t.string   "name"
+  create_table "facebook_accounts", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "name"
+    t.string   "fb_id"
+    t.string   "fb_token"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "facebook_accounts", ["owner_id"], :name => "index_facebook_accounts_on_owner_id"
+
+  create_table "facebook_pages", :force => true do |t|
+    t.integer  "facebook_account_id"
+    t.string   "name"
+    t.string   "page_type"
+    t.string   "fb_id"
+    t.string   "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "facebook_pages", ["facebook_account_id"], :name => "index_facebook_pages_on_facebook_account_id"
+
+  create_table "follows", :force => true do |t|
+    t.integer  "followed_id",                         :null => false
+    t.string   "followed_type",                       :null => false
+    t.integer  "follower_id",                         :null => false
+    t.string   "follower_type",                       :null => false
+    t.string   "status",        :default => "active"
+    t.string   "follow_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "follows", ["followed_id", "followed_type"], :name => "fk_followed"
+  add_index "follows", ["follower_id", "follower_type"], :name => "fk_follows"
+
+  create_table "forums", :force => true do |t|
+    t.integer  "owner_id"
+    t.string   "owner_type"
+    t.string   "title"
     t.string   "availability"
     t.string   "description"
     t.string   "cached_slug"
@@ -433,7 +483,6 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
 
   create_table "podcasts", :force => true do |t|
     t.integer  "owner_id"
-    t.integer  "owner_type"
     t.string   "title"
     t.string   "subtitle"
     t.string   "itunes_id"
@@ -443,6 +492,7 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
     t.string   "keywords"
     t.integer  "filesize"
     t.string   "explicit"
+    t.string   "status"
     t.string   "cached_slug"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -495,9 +545,9 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   end
 
   create_table "raw_stats", :force => true do |t|
-    t.string   "name"
     t.integer  "statable_id"
     t.string   "statable_type"
+    t.string   "name"
     t.string   "ip"
     t.integer  "count",         :default => 0
     t.string   "extra_data"
@@ -535,12 +585,11 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   end
 
   create_table "roles", :force => true do |t|
-    t.string "name"
-  end
-
-  create_table "roles_users", :id => false, :force => true do |t|
-    t.integer "role_id"
-    t.integer "user_id"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.string   "role"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "royalties", :force => true do |t|
@@ -552,13 +601,15 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   end
 
   create_table "sites", :force => true do |t|
-    t.string   "name"
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "name"
+    t.string   "domain"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  add_index "sites", ["domain"], :name => "index_sites_on_domain"
   add_index "sites", ["owner_id"], :name => "index_sites_on_owner_id"
 
   create_table "slugs", :force => true do |t|
@@ -664,13 +715,13 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   create_table "twitter_accounts", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.string   "twit_id"
     t.string   "token"
     t.string   "secret"
-    t.string   "twit_name"
+    t.string   "name"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "twit_id",    :limit => 8
   end
 
   add_index "twitter_accounts", ["owner_id"], :name => "index_twitter_accounts_on_owner_id"
@@ -698,21 +749,20 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
   create_table "users", :force => true do |t|
     t.integer  "site_id"
     t.string   "email"
-    t.string   "user_name"
+    t.string   "name"
     t.integer  "score",                                   :default => 0
     t.string   "website_name"
     t.string   "website_url"
+    t.text     "bio"
     t.string   "hashed_password"
     t.string   "salt"
     t.string   "remember_token"
     t.datetime "remember_token_expires_at"
     t.string   "activation_code"
     t.datetime "activated_at"
-    t.string   "status"
+    t.string   "status",                                  :default => "first"
     t.string   "cached_slug"
     t.integer  "name_changes",                            :default => 3
-    t.string   "first_name"
-    t.string   "last_name"
     t.string   "tax_id"
     t.string   "orig_ip"
     t.string   "last_ip"
@@ -728,7 +778,7 @@ ActiveRecord::Schema.define(:version => 20101023200310) do
 
   add_index "users", ["activation_code"], :name => "index_users_on_activation_code"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["name"], :name => "index_users_on_name", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
-  add_index "users", ["user_name"], :name => "index_users_on_user_name", :unique => true
 
 end

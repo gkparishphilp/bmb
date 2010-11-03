@@ -3,5 +3,5 @@
 	= @forum.name
 	Forum
 	
-- form_for @forum do |f|
+= form_for @forum do |f|
 	= render :partial => 'form', :locals => { :m => "Update", :f => f }

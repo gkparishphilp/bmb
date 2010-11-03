@@ -1,29 +1,15 @@
 %div[comment]
 	.comment_pic
-		- if comment.user.anonymous?
-			= image_tag(gravatar_img(comment.email), :border=>0, :width => 60)
-		- else
-			= link_to image_tag( comment.user.avatar, :width => 60 ), user_path(comment.user)
+		= link_to image_tag( comment.user.avatar, :width => 60 ), user_path( comment.user )
 	.comment_body
-		- if comment.user.anonymous?
-			%span.comment_user
-				= comment.name
-			-unless comment.website_url.blank?
-				(
-				-if comment.website_name.blank?
-					= link_to comment.website_url, "http://" + comment.website_url
-				- else
-					= link_to comment.website_name, "http://" + comment.website_url
-				)
-		- else
-			= link_to comment.user.user_name, user_path(comment.user), :class => 'comment_user'
-			-unless comment.user.website_url.blank?
-				(
-				-if comment.user.website_name.blank?
-					= link_to comment.user.website_url, "http://" + comment.user.website_url
-				- else
-					= link_to comment.user.website_name, "http://" + comment.user.website_url
-				)
+		= link_to comment.user.name, user_path(comment.user), :class => 'comment_user'
+		- unless comment.user.website_url.blank?
+			(
+			-if comment.user.website_name.blank?
+				= link_to comment.user.website_url, "http://" + comment.user.website_url
+			- else
+				= link_to comment.user.website_name, "http://" + comment.user.website_url
+			)
 
 		%span.comment_date
 			On

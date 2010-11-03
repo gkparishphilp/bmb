@@ -1,0 +1,18 @@
+.forum_nav
+	.breadcrumb
+		= link_to @current_site.name, root_path
+		>
+		= link_to "Forums", forums_path
+		>
+		%b= @forum.title
+	.reply_link
+		-if @current_user.anonymous?
+			%b= link_to "Login", new_session_path + "?dest=" + new_forum_topic_path( @forum )
+			or
+			%b= link_to "Register", new_user_path + "?dest=" + new_forum_topic_path( @forum )
+			to post a topic
+		-else
+			.new_button
+				= link_to image_tag( 'add.png', :width => 16 ), new_forum_topic_path( @forum )
+				%b= link_to "Post a Topic", new_forum_topic_path( @forum )
+%br.clear

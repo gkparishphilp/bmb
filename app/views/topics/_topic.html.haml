@@ -1,7 +1,7 @@
 %div[topic]
 	.post_user
 		.post_username
-			=link_to topic.user.user_name, topic.user
+			=link_to topic.user.name, topic.user
 		.post_avatar
 			=link_to image_tag( topic.user.avatar, :width => 60 ), topic.user
 		.post_user_joined

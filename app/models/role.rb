@@ -1,12 +1,17 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: roles
 #
-#  id   :integer(4)      not null, primary key
-#  name :string(255)
+#  id         :integer(4)      not null, primary key
+#  user_id    :integer(4)
+#  site_id    :integer(4)
+#  role       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class Role < ActiveRecord::Base
-	has_and_belongs_to_many   :users
+	belongs_to	:user
+	belongs_to	:site
 end

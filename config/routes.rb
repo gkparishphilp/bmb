@@ -32,16 +32,21 @@ Backmybook::Application.routes.draw do
 	resources :sessions do
 		collection do
 			get 'pending'
-			get 'ret_twitter'
+			get 'register'
+			post 'go_facebook'
+			post 'go_site_facebook'
+			get 'ret_facebook'
+			get 'ret_site_facebook'
 			post 'go_twitter'
+			post 'go_site_twitter'
+			get 'ret_twitter'
+			get 'ret_site_twitter'
 		end
 	end
 	
 	resources :site do
 		collection do
 			get 'admin'
-			get 'ret_twitter'
-			post 'go_twitter'
 		end
 		resources :links do
 			get 'admin', :on => :collection
@@ -65,15 +70,14 @@ Backmybook::Application.routes.draw do
 	match '/forgot' => 'users#forgot_password', :as => 'forgot'
 	match '/logout' => 'sessions#destroy', :as => 'logout'
 	match '/login' => 'sessions#new', :as => 'login'
+	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
-	match '/rpx' => 'rpx#index', :as => 'rpx'
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	
 	match "/:permalink", :to => 'static_pages#show'
 		
 		
-
 
 # The priority is based upon order of creation:
   # first created -> highest priority.

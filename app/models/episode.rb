@@ -1,11 +1,10 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: episodes
 #
 #  id          :integer(4)      not null, primary key
 #  podcast_id  :integer(4)
-#  status      :string(255)
 #  title       :string(255)
 #  subtitle    :string(255)
 #  keywords    :string(255)
@@ -15,6 +14,7 @@
 #  filename    :string(255)
 #  explicit    :string(255)
 #  transcript  :text
+#  status      :string(255)
 #  cached_slug :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -31,6 +31,8 @@ class Episode < ActiveRecord::Base
 	#acts_as_followable
 	
 	has_friendly_id :title, :use_slug => :true
+	acts_as_followed
+	gets_activities
 	
 	def url
 		"http://" + APP_DOMAIN + "/system/audio/podcasts/#{self.podcast.id}/#{self.id}/" + self.friendly_id + ".mp3"

@@ -1,13 +1,9 @@
 class EpisodesController < ApplicationController
+	# TODO -- needs significant cleanup
 	before_filter   :get_parent
 	
 	def index
- 		@episodes = @podcast.episodes :order => 'created_at desc'
-		respond_to do |format|
-			format.html # index.html.erb
-			format.rss { render }
-		end
-	
+ 		@episodes = @podcast.episodes.order 'created_at desc'
 	end
 
 	def show

@@ -2,7 +2,7 @@ class CrashesController < ApplicationController
 	before_filter   :require_admin
 	
 	def index
-		@crashes = Crash.all.reverse.paginate :page => params[:page], :per_page => 50
+		@crashes = @current_site.crashes.reverse.paginate :page => params[:page], :per_page => 50
 	end
 
 	def show

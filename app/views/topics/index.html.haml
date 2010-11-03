@@ -1,21 +1,4 @@
-.forum_nav
-	.breadcrumb
-		= link_to APP_NAME, root_path
-		>
-		= link_to "Forums", forums_path
-		>
-		%b= @forum.name
-	.reply_link
-		-if @current_user.anonymous?
-			%b= link_to "Login", new_session_path + "?dest=" + new_forum_topic_path( @forum )
-			or
-			%b= link_to "Register", new_user_path + "?dest=" + new_forum_topic_path( @forum )
-			to post a topic
-		-else
-			.new_button
-				= link_to image_tag( 'add.png', :width => 16 ), new_forum_topic_path( @forum )
-				%b= link_to "Post a Topic", new_forum_topic_path( @forum )
-%br.clear
+= render :partial => 'forum_nav'
 
 - if @topics.total_pages > 1
 	.pagination
@@ -41,7 +24,7 @@
 					.topic_title
 						%b= link_to topic.title,forum_topic_path( @forum, topic )
 					by
-					= link_to topic.user.user_name, topic.user
+					= link_to topic.user.name, topic.user
 				%td
 					= topic.view_count
 				%td
@@ -51,7 +34,7 @@
 						= link_to format_date(topic.posts.last.created_at), custom_post_path( @forum, topic, topic.posts.last )
 						%br
 						by
-						= link_to topic.posts.last.user.user_name, topic.posts.last.user
+						= link_to topic.posts.last.user.name, topic.posts.last.user
 					- else
 						&#45;&#45;&#45;
 
@@ -64,6 +47,6 @@
 
 
 -# Maybe add if user is logged in????
--# - form_for ([@forum, @topic]) do |f|
+-# = form_for ([@forum, @topic]) do |f|
 -#	 =render :partial => "add_edit", :locals => { :f => f }
 
