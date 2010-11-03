@@ -20,7 +20,7 @@
 	%body
 		#container
 			= render :partial => 'shared/header'
-			#bd
+			#content
 				= render :partial => 'shared/flash', :locals => { :flash => flash }
 				= yield
 			= render :partial => 'shared/footer'
