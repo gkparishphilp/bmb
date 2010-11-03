@@ -22,6 +22,19 @@ Backmybook::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+  config.after_initialize do
+	ActiveMerchant::Billing::Base.mode = :test
+	paypal_options = {
+		:login => 'seller_1269634095_biz_api1.sky360corp.com',
+		:password => '1269634102',
+		:signature    => 'AuXPSjM3yDZbAYTXCoh4IdooQpR1Aw-6vQhoTPFyzZZ9Am7v6q6l1LiD'
+	}
+	
+	::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
+	::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
+  end
+
 end
 
 # TODO - update these to the BmB FB App Keys

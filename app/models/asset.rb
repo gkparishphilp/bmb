@@ -25,6 +25,7 @@ class Asset < ActiveRecord::Base
 	
 	belongs_to	:book
 	has_one	 	:content_location
+	has_many	:coupons, :as => :redeemable
 	
 	def content
 		# Alias this to the actual content of the asset

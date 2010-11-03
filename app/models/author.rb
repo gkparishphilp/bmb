@@ -29,4 +29,11 @@ class Author < ActiveRecord::Base
 	belongs_to	:user
 	
 	has_friendly_id	:pen_name, :use_slug => true
+	
+	has_many :merches, :as  => :owner
+	has_many :royalties
+	has_many :upload_email_lists
+	has_many :coupons, :as => :owner
+	has_many :coupons, :as => :redeemer
+	
 end

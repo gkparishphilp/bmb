@@ -65,6 +65,7 @@ class Users < ActiveRecord::Migration
 			t.datetime		:activated_at
 			t.string		:status, :default => 'first'
 			t.string		:cached_slug
+
 			# Billing info
 			t.integer		:name_changes, :default => 3
 			t.string		:tax_id

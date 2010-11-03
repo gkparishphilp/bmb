@@ -1,38 +1,3 @@
-# == Schema Information
-# Schema version: 20101103181324
-#
-# Table name: users
-#
-#  id                        :integer(4)      not null, primary key
-#  site_id                   :integer(4)
-#  email                     :string(255)
-#  name                      :string(255)
-#  score                     :integer(4)      default(0)
-#  website_name              :string(255)
-#  website_url               :string(255)
-#  bio                       :text
-#  hashed_password           :string(255)
-#  salt                      :string(255)
-#  remember_token            :string(255)
-#  remember_token_expires_at :datetime
-#  activation_code           :string(255)
-#  activated_at              :datetime
-#  status                    :string(255)     default("first")
-#  cached_slug               :string(255)
-#  name_changes              :integer(4)      default(3)
-#  tax_id                    :string(255)
-#  orig_ip                   :string(255)
-#  last_ip                   :string(255)
-#  photo_url                 :string(255)
-#  photo_file_name           :string(255)
-#  photo_content_type        :string(255)
-#  photo_file_size           :integer(4)
-#  photo_updated_at          :datetime
-#  paypal_id                 :string(13)
-#  created_at                :datetime
-#  updated_at                :datetime
-#
-
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
@@ -62,6 +27,13 @@ class User < ActiveRecord::Base
 	has_many	:comments
 	has_many	:twitter_accounts, 	:as => :owner
 	has_many	:facebook_accounts,	:as => :owner
+	has_many 	:shipping_addresses
+	has_many	:billing_addresses
+	has_one		:author
+	has_many	:orders
+	has_many	:subscribings
+	has_many	:subscriptions, :through => :subscribings
+	has_many	:coupons, :as => :redeemer
 	
 	belongs_to :site
 	
@@ -190,7 +162,7 @@ class User < ActiveRecord::Base
 	def social_accounts
 		self.twitter_accounts + self.facebook_accounts
 	end
-	
+
 	def old_school_user?
 		self.social_accounts.empty?
 	end

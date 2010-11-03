@@ -34,7 +34,6 @@ class SessionsController < ApplicationController
 		if @current_user
 			dest = params[:dest]
 			user = User.find_by_id @current_user.id
-			
 			logout( user )
 			pop_flash "#{user.name} logged out"
 			redirect_to root_path

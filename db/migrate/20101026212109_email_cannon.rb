@@ -40,6 +40,8 @@ class EmailCannon < ActiveRecord::Migration
 			t.references	:owner, :polymorphic => true
 			t.string		:file_name
 			t.string		:file_path
+			t.string		:list_type
+			
 			t.timestamps
 		end
 		
