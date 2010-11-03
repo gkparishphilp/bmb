@@ -1,10 +1,13 @@
 Backmybook::Application.routes.draw do
   
-  resources :order_transactions
 
-  resources :orders
+	resources :authors
+	
+	resources :order_transactions
 
-  resources :merches
+	resources :orders
+
+	resources :merches
 
 	root :to => "site#index"
 	
