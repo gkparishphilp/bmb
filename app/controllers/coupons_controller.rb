@@ -4,8 +4,13 @@ class CouponsController < ApplicationController
 		@author = @current_user.author
 	end
 	
-	def freebie_redeem
-		@freebie = Coupon.find_by_giveaway_code( params[:code] )
+	def giveaway_redeem
+		@coupon = Coupon.find_by_code( params[:code] )
 		@redeemable = @freebie.redeemable
+	end
+	
+	def redeem
+		@coupon = params[:coupon]
+		@coupon.redeem
 	end
 end

@@ -145,9 +145,9 @@ class Order < ActiveRecord::Base
 	def post_purchase_actions
 		if self.ordered.is_a? Merch
 			UserMailer.bought_merch(self, self.ordered, self.user).deliver
-			#Update backing events
+			# TODO Update backing events
 
-			#Update any author sales events/points
+			# TODO Update any author sales events/points
 
 			#Calculate and store royalties
 			royalty = 0

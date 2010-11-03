@@ -24,6 +24,7 @@ Backmybook::Application.routes.draw do
 	resources :coupons do
 		collection do
 			get :giveaways
+			post :giveaway_redeem
 		end
 	end
 	
@@ -94,6 +95,8 @@ Backmybook::Application.routes.draw do
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	
 	match "/:permalink", :to => 'static_pages#show'
+	
+	match "/redeem/:code", :to => "coupons#giveaway_redeem"
 		
 		
 

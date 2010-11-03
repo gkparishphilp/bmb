@@ -1,8 +1,9 @@
 class Coupon < ActiveRecord::Base
-	belongs_to :order
-	belongs_to :owner, :polymorphic => true
-	belongs_to :redeemable, :polymorphic => true
-	belongs_to :redeemer, :polymorphic => true
+	belongs_to 	:order
+	belongs_to 	:owner, :polymorphic => true
+	belongs_to 	:redeemable, :polymorphic => true
+	belongs_to 	:redeemer, :polymorphic => true
+	has_many 	:redemptions
 	
 	def is_valid?
 
@@ -23,6 +24,10 @@ class Coupon < ActiveRecord::Base
 	def generate_giveaway_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		self.code = Digest::SHA1.hexdigest random_string
+		self.save
 	end
 	
+	def redeem
+		Redemptions.find_or_create!(:user_id => )
+	end
 end

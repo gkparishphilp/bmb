@@ -78,6 +78,7 @@ class Ecom < ActiveRecord::Migration
 			t.string	:artwork_content_type
 			t.integer	:artwork_file_size
 			t.datetime	:artwork_updated_at
+			t.string	:status # published or not
 			t.timestamps
 		end
 		

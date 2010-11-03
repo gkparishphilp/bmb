@@ -27,7 +27,6 @@
 
 class Book < ActiveRecord::Base
 	# represents a "title" or "work"
-	
 	belongs_to	:author
 	belongs_to  :genre
 	
