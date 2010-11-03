@@ -39,6 +39,7 @@ class Book < ActiveRecord::Base
 	has_many	:readings
 	has_many	:readers, :through => :readings, :source => :user
 	has_one		:upload_file
+	has_many	:coupons, :as => :redeemable
 	
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags

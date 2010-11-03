@@ -41,23 +41,23 @@ class User < ActiveRecord::Base
 	ANONYMOUS_ID = 1
 
 	# Filters		--------------------------------------
-	before_create   :set_status
-	before_save	 	:set_photo_url, :strip_website_url
+#	before_create   :set_status
+#	before_save	 	:set_photo_url, :strip_website_url
 
   
 	# Validations	--------------------------------------
-	validates_uniqueness_of		:name, :case_sensitive => false
+#	validates_uniqueness_of		:name, :case_sensitive => false
 
-	validates_format_of			:name, :if => :old_school_user?,
-										:with => /^[A-Za-z\s\d_-]+$/
+#	validates_format_of			:name, :if => :old_school_user?,
+#										:with => /^[A-Za-z\s\d_-]+$/
 
-	validates_confirmation_of	:password, :if => :old_school_user?
-	validate					:password_non_blank, :if => :old_school_user?
+#	validates_confirmation_of	:password, :if => :old_school_user?
+#	validate					:password_non_blank, :if => :old_school_user?
 
-	validates_format_of :email, :if => :has_email?,
-                          :with => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i
+#	validates_format_of :email, :if => :has_email?,
+#                          :with => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i
 
-	validates_uniqueness_of :email, :case_sensitive => false, :if => :has_email?
+#	validates_uniqueness_of :email, :case_sensitive => false, :if => :has_email?
 
 	# Relations   	--------------------------------------
 	has_many	:openids
@@ -76,7 +76,8 @@ class User < ActiveRecord::Base
 
 	# Plugins	--------------------------------------
 
-	has_friendly_id   :name, :use_slug => :true
+	# Friendly ID 
+	#has_friendly_id   :name, :use_slug => :true
 
 	has_attached_file :photo, :styles => {
 	  :original  => "120x120#",

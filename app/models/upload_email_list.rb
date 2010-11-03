@@ -12,7 +12,9 @@ class UploadEmailList < ActiveRecord::Base
 		directory = "#{Rails.root}/assets/email_lists"
 		save_filename = self.file_path
 		path = File.join( directory, save_filename)
-		redeemable = Book.find(book_id)
+		#TODO remove this hardcoding
+		#redeemable = Book.find(book_id)
+		redeemable = Merch.find 1
 		
 		File.open(path, "wb") {|f| f.write( self.file_name.read) }
 
@@ -25,12 +27,13 @@ class UploadEmailList < ActiveRecord::Base
 				if self.list_type == 'giveaway'
 					email = row[0]
 					#create a user record with this email if it doesn't exist
-					user = User.find_or_create_by_email(email)
-					
+					user = User.find_or_create_by_email( :email=> email )					
 					#create a coupon if it doesn't exist already
-	
-					next if self.owner.find_by_redeemable(book)
-					Coupon.create( :owner => self.author, :redeemable => redeemable, :redeemer => user, :redemptions_allowed = 1)
+					next if user.coupons.find_by_redeemable_type_and_redeemable_id( redeemable.class, redeemable.id)
+					coupon = Coupon.new
+					coupon.generate_giveaway_code
+					coupon.update_attributes! :owner => self.author, :redeemable => redeemable, :redeemer => user, :redemptions_allowed => 1
+					coupon.save
 				else
 					#Assume its an email subscription list	
 					name = row[0]
