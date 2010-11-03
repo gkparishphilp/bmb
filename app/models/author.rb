@@ -26,7 +26,6 @@ class Author < ActiveRecord::Base
 	# may or may not belong to user
 	
 	has_many	:books
-	
 	belongs_to	:user
 	
 	has_friendly_id	:pen_name, :use_slug => true

@@ -21,27 +21,7 @@ class SiteBase < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		create_table :events, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.string		:title
-			t.text			:description
-			t.datetime		:starts_at
-			t.datetime		:ends_at
-			t.string		:location
-			t.string		:event_type
-			t.string		:status
-			
-			t.timestamps
-		end
 		
-		create_table :links, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.string		:title
-			t.string		:url
-			t.string		:description
-			t.string		:link_type
-			t.timestamps
-		end
 		
 		create_table :raw_stats, :force => true do |t|
 			t.references	:statable, :polymorphic => true
@@ -71,8 +51,6 @@ class SiteBase < ActiveRecord::Migration
 		
 		add_index :contacts, :email
 		add_index :contacts, :crash_id
-		add_index :events, :owner_id
-		add_index :links, :owner_id
 		add_index :raw_stats, :statable_id
 		add_index :sites, :domain
 		add_index :sites, :owner_id
@@ -85,8 +63,6 @@ class SiteBase < ActiveRecord::Migration
 		
 		drop_table	:contacts
 		drop_table	:crashes
-		drop_table	:events
-		drop_table	:links
 		drop_table	:raw_stats
 		drop_table	:sites
 		drop_table	:static_pages

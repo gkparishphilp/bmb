@@ -34,7 +34,7 @@ class Book < ActiveRecord::Base
 	has_many	:assets
 	has_many	:book_identifiers
 	# todo -- add links
-	#has_many	:links, :as => :owner
+	has_many	:links, :as => :owner
 	has_many	:reviews, :as => :reviewable
 	has_many	:readings
 	has_many	:readers, :through => :readings, :source => :user

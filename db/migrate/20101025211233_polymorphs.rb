@@ -17,57 +17,51 @@ class Polymorphs < ActiveRecord::Migration
 		end
 		
 		create_table :badgings, :force => true do |t|
-			t.integer	:badge_id
-			t.integer	:badgeable_id
-			t.string	:badgeable_type
+			t.references	:badge
+			t.references	:badgeable, :polymorphic => true
 			
 			t.timestamps
 		end
 		
 		create_table :events, :force => true do |t|
-			t.integer	:owner_id
-			t.string	:owner_type
-			t.string	:title
-			t.text		:description
-			t.datetime	:starts_at
-			t.datetime	:ends_at
-			t.string	:location
-			t.string	:event_type
-			t.string	:status
+			t.references	:owner, :polymorphic => true
+			t.string		:title
+			t.text			:description
+			t.datetime		:starts_at
+			t.datetime		:ends_at
+			t.string		:location
+			t.string		:event_type
+			t.string		:status
 			
 			t.timestamps
 		end
 		
 		create_table :links, :force => true do |t|
-			t.integer	:owner_id
-			t.string	:owner_type
-			t.string	:title
-			t.string	:url
-			t.string	:description
-			t.string	:link_type
-			
+			t.references	:owner, :polymorphic => true
+			t.string		:title
+			t.string		:url
+			t.string		:description
+			t.string		:link_type
 			t.timestamps
 		end
 		
 		create_table :messages, :force => true do |t|
-			t.integer	:to_id
-			t.string	:to_type
-			t.integer	:from_id
-			t.string	:from_type
-			t.string	:subject
-			t.text		:content
-			t.datetime	:deliver_at
-			t.string	:status
+			t.references	:to, :polymorphic => true
+			t.references	:from, :polymorphic => true
+			t.string		:from_type
+			t.string		:title # subject
+			t.text			:content
+			t.datetime		:deliver_at
+			t.string		:status
 			
 			t.timestamps
 		end
 		
 		create_table :reviews, :force => true do |t|
-			t.integer	:reviewable_id
-			t.string	:reviewable_type
-			t.integer	:user_id
-			t.integer	:score
-			t.text		:content
+			t.references	:reviewable, :polymorphic => true
+			t.references	:user
+			t.integer		:score
+			t.text			:content
 			
 			t.timestamps
 		end
@@ -75,11 +69,11 @@ class Polymorphs < ActiveRecord::Migration
 	end
 
 	def self.down
-		drop_table :events
-		drop_table :badgings
 		drop_table :badges
-		drop_table :messages
+		drop_table :badgings
+		drop_table :events
 		drop_table	:links
+		drop_table :messages
 		dropt_table	:reviews
 	end
 end
