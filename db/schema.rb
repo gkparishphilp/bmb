@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
     t.string   "asset_type"
     t.integer  "word_count"
     t.string   "origin"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -154,7 +155,6 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
   create_table "bundle_assets", :force => true do |t|
     t.integer  "bundle_id"
     t.integer  "asset_id"
-    t.string   "asset_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -214,16 +214,17 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
   create_table "coupons", :force => true do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
+    t.integer  "redeemable_id"
+    t.string   "redeemable_type"
+    t.integer  "redeemer_id"
+    t.string   "redeemer_type"
+    t.integer  "order_id"
     t.string   "code"
     t.string   "description"
     t.datetime "expiration_date"
     t.integer  "redemptions_allowed", :default => -1
     t.string   "discount_type"
     t.integer  "discount"
-    t.string   "redeemable_type"
-    t.integer  "redeemable_id"
-    t.string   "redeemer_type"
-    t.integer  "redeemer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -381,7 +382,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
     t.string   "street"
     t.string   "street2"
     t.string   "city"
-    t.string   "geo_state_id"
+    t.integer  "geo_state_id"
     t.string   "zip"
     t.string   "country"
     t.string   "phone"
@@ -421,6 +422,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
     t.string   "artwork_content_type"
     t.integer  "artwork_file_size"
     t.datetime "artwork_updated_at"
+    t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -469,7 +471,6 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
     t.integer  "billing_address_id"
     t.integer  "ordered_id"
     t.string   "ordered_type"
-    t.integer  "coupon_id"
     t.string   "email"
     t.string   "ip"
     t.integer  "price"
@@ -481,8 +482,8 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
   end
 
   create_table "ownings", :force => true do |t|
-    t.integer  "owned_id"
-    t.string   "owned_type"
+    t.integer  "owner_id"
+    t.string   "owner_type"
     t.integer  "user_id"
     t.string   "status"
     t.datetime "created_at"
@@ -575,7 +576,8 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
   end
 
   create_table "redemptions", :force => true do |t|
-    t.integer  "user_id"
+    t.integer  "redeemer_id"
+    t.string   "redeemer_type"
     t.integer  "coupon_id"
     t.string   "status"
     t.datetime "created_at"
@@ -602,7 +604,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
 
   create_table "royalties", :force => true do |t|
     t.integer  "author_id"
-    t.integer  "order_transaction_id"
+    t.integer  "order_id"
     t.integer  "amount"
     t.boolean  "paid"
     t.datetime "created_at"

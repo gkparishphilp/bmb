@@ -1,5 +1,5 @@
 class UserMailer < ActionMailer::Base
-<<<<<<< HEAD
+
 	def welcome( user, site )
 		# setup instance variables for the view
 		@user = user

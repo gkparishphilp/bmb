@@ -49,6 +49,10 @@ class Order < ActiveRecord::Base
 		end	
 		self.price = 0 if self.price < 0
 		self.coupon.redemptions_allowed = self.coupon.redemptions_allowed - 1
+		redemption = Redemption.new
+		redemption.redeemer = self.user
+		redemption.save
+		redemption.update_attributes :coupon_id  => self.coupon.id, :status  => 'redeemed'
 	end
 
 
@@ -151,11 +155,11 @@ class Order < ActiveRecord::Base
 
 			#Calculate and store royalties
 			royalty = 0
-			for sub in self.ordered.owner.user.subscriptions.active
-				royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
+			for sub in self.ordered.owner.user.subscribings
+				royalty = sub.subscription.royalty_percentage if sub.subscription.royalty_percentage > royalty
 			end	
 
-			Royalty.create! :author_id => self.ordered.owner.id ,:order_transaction_id => self.order_transaction.id, :amount => ( self.price * (royalty.to_f/100) ).round
+			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
 
 		elsif self.ordered.is_a? Asset
 			

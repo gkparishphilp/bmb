@@ -48,7 +48,7 @@ class OrdersController < ApplicationController
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
 			@order.coupon = Coupon.find_by_code(params[:coupon_code])
-			@order.apply_coupon if @order.coupon.is_valid?
+			@order.apply_coupon  if @order.coupon.is_valid?
 		end
 
 		# Get billing address information from form

@@ -34,6 +34,7 @@ class User < ActiveRecord::Base
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
 	has_many	:coupons, :as => :redeemer
+	has_many	:redemptions, :as => :redeemer
 	
 	belongs_to :site
 	

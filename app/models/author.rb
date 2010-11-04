@@ -35,5 +35,6 @@ class Author < ActiveRecord::Base
 	has_many :upload_email_lists
 	has_many :coupons, :as => :owner
 	has_many :coupons, :as => :redeemer
+	has_many :redemptions, :as => :redeemer
 	
 end
