@@ -44,11 +44,17 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
+		@order.user = @current_user
 		
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
-			@order.coupon = Coupon.find_by_code(params[:coupon_code])
-			@order.apply_coupon  if @order.coupon.is_valid?
+			if @coupon = Coupon.find_by_code(params[:coupon_code])
+				redemption = Redemption.new
+				redemption.order = @order
+				redemption.coupon = @coupon
+				redemption.save
+				@order.apply_coupon if @coupon.is_valid?(@order)
+			end
 		end
 
 		# Get billing address information from form

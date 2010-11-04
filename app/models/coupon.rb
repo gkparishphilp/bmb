@@ -1,18 +1,19 @@
 class Coupon < ActiveRecord::Base
-	belongs_to 	:order
+	has_many	:redemptions
+	has_many 	:orders, :through => :redemptions
 	belongs_to 	:owner, :polymorphic => true
 	belongs_to 	:redeemable, :polymorphic => true
 	belongs_to 	:redeemer, :polymorphic => true
-	has_many 	:redemptions
+
 	
-	def is_valid?
+	def is_valid?(order)
 		if self.redemptions_allowed == 0
 			return false
 		elsif (!self.expiration_date.nil? and self.expiration_date < Time.now)
 			return false
-		elsif !self.redeemable.blank? and self.redeemable.class != self.order.ordered.class
+		elsif !self.redeemable.blank? and self.redeemable.class != order.ordered.class
 			return false
-		elsif !self.redeemable.id.nil? and self.redeemable.id != self.order.ordered.id
+		elsif !self.redeemable.id.nil? and self.redeemable.id != order.ordered.id
 			return false
 		else
 			return true

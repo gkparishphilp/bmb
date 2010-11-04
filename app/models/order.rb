@@ -23,7 +23,8 @@ class Order < ActiveRecord::Base
 		:dependent => :destroy
 	
 	belongs_to :ordered, :polymorphic  => :true
-	has_one :coupon
+	has_one :redemption
+	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
 	
@@ -49,10 +50,9 @@ class Order < ActiveRecord::Base
 		end	
 		self.price = 0 if self.price < 0
 		self.coupon.redemptions_allowed = self.coupon.redemptions_allowed - 1
-		redemption = Redemption.new
-		redemption.redeemer = self.user
-		redemption.save
-		redemption.update_attributes :coupon_id  => self.coupon.id, :status  => 'redeemed'
+		self.redemption.redeemer = self.user
+		self.redemption.status = 'redeemed'
+		self.redemption.save
 	end
 
 

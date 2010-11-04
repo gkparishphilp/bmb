@@ -26,7 +26,6 @@ class Ecom < ActiveRecord::Migration
 			t.references	:owner, :polymorphic => true
 			t.references	:redeemable, :polymorphic => true # book, merch, subs
 			t.references	:redeemer, :polymorphic => true
-			t.references	:order
 			t.string		:code # need to validate unique on code
 			t.string		:description
 			t.datetime		:expiration_date # nil = infinite
@@ -117,6 +116,7 @@ class Ecom < ActiveRecord::Migration
 		create_table :redemptions, :force => true do |t|
 			t.references	:redeemer, :polymorphic => true
 			t.references	:coupon
+			t.references	:order
 			t.string		:status
 			
 			t.timestamps
