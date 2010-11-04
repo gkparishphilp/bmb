@@ -39,8 +39,9 @@ class User < ActiveRecord::Base
 	belongs_to :site
 	
 	# Plugins	--------------------------------------
-
-	#has_friendly_id   :name, :use_slug => :true
+	
+	#TODO need to figure out friendly_id usage when only an email is being saved
+	has_friendly_id   :name, :use_slug => :true
 
 	has_attached_file :photo, :styles => {
 	  :original  => "120x120#",
