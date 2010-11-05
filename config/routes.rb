@@ -1,15 +1,17 @@
 Backmybook::Application.routes.draw do
-  
-
-	resources :authors
-	
-	resources :order_transactions
-
-	resources :orders
-
-	resources :merches
 
 	root :to => "site#index"
+
+	resources :authors do
+		member do
+			get :admin
+		end
+		
+		resources :upload_email_lists
+		resources :email_campaigns do
+			resources :email_messages
+		end
+	end
 	
 	resources :articles do
 		resources :comments
@@ -23,20 +25,24 @@ Backmybook::Application.routes.draw do
 	
 	resources :coupons do
 		collection do
-			get :giveaways
 			post :giveaway_redeem
 		end
 	end
 	
 	resources :crashes
-
-	
+		
 	resources :forums do
 		get 'admin', :on => :collection
 		resources :topics do
 			resources :posts
 		end
 	end
+	
+	resources :merches
+
+	resources :order_transactions
+
+	resources :orders
 	
 	resources :podcasts do
 		get 'admin', :on => :collection
@@ -84,6 +90,7 @@ Backmybook::Application.routes.draw do
 		get 'resend', :on => :member
 	end
 	
+	
 	match '/activate' => 'users#activate', :as => 'activate'
 	match '/admin' => 'site#admin', :as => 'admin'
 	match '/forgot' => 'users#forgot_password', :as => 'forgot'
@@ -97,6 +104,8 @@ Backmybook::Application.routes.draw do
 	match "/:permalink", :to => 'static_pages#show'
 	
 	match "/redeem/:code", :to => "coupons#giveaway_redeem"
+	
+	match "/unsubscribe/:code", :to => "email_subscribings#unsubscribe"
 		
 		
 

@@ -1,5 +1,6 @@
 class EmailCannon < ActiveRecord::Migration
 	def self.up
+		
 		create_table :email_campaigns, :force => true do |t|
 			t.references	:owner, :polymorphic => true
 			t.references	:email_template # future use
@@ -23,6 +24,7 @@ class EmailCannon < ActiveRecord::Migration
 		create_table :email_subscribings, :force => true do |t|
 			t.references	:subscribed_to, :polymorphic => true
 			t.references	:subscriber, :polymorphic => true
+			t.string		:unsubscribe_code
 			t.string		:status
 			
 			t.timestamps
@@ -30,7 +32,7 @@ class EmailCannon < ActiveRecord::Migration
 		
 		create_table :email_deliveries, :force => true do |t|
 			t.references	:email_subscribing
-			t.references	:email_campaign
+			t.references	:email_message
 			t.string		:status # bounce, open, click-through etc.
 			
 			t.timestamps
@@ -45,7 +47,6 @@ class EmailCannon < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		
 	end
 
 	def self.down
@@ -54,4 +55,5 @@ class EmailCannon < ActiveRecord::Migration
 		drop_table :email_subscribings
 		drop_table :email_campaigns
 	end
+
 end
