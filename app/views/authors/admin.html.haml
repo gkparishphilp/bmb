@@ -50,8 +50,24 @@
 %hr
 %h3 Subscriptions
 %br
--for sub in @author.user.subscriptions
-	=sub.title
+%table
+	%tr
+		%td 
+			%b Subscription Title
+		%td
+			%b Actions
+
+	-for sub in @author.user.subscribings
+		%tr{:class => cycle(:odd, :even)}
+			%td
+				=sub.subscription.title 
+				,
+				=sub.id
+				,
+				=sub.profile_id
+			%td
+				- if sub.status == 'ActiveProfile'
+					=link_to 'Cancel', cancel_subscribing_path( sub ) 
 	
 
 #upload_email_list_form( style = 'display:none;')

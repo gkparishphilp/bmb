@@ -150,7 +150,7 @@ class Ecom < ActiveRecord::Migration
 			t.string		:periodicity
 			t.integer		:price
 			t.integer		:monthly_email_limit
-			t.integer		:redemptions_remaining
+			t.integer		:redemptions_remaining, :default => -1
 			t.integer		:subscription_length_in_days
 			t.integer		:royalty_percentage
 			
@@ -163,7 +163,7 @@ class Ecom < ActiveRecord::Migration
 		drop_table :royalties
 		drop_table :bundle_assets
 		drop_table :bundles
-		drop_table :redemptioins
+		drop_table :redemptions
 		drop_table :coupons
 		drop_table :ownings
 		drop_table :subscribings_users

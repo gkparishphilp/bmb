@@ -27,6 +27,7 @@ class Order < ActiveRecord::Base
 	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
+	has_one	:subscribing
 	
 	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
@@ -112,7 +113,7 @@ class Order < ActiveRecord::Base
 										)
 
 			if response.success?
-				Subscribing.create!(	:user_id => self.user,
+				Subscribing.create!(	:user_id => self.user.id,
 										:order_id => self.id,
 										:subscription_id  => self.ordered_id,
 										:status => 'ActiveProfile',
@@ -127,19 +128,11 @@ class Order < ActiveRecord::Base
 		end
 	end
 
-	def inquire_subscription(profile_id)
-		response = GATEWAY.recurring_inquiry(profile_id)
-		return response
-	end
 	
-	def suspend_subscription(profile_id)
-		response = GATEWAY.suspend_recurring(profile_id)
-		response.success?
-	end
-	
-	def cancel_subscription(profile_id)
-		response = GATEWAY.cancel_recurring(profile_id)
-		response.success?
+	def cancel_paypal_subscription 
+		response = GATEWAY.cancel_recurring( self.subscribing.profile_id )
+		self.subscribing.update_attributes! :status => 'CancelledProfile' if response.success?
+		return response.success?	
 	end
 	
 

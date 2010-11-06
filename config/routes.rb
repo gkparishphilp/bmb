@@ -42,7 +42,8 @@ Backmybook::Application.routes.draw do
 
 	resources :order_transactions
 
-	resources :orders
+	resources :orders do
+	end
 	
 	resources :podcasts do
 		get 'admin', :on => :collection
@@ -76,8 +77,15 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+
 	resources :static_pages do
 		get 'admin', :on => :collection
+	end
+
+	resources :subscribings do
+		member do
+			get 'cancel'
+		end
 	end
 	
 	resources :upload_email_lists
