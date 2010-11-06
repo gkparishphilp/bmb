@@ -1,0 +1,15 @@
+Subject:
+%br
+=f.text_field :subject
+%br
+
+%br
+= f.hidden_field :status, :value => 'Created'
+= f.text_area :content, :class => 'mceEditor'
+
+%br
+
+= f.submit m, :class => :button
+|
+= link_to 'Cancel', :back
+

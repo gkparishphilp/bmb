@@ -1,5 +1,5 @@
 class UploadEmailListsController < ApplicationController
-	before_filter   :require_login, :get_author
+	before_filter :get_author
 
 	def create
 		@upload_email_list = UploadEmailList.new params[:upload_email_list]
@@ -20,11 +20,11 @@ class UploadEmailListsController < ApplicationController
 				#TODO Need to fix these redirect_to paths
 				if params[:upload_email_list][:list_type] == 'giveaway'
 					redirect_to giveaways_coupons_path
-				else
-					redirect_to emails_admin_path
+				elsif params[:upload_email_list][:list_type] == 'newsletter'
+					redirect_to admin_author_path( @author )
 				end
 			else
-				redirect_to admin_email_subscriptions_path
+				redirect_to admin_author_path( @author )
 			end
 		else
 			flash[:error] = 'Oooops, UploadEmailList not saved...'

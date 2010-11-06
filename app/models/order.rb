@@ -23,9 +23,11 @@ class Order < ActiveRecord::Base
 		:dependent => :destroy
 	
 	belongs_to :ordered, :polymorphic  => :true
-	has_one :coupon
+	has_one :redemption
+	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
+	has_one	:subscribing
 	
 	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
@@ -49,6 +51,9 @@ class Order < ActiveRecord::Base
 		end	
 		self.price = 0 if self.price < 0
 		self.coupon.redemptions_allowed = self.coupon.redemptions_allowed - 1
+		self.redemption.redeemer = self.user
+		self.redemption.status = 'redeemed'
+		self.redemption.save
 	end
 
 
@@ -108,7 +113,7 @@ class Order < ActiveRecord::Base
 										)
 
 			if response.success?
-				Subscribing.create!(	:user_id => self.user,
+				Subscribing.create!(	:user_id => self.user.id,
 										:order_id => self.id,
 										:subscription_id  => self.ordered_id,
 										:status => 'ActiveProfile',
@@ -123,19 +128,11 @@ class Order < ActiveRecord::Base
 		end
 	end
 
-	def inquire_subscription(profile_id)
-		response = GATEWAY.recurring_inquiry(profile_id)
-		return response
-	end
 	
-	def suspend_subscription(profile_id)
-		response = GATEWAY.suspend_recurring(profile_id)
-		response.success?
-	end
-	
-	def cancel_subscription(profile_id)
-		response = GATEWAY.cancel_recurring(profile_id)
-		response.success?
+	def cancel_paypal_subscription 
+		response = GATEWAY.cancel_recurring( self.subscribing.profile_id )
+		self.subscribing.update_attributes! :status => 'CancelledProfile' if response.success?
+		return response.success?	
 	end
 	
 
@@ -145,17 +142,17 @@ class Order < ActiveRecord::Base
 	def post_purchase_actions
 		if self.ordered.is_a? Merch
 			UserMailer.bought_merch(self, self.ordered, self.user).deliver
-			#Update backing events
+			# TODO Update backing events
 
-			#Update any author sales events/points
+			# TODO Update any author sales events/points
 
 			#Calculate and store royalties
 			royalty = 0
-			for sub in self.ordered.owner.user.subscriptions.active
-				royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
+			for sub in self.ordered.owner.user.subscribings
+				royalty = sub.subscription.royalty_percentage if sub.subscription.royalty_percentage > royalty
 			end	
 
-			Royalty.create! :author_id => self.ordered.owner.id ,:order_transaction_id => self.order_transaction.id, :amount => ( self.price * (royalty.to_f/100) ).round
+			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
 
 		elsif self.ordered.is_a? Asset
 			

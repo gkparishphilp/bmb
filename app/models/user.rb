@@ -34,11 +34,14 @@ class User < ActiveRecord::Base
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
 	has_many	:coupons, :as => :redeemer
+	has_many	:redemptions, :as => :redeemer
+	has_many	:email_subscribings, :as => :subscriber
 	
 	belongs_to :site
 	
 	# Plugins	--------------------------------------
-
+	
+	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true
 
 	has_attached_file :photo, :styles => {

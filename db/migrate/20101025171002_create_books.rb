@@ -12,6 +12,7 @@ class CreateBooks < ActiveRecord::Migration
 			t.string		:asset_type # full work, chapter, preview, etc...
 			t.integer		:word_count
 			t.string		:origin # uploaded, gernerated by Calibre, etc..
+			t.string		:status # published or not
 
 			t.timestamps
 		end
@@ -34,6 +35,7 @@ class CreateBooks < ActiveRecord::Migration
 		    t.string		:cover_art_content_type
 		    t.integer		:cover_art_file_size
 		    t.datetime		:cover_art_updated_at
+			t.string		:status # published or not
 			
 			t.timestamps
 		end
