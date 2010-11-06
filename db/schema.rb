@@ -251,7 +251,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
 
   create_table "email_deliveries", :force => true do |t|
     t.integer  "email_subscribing_id"
-    t.integer  "email_campaign_id"
+    t.integer  "email_message_id"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -272,6 +272,7 @@ ActiveRecord::Schema.define(:version => 20101103181324) do
     t.string   "subscribed_to_type"
     t.integer  "subscriber_id"
     t.string   "subscriber_type"
+    t.string   "unsubscribe_code"
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"

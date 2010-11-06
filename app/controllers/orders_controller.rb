@@ -135,6 +135,7 @@ private
 				@ordered = Asset.find params[:ordered_id]
 		end
 	end
+	
 
 end #End Orders controller
 

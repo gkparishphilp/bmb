@@ -11,42 +11,50 @@ class UploadEmailList < ActiveRecord::Base
 		directory = "#{Rails.root}/assets/email_lists"
 		save_filename = self.file_path
 		path = File.join( directory, save_filename)
-		redeemable = Book.find(book_id)		
+		
 		File.open(path, "wb") {|f| f.write( self.file_name.read) }
 
-		CSV.foreach( path ) do |row|
-			if self.list_type == 'giveaway'
-				email = row[0]  # TODO better validation on email address
-				user = User.find_or_initialize_by_email( :email=> email )
-				user.save( false )					
-
-				next if user.coupons.find_by_redeemable_type_and_redeemable_id( redeemable.class, redeemable.id)
-
-				coupon = Coupon.new
-				coupon.generate_giveaway_code
-				coupon.update_attributes! :owner => self.author, :redeemable => redeemable, :redeemer => user, :redemptions_allowed => 1
-
-			else
-				#Assume its an email subscription list	
-				name = row[0]
-				email = row[1]
-				if self.author
-					next if EmailSubscription.find_by_author_id_and_email( self.author.id, email )
-					EmailSubscription.create( :author_id => self.author.id, :name =>name, :email => email, :source => "Imported " + self.created_at.to_s(:long) ) 
-				else
-					next if EmailSubscription.find_by_email( email )
-					EmailSubscription.create( :name =>name, :email => email, :source => "Imported " + self.created_at.to_s(:long)  ) 
-				end
-			end
-			 
-
+		if self.list_type == 'giveaway'
+			process_giveaway_list(path)
+		elsif self.list_type == 'newsletter'
+			process_newsletter_list(path)
 		end
-			
+		
 		#FileUtils.rm_r( path ) if File.exists?( path )
+	end
+	
+		
+	def process_giveaway_list(path)
+		CSV.foreach( path ) do |row|
+			redeemable = Book.find(book_id)	
+			email = row[0]  # TODO better validation on email address
+			user = User.find_or_initialize_by_email( :email=> email )
+			user.save( false )					
 
+			next if user.coupons.find_by_redeemable_type_and_redeemable_id( redeemable.class, redeemable.id)
+			coupon = Coupon.new
+			coupon.generate_giveaway_code
+			coupon.update_attributes! :owner => self.author, :redeemable => redeemable, :redeemer => user, :redemptions_allowed => 1
+		end
 	end
 	
 
-
-	
+	def process_newsletter_list(path)
+		CSV.foreach( path ) do |row|
+			name = row[0]
+			email = row[1]
+			user = User.find_or_initialize_by_email( :email => email)
+			user.save( false )
+			if self.author
+				next if EmailSubscribing.find_by_subscribed_to_type_and_subscribed_to_id_and_subscriber_type_and_subscriber_id( self.author.class, self.author.id, user.class, user.id )
+				email_subscribing = EmailSubscribing.new
+				email_subscribing.subscriber = user
+				email_subscribing.subscribed_to = self.author
+				email_subscribing.status = 'subscribed'
+				email_subscribing.generate_unsubscribe_code
+				email_subscribing.save
+			end
+		end
+	end
+		
 end

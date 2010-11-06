@@ -11,6 +11,7 @@ gem 'jquery-rails'
 gem 'paperclip'
 gem 'twitter'
 gem 'mini_fb'
+gem 'tiny_mce'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"
