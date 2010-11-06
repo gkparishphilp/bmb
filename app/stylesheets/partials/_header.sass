@@ -1,39 +1,22 @@
-#hd
-	:height 20px
-	:padding 5px 10px
-	:border-bottom 1px solid #999
-	:margin-bottom 2em
-	
-	.wrapper
-		:margin 0 auto
-		:width 980px
-	
-	ul
-		:list-style none
-
-ul.top_main_menu 
-	:float left
-	:padding 7px 0px
-	:margin-left 20px
-	li
-		:float left
-		:margin-right 20px
-		
-ul.top_user_menu
-	:float right
-	:padding 7px 0px
-	:margin-left 20px
-
-ul.top_user_menu li 
-	:float left
-	:margin-left 20px
-
-		
-.logo
-	:float left
-	
-#user_capsule
-	:float right
-	img
-		:vertical-align middle
-	
+#hd {
+	height: 35px;
+	background: transparent url('../images/top_hd_bg.jpg') repeat-x left top;
+}
+#hd .wrapper {
+	margin:auto;
+	width:$page-width;
+}
+.wrapper:after,#bd:after,#ft:after,.author_hd:after,.author_bd:after,.author_menu:after,.author_promo:after {
+	@include clearfix;
+}
+#hd .logo {
+	float:left;
+}
+ul.top_main_menu {
+	float: left;
+	@include top_menu(right);	
+}
+ul.top_user_menu {
+	float: right;
+	@include top_menu(left);
+}

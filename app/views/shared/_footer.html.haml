@@ -1,3 +1,12 @@
-%br.clear
-#footer
-	This is the footer
+#ft
+	%ul.footer_menu
+		%li= link_to "Books", "#"
+		%li= link_to "Blog", "#"
+		%li= link_to "Forum", "#"
+		%li= link_to "Podcast", "#"
+		%li= link_to "Events", "#"
+		%li= link_to "Bio", "#"
+		%li= link_to "Join E-mail List", "#"
+		%li= link_to image_tag( 'contact.jpg', :alt=> 'contact author', :align => 'right' ) + " Contact", "#"
+	%ul.author_copy
+		%li= link_to "&copy; James Patterson".html_safe, "#"

@@ -1,0 +1,233 @@
+/* =Tabs - Accordian
+----------------------------------*/
+.ui-helper-clearfix:after { content: "."; display: block; height: 0; clear: both; visibility: hidden; }
+.ui-helper-clearfix { display: inline-block; }
+/* required comment for clearfix to work in Opera \*/
+* html .ui-helper-clearfix { height:1%; }
+.ui-helper-clearfix { display:block; }
+/* end clearfix */
+.ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
+
+.ui-widget-header {
+	border-bottom: 2px solid $border-color;
+	border-right: 2px solid $border-color;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* =Tabs - Accordian Interaction states
+----------------------------------*/
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+	border: 2px solid $border-color;
+	background-color:#F7F7F7;
+	font-weight: bold;
+	color: $link;
+	margin-bottom:10px;
+}
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+	color: $link;
+	text-decoration: none;
+}
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+	font-weight: bold;
+	color: $link;
+	background-color:#fff;
+}
+.ui-state-hover a, .ui-state-hover a:hover {
+	color: $link;
+	text-decoration: none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+	font-weight: bold;
+	color: $link;
+}
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+	color: $link;
+	text-decoration: none;
+}
+.ui-widget :active {
+	outline: none;
+}
+
+/* =Tabs - Accordian Interaction Cues
+----------------------------------*/
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+	border: 1px solid #fed22f;
+	color: #363636;
+}
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
+	color: #363636;
+}
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+	border: 1px solid #cd0a0a;
+	color: #ffffff;
+}
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
+	color: #ffffff;
+}
+.ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text {
+	color: #ffffff;
+}
+.ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary {
+	font-weight: bold;
+}
+.ui-priority-secondary, .ui-widget-content .ui-priority-secondary, .ui-widget-header .ui-priority-secondary {
+	opacity: .7;
+	filter: Alpha(Opacity=70);
+	font-weight: normal;
+}
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
+	opacity: .35;
+	filter: Alpha(Opacity=35);
+	background-image: none;
+}
+/* Corner radius */
+.ui-corner-tl {
+	@include rounded-left(top);
+}
+.ui-corner-tr {
+	@include rounded-right(top);
+}
+.ui-corner-bl {
+	@include rounded-left(bottom);
+}
+.ui-corner-br {
+	@include rounded-right(bottom);
+}
+.ui-corner-top {
+	@include rounded-sides(top);
+}
+.ui-corner-bottom {
+	@include rounded-sides(bottom);
+}
+.ui-corner-right {
+	@include rounded-right(top);
+	@include rounded-right(bottom);
+}
+.ui-corner-left {
+	@include rounded-left(top);
+	@include rounded-left(bottom);
+}
+
+/* Overlays */
+.ui-widget-overlay {
+	opacity: .50;
+	filter: Alpha(Opacity=50);
+}
+.ui-widget-shadow {
+	margin: -5px 0 0 -5px;
+	padding: 5px;
+	opacity: .20;
+	filter: Alpha(Opacity=20);
+	@include rounded(5px);
+}
+
+/* IE/Win - Fix animation bug - #4615 */
+.ui-accordion {
+	width: 100%;
+	border-bottom:2px solid $border-color;
+}
+.ui-accordion {
+	.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+		background:#F7F7F7 url('../images/btn_expand.jpg') no-repeat right top;
+		border:none;
+		margin:1px 0 0 0;
+	}
+	.ui-state-active {
+		background:#F7F7F7 url('../images/btn_collapse.jpg') no-repeat right top;
+	}
+	h3 {
+		font-size:$tab-font;
+	}
+}
+.ui-accordion .ui-accordion-header {
+	cursor: pointer;
+	position: relative;
+	margin-top: 1px;
+	zoom: 1;
+}
+.ui-accordion .ui-accordion-li-fix {
+	display: inline;
+}
+.ui-accordion .ui-accordion-header-active {
+	border-bottom: 0 !important;
+}
+.ui-accordion .ui-accordion-header a {
+	display: block;
+	padding: 22px 0 21px 15px;
+	text-transform: capitalize;
+}
+.ui-accordion-icons .ui-accordion-header a {
+	padding-left: 2.2em;
+}
+.ui-accordion .ui-accordion-header .ui-icon {
+	position: absolute;
+	left: .5em;
+	top: 50%;
+	margin-top: -8px;
+}
+.ui-accordion .ui-accordion-content {
+	background-color:#fff;
+	padding: 1em 2.2em;
+	border-top: 0;
+	margin-top: -2px;
+	position: relative;
+	top: 1px;
+	margin-bottom: 2px;
+	overflow: hide;
+	display: none;
+	zoom: 1;
+}
+.ui-accordion .ui-accordion-content-active {
+	display: block;
+}
+#tab-wrapper {
+	border-right:2px solid $border-color;
+	padding-bottom:40px;
+	min-height:600px;
+}
+.ui-tabs { 
+	position: relative; 
+	padding:0; zoom: 1; 
+} /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+.ui-tabs .ui-tabs-nav {
+	margin: 0;
+	padding:.2em .3em 0 1.5em;
+}
+.ui-tabs .ui-tabs-nav li {
+	list-style: none;
+	float: left;
+	position: relative;
+	top: 2px;
+	margin: 0 .2em 2px 0;
+	border-bottom: 0 !important;
+	padding: 0;
+	white-space: nowrap;
+}
+.ui-tabs .ui-tabs-nav li a {
+	font-size:$tab-font;
+	float: left;
+	padding: .5em 1em;
+	text-decoration: none;
+	width:116px;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+	margin-bottom: 0;
+	padding-bottom: 2px;
+	background-color:#fff;
+}
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+	cursor: text;
+}
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+	cursor: pointer; /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+}
+.ui-tabs .ui-tabs-panel {
+	display: block;
+	border-width: 0;
+	padding: 1em 1.4em;
+	background: none;
+}
+.ui-tabs .ui-tabs-hide {
+	display: none !important;
+}

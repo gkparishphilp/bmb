@@ -1,11 +1,12 @@
 
 @import "compass/reset";
 @import "partials/sitewide";
-@import "partials/pagination";
 @import "partials/header";
+@import "partials/login";
+@import "partials/author";
 @import "partials/forum";
 @import "partials/blog";
 @import "partials/podcast";
-@import "partials/login";
+@import "partials/tabs.ui";
+@import "partials/pagination";
 @import "partials/footer";
-@import "partials/author";
