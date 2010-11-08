@@ -19,12 +19,12 @@ class TopicsController < ApplicationController
 
 	def edit
 		@topic = Topic.find params[:id]
-		require_user_owns( @topic )
+		 require_user_can_manage( @topic )
 	end
 
 	def update
 		@topic = Topic.find params[:id]
-		require_user_owns( @topic )
+		 require_user_can_manage( @topic )
 
 		if @topic.update_attributes(params[:topic])
 			pop_flash 'Topic was successfully updated.'

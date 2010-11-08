@@ -1,6 +1,6 @@
 #hd
 	.wrapper
-		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_path
+		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_url( :host => 'backmybook.com' )
 		%ul.top_main_menu
 			%li= link_to "Menu", "#"
 			%li= link_to "Upload a Book", "#"

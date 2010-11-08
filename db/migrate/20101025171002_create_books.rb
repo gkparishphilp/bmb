@@ -32,9 +32,9 @@ class CreateBooks < ActiveRecord::Migration
 			t.string		:cached_slug
 			t.string		:cover_art_url
 			t.string		:cover_art_file_name
-		    t.string		:cover_art_content_type
-		    t.integer		:cover_art_file_size
-		    t.datetime		:cover_art_updated_at
+			t.string		:cover_art_content_type
+			t.integer		:cover_art_file_size
+			t.datetime		:cover_art_updated_at
 			t.string		:status # published or not
 			
 			t.timestamps

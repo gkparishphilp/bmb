@@ -9,12 +9,12 @@ class PostsController < ApplicationController
 	
 	def edit
 		@post = Post.find params[:id]
-		require_user_owns( @post )
+		 require_user_can_manage( @post )
 	end
 	
 	def update
 		@post = Post.find params[:id] 
-		require_user_owns( @post )
+		 require_user_can_manage( @post )
 
 		if @post.update_attributes(params[:post])
 			pop_flash 'Post was successfully updated.'

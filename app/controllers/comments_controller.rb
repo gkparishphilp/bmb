@@ -7,7 +7,7 @@ class CommentsController < ApplicationController
 
 	def edit
 		@comment = @commentable.comments.find  params[:id]
-		require_user_owns( @comment )
+		 require_user_can_manage( @comment )
 	end
 
 	def create
@@ -65,7 +65,7 @@ class CommentsController < ApplicationController
 	def update
 		@comment = @commentable.comments.find params[:id] 
 
-		require_user_owns( @comment )
+		 require_user_can_manage( @comment )
 
 		if @comment.update_attributes params[:comment] 
 			pop_flash "Comment was successfully updated."
