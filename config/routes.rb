@@ -1,11 +1,13 @@
 Backmybook::Application.routes.draw do
 
+	constraints( Subdomain ) do
+		match '/' => 'authors#show'
+	end
+	
 	root :to => "site#index"
 
 	resources :authors do
-		member do
-			get :admin
-		end
+		get 'admin', :on => :collection
 		
 		resources :upload_email_lists
 		resources :email_campaigns do

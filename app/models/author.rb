@@ -25,7 +25,10 @@ class Author < ActiveRecord::Base
 	# represents writer of a book
 	# may or may not belong to user
 	
+	before_create	:set_subdomain
 	after_create	:create_default_campaign
+	
+	validate	:valid_subdomain
 	
 	has_many	:books
 	belongs_to	:user
@@ -41,9 +44,20 @@ class Author < ActiveRecord::Base
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
 	
+	def set_subdomain
+		self.subdomain = self.pen_name.gsub(/\W/, "_")
+	end
 	
 	def create_default_campaign
 		EmailCampaign.create!(:owner_type => self.class, :owner_id => self.id, :title => 'Default')
+	end
+	
+	
+	def valid_subdomain
+		if APP_SUBDOMAINS.include?( subdomain )
+			errors.add :subdomain, "Invalid subdomain"
+			return false
+		end
 	end
 	
 end

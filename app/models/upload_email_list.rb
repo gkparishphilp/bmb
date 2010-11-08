@@ -1,3 +1,18 @@
+# == Schema Information
+# Schema version: 20101103181324
+#
+# Table name: upload_email_lists
+#
+#  id         :integer(4)      not null, primary key
+#  owner_id   :integer(4)
+#  owner_type :string(255)
+#  file_name  :string(255)
+#  file_path  :string(255)
+#  list_type  :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class UploadEmailList < ActiveRecord::Base
 	# Created attr_accessor for book_id so select box would work on form for giveaways
 	require 'csv'

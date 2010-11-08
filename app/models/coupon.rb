@@ -1,3 +1,25 @@
+# == Schema Information
+# Schema version: 20101103181324
+#
+# Table name: coupons
+#
+#  id                  :integer(4)      not null, primary key
+#  owner_id            :integer(4)
+#  owner_type          :string(255)
+#  redeemable_id       :integer(4)
+#  redeemable_type     :string(255)
+#  redeemer_id         :integer(4)
+#  redeemer_type       :string(255)
+#  code                :string(255)
+#  description         :string(255)
+#  expiration_date     :datetime
+#  redemptions_allowed :integer(4)      default(-1)
+#  discount_type       :string(255)
+#  discount            :integer(4)
+#  created_at          :datetime
+#  updated_at          :datetime
+#
+
 class Coupon < ActiveRecord::Base
 	has_many	:redemptions
 	has_many 	:orders, :through => :redemptions

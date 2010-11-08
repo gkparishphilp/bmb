@@ -24,7 +24,6 @@ class UsersController < ApplicationController
 		end
 	end
 
-
 	def new
 		@user = User.new
 		@dest = params[:dest]
@@ -53,6 +52,7 @@ class UsersController < ApplicationController
 	
 		@user.orig_ip = request.ip
 		dest = params[:dest]
+		@a = params[:a]
 		@user.status = 'pending'
 		@user.site = @current_site
 	
@@ -69,12 +69,16 @@ class UsersController < ApplicationController
 			
 			login( @user )
 			
-			redirect_to @user
+			if params[:a]
+				redirect_to new_author_path
+			else
+				redirect_to @user
+			end
 
 		else
 			pop_flash 'Ooops, User not saved.... ', 'error', @user
 			@dest = dest
-			render :action => "new"
+			redirect_to register_path
 		end
 
 	end

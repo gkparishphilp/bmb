@@ -4,9 +4,9 @@
 # Table name: books
 #
 #  id                     :integer(4)      not null, primary key
-#  title                  :string(255)
 #  author_id              :integer(4)
 #  genre_id               :integer(4)
+#  title                  :string(255)
 #  view_count             :integer(4)      default(0)
 #  score                  :integer(4)
 #  subtitle               :string(255)

@@ -1,3 +1,19 @@
+# == Schema Information
+# Schema version: 20101103181324
+#
+# Table name: email_subscribings
+#
+#  id                 :integer(4)      not null, primary key
+#  subscribed_to_id   :integer(4)
+#  subscribed_to_type :string(255)
+#  subscriber_id      :integer(4)
+#  subscriber_type    :string(255)
+#  unsubscribe_code   :string(255)
+#  status             :string(255)
+#  created_at         :datetime
+#  updated_at         :datetime
+#
+
 # Email subscribings relate users and authors (the subscriber) to email campaigns (subscribed_to).  
 # The subscribed_to shouldn't be an email_message however, since logically, all email_messages should belong_to an email_campaign
 

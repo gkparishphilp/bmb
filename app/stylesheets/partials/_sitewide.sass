@@ -1,153 +1,140 @@
 // Globals
-$width-main:100%;
-$page-width:980px;
-$link:#0085ae;
-$border-color:#ccc;
-$tab-font:14px;
+$width-main: 100%
+$page-width: 980px
+$link: #0085ae
+$border-color: #cccccc
+$tab-font: 14px
 
-
-// Functions
-@mixin clearfix {
-	content: "."; 
-	display: block; 
-	height: 0; 
-	clear: both; 
-	visibility: hidden;
-}
-@mixin rounded($radius:4px) {
-	-moz-border-radius: $radius;
-	-khtml-border-radius: $radius;
-	-webkit-border-radius: $radius;
-	border-radius: $radius;
-}
-@mixin rounded-sides($side, $radius:4px) {
-	-moz-border-radius-#{$side}left: $radius;
-	-webkit-border-#{$side}-left-radius: $radius;
-	border-#{$side}-left-radius: $radius;
-	-moz-border-radius-#{$side}right: $radius;
-	-webkit-border-#{$side}-right-radius: $radius;
-	border-#{$side}-right-radius: $radius;	
-}
-@mixin rounded-right($side, $radius:4px) {
-	-moz-border-radius-#{$side}right: $radius;
-	-webkit-border-#{$side}-right-radius: $radius;
-	border-#{$side}-right-radius: $radius;	
-}
-@mixin rounded-left($side, $radius:4px) {
-	-moz-border-radius-#{$side}left: $radius;
-	-webkit-border-#{$side}-left-radius: $radius;
-	border-#{$side}-right-radius: $radius;	
-}
-@mixin shadow($x:1px,$y:2px,$offset:8px) {
-	box-shadow: $x $y $offset #888;
-	-moz-box-shadow: $x $y $offset #888;
-	-webkit-box-shadow: $x $y $offset #888;
-}
-@mixin top_menu($side:right){
-	padding:7px 0;
-	margin-left:20px;
-	li {
-		float:left;
-		margin-#{$side}:20px;
-		a {
-			vertical-align:baseline;
-			font-size:11px;
-			font-weight:bold;
-			padding:3px 14px 3px 2px;
-			background:transparent url('../images/arrow_rt.jpg') no-repeat 100% 44%;
-		}
-	}
-}
-@mixin footer_menu($side:right){
-	padding:7px 0;
-	margin-left:20px;
-	color:#fff;
-	li {
-		float:left;
-		margin-#{$side}:8px;
-		a {
-			vertical-align:baseline;
-			font-size:11px;
-			font-weight:bold;
-			padding:3px 14px 3px 2px;
-			color:#fff;
-		}
-	}
-}
-@mixin flash( $color ) 
+=flash( $color ) 
 	:border 2px solid $color
 	:cursor pointer
 	:padding 5px
 
+// Functions
+=clearfix
+	:content "."
+	:display block
+	:height 0
+	:clear both
+	:visibility hidden
 
-/* =Global Elements
--------------------------------------------------------------- */
-body,input,textarea {
-	font-family:Arial, Verdana, sans-serif;
-	font-size:13px;
-}
-body{
-	color:#707070;
-	background:#fff url('../images/bg.jpg');
-}
-a {
-	color:$link;
-	text-decoration: none;
-	&:hover {
-		text-decoration: underline;
-	}
-}
+=rounded($radius: 4px)
+	-moz-border-radius: $radius
+	-khtml-border-radius: $radius
+	-webkit-border-radius: $radius
+	border-radius: $radius
 
-/* =Structure
--------------------------------------------------------------- */
-#container {
-	width:$width-main;
-}
-#bd, #ft {
-	margin:auto;
-	width:$page-width;
-}
-#bd {
-	background-color:#fff;
-	border:1px solid #b0d3e1;
-	border-bottom:none;
-	@include rounded-sides(top,5px);
-}
-.column1,.column2 {
-	float:left;
-}
-.column1 {
-	width:65.5%;
-}
-.author_bd .column1 {
-	background:#fff url('../images/content_bg.jpg') repeat-y right top;
-}
-.column2 {
-	width:34.4%;
-}
-input[type="text"],
-textarea {
-	padding: 2px;
-	background: #f9f9f9;
-	border: 1px solid $border-color;
-}
-input[type="text"] {
-	@include rounded();
-}
+=rounded-sides($side, $radius: 4px)
+	-moz-border-radius-#{$side}left: $radius
+	-webkit-border-#{$side}-left-radius: $radius
+	border-#{$side}-left-radius: $radius
+	-moz-border-radius-#{$side}right: $radius
+	-webkit-border-#{$side}-right-radius: $radius
+	border-#{$side}-right-radius: $radius
 
-/* =Layout
--------------------------------------------------------------- */
+=rounded-right($side, $radius: 4px)
+	-moz-border-radius-#{$side}right: $radius
+	-webkit-border-#{$side}-right-radius: $radius
+	border-#{$side}-right-radius: $radius
 
-.search_form input[type="text"] {
-	float:right;
-	border: 1px solid #ddd;
-	color:#666;
-	margin-top:3px;
-	padding: 0 3px 1px 6px;
-	width: 180px;
-	height: 18px;
-	background-color:#fff;
-}
+=rounded-left($side, $radius: 4px)
+	-moz-border-radius-#{$side}left: $radius
+	-webkit-border-#{$side}-left-radius: $radius
+	border-#{$side}-right-radius: $radius
+
+=shadow($x: 1px, $y: 2px, $offset: 8px)
+	box-shadow: $x $y $offset #888888
+	-moz-box-shadow: $x $y $offset #888888
+	-webkit-box-shadow: $x $y $offset #888888
+
+=top_menu($side: right)
+	:padding 7px 0
+	:margin-left 20px
+	li
+		:float left
+		:margin-#{$side} 20px
+		a
+			:vertical-align baseline
+			:font-size 11px
+			:font-weight bold
+			:padding 3px 14px 3px 2px
+			:background transparent url("../images/arrow_rt.jpg") no-repeat 100% 44%
+
+=footer_menu($side: right)
+	:padding 7px 0
+	:margin-left 20px
+	:color #fff
+	li
+		:float left
+		:margin-#{$side} 8px
+		a
+			:vertical-align baseline
+			:font-size 11px
+			:font-weight bold
+			:padding 3px 14px 3px 2px
+			:color #fff
+
+body, input, textarea
+	:font-family Arial, Verdana, sans-serif
+	:font-size 13px
+
+body
+	:color #707070
+	:background white url("../images/bg.jpg")
+
+a
+	:color $link
+	:text-decoration none
+	&:hover
+		:text-decoration underline
+
+/* =Structure */
+
+#container
+	:width $width-main
+
+#bd, #ft
+	:margin auto
+	:width $page-width
+
+#bd
+	:background-color #fff
+	:border 1px solid #b0d3e1
+	:border-bottom none
+	+rounded-sides(top, 5px)
+
+.column1, .column2
+	:float left
+
+.column1
+	:width 65.5%
+
+.author_bd .column1
+	:background white url("../images/content_bg.jpg") repeat-y right top
+
+.column2
+	:width 34.4%
+
+input[type="text"], textarea
+	:padding 2px
+	:background #f9f9f9
+	:border 1px solid $border-color
+
+input[type="text"]
+	+rounded
+
+/* =Layout */
+
+.search_form input[type="text"]
+	:float right
+	:border 1px solid #ddd
+	:color #666
+	:margin-top 3px
+	:padding 0 3px 1px 6px
+	:width 180px
+	:height 18px
+	:background-color #fff
+	
 
 // Flashes
 #flash
@@ -155,10 +142,11 @@ input[type="text"] {
 	:margin 0 auto
 	.error
 		:background #ffd1d6 url(../images/close_error.png) top right no-repeat
-		@include flash( #ff3333 )
+		+flash( #ff3333 )
 	.success
 		:background #e6efc2 url(../images/close_success.png) top right no-repeat
-		@include flash( #c6d880 )
+		+flash( #c6d880 )
 	.notice
 		:background #fff6bf url(../images/close_notice.png) top right no-repeat
-		@include flash( #ffd324 ) 
+		+flash( #ffd324 )
+		

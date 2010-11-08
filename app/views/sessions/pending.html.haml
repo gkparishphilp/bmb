@@ -8,7 +8,7 @@
 		%br
 		= f.submit "Enter"
 	
-- elsif !@user.has_valid_email?
+- elsif !@user.validated?
 	Your email address has not been validated yet:
 	%br
 	= @user.email

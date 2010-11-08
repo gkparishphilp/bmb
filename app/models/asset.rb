@@ -6,13 +6,14 @@
 #  id                  :integer(4)      not null, primary key
 #  book_id             :integer(4)
 #  content_location_id :integer(4)
-#  name                :string(255)
+#  title               :string(255)
 #  format              :string(255)
 #  price               :integer(4)
 #  download_count      :integer(4)      default(0)
 #  asset_type          :string(255)
 #  word_count          :integer(4)
 #  origin              :string(255)
+#  status              :string(255)
 #  created_at          :datetime
 #  updated_at          :datetime
 #

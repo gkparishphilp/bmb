@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: merches
 #
 #  id                   :integer(4)      not null, primary key
-#  owner                :integer(4)
+#  owner_id             :integer(4)
 #  owner_type           :string(255)
 #  title                :string(255)
 #  description          :text
@@ -15,6 +15,7 @@
 #  artwork_content_type :string(255)
 #  artwork_file_size    :integer(4)
 #  artwork_updated_at   :datetime
+#  status               :string(255)
 #  created_at           :datetime
 #  updated_at           :datetime
 #

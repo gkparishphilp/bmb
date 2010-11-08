@@ -1,21 +1,18 @@
-/* =Footer
-----------------------------------*/
-#ft {
-	background-color:#0085ae;
-	@include rounded-sides(bottom);
-	border:1px solid #0085ae;
-	border-top:none;
-}
-ul.footer_menu {
-	float: left;
-	@include footer_menu(right);
-	img {
-		margin-top:-2px;
-		margin-bottom:-4px;
-	}
-}
-ul.author_copy {
-	float: right;
-	margin-right:30px;
-	@include footer_menu(left);
-}
+/* =Footer */
+#ft
+	:background-color #0085ae
+	+rounded-sides(bottom)
+	:border 1px solid #0085ae
+	:border-top none
+
+ul.footer_menu
+	:float left
+	+footer_menu(right)
+	img
+		:margin-top -2px
+		:margin-bottom -4px
+
+ul.author_copy
+	:float right
+	:margin-right 30px
+	+footer_menu(left)

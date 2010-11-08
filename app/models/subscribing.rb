@@ -1,3 +1,20 @@
+# == Schema Information
+# Schema version: 20101103181324
+#
+# Table name: subscribings
+#
+#  id              :integer(4)      not null, primary key
+#  subscription_id :integer(4)
+#  user_id         :integer(4)
+#  order_id        :integer(4)
+#  status          :string(255)
+#  profile_id      :string(255)
+#  expiration_date :datetime
+#  origin          :string(255)
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class Subscribing < ActiveRecord::Base
 	belongs_to 	:subscription
 	belongs_to 	:user

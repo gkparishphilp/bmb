@@ -19,6 +19,7 @@
 			Or, Log In the Old-School Way
 		= form_tag :controller=>'sessions' do
 			= hidden_field_tag :dest, @dest
+			= hidden_field_tag :a, @a
 			%label
 				Email:
 			= text_field_tag :email, params[:email], :class => :login_email
@@ -31,7 +32,7 @@
 			|
 			= link_to 'Cancel', root_path, :class => :cancel_button
 			|
-			= link_to 'Register', new_user_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
+			= link_to 'Register', register_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
 			%br
 			(
 			= link_to "Forgot Password?", forgot_path

@@ -1,0 +1,14 @@
+%h1 Create an Author Profile
+
+= form_for @author do |f|
+	= f.label 'Pen Name:'
+	%br
+	= f.text_field :pen_name
+	%br
+	%br
+	= f.label 'Your Author Bio:'
+	%br
+	= f.text_area :bio
+	%br
+	= f.submit
+

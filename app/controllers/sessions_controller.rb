@@ -1,17 +1,23 @@
 class SessionsController < ApplicationController
 	def new
 		@dest = params[:dest]
+		@a = params[:a]
 	end
   
 	def create
 		user = User.authenticate( params[:email], params[:password] )
 		dest = params[:dest]
+		a = params[:a]
 		if user
 			login( user )
 			pop_flash  "#{user.email} successfully logged in"
 			
 			if dest.empty? || dest == "/"
-				redirect_to user_path( user )
+				if a 
+					redirect_to new_author_path
+				else
+					redirect_to user_path( user )
+				end
 			else
 				redirect_to dest
 			end
@@ -28,6 +34,7 @@ class SessionsController < ApplicationController
 	def register
 		@user = User.new
 		@dest = params[:dest]
+		@a = params[:a]
 	end
 
 	def destroy

@@ -72,9 +72,17 @@ protected
 
 	def require_login
 		if @current_user.anonymous?
-			flash[:notice] = "Please log in first"
+			pop_flash  "Please log in first", :notice
 			@dest = request.url
 			redirect_to new_session_path
+			return false
+		end
+	end
+	
+	def require_validated
+		unless @current_user.validated?
+			pop_flash "Must have validated email", :notice
+			redirect_to root_path
 			return false
 		end
 	end

@@ -1,12 +1,14 @@
 # == Schema Information
-# Schema version: 20101026212141
+# Schema version: 20101103181324
 #
 # Table name: orders
 #
 #  id                      :integer(4)      not null, primary key
 #  user_id                 :integer(4)
+#  shipping_address_id     :integer(4)
+#  billing_address_id      :integer(4)
 #  ordered_id              :integer(4)
-#  ordered_type            :integer(4)
+#  ordered_type            :string(255)
 #  email                   :string(255)
 #  ip                      :string(255)
 #  price                   :integer(4)

@@ -1,22 +1,21 @@
-#hd {
-	height: 35px;
-	background: transparent url('../images/top_hd_bg.jpg') repeat-x left top;
-}
-#hd .wrapper {
-	margin:auto;
-	width:$page-width;
-}
-.wrapper:after,#bd:after,#ft:after,.author_hd:after,.author_bd:after,.author_menu:after,.author_promo:after {
-	@include clearfix;
-}
-#hd .logo {
-	float:left;
-}
-ul.top_main_menu {
-	float: left;
-	@include top_menu(right);	
-}
-ul.top_user_menu {
-	float: right;
-	@include top_menu(left);
-}
+#hd
+	:height 35px
+	:background transparent url("../images/top_hd_bg.jpg") repeat-x left top
+
+#hd .wrapper
+	:margin auto
+	:width $page-width
+
+.wrapper:after,#bd:after,#ft:after,.author_hd:after,.author_bd:after,.author_menu:after,.author_promo:after
+	+clearfix
+
+#hd .logo
+	:float left
+
+ul.top_main_menu
+	:float left
+	+top_menu(right)
+
+ul.top_user_menu
+	:float right
+	+top_menu(left)
