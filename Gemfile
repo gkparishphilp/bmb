@@ -12,6 +12,7 @@ gem 'paperclip'
 gem 'twitter'
 gem 'mini_fb'
 gem 'tiny_mce'
+gem 'amazon-ecs'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"
