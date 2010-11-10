@@ -43,6 +43,7 @@ class Author < ActiveRecord::Base
 	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
+	has_many	:bundles, :as => :owner
 	
 	def set_subdomain
 		self.subdomain = self.pen_name.gsub(/\W/, "_")

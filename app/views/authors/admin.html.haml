@@ -1,7 +1,24 @@
 %h2
 	Author Admin Area
 %br
-%br	
+%br
+%hr
+%b Manage book, bundles, and assets
+%br
+%br
+= link_to 'Create a book', '#create_book_form', :rel => 'facebox'
+%br
+%br
+= link_to 'Create an asset', '#create_asset_form', :rel => 'facebox'
+%br
+%br
+= link_to 'Create a bundle', '#create_bundle_form', :rel => 'facebox'
+%br
+%br
+= link_to 'Add asset to bundle', '#add_asset_to_bundle_form', :rel => 'facebox'
+%br
+%br
+%hr
 = link_to 'Upload a List for Giveaway', '#upload_giveaway_list_form', :rel => 'facebox'
 %br
 %br	
@@ -13,7 +30,7 @@
 
 %br
 %br
-
+%hr
 %b Existing Email Messages
 %br
 %table
@@ -47,9 +64,15 @@
 
 %br
 %hr
-%hr
-%h3 Subscriptions
+%b Subscriptions
 %br
+%br
+
+
+= link_to 'Purchase Author Premium Subscription', new_order_path(:ordered_id => 1, :ordered_type=> 'Subscription')
+%br
+%br
+Existing Subscriptions
 %table
 	%tr
 		%td 
@@ -69,6 +92,86 @@
 				- if sub.status == 'ActiveProfile'
 					=link_to 'Cancel', cancel_subscribing_path( sub ) 
 	
+%br
+%hr
+%b Purchase Testing
+%br
+%br
+=link_to 'Purchase Bundle', new_order_path(:ordered_id => 3, :ordered_type=> 'Bundle')
+%br
+%br
+=link_to 'Purchase Asset', new_order_path(:ordered_id => 2, :ordered_type=> 'Asset')
+%br
+	
+
+#create_book_form( style = 'display:none;')
+	%h2 Create a Book 
+
+	-form_for Book.new, :html => {:multipart => :true} do |f|
+		Title:
+		= f.text_field	:title
+		%br
+		Subtitle: 
+		= f.text_field :subtitle
+		%br
+		Description: 
+		= f.text_field :description
+		%br
+		= f.hidden_field :author_id, :value => @author.id
+		%br
+		= f.submit "Create"
+		%br
+
+#create_asset_form( style = 'display:none;')
+	%h2 Create an Asset 
+
+	-form_for Asset.new, :html => {:multipart => :true} do |f|
+		For Book:
+		= f.collection_select :book_id, @author.books, :id, :title
+		%br
+		Title:
+		= f.text_field	:title
+		%br
+		Format: 
+		= f.select :format, %w{pdf epub mobi awz lit}
+		%br
+		Type of Asset
+		= f.select :asset_type, %w{book chapter preview}
+		%br
+		Price: 
+		= f.text_field :price
+		%br
+		= f.submit "Create"
+
+#create_bundle_form( style = 'display:none;')
+	%h2 Create a Bundle 
+
+	-form_for Bundle.new, :html => {:multipart => :true} do |f|
+		=f.hidden_field :owner_id, :value => @author.id
+		=f.hidden_field :owner_type, :value => @author.class.name
+		%br
+		Title:
+		= f.text_field	:title
+		%br
+		Description:
+		= f.text_field	:description
+		%br
+		Price: 
+		= f.text_field :price
+		%br
+		= f.submit "Create"
+		
+#add_asset_to_bundle_form( style = 'display:none;')
+	%h2 Add Asset to Bundle 
+
+	-form_for BundleAsset.new do |f|
+		Select Bundle:
+		= f.collection_select :bundle_id, @author.bundles, :id, :title
+		%br
+		Select Asset:
+		= f.collection_select :asset_id, @all_assets, :id, :title
+		%br
+		= f.submit "Add"
 
 #upload_email_list_form( style = 'display:none;')
 	%h2 Upload Email List 

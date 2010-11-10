@@ -19,6 +19,9 @@
 #
 
 class Bundle < ActiveRecord::Base
+	attr_accessor :assets
 	has_many :coupons, :as => :redeemable
 	has_many :orders, :as => :ordered
+	has_many :bundle_assets
+	belongs_to	:owner, :polymorphic => true
 end

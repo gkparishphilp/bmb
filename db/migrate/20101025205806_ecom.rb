@@ -17,7 +17,7 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :bundle_assets, :force => true do |t|
 			t.references	:bundle
-			t.references	:asset
+			t.references	:assets
 			
 			t.timestamps
 		end
@@ -107,7 +107,7 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :ownings, :force => true do |t|
 			t.references	:owner, :polymorphic => true
-			t.references	:user
+			t.references	:owned, :polymorphic => true
 			t.string	:status
 			
 			t.timestamps

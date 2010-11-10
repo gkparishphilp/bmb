@@ -8,7 +8,6 @@ Backmybook::Application.routes.draw do
 
 	resources :authors do
 		get 'admin', :on => :collection
-		
 		resources :upload_email_lists
 		resources :email_campaigns do
 			resources :email_messages
@@ -18,10 +17,16 @@ Backmybook::Application.routes.draw do
 	resources :articles do
 		resources :comments
 	end
+	
+	resources :assets
+	resources :books
 
 	resources :blog do
 		get 'admin', :on => :collection
 	end
+	
+	resources :bundle_assets
+	resources :bundles
 	
 	resources :contacts
 	

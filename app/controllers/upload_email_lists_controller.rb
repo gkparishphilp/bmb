@@ -21,10 +21,10 @@ class UploadEmailListsController < ApplicationController
 				if params[:upload_email_list][:list_type] == 'giveaway'
 					redirect_to giveaways_coupons_path
 				elsif params[:upload_email_list][:list_type] == 'newsletter'
-					redirect_to admin_author_path( @author )
+					redirect_to admin_authors_path
 				end
 			else
-				redirect_to admin_author_path( @author )
+				redirect_to admin_authors_path
 			end
 		else
 			flash[:error] = 'Oooops, UploadEmailList not saved...'

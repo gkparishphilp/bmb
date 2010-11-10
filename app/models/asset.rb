@@ -24,10 +24,11 @@ class Asset < ActiveRecord::Base
 	# may be the full work in some digital format
 	# or a sample, or a bonus, or a giveaway, etc.
 	
-	belongs_to	:book
 	has_one	 	:content_location
 	has_many	:coupons, :as => :redeemable
 	has_many	:orders, :as  => :ordered
+	belongs_to	:book
+	belongs_to	:bundle_asset
 	
 	def content
 		# Alias this to the actual content of the asset
@@ -37,6 +38,10 @@ class Asset < ActiveRecord::Base
 			# return the contents of the content_location.content DB field
 			return self.content_location.content
 		end
+	end
+	
+	def add_to_bundle(bundle)
+		BundleAsset.create!( :bundle_id => bundle.id, :asset_id => self.id )	
 	end
 	
 end

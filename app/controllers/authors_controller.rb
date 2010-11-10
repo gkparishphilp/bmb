@@ -7,6 +7,12 @@ class AuthorsController < ApplicationController
 	def admin
 		@author = @current_user.author
 		@campaign = @author.email_campaigns.find_by_title('Default')
+		@all_assets = Array.new
+		for book in @author.books
+			for asset in book.assets
+				@all_assets << asset
+			end
+		end
 	end
 	
 	def new
