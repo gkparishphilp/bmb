@@ -87,12 +87,16 @@ protected
 		end
 	end
 	
-	def require_user_owns( object )
+	def require_user_can_manage( object )
 		unless ( object.user == @current_user ) || ( @current_site.admins.include? @current_user )
 			pop_flash "Not your #{object.class.to_s}", :error
 			redirect_to root_path
 			return false
 		end
+	end
+	
+	def require_author_can_manage( object )
+		#todo
 	end
 	
 	# sets page metadata like page title and description
