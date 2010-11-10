@@ -23,5 +23,8 @@ class Bundle < ActiveRecord::Base
 	has_many :coupons, :as => :redeemable
 	has_many :orders, :as => :ordered
 	has_many :bundle_assets
+	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to	:owner, :polymorphic => true
+	has_many	:owners, :through => :ownings
+	
 end

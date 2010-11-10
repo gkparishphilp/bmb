@@ -155,12 +155,18 @@ class Order < ActiveRecord::Base
 			end	
 
 			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
-
+			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
+			
 		elsif self.ordered.is_a? Asset
+			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
 			
 		elsif self.ordered.is_a? Bundle
+			for bundle_asset in self.ordered.bundle_assets
+				owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => bundle_asset.id, :owned_type => bundle_asset.class
+			end
 				
 		elsif self.ordered.is_a? Subscription
+			#Subscribing has already been created in the purchase_subscription method to save Paypal response data
 			self.ordered.redemptions_remaining -= 1
 			self.ordered.save
 		end

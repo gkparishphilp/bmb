@@ -71,6 +71,7 @@ class User < ActiveRecord::Base
 	has_many	:coupons, :as => :redeemer
 	has_many	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscriber
+	has_many	:ownings
 	
 	belongs_to :site
 	

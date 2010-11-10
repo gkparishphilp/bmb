@@ -17,7 +17,7 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :bundle_assets, :force => true do |t|
 			t.references	:bundle
-			t.references	:assets
+			t.references	:asset
 			
 			t.timestamps
 		end

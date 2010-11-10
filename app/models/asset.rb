@@ -29,6 +29,7 @@ class Asset < ActiveRecord::Base
 	has_many	:orders, :as  => :ordered
 	belongs_to	:book
 	belongs_to	:bundle_asset
+	has_many	:owners, :through => :ownings
 	
 	def content
 		# Alias this to the actual content of the asset
