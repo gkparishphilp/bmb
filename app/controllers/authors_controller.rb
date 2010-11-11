@@ -16,10 +16,14 @@ class AuthorsController < ApplicationController
 	end
 	
 	def new
+		if @current_user.author?
+			pop_flash "Already an Author", :notice
+			redirect_to author_admin_index_path( @current_user.author ) 
+		end
 		@author = Author.new
 		@author.pen_name = @current_user.name
 		@author.bio = @current_user.bio
-		redirect_to author_admin_index_path( @author ) if @current_user.author?
+	
 	end
 	
 	def create
@@ -36,6 +40,10 @@ class AuthorsController < ApplicationController
 	
 	def show 
 		@current_author = Author.find params[:id] if @current_author.nil?
+		if @current_author.nil?
+			pop_flash "No author found", :notice
+			redirect_to root_path
+		end
 	end
 	
 end

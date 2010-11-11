@@ -7,8 +7,8 @@
 				%ul.slide-menu
 					%li.first.main-menu.selected
 						%ul.menu_slider
-							%li= link_to "Blog", "#"
-							%li= link_to "Forum", "#"
+							%li= link_to "Blog", "blog"
+							%li= link_to "Forum", "forum"
 							%li= link_to "Books", "#"
 							%li= link_to "Bio", "#"
 						= link_to "Menu","#", :id=>'slide-menu'
@@ -44,6 +44,9 @@
 				=image_tag('facebook.jpg')
 				=image_tag('rss.jpg',:alt=>'rss feed')
 				=image_tag('mail.jpg',:alt=>'contact author')
+			#contact_form
+				= text_field_tag :email
+				= submit_tag 'Submit'
 		#accordion
 			%div
 				%h3 
