@@ -3,7 +3,7 @@
 	$("#accordion").accordion({ header: "h3" });
 
 	// Tabs
-	$('#tabs').tabs();
+	// $('#tabs').tabs();
 	
 	// Slide Menu
 	$('#slide-menu').click(function() {
@@ -14,4 +14,7 @@
 	        95
 	    });
 	  });
+	$("li.main-menu").click(function () {
+	    $(this).toggleClass("selected");
+    });
   });
