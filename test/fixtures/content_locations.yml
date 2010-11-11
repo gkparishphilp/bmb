@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101103181324
+# Schema version: 20101110044151
 #
 # Table name: content_locations
 #

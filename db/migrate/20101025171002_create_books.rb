@@ -42,7 +42,7 @@ class CreateBooks < ActiveRecord::Migration
 		
 		#ISBNs, ASINs, etc.
 		create_table :book_identifiers, :force => true do |t|
-			t.references	:book_id
+			t.references	:book
 			t.string		:identifier_type
 			t.string		:identifier
 			t.string		:status

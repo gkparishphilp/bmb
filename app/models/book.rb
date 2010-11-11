@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101103181324
+# Schema version: 20101110044151
 #
 # Table name: books
 #
@@ -25,8 +25,12 @@
 #  updated_at             :datetime
 #
 
+require 'amazon/ecs'
 class Book < ActiveRecord::Base
 	# represents a "title" or "work"
+	
+	validates	:title, :uniqueness => { :scope => :author_id }
+	
 	belongs_to	:author
 	belongs_to  :genre
 	
@@ -40,6 +44,38 @@ class Book < ActiveRecord::Base
 	has_one		:upload_file
 	has_many	:coupons, :as => :redeemable
 	
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
+	
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags
+	
+	attr_accessor :asin
+	
+	# class_methods
+	def self.find_on_amazon( title )
+		Amazon::Ecs.item_search( title, :response_group => 'Medium', :search_index => 'Books' ).items
+	end
+	
+	def self.create_from_asin( asin, author )
+		# todo -- could use some error-catching
+		@result = Amazon::Ecs.item_search( asin, :response_group => 'Medium', :search_index => 'Books' ).items.first
+		if @result.nil?
+			return false
+		end
+		book = author.books.new :title => @result.get( 'title' ), :description => @result.get_unescaped( 'editorialreview/content' )
+		
+		if book.save
+			book.book_identifiers.create :identifier_type => 'asin', :identifier => @result.get('asin') if @result.get('asin')
+			book.book_identifiers.create :identifier_type => 'isbn', :identifier => @result.get('isbn') if @result.get('isbn')
+			book.book_identifiers.create :identifier_type => 'ean', :identifier => @result.get('ean') if @result.get('ean')
+		
+			avatar = Attachment.create_from_resource( @result.get('largeimage/url'), 'avatar', :owner => book, :remote => 'true' )
+		
+			book.links.create :title => "Amazon", :url => "http://www.amazon.com/dp/#{@result.get('asin')}/?tag=#{AMAZON_ASSOCIATE_ID}", :description => "Check out #{book.title} at Amazon" if @result.get('asin')
+		
+			book.links.create :title => "Google Books", :url => "http://books.google.com/books?vid=ISBN#{@result.get('isbn')}", :description => "Check out #{book.title} at Google Books" if @result.get('isbn')
+		end
+		
+		return book
+	end
 end

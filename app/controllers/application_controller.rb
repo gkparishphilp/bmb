@@ -1,12 +1,20 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
-	before_filter :fetch_site, :fetch_logged_in_user
+	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
 
 protected
 	# Grabs @current_user from session cookie
 	def fetch_logged_in_user
 		@current_user = ( session[:user_id] && User.find( session[:user_id] ) ) || User.anonymous
 		@current_user.human = @current_user.logged_in? || cookies[:human] == 'true'
+	end
+	
+	def fetch_author
+		if request.subdomain.present? && !APP_SUBDOMAINS.include?( request.subdomain )
+			@current_author = Author.find_by_subdomain request.subdomain
+		elsif params[:author_id].present?
+			@current_author = Author.find params[:author_id]
+		end
 	end
 	
 	# grabs @current_site from request.domain
@@ -30,7 +38,11 @@ protected
 	
 	# populates the flash with message and error messages if any
 	def pop_flash( message, code = :success, *object )
-		flash[code] = "<b>#{message}</b>"
+		if flash[code].blank?
+			flash[code] = "<b>#{message}</b>"
+		else
+			flash[code] += "<b>#{message}</b>"
+		end
 		
 		object.each do |obj|
 			obj.errors.each do |field, msg|
@@ -82,6 +94,15 @@ protected
 	def require_validated
 		unless @current_user.validated?
 			pop_flash "Must have validated email", :notice
+			redirect_to root_path
+			return false
+		end
+	end
+	
+	def require_author
+		@author = @current_user.author
+		if @author.nil?
+			pop_flash "Must be logged in as an author", :notice
 			redirect_to root_path
 			return false
 		end

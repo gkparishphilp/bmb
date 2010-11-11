@@ -7,7 +7,14 @@ Backmybook::Application.routes.draw do
 	root :to => "site#index"
 
 	resources :authors do
-		get 'admin', :on => :collection
+		get 'manage', :on => :collection
+		resources :admin do
+			get 'email', :on => :collection
+			get 'podcast', :on => :collection
+		end
+		resources :books do
+			post 'confirm', :on => :collection
+		end
 		resources :upload_email_lists
 		resources :email_campaigns do
 			resources :email_messages
@@ -19,7 +26,6 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :assets
-	resources :books
 
 	resources :blog do
 		get 'admin', :on => :collection
