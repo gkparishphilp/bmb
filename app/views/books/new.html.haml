@@ -1,0 +1,7 @@
+
+%h1 Create a Book
+
+= form_tag confirm_author_books_path do
+	%h3 Step 1: What is the Title?
+	= text_field_tag :title, "", :class => :book_title_field
+	= submit_tag "Enter"

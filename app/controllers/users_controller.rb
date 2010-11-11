@@ -48,7 +48,14 @@ class UsersController < ApplicationController
 	end
 
 	def create
-		@user = User.new params[:user]
+		@user = User.find_or_initialize_by_email params[:user][:email]
+		if @user.hashed_password.present?
+			# someone created an account with this email address before.... send to forgot pass?
+		else
+			# this is a brand-new user, whether we found an email or not
+			@user.attributes = params[:user]
+		end
+		
 	
 		@user.orig_ip = request.ip
 		dest = params[:dest]
@@ -69,7 +76,7 @@ class UsersController < ApplicationController
 			
 			login( @user )
 			
-			if params[:a]
+			if @a == 1
 				redirect_to new_author_path
 			else
 				redirect_to @user

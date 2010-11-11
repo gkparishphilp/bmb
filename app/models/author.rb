@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101103181324
+# Schema version: 20101110044151
 #
 # Table name: authors
 #
@@ -25,7 +25,7 @@ class Author < ActiveRecord::Base
 	# represents writer of a book
 	# may or may not belong to user
 	
-	before_create	:set_subdomain
+	before_create		:set_subdomain
 	after_create	:create_default_campaign
 	
 	validate	:valid_subdomain
@@ -46,7 +46,7 @@ class Author < ActiveRecord::Base
 	has_many	:bundles, :as => :owner
 	
 	def set_subdomain
-		self.subdomain = self.pen_name.gsub(/\W/, "_")
+		self.subdomain = self.pen_name.gsub(/\W/, "-").downcase
 	end
 	
 	def create_default_campaign

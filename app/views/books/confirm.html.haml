@@ -1,0 +1,21 @@
+%h2 
+	Confirm?
+#confirm_book_list
+	- for item in @amzn_response[0..9]
+		.confirm_book_item
+			.amzn_thumb= image_tag item.get('smallimage/url') || '&nbsp;'
+			.amzn_data
+				.amzn_title= link_to item.get( 'title' ), "http://www.amazon.com/dp/#{item.get('asin')}/?tag=#{AMAZON_ASSOCIATE_ID}"
+				.amzn_author
+					By
+					= item.get( 'author' )
+			.confirm
+				= form_for [ @author, Book.new ] do  |f|
+					= f.hidden_field :asin, :value => item.get( 'asin' )
+					= f.submit "Yes"
+		%hr.clear
+
+= form_for [ @author, Book.new ] do |f|
+	= f.hidden_field :title, :value => @title
+	= f.submit "Nope, None of these are My book"
+	
