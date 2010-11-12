@@ -31,7 +31,7 @@
 						=link_to "Reviews", "#", :class=>'gray'		
 	.column2
 		.author_photo
-			=image_tag('author_profile.jpg',:alt=>'author profile')
+			= image_tag @current_author.avatar.location( :profile )
 	
 .author_bd
 	.column1

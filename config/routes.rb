@@ -12,6 +12,7 @@ Backmybook::Application.routes.draw do
 			get 'email', :on => :collection
 			get 'podcast', :on => :collection
 			get 'design', :on => :collection
+			get 'books', :on => :collection
 		end
 		resources :books do
 			post 'confirm', :on => :collection
