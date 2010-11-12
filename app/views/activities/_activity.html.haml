@@ -1,6 +1,6 @@
 %div[activity]
 	- if activity.actor.respond_to? 'avatar'
-		= image_tag activity.actor.avatar, :width => 30
+		= image_tag activity.actor.avatar.location, :width => 30
 	- if activity.actor == @current_user
 		You
 	- else

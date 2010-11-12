@@ -84,8 +84,46 @@ class Attachment < ActiveRecord::Base
 		if self.remote
 			return self.path
 		end
-		path = self.path.gsub( /\A.+public/, "" )
-		style ? "#{path}#{self.name}_#{style}.#{self.format}" : "#{self.path}#{self.name}.#{self.format}"
+		rel_path = self.path.gsub( /\A.+public/, "" )
+		style ? "#{rel_path}#{self.name}_#{style}.#{self.format}" : "#{rel_path}#{self.name}.#{self.format}"
+	end
+	
+	def update_from_resource( resource, opts={} )
+		
+		self.remote = false
+		
+		if opts[:remote] == 'true'
+			self.remote = true
+			self.path = resource
+			self.save if self.valid?
+			return self
+		end
+		
+		if resource =~ /\Ahttp:\/\//
+			name, ext = self.parse_name( resource )
+		else
+			name, ext = self.parse_name( resource.original_filename )
+		end
+		
+		if self.valid?
+			path = self.create_path( opts )
+		
+			ext_name = "#{name}.#{ext}"
+			write_path = File.join( path, ext_name )
+			if resource =~ /\Ahttp:\/\//
+				image = MiniMagick::Image.open( resource )
+				image.write( write_path )
+			else
+				post = File.open( write_path,"wb" ) { |f| f.write( resource.read ) }
+			end
+			
+			filesize = File.size( write_path )
+		
+			self.update_attributes :filesize => filesize, :path => path, :name => name, :format => ext
+		end
+		
+		return self
+		
 	end
 	
 	def create_path( opts={} )
@@ -135,8 +173,8 @@ class Attachment < ActiveRecord::Base
 			full_name = name.match( /[\d\w\(\)-]+\..+\z/ ).to_s 
 		end
 	
-		ext = full_name.match( /\w+\z/ ).to_s # any number of word chars following non-word (ie period), then eol
-		name = full_name.match( /[\d\w-]+\./ ).to_s.chop
+		ext = full_name.match( /\w+\z/ ).to_s.downcase # any number of word chars following non-word (ie period), then eol
+		name = full_name.match( /[\d\w-]+\./ ).to_s.chop.downcase
 
 		return name, ext
 	

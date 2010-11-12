@@ -1,8 +1,9 @@
 #Setup Default Admin and Anonymous Users
 puts "Setup Default Anonymous User"
 
-anon = User.new :name => 'Anonymous', :photo_url => "/images/anon_user.jpg"
+anon = User.new :name => 'Anonymous'
 anon.save( false )
+avatar = Attachment.create( :path => '/images/anon_user.jpg', :attachment_type => 'avatar', :owner => anon, :remote => true, :name => 'anon_user', :format => 'jpg' )
 puts "Anon saved"
 
 puts "Setup Sites"

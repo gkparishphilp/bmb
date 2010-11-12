@@ -89,32 +89,23 @@ class UsersController < ApplicationController
 		end
 
 	end
+	
+	def update_avatar
+		@user = User.find params[:id] 
+		@user.avatar.update_from_resource( params[:attached_avatar_file] )
+		redirect_to request.env['HTTP_REFERER']
+	end
 
 	def update
-		@user = User.find(params[:id]) 
+		@user = User.find params[:id] 
 		
-		email_changed = !params[:user][:email].blank?
-		
-		if @user.update_attributes(params[:user])
-			flash[:notice] = 'User was successfully updated.'
-			
-			if email_changed
-				@user.create_activation_code
-				@user.activated_at = nil
-				@user.save
-				@user.reload
-				for sub in @user.email_subscriptions
-					sub.email = @user.email
-				end
-				email_args = { :user => @user }
-				email = UserMailer.deliver_welcome( email_args )
-				flash[:notice] += " An Email has been sent to "  + @user.email + ".  Please follow the enclosed instructions to activate your account."
-			end
-			redirect_to request.env['HTTP_REFERER']
+		if @user.update_attributes( params[:user] )
+			pop_flash 'User was successfully updated.'	
 		else
 			pop_flash 'Oooops, User not updated...', 'error', @user
-			redirect_to request.env['HTTP_REFERER']
 		end
+		
+		redirect_to request.env['HTTP_REFERER']
 	end
 
 	def destroy

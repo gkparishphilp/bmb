@@ -108,6 +108,9 @@ Backmybook::Application.routes.draw do
 			get 'admin'
 			post 'update_password'
 		end
+		member do
+			post 'update_avatar'
+		end
 		get 'resend', :on => :member
 	end
 	
