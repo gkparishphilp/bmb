@@ -72,13 +72,6 @@ class Users < ActiveRecord::Migration
 		
 			t.string		:orig_ip
 			t.string		:last_ip
-		
-			# Photo stuff
-			t.string		:photo_url
-			t.string		:photo_file_name
-			t.string		:photo_content_type
-			t.integer		:photo_file_size
-			t.datetime		:photo_updated_at
 
 			# And PayPal
 			t.string		:paypal_id, :limit => 13

@@ -23,11 +23,6 @@
 #  tax_id                    :string(255)
 #  orig_ip                   :string(255)
 #  last_ip                   :string(255)
-#  photo_url                 :string(255)
-#  photo_file_name           :string(255)
-#  photo_content_type        :string(255)
-#  photo_file_size           :integer(4)
-#  photo_updated_at          :datetime
 #  paypal_id                 :string(13)
 #  created_at                :datetime
 #  updated_at                :datetime
@@ -40,13 +35,11 @@ class User < ActiveRecord::Base
 	ANONYMOUS_ID = 1
 
 	# Filters		--------------------------------------
-	before_save	 	:set_photo_url_for_gravatar, :strip_website_url
-
+	before_save	 	:strip_website_url, :set_name
+	after_create	:set_avatar
   
 	# Validations	--------------------------------------
-	validates	:name, :presence => true
-
-	validates	:password, :confirmation => true, :length => {:minimum => 4, :maximum => 254}, :if => :old_school_user?
+	validates	:password, :confirmation => true, :length => { :minimum => 4, :maximum => 254 }, :if => :old_school_user?
 
 	validates	:email, :uniqueness => true, 
 						:length => {:minimum => 3, :maximum => 254},
@@ -80,11 +73,11 @@ class User < ActiveRecord::Base
 	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true
 
-	has_attached_file :photo, :styles => {
-	  :original  => "120x120#",
-	  :thumb => "64x64#",
-	  :tiny => "20x20#"
-	}
+	has_attached :avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => {
+				:profile  => "120",
+				:thumb => "64",
+				:tiny => "20"
+				}}
 	
 	acts_as_follower
 	does_activities
@@ -131,9 +124,6 @@ class User < ActiveRecord::Base
 		!self.anonymous?
 	end
   
-	def uploaded_photo?
-		self.photo.exists?
-	end
 	
 	def has_email?
 		!self.email.blank?
@@ -145,16 +135,6 @@ class User < ActiveRecord::Base
 	
 	def author?
 		!self.author.nil?
-	end
-	
-	
-	
-	def avatar
-		if self.uploaded_photo?
-			return self.photo.url(:original)
-		else
-			return self.photo_url
-		end
 	end
 	
 	def create_activation_code
@@ -222,22 +202,22 @@ class User < ActiveRecord::Base
 		!self.facebook_accounts.empty?
 	end
 
-protected
+	protected
 
-	def set_photo_url_for_gravatar
-		if  ( self.photo_url.blank? || self.photo_url ==  "/images/anon_user.jpg" ) && 
-			!self.uploaded_photo?
-			
-			if self.email
-				self.photo_url = "http://gravatar.com/avatar/" + Digest::MD5.hexdigest( self.email ) + "?d=identicon"
-			else
-				self.photo_url = "/images/anon_user.jpg"
-			end
+	def set_avatar
+		if self.has_email? && self.avatar.nil?
+			photo_url = "http://gravatar.com/avatar/" + Digest::MD5.hexdigest( self.email ) + "?d=identicon"
+			pic = Attachment.create( :path => photo_url, :attachment_type => 'avatar', :owner => self, :remote => true, :format => 'jpg' )
 		end
 	end
+
 	
 	def strip_website_url
 		website_url.gsub!('http://', '') unless website_url.nil?
+	end
+	
+	def set_name
+		self.name = self.email.gsub(/\W/, "-") unless self.name.present?
 	end
 	
 	

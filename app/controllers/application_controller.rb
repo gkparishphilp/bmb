@@ -52,6 +52,16 @@ protected
 		end
 	end
 	
+	def process_attachments_for( obj )
+	for key in params.keys do
+		if key =~ /attached_(.+)_/
+			resource = params[key] unless params[key].blank?
+			attach = Attachment.create_from_resource( resource, $1, :owner => obj )
+			pop_flash "There was a problem with the #{attach.name} Attachment", :error, attach unless attach.errors.empty?
+		end
+	end
+end
+	
 	
 	# Controller filters -- todo -- add @current_user.validated? for filter on valid email
 	def require_admin
