@@ -1,3 +1,6 @@
+.author_bd,
+.author_hd
+	:font-size 13px
 .author_hd h1
 	:color $link
 	:font-weight bold
@@ -35,13 +38,25 @@ ul.slide-menu
 			:background transparent url("../images/double_arrow_rt.jpg") no-repeat 0 50%
 			&:hover
 				:text-decoration none
+		&.selected
+			:background #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom
+		&.selected a
+			:background transparent url("../images/double_arrow_lt.png") no-repeat 0 50%
 		&.first a
 			:border-right 1px solid $border-color
+		&.main-menu li a
+			:color $link
+			:border none
+			:padding 13px 12px
+			:margin 0
+			:background none
 		ul.menu_slider
-			:background-color #fff
+			:background-color #F7F7F7
 			:position absolute
 			:top 0
-			:left -600px
+			:left 95px
+		ul li a
+			:background none
 
 .author_promo
 	:border-right 2px solid $border-color
@@ -90,6 +105,11 @@ ul.slide-menu
 
 .author_bd
 	:background-color #e5e5e5
+
+#inner-content-wrapper
+	:border-right 2px solid $border-color
+	:padding-bottom 40px
+	:min-height 600px
 
 .follow-me
 	:border-top 2px solid $border-color

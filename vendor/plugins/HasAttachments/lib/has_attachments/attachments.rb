@@ -28,6 +28,7 @@ module HasAttachments #:nodoc:
 					end	
 				end
 				
+				
 				if opts[:private] == 'true'
 					self.class_eval <<-END
 						def #{attachment_type}_path
@@ -71,7 +72,7 @@ module HasAttachments #:nodoc:
 						# define these in the Attachment Model as process_action methods e.g. process_resize, process_transcode, etc.
 						Attachment.class_eval <<-END
 							def call_process_#{action}
-								process_#{action}( #{styles})
+								process_#{action}( #{styles}) unless self.remote
 							end
 	
 						END

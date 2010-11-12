@@ -1,3 +1,24 @@
+# == Schema Information
+# Schema version: 20101110044151
+#
+# Table name: attachments
+#
+#  id              :integer(4)      not null, primary key
+#  owner_id        :integer(4)      not null
+#  owner_type      :string(255)     not null
+#  attachment_type :string(255)
+#  name            :string(255)
+#  format          :string(255)
+#  path            :string(255)
+#  filesize        :string(255)
+#  origin          :string(255)
+#  ip              :string(255)
+#  remote          :boolean(1)
+#  status          :string(255)     default("active")
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class Attachment < ActiveRecord::Base
 	include HasAttachments::AttachmentLib
 	
@@ -27,6 +48,13 @@ class Attachment < ActiveRecord::Base
 		attachment = Attachment.new :name => name, :format => ext, :attachment_type => type
 		attachment.owner = opts[:owner] if opts[:owner]
 		
+		if opts[:remote] == 'true'
+			attachment.remote = true
+			attachment.path = resource
+			attachment.save if attachment.valid?
+			return attachment
+		end
+		
 		if attachment.valid?
 			path = attachment.create_path( opts )
 		
@@ -53,6 +81,9 @@ class Attachment < ActiveRecord::Base
 	
 	# instance methods
 	def location( style=nil )
+		if self.remote
+			return self.path
+		end
 		path = self.path.gsub( /\A.+public/, "" )
 		style ? "#{path}#{self.name}_#{style}.#{self.format}" : "#{self.path}#{self.name}.#{self.format}"
 	end

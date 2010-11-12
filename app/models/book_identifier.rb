@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20101103181324
+# Schema version: 20101110044151
 #
 # Table name: book_identifiers
 #
 #  id              :integer(4)      not null, primary key
-#  book_id_id      :integer(4)
+#  book_id         :integer(4)
 #  identifier_type :string(255)
 #  identifier      :string(255)
 #  status          :string(255)

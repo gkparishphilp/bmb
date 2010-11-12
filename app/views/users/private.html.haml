@@ -4,7 +4,8 @@
 - if @welcome_message
 	%h3= @welcome_message
 %hr
-
+= link_to "I'm an Author!", new_author_path
+%br
 - unless @current_user.has_email?
 	= form_for @current_user do |f|
 		= f.label "Email"

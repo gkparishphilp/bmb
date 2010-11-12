@@ -1,0 +1,12 @@
+%h2
+	Edit
+	= @book.title
+	
+= image_tag @book.avatar.location
+
+= form_for [ @author, @book ] do |f|
+	= f.label 'Subtitle:'
+	= f.text_field :subtitle
+	= f.label "Description:"
+	= f.text_area :description
+	= f.submit 
