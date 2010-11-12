@@ -11,15 +11,19 @@ Backmybook::Application.routes.draw do
 		resources :admin do
 			get 'email', :on => :collection
 			get 'podcast', :on => :collection
+			get 'design', :on => :collection
 		end
 		resources :books do
 			post 'confirm', :on => :collection
 		end
+		resources :themes
 		resources :upload_email_lists
 		resources :email_campaigns do
 			resources :email_messages
 		end
 	end
+	
+	
 	
 	resources :articles do
 		resources :comments

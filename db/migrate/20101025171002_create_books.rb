@@ -4,18 +4,19 @@ class CreateBooks < ActiveRecord::Migration
 		
 		create_table :assets do |t|
 			t.references	:book
-			t.references	:content_location
 			t.string		:title
 			t.string		:format # pdf, mobi, epub, etc. even if in DB, may be txt, html, rtf, etc...
 			t.integer		:price
 			t.integer		:download_count, :default => 0
 			t.string		:asset_type # full work, chapter, preview, etc...
+			t.string		:content
 			t.integer		:word_count
 			t.string		:origin # uploaded, gernerated by Calibre, etc..
 			t.string		:status # published or not
 
 			t.timestamps
 		end
+		change_column :assets, :content, :longtext
 		
 		create_table :books do |t|
 			t.references	:author
@@ -30,11 +31,6 @@ class CreateBooks < ActiveRecord::Migration
 			t.float			:rating_average
 			t.string		:backing_url # traffic cannon
 			t.string		:cached_slug
-			t.string		:cover_art_url
-			t.string		:cover_art_file_name
-			t.string		:cover_art_content_type
-			t.integer		:cover_art_file_size
-			t.datetime		:cover_art_updated_at
 			t.string		:status # published or not
 			
 			t.timestamps
@@ -49,15 +45,6 @@ class CreateBooks < ActiveRecord::Migration
 			
 			t.timestamps
 		end
-		
-		create_table :content_locations do |t|
-			t.references	:asset
-			t.string		:path
-			t.text			:content
-
-			t.timestamps
-		end
-		change_column :content_locations, :content, :longtext
 		
 		create_table :genres, :force => true do |t|
 			t.references	:parent

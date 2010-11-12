@@ -24,8 +24,6 @@ class Podcasts < ActiveRecord::Migration
 			t.string		:keywords
 			t.string		:duration
 			t.text			:description
-			t.integer		:filesize
-			t.string		:filename
 			t.string		:explicit
 			t.text			:transcript
 			t.string		:status

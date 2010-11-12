@@ -1,0 +1,15 @@
+%h1 Design
+
+= form_for [@author, @theme], :html => { :multipart => true } do |f|
+	= f.label "Theme Name:"
+	= f.text_field :name
+	= f.label "Text Color:"
+	= f.text_field :text_color
+	= f.label "Link Color:"
+	= f.text_field :link_color
+	= f.label "Body Background:"
+	= file_field_tag :attached_bg_file
+	= f.label "Banner Image:"
+	= file_field_tag :attached_banner_file
+	%br
+	= f. submit

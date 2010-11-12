@@ -11,6 +11,7 @@ s = Site.create :domain => 'localhost', :name => 'BmB Dev'
 s = Site.create :domain => 'tayandann.net', :name => 'BmB Facebook Dev'
 s = Site.create :domain => 'backmybook.com', :name => 'BmB Deploy'
 s = Site.create :domain => 'lvh.me', :name => 'Subdomain Testing'
+s = Site.create :domain => 'rippleread.com', :name => 'Staging'
 
 # load GeoStates
 puts "Loading GeoStates..."

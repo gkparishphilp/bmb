@@ -21,20 +21,16 @@ class CreateAuthors < ActiveRecord::Migration
 		
 		create_table :themes, :force => true do |t|
 			t.references	:author
+			t.string		:name
+			t.string		:status
 			t.string		:bg_color
 			t.string		:text_color
 			t.string		:link_color
-			t.string		:bg_img_file_name
-		    t.string		:bg_img_content_type
-		    t.integer		:bg_img_file_size
-		    t.datetime		:bg_img_updated_at
+			t.string		:color1
+			t.string		:color2
+			t.string		:color3
+			t.string		:color4
 		    t.string		:bg_repeat
-		    t.string		:bg_img_url
-		    t.string		:banner_img_file_name
-		    t.string		:banner_img_content_type
-		    t.integer		:banner_img_file_size
-		    t.datetime		:banner_img_updated_at
-		    t.string		:banner_img_url
 			
 			t.timestamps
 		end

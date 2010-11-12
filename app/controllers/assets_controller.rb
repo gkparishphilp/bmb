@@ -1,4 +1,6 @@
 class AssetsController < ApplicationController
+	before_filter	:get_book
+	
 	def new
 		@asset = Asset.new
 	end
@@ -13,6 +15,12 @@ class AssetsController < ApplicationController
 		
 		redirect_to admin_authors_path
 
+	end
+	
+	private
+	
+	def get_book
+		@book = Book.find params[:book_id]
 	end
 
 end

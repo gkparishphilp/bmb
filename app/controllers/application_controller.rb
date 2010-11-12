@@ -12,6 +12,7 @@ protected
 	def fetch_author
 		if request.subdomain.present? && !APP_SUBDOMAINS.include?( request.subdomain )
 			@current_author = Author.find_by_subdomain request.subdomain
+			@theme = @current_author.theme unless @current_author.nil?
 		elsif params[:author_id].present?
 			@current_author = Author.find params[:author_id]
 		end

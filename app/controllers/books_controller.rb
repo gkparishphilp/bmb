@@ -23,6 +23,11 @@ class BooksController < ApplicationController
 		@book = Book.find params[:id] 
 
 		if @book.update_attributes params[:book]
+			if @book.avatar
+				@book.avatar.update_from_resource( params[:attached_avatar_file] )
+			else
+				process_attachments_for( @book )
+			end
 			pop_flash 'Book was successfully updated.'
 			redirect_to author_admin_index_path( @author )
 		else
