@@ -1,47 +1,52 @@
 - if @current_user.anonymous?
-	#openID
-		%h3.blueText
-			Log in using a third-party account...
-		%br
-		%br
-		#facebook
-			= form_tag go_facebook_sessions_path do
-				= image_submit_tag 'facebook_connect.png'
-		#twitter
-			= form_tag go_twitter_sessions_path do
-				= image_submit_tag 'twitter_button.png'
-		-#
-			%p
-				%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
+	.column1
+		.pad_content
+			.form_group
+				%h1
+					Login to your account:
+				= form_tag :controller=>'sessions' do
+					= hidden_field_tag :dest, @dest
+					= hidden_field_tag :a, @a
+					%label
+						Email:
+					= text_field_tag :email, params[:email], :class => :login_email
+					%label
+						Password:
+					= password_field_tag	:password, params[:password], :class => :login_email
+					%br
+					%br
+					= submit_tag	"Login", :class => :login_button
+					|
+					= link_to 'Cancel', root_path, :class => :cancel_button
+					|
+					= link_to 'Register', register_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
+					%br
+					(
+					= link_to "Forgot Password?", forgot_path
+					)
 
-	#oldSchool
-		%h3.blueText
-			Or, Log In the Old-School Way
-		= form_tag :controller=>'sessions' do
-			= hidden_field_tag :dest, @dest
-			= hidden_field_tag :a, @a
-			%label
-				Email:
-			= text_field_tag :email, params[:email], :class => :login_email
-			%label
-				Password:
-			= password_field_tag	:password, params[:password], :class => :login_email
+	.column2
+		.pad_content
+			%h2 Need Help?
+			kfj dslkfsjd lfkjs ldfjsdl kfjs lkdfjsdlkfj sldkfj lsdkjf lsdkfj sldfjk sdljf
 			%br
 			%br
-			= submit_tag	"Login", :class => :login_button
-			|
-			= link_to 'Cancel', root_path, :class => :cancel_button
-			|
-			= link_to 'Register', register_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
+			%h2 Tip:
+			IF you have associated a Facebook or Twitter account to your BackMyBook account (learn more), you can use one of them to login!
 			%br
-			(
-			= link_to "Forgot Password?", forgot_path
-			)
-			
+			%br
+			#facebook
+				= form_tag go_facebook_sessions_path do
+					= image_submit_tag 'facebook_connect.png'
+			%br
+			#twitter
+				= form_tag go_twitter_sessions_path do
+					= image_submit_tag 'twitter_button.png'
 - else
-	%h2 
-		You are already logged in as:
-		= @current_user.name
-	If this is not you, please 
-	= link_to "Logout", logout_path
-	and log back in with your account.
+	.pad_content
+		%h2 
+			You are already logged in as:
+			= @current_user.name
+		If this is not you, please 
+		= link_to "Logout", logout_path
+		and log back in with your account.

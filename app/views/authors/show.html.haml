@@ -5,14 +5,11 @@
 		
 		.author_corner
 			.author_menu
-				%ul.slide-menu
-					%li.first.main-menu.selected
-						%ul.menu_slider
-							%li= link_to "Blog", "blog"
-							%li= link_to "Forum", "forum"
-							%li= link_to "Books", "#"
-							%li= link_to "Bio", "#"
-						= link_to "Menu","#", :id=>'slide-menu'
+				%ul.main-menu
+					%li.first= link_to "Blog", "blog"
+					%li= link_to "Forum", "forum"
+					%li= link_to "Books", "#"
+					%li= link_to "Bio", "#"
 			
 			.author_promo
 				.column1
@@ -36,6 +33,13 @@
 .author_bd
 	.column1
 		#inner-content-wrapper
+			%h1 Headline 1
+			%h2 Headline 2
+			%h3 Headline 3
+			.text
+				text goes here, should all be fine
+				=link_to "body text link", "#"
+
 
 	.column2
 		.follow-me.ui-helper-clearfix

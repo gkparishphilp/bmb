@@ -19,13 +19,13 @@ class StaticPage < ActiveRecord::Base
 	before_save		:clean_permalink
     
 	validate    	:valid_permalink?
+	validates		:permalink, :uniqueness => true
 	
 	belongs_to :site
 
 
 	def self.invalid_permalinks
 		invalid_words = APP_ROUTE_PATHS.map { |route| route.path.to_s.match( /\w+\W/ ).to_s.chop }.uniq
-		invalid_words += StaticPage.select(:permalink).map { |p| p.permalink }
 	end
 	
 protected 

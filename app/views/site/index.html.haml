@@ -1,8 +1,46 @@
-%h1 
-	Welcome to
-	= @current_site.domain
+
+.column1
+	= image_tag "welcome_authors.jpg"
 	
-- unless @activities.empty?
-	%h3 Site Activity
-	- for activity in @activities
-		= render activity
+	.static_content
+		%h1
+			This would be a Blog
+		.text
+			dfk sdlfkj sldfj slakjf alsdkjf alsdfj alsdfj lsdkjf lsdkjf lsdkj flsdjf lsdkjf lskjfl skd fjlsdkj flsdjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsd
+	
+.column2
+	%h2 Buy Scott Sigler's Books
+	.text
+		blah ablah ablahsd a sdjsa dajsd ajshdas dkjahs ddf!
+	.follow-me.ui-helper-clearfix
+		%h3 Follow Us
+		%div
+			=image_tag( 'twitter.jpg' )
+			=image_tag( 'facebook.jpg' )
+			=image_tag( 'rss.jpg',:alt=>'rss feed' )
+			=image_tag( 'mail.jpg',:alt=>'contact author', :class => :toggle_contact_form )
+		#contact_form
+			%br.clear
+			= form_for Contact.new do |f|
+				= f.label "Email:"
+				= f.text_field :email
+				= f.submit 'Submit'
+			
+	#accordion
+		%div
+			%h3 
+				=link_to 'Podcast','#'
+			%div.text Phasellus mattis tincidunt nibh.
+		%div
+			%h3 
+				=link_to 'Events','#'
+			%div.text Nam dui erat, auctor a, dignissim quis.
+		- unless @activities.empty?
+			%div
+				%h3 
+					=link_to 'Site Activity','#'
+				%div.text 
+					- for activity in @activities
+						= render activity
+
+		

@@ -30,7 +30,7 @@ class AuthorsController < ApplicationController
 		@author = Author.new params[:author]
 		@author.user = @current_user
 		if @author.save
-			process_attachemnts_for( @author )
+			process_attachments_for( @author )
 			pop_flash "Author Profile Created"
 			redirect_to author_admin_index_path( @author )
 		else
