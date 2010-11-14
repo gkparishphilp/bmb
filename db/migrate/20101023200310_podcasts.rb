@@ -1,7 +1,7 @@
 class Podcasts < ActiveRecord::Migration
 	def self.up
 		create_table :podcasts do |t|
-			t.references	:owner, :polymoprhic => true
+			t.references	:owner, :polymorphic => true
 			t.string		:title
 			t.string		:subtitle
 			t.string		:itunes_id
