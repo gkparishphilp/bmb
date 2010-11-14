@@ -24,14 +24,16 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:name
 			t.string		:status
 			t.string		:bg_color
+			t.string		:bg_repeat
+			t.string		:banner_bg_color
+			t.string		:banner_repeat
+			t.string		:header_color
+			t.string		:content_bg_color
+			t.string		:title_color
 			t.string		:text_color
 			t.string		:link_color
-			t.string		:color1
-			t.string		:color2
-			t.string		:color3
-			t.string		:color4
-		    t.string		:bg_repeat
-			
+			t.string		:hover_color
+
 			t.timestamps
 		end
 		

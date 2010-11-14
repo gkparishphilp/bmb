@@ -33,11 +33,13 @@ class Author < ActiveRecord::Base
 	has_many	:books
 	belongs_to	:user
 	
-	has_many	 :merches, :as  => :owner
-	has_many	 :royalties
-	has_many	 :upload_email_lists
-	has_many	 :coupons, :as => :owner
-	has_many 	:coupons, :as => :redeemer
+	has_many	:articles, :as => :owner
+	
+	has_many	:merches, :as  => :owner
+	has_many	:royalties
+	has_many	:upload_email_lists
+	has_many	:coupons, :as => :owner
+	has_many	:coupons, :as => :redeemer
 	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner

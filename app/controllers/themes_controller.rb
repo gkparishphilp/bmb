@@ -19,14 +19,14 @@ class ThemesController < ApplicationController
 		@theme = Theme.find params[:id]
 		if @theme.update_attributes params[:theme]
 			if @theme.bg
-				@theme.bg.update_from_resource( params[:attached_bg_file] )
+				@theme.bg.update_from_resource( params[:attached_bg_file] ) unless params[:attached_bg_file].blank? 
 			else
-				@theme.attachments.create_from_resource( params[:attached_bg_file], 'bg', :owner => @theme )
+				@theme.attachments.create_from_resource( params[:attached_bg_file], 'bg', :owner => @theme ) unless params[:attached_bg_file].blank? 
 			end
 			if @theme.banner
-				@theme.banner.update_from_resource( params[:attached_banner_file] )
+				@theme.banner.update_from_resource( params[:attached_banner_file] ) unless params[:attached_banner_file].blank?
 			else
-				@theme.attachments.create_from_resource( params[:attached_banner_file], 'banner', :owner => @theme )
+				@theme.attachments.create_from_resource( params[:attached_banner_file], 'banner', :owner => @theme ) unless params[:attached_banner_file].blank? 
 			end
 				
 			pop_flash 'Theme saved!'

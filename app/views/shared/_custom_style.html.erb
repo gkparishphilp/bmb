@@ -1,17 +1,55 @@
 <style type="text/css">
 
-	
-	<% unless @theme.banner.nil? %>
-		#bd{
-			background: white url("<%= @theme.banner.location %>") repeat-x left top;
-			color: <%= @theme.text_color %>;
-		}
-		a{
-			color: <%= @theme.link_color %>;
-		}
-	<% end %>
-	
-	
+body{
+	background: <%= @theme.bg_color || '#fff' %> url("<%= @theme.bg.location unless @theme.bg.nil?%>") <%= @theme.bg_repeat || 'repeat-x' %>;
+}
 
+#bd{
+	background: <%= @theme.banner_bg_color || '#fff' %> url("<%= @theme.banner.location unless @theme.banner.nil?%>")  <%= @theme.banner_repeat || 'repeat-x' %>;
+	color: <%= @theme.text_color %>;
+}
+#bd a{
+	color: <%= @theme.link_color %>;
+}
+
+.author_corner{
+	background: <%= @theme.content_bg_color || '#fff' %> url() no-repeat;
+}
+#inner-content-wrapper{
+	background: <%= @theme.content_bg_color || '#fff' %> url() no-repeat;
+}
+
+.button a{
+	color: <%= @theme.header_color %>;
+}
+
+.author_promo .book_stats{
+	color: <%= @theme.text_color %>;
+}
+.author_hd h1{
+	color: <%= @theme.header_color %>;
+}
+
+h1, h2, h3{
+	color: <%= @theme.header_color %>;
+}
+
+.author_promo h2{
+	color: <%= @theme.title_color %>;
+}
+
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited{
+	color: <%= @theme.header_color %>;
+}
+
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
+	color: <%= @theme.header_color %>;
+}
+.follow-me h3{
+	color: <%= @theme.header_color %>;
+}
+ul.main-menu li a{
+	color: <%= @theme.header_color %>;
+}
 	
 </style>

@@ -3,20 +3,22 @@
 #
 # Table name: themes
 #
-#  id         :integer(4)      not null, primary key
-#  author_id  :integer(4)
-#  name       :string(255)
-#  status     :string(255)
-#  bg_color   :string(255)
-#  text_color :string(255)
-#  link_color :string(255)
-#  color1     :string(255)
-#  color2     :string(255)
-#  color3     :string(255)
-#  color4     :string(255)
-#  bg_repeat  :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id               :integer(4)      not null, primary key
+#  author_id        :integer(4)
+#  name             :string(255)
+#  status           :string(255)
+#  bg_color         :string(255)
+#  bg_repeat        :string(255)
+#  banner_bg_color  :string(255)
+#  banner_repeat    :string(255)
+#  header_color     :string(255)
+#  content_bg_color :string(255)
+#  title_color      :string(255)
+#  text_color       :string(255)
+#  link_color       :string(255)
+#  hover_color      :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
 #
 
 

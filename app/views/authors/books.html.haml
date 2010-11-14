@@ -1,0 +1,13 @@
+.column1
+	.author_hd
+		%h1
+			= @current_author.pen_name
+		.author_corner
+			= render :partial => 'menu'
+	.author_bd
+		#inner-content-wrapper
+			.text
+				BOOKS
+
+.column2
+	= render :partial => 'right_column'

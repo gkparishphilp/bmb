@@ -65,9 +65,38 @@ class AuthorsController < ApplicationController
 			pop_flash "No author found", :notice
 			redirect_to root_path
 		end
+	end
+	
+	def bio
+		@current_author = Author.find params[:id] if @current_author.nil?
+		@theme = @current_author.theme unless @current_author.nil? || @current_author.theme.nil?
+	end
+	
+	def blog
+		@current_author = Author.find params[:id] if @current_author.nil?
+		@theme = @current_author.theme unless @current_author.nil? || @current_author.theme.nil?
 		
-		@theme = @current_author.theme
-		
+		if @tag = params[:tag]
+            @articles = @current_author.articles.tagged_with( @tag ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+		elsif @topic = params[:topic]
+			@articles = @current_author.articles.tagged_with( @topic ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+		elsif ( @month = params[:month] ) && ( @year = params[:year] )
+			@articles = @current_author.articles.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+		elsif @year = params[:year]
+			@articles = @current_author.articles.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
+		else
+			@articles = @current_author.articles.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+		end
+	end
+	
+	def books
+		@current_author = Author.find params[:id] if @current_author.nil?
+		@theme = @current_author.theme unless @current_author.nil? || @current_author.theme.nil?
+	end
+	
+	def forums
+		@current_author = Author.find params[:id] if @current_author.nil?
+		@theme = @current_author.theme unless @current_author.nil? || @current_author.theme.nil?
 	end
 	
 end
