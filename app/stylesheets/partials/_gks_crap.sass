@@ -37,3 +37,17 @@
 	:width 90%
 	:margin 0 auto
 	:padding 20px
+
+=shadow-right($x: 2px, $y: 0px, $offset: 4px)
+	box-shadow: $x $y $offset #888888
+	-moz-box-shadow: $x $y $offset #888888
+	-webkit-box-shadow: $x $y $offset #888888
+
+.home_left
+	:width 600px
+	:float left
+	+shadow-right
+	:min-height 500px
+.home_right
+	:width 376px
+	:float right
