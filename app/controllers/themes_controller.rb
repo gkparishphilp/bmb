@@ -21,12 +21,12 @@ class ThemesController < ApplicationController
 			if @theme.bg
 				@theme.bg.update_from_resource( params[:attached_bg_file] )
 			else
-				@theme.attachments.create_from_resource( params[:attached_bg_file], :type => 'bg', :owner => @theme )
+				@theme.attachments.create_from_resource( params[:attached_bg_file], 'bg', :owner => @theme )
 			end
 			if @theme.banner
 				@theme.banner.update_from_resource( params[:attached_banner_file] )
 			else
-				@theme.attachemnts.create_from_resource( params[:attached_banner_file], :type => 'banner', :owner => @theme )
+				@theme.attachments.create_from_resource( params[:attached_banner_file], 'banner', :owner => @theme )
 			end
 				
 			pop_flash 'Theme saved!'

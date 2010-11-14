@@ -1,10 +1,17 @@
 <style type="text/css">
 
-	color: <%= @theme.text_color %>;
 	
-	a{
-		color: <%= @theme.link_color %>;
-	}
+	<% unless @theme.banner.nil? %>
+		#bd{
+			background: white url("<%= @theme.banner.location %>") repeat-x left top;
+			color: <%= @theme.text_color %>;
+		}
+		a{
+			color: <%= @theme.link_color %>;
+		}
+	<% end %>
+	
+	
 
 	
 </style>

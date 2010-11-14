@@ -20,10 +20,9 @@
 					= link_to 'Cancel', root_path, :class => :cancel_button
 					|
 					= link_to 'Register', register_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
-					%br
-					(
+					|
 					= link_to "Forgot Password?", forgot_path
-					)
+					
 
 	.column2
 		.pad_content

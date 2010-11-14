@@ -60,7 +60,7 @@ class AuthorsController < ApplicationController
 	
 	def show 
 		@current_author = Author.find params[:id] if @current_author.nil?
-		
+		@theme = @current_author.theme unless @current_author.nil? || @current_author.theme.nil?
 		if @current_author.nil?
 			pop_flash "No author found", :notice
 			redirect_to root_path

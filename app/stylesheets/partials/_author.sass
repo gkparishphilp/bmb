@@ -1,3 +1,7 @@
+.testklass
+	.onlyinsidetest
+		:color #333
+
 .author_bd,
 .author_hd
 	:font-size 14px
@@ -14,7 +18,7 @@
 		:border 1px solid #fff
 		:padding 0 1px 1px 0
 		+shadow
-
+	
 .author_menu
 	:border 2px solid $border-color
 	:border-left none
@@ -48,7 +52,9 @@ ul.main-menu
 		&.first a
 			:border-right 1px solid $border-color
 			:margin 0
-
+.author_corner
+	:background #fff url() no-repeat
+	
 .author_promo
 	:border-right 2px solid $border-color
 	:padding-top 13px
@@ -96,14 +102,12 @@ ul.main-menu
 			:color $link
 			:margin-right 10px
 
-.author_bd
-	:background-color #e5e5e5
-
 #inner-content-wrapper
 	:border-right 2px solid $border-color
 	:padding-bottom 40px
 	:min-height 600px
 	:padding 10px 15px
+	:background #fff url() no-repeat
 
 .follow-me
 	:border-top 2px solid $border-color
