@@ -10,8 +10,6 @@
 #  keywords    :string(255)
 #  duration    :string(255)
 #  description :text
-#  filesize    :integer(4)
-#  filename    :string(255)
 #  explicit    :string(255)
 #  transcript  :text
 #  status      :string(255)
@@ -28,7 +26,7 @@ class Episode < ActiveRecord::Base
 	has_many :comments, :as => :commentable
 	belongs_to	:podcast
 	
-	#acts_as_followable
+	has_attached :audio, :formats => ['mp3', 'aac', 'wav', 'ogg']
 	
 	has_friendly_id :title, :use_slug => :true
 	acts_as_followed

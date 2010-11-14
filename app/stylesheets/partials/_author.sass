@@ -1,6 +1,11 @@
+.testklass
+	.onlyinsidetest
+		:color #333
+
 .author_bd,
 .author_hd
-	:font-size 13px
+	:font-size 14px
+	
 .author_hd h1
 	:color $link
 	:font-weight bold
@@ -13,14 +18,14 @@
 		:border 1px solid #fff
 		:padding 0 1px 1px 0
 		+shadow
-
+	
 .author_menu
 	:border 2px solid $border-color
 	:border-left none
 	:background-color #f7f7f7
 	+rounded-right(top, 6px)
 
-ul.slide-menu
+ul.main-menu
 	:float left
 	:position relative
 	:width 100%
@@ -28,36 +33,28 @@ ul.slide-menu
 	li
 		:float left
 		a
-			:color #9c9c9c
+			:color $link
 			:display block
 			:vertical-align baseline
 			:font-size 15px
 			:font-weight bold
-			:padding 13px 14px 13px 25px
-			:margin-left 14px
-			:background transparent url("../images/double_arrow_rt.jpg") no-repeat 0 50%
+			:padding 13px 19px 13px 20px
 			&:hover
 				:text-decoration none
-		&.selected
-			:background #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom
-		&.selected a
-			:background transparent url("../images/double_arrow_lt.png") no-repeat 0 50%
+				:background #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom
+				:border-right 1px solid #ccc
+				:border-left 1px solid #ccc
+				:margin 0 -1px
+			&.selected
+				:background #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom
+				:border-right 1px solid #ccc
+				:border-left 1px solid #ccc
 		&.first a
 			:border-right 1px solid $border-color
-		&.main-menu li a
-			:color $link
-			:border none
-			:padding 13px 12px
 			:margin 0
-			:background none
-		ul.menu_slider
-			:background-color #F7F7F7
-			:position absolute
-			:top 0
-			:left 95px
-		ul li a
-			:background none
-
+.author_corner
+	:background #fff url() no-repeat
+	
 .author_promo
 	:border-right 2px solid $border-color
 	:padding-top 13px
@@ -82,11 +79,13 @@ ul.slide-menu
 	.button a.blue
 		:background-position -16px -12px
 	.button a.yellow
-		:background-position -16px -80px
+		:background-position -16px -79px
 	.button a.green
 		:background-position -16px -135px
 	.button a.gray
-		:background-position -16px -193px
+		:background-position -16px -192px
+	.button a:hover
+		:background-position -16px -12px
 	.image
 		:float left
 		:padding 13px 10px 10px 28px
@@ -103,13 +102,12 @@ ul.slide-menu
 			:color $link
 			:margin-right 10px
 
-.author_bd
-	:background-color #e5e5e5
-
 #inner-content-wrapper
 	:border-right 2px solid $border-color
 	:padding-bottom 40px
 	:min-height 600px
+	:padding 10px 15px
+	:background #fff url() no-repeat
 
 .follow-me
 	:border-top 2px solid $border-color

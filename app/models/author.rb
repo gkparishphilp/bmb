@@ -25,7 +25,7 @@ class Author < ActiveRecord::Base
 	# represents writer of a book
 	# may or may not belong to user
 	
-	before_create		:set_subdomain
+	before_create	:set_subdomain
 	after_create	:create_default_campaign
 	
 	validate	:valid_subdomain
@@ -33,17 +33,21 @@ class Author < ActiveRecord::Base
 	has_many	:books
 	belongs_to	:user
 	
-	has_friendly_id	:pen_name, :use_slug => true
+	has_many	:articles, :as => :owner
 	
-	has_many	 :merches, :as  => :owner
-	has_many	 :royalties
-	has_many	 :upload_email_lists
-	has_many	 :coupons, :as => :owner
-	has_many 	:coupons, :as => :redeemer
+	has_many	:merches, :as  => :owner
+	has_many	:royalties
+	has_many	:upload_email_lists
+	has_many	:coupons, :as => :owner
+	has_many	:coupons, :as => :redeemer
 	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
 	has_many	:bundles, :as => :owner
+	has_one		:theme
+	
+	has_friendly_id	:pen_name, :use_slug => true
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "64", :tiny => "20" }}
 	
 	def set_subdomain
 		self.subdomain = self.pen_name.gsub(/\W/, "-").downcase

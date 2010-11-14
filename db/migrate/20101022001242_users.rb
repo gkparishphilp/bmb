@@ -83,7 +83,7 @@ class Users < ActiveRecord::Migration
 	 
 		# Need a boatload more indexes	****************
 		add_index :openids, :user_id
-		add_index :users, :name, :unique => true
+		add_index :users, :name
 		add_index :users, :email, :unique => true
 		add_index :users, :activation_code
 		add_index :users, :remember_token

@@ -20,6 +20,11 @@
 		
 		%title
 			= get_title
+		
+
+		- if @theme
+			= render :partial => 'shared/custom_style'
+
 
 	%body
 		#container

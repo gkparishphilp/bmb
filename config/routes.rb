@@ -8,18 +8,23 @@ Backmybook::Application.routes.draw do
 
 	resources :authors do
 		get 'manage', :on => :collection
-		resources :admin do
-			get 'email', :on => :collection
-			get 'podcast', :on => :collection
-		end
+		get 'bio', :on => :member
+		get 'blog', :on => :member
+		get 'forums', :on => :member
+		get 'books', :on => :member
 		resources :books do
 			post 'confirm', :on => :collection
 		end
+		resources :themes
 		resources :upload_email_lists
 		resources :email_campaigns do
 			resources :email_messages
 		end
 	end
+	
+	match "admin(/:action)" => "admin"
+	
+	
 	
 	resources :articles do
 		resources :comments

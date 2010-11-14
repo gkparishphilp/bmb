@@ -4,14 +4,11 @@
 		
 		.author_corner
 			.author_menu
-				%ul.slide-menu
-					%li.first.main-menu.selected
-						%ul.menu_slider
-							%li= link_to "Blog", "blog"
-							%li= link_to "Forum", "forum"
-							%li= link_to "Books", "#"
-							%li= link_to "Bio", "#"
-						= link_to "Menu","#", :id=>'slide-menu'
+				%ul.main-menu
+					%li.first= link_to "Blog", "blog", :class=>'selected'
+					%li= link_to "Forum", "forum"
+					%li= link_to "Books", "#"
+					%li= link_to "Bio", "#"
 			
 			.author_promo
 				.column1
@@ -35,6 +32,12 @@
 .author_bd
 	.column1
 		#inner-content-wrapper
+			%h1 Headline 1
+			%h2 Headline 2
+			%h3 Headline 3
+			.text
+				text goes here, should all be fine
+				=link_to "body text link", "#"
 
 	.column2
 		.follow-me.ui-helper-clearfix
@@ -51,18 +54,18 @@
 			%div
 				%h3 
 					=link_to 'Faetured books','#'
-				%div Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
+				%div.text Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
 			%div
 				%h3 
 					=link_to 'Podcasts','#'
-				%div Phasellus mattis tincidunt nibh.
+				%div.text Phasellus mattis tincidunt nibh.
 			%div
 				%h3 
 					=link_to 'Events','#'
-				%div Nam dui erat, auctor a, dignissim quis.
+				%div.text Nam dui erat, auctor a, dignissim quis.
 			%div
 				%h3 
 					=link_to 'Recent Activity','#'
-				%div Nam dui erat, auctor a, dignissim quis.
+				%div.text Nam dui erat, auctor a, dignissim quis.
 				
 					

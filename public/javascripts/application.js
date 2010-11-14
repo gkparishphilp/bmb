@@ -11,6 +11,6 @@ $(document).ready(function(){
 		$('#contact_form').toggle("slow");
 	});
 	
-	$('a[rel=facebox]').facebox();
+	//$('a[rel=facebox]').facebox();
 
 });

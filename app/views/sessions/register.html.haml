@@ -1,37 +1,37 @@
+.column1
+	.pad_content
+		.form_group
+			%h1
+				Let's get started!
+			= form_for @user do |f|
+				= hidden_field_tag :dest, @dest
+				= hidden_field_tag :a, @a
+				.fields
 
-#openID
-	%h3.blueText
-		Register using a third-party account...
-	%br
-	%br
+					= f.label "Email"
+					= f.text_field :email, :class => :login_email
+	
+					= f.label :name, "User Name"
+					= f.text_field :name, :class => :login_email
+	
+					= f.label :password, "Password"
+					= f.password_field :password, :class => :login_email
+	
+					= f.label :password_confirmation, "Confirm Password"
+					= f.password_field :password_confirmation, :class => :login_email
+					%br
+					%br
+					= f.submit 'Register', :class => "login_button"
+					|
+					= link_to 'Login', new_session_path
+					|
+					= link_to 'Cancel', root_path
 
-	-#
-		%p
-			%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
-
-#oldSchool
-	%h3.blueText
-		Or, Register the Old-School Way
-	= form_for @user do |f|
-		= hidden_field_tag :dest, @dest
-		= hidden_field_tag :a, @a
-		.fields
-
-			= f.label "Email"
-			= f.text_field :email, :class => :login_email
-		
-			= f.label :name, "User Name"
-			= f.text_field :name, :class => :login_email
-		
-			= f.label :password, "Password"
-			= f.password_field :password, :class => :login_email
-		
-			= f.label :password_confirmation, "Confirm Password"
-			= f.password_field :password_confirmation, :class => :login_email
-			%br
-			%br
-			= f.submit 'Register', :class => "login_button"
-			|
-			= link_to 'Login', new_session_path
-			|
-			= link_to 'Cancel', root_path
+.column2
+	.pad_content
+		%h2 Need Help?
+		kfj dslkfsjd lfkjs ldfjsdl kfjs lkdfjsdlkfj sldkfj lsdkjf lsdkfj sldfjk sdljf
+		%br
+		%br
+		%h2 Tip:
+		Remember to check your inbox for our welcome email and follow the directions therein.  You definitely will want to fully activate your account to get the most out of BackMyBook!

@@ -1,0 +1,47 @@
+.column1
+	.pad_content
+		.form_group
+			%h1 Design
+
+			= form_for [@author, @edit_theme], :html => { :multipart => true } do |f|
+				= f.label "Theme Name:"
+				= f.text_field :name
+				= f.label "Text Color:"
+				= f.text_field :text_color
+				= f.label "Link Color:"
+				= f.text_field :link_color
+				= f.label "Hover Color:"
+				= f.text_field :hover_color
+	
+				= f.label "Header Color:"
+				= f.text_field :header_color
+	
+				= f.label "Title Color:"
+				= f.text_field :title_color
+	
+				= f.label "Body Background Color:"
+				= f.text_field :bg_color
+				= f.label "Banner Background Color:"
+				= f.text_field :banner_bg_color
+				= f.label "Content Background Color:"
+				= f.text_field :content_bg_color
+	
+	
+				= f.label "Body Background:"
+				= file_field_tag :attached_bg_file
+	
+				= f.label "Repeat Background:"
+				= f.select :bg_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+
+
+				= f.label "Banner Image:"
+				= file_field_tag :attached_banner_file
+			
+				= f.label "Repeat Banner:"
+				= f.select :banner_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+	
+				%br
+				= f. submit
+.column2
+	.pad_content
+		%h2 Help

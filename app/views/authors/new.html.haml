@@ -1,14 +1,34 @@
-%h1 Create an Author Profile
+.column1
+	.pad_content
+		.form_group
+			%h1 Create an Author Profile
 
-= form_for @author do |f|
-	= f.label 'Pen Name:'
-	%br
-	= f.text_field :pen_name
-	%br
-	%br
-	= f.label 'Your Author Bio:'
-	%br
-	= f.text_area :bio
-	%br
-	= f.submit
+			= form_for @author, :html => { :multipart => true } do |f|
+				= f.label 'Pen Name:'
+				%br
+				= f.text_field :pen_name
+				%br
+				%br
+				= f.label "Upload Your Picture:"
+				= file_field_tag :attached_avatar_file
+				%br
+				%br
+				= f.label 'Your Author Bio:'
+				%br
+				= f.text_area :bio
+				%br
+				= f.submit
+.column2
+	.pad_content
+		%h2 Need Help?
+		dsf asdlfa sfl;sa fa;sdflsdf
+		%br
+		%br
+		%h2 Tip:
+		Your pen name will be used for SEO
+		%br
+		%br
+		%h2 Tip:
+		Your bio is important
+		
 
