@@ -2,13 +2,18 @@
 %html
 	%head
 		= render :partial => 'layouts/meta'
+		- if @theme
+			= render :partial => 'shared/custom_style'
 	%body
+		I'm an Author site!
 		#container
 			= render :partial => 'shared/header'
 			#bd
 				= render :partial => 'shared/flash', :locals => { :flash => flash }
-				= yield
+				.column1
+					= yield :left_column
+				.column2
+					= yield :right_column
 			= render :partial => 'shared/footer'
 		= render :partial => 'shared/analytics'
 		= render :partial => 'shared/scripts'
-

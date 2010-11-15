@@ -1,35 +1,42 @@
-%h1
-	The todo Blog
-	<a href="http://feeds.feedburner.com/todo" title="Subscribe to my feed" rel="alternate" type="application/rss+xml"><img src="http://www.feedburner.com/fb/images/pub/feed-icon32x32.png" alt="" style="border:0; height:24px;"/></a>
+- content_for :left_column do
 
-- if @topic
-	%h4
-		= pluralize @articles.count, 'Article'
-		in
-		= @topic.capitalize
-- elsif @tag
-	%h4
-		= pluralize @articles.count, 'Article' 
-		tagged
-		= @topic
-- elsif @month
-	%h4
-		= pluralize @articles.count, 'Article'
-		for
-		= Date::MONTHNAMES[@month.to_i]
-		= @year
-- elsif @year
-	%h4
-		= pluralize @articles.count, 'Article'
-		for
-		= @year
-#article_list
-	- for article in @articles
-		= render article
+	.author_hd
+		%h1
+			= @author ? @author.pen_name : @current_site.name
+			Blog
+		- if @author
+			.author_corner
+				= render :partial => 'authors/menu'
+	.author_bd
+		#inner-content-wrapper
+			- if @topic
+				%h4
+					= pluralize @articles.count, 'Article'
+					in
+					= @topic.capitalize
+			- elsif @tag
+				%h4
+					= pluralize @articles.count, 'Article' 
+					tagged
+					= @topic
+			- elsif @month
+				%h4
+					= pluralize @articles.count, 'Article'
+					for
+					= Date::MONTHNAMES[@month.to_i]
+					= @year
+			- elsif @year
+				%h4
+					= pluralize @articles.count, 'Article'
+					for
+					= @year
+			#article_list
+				- for article in @articles
+					= render article
+			%br
+			%br
+			= will_paginate @articles
 
-	%br
-	%br
-	= will_paginate @articles
-
-#right_bar
+- content_for :right_column do
+	= render :partial => 'authors/right_column'
 	= render :partial => 'sidebar'

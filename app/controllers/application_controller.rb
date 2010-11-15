@@ -1,20 +1,28 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
 	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
+	# so, we set these application-level global instance vars:
+	# @current_site -- the site we're on -- basically the domain the app is running on
+	# @current_user -- the user who is logged in (Anonymous user if no session)
+	# @current_author -- the author who is logged in (nil if no author)
+	# @author -- the author resource (if any) that is being requested (e.g. author page or site, forum, blog, etc.)
 
 protected
-	# Grabs @current_user from session cookie
+	# Grabs @current_user from session cookie also sets @current_author
 	def fetch_logged_in_user
 		@current_user = ( session[:user_id] && User.find( session[:user_id] ) ) || User.anonymous
 		@current_user.human = @current_user.logged_in? || cookies[:human] == 'true'
+		@current_author = @current_user.author
 	end
 	
+	# Sets @author from either subdomain or params[:author_id]
 	def fetch_author
 		if request.subdomain.present? && !APP_SUBDOMAINS.include?( request.subdomain )
-			@current_author = Author.find_by_subdomain request.subdomain
+			@author = Author.find_by_subdomain request.subdomain
 		elsif params[:author_id].present?
-			@current_author = Author.find params[:author_id]
+			@author = Author.find params[:author_id]
 		end
+		@theme = @author.theme unless @author.nil? || @author.theme.nil?
 	end
 	
 	# grabs @current_site from request.domain
@@ -110,8 +118,7 @@ end
 	end
 	
 	def require_author
-		@author = @current_user.author
-		if @author.nil?
+		if @current_author.nil?
 			pop_flash "Must be logged in as an author", :notice
 			redirect_to root_path
 			return false

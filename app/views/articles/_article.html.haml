@@ -1,15 +1,15 @@
 %div[article]
 	.article_header
 		%h2
-			= link_to article.title, blog_path( article )
+			= link_to article.title, article_link( article )
 		%span.article_meta
 			%b posted
 			= format_date_only article.created_at
 			- if article.comments_allowed?
-				= link_to pluralize( article.comments.count, "Comment" ), blog_path( article ) + "#comments"
+				= link_to pluralize( article.comments.count, "Comment" ), article_link( article ) + "#comments"
 	.article_body
 		- if article.snip_at && ( article.content.size > article.snip_at )
 			= snip article.content, article.snip_at
-			= link_to "Click to continue or comment", blog_path( article )
+			= link_to "Click to continue or comment", article_link( article )
 		- else
 			= article.content

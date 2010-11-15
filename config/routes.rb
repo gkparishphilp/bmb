@@ -9,12 +9,12 @@ Backmybook::Application.routes.draw do
 	resources :authors do
 		get 'manage', :on => :collection
 		get 'bio', :on => :member
-		get 'blog', :on => :member
-		get 'forums', :on => :member
-		get 'books', :on => :member
 		resources :books do
 			post 'confirm', :on => :collection
 		end
+		resources :articles
+		resources :blog
+		resources :forums
 		resources :themes
 		resources :upload_email_lists
 		resources :email_campaigns do
@@ -22,9 +22,17 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
-	match "admin(/:action)" => "admin"
+	#match '/authors/:author_id/blog/:id', :to => 'authors#view_article'
+	#match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'authors#blog'
 	
-	
+	match '/admin/books' => 'admin#books', :as => :admin_books
+	match '/admin/blog' => 'admin#blog', :as => :admin_blog
+	match '/admin/design' => 'admin#design', :as => :admin_design
+	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
+	match '/admin/email' => 'admin#email', :as => :admin_email
+	match '/admin/' => 'admin#index', :as => :admin_index
+	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
+	match '/admin/reports' => 'admin#reports', :as => :admin_reports
 	
 	resources :articles do
 		resources :comments
@@ -121,7 +129,7 @@ Backmybook::Application.routes.draw do
 	
 	
 	match '/activate' => 'users#activate', :as => 'activate'
-	match '/admin' => 'site#admin', :as => 'admin'
+	match '/site-admin' => 'site#admin', :as => 'site_admin'
 	match '/forgot' => 'users#forgot_password', :as => 'forgot'
 	match '/logout' => 'sessions#destroy', :as => 'logout'
 	match '/login' => 'sessions#new', :as => 'login'

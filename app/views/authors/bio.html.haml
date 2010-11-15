@@ -1,15 +1,15 @@
-.column1
+- content_for :left_column do
 	.author_hd
 		%h1
-			= @current_author.pen_name
+			= @author.pen_name
 		.author_corner
 			= render :partial => 'menu'
 	.author_bd
 		#inner-content-wrapper
 			.text
-				= @current_author.bio
+				= @author.bio
 
-.column2
+- content_for :right_column do
 	= render :partial => 'right_column'
 			
 					

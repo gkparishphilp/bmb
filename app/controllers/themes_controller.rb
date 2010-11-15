@@ -3,7 +3,7 @@ class ThemesController < ApplicationController
 	
 	def create
 		@theme = Theme.new params[:theme]
-		@theme.author = @author
+		@theme.author = @current_author
 		if @theme.save
 			process_attachments_for( @theme )
 			pop_flash 'Theme saved!'
@@ -11,7 +11,7 @@ class ThemesController < ApplicationController
 			pop_flash 'Theme could not be saved.', :error, @theme
 		end
 		
-		redirect_to author_admin_index_path
+		redirect_to admin_index_path
 
 	end
 	
@@ -34,14 +34,11 @@ class ThemesController < ApplicationController
 			pop_flash 'Theme could not be saved.', :error, @theme
 		end
 		
-		redirect_to author_admin_index_path
+		redirect_to admin_index_path
 
 	end
 
 private
 
-def get_author
-	@author = Author.find params[:author_id]
-end
 
 end
