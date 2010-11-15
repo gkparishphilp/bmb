@@ -1,12 +1,10 @@
 .column1
+	= render :partial => 'nav'
 	.pad_content
 		.form_group
 			%h1 Blog
 
-			= form_for [@article || Article.new], :html => { :multipart => true } do |f|
-				-# TODO - fix these hacks!
-				= f.hidden_field :owner_id, :value => @author.id
-				= f.hidden_field :owner_type, :value => 'Author'
+			= form_for [@current_author, @article], :html => { :multipart => true } do |f|
 				= f.label "Title:"
 				= f.text_field :title, :class => 'title'
 				%br
@@ -36,3 +34,7 @@
 .column2
 	.pad_content
 		%h2 Help
+		%h2 Recent Articles
+		- for article in @articles do
+			= link_to article.title, admin_blog_path( :article_id => article )
+			%hr

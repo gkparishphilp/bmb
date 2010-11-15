@@ -1,9 +1,10 @@
 .column1
+	= render :partial => 'nav'
 	.pad_content
 		.form_group
 			%h1 Design
 
-			= form_for [@author, @edit_theme], :html => { :multipart => true } do |f|
+			= form_for [@current_author, @edit_theme], :html => { :multipart => true } do |f|
 				= f.label "Theme Name:"
 				= f.text_field :name
 				= f.label "Text Color:"

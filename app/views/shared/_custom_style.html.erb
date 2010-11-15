@@ -8,7 +8,7 @@ body{
 	background: <%= @theme.banner_bg_color || '#fff' %> url("<%= @theme.banner.location unless @theme.banner.nil?%>")  <%= @theme.banner_repeat || 'repeat-x' %>;
 	color: <%= @theme.text_color %>;
 }
-#bd a{
+.text a{
 	color: <%= @theme.link_color %>;
 }
 

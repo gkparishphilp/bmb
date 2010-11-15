@@ -1,7 +1,7 @@
 .author_menu
 	%ul.main-menu
-		%li.first= link_to "Home", author_path( @current_author )
-		%li= link_to "Blog", blog_author_path( @current_author )
-		%li= link_to "Forums", forums_author_path( @current_author )
-		%li= link_to "Books", books_author_path( @current_author )
-		%li= link_to "Bio", bio_author_path( @current_author )
+		%li.first= link_to "Home", author_path( @author )
+		%li= link_to "Blog", author_blog_index_path( @author )
+		%li= link_to "Forums", ""
+		%li= link_to "Books", ""
+		%li= link_to "Bio", bio_author_path( @author )

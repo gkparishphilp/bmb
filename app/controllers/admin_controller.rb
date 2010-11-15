@@ -1,14 +1,19 @@
 class AdminController < ApplicationController
 	# for author admin
-	before_filter :require_author # sets @current_author to @currnet_user.author and punts if @current_user not an author
-	
+	before_filter :require_author # make sure @current_user is an author and punt if not
 	
 	def design
-		@edit_theme = @author.theme || Theme.new
+		@edit_theme = @current_author.theme || Theme.new
 	end
 	
-	def create
-		redirect_to :index
+	def books
+		
 	end
+	
+	def blog
+		@article = params[:article_id] ? ( Article.find params[:article_id] ) : Article.new
+		@articles = @current_author.articles.recent
+	end
+
 	
 end
