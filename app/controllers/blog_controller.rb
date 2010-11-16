@@ -37,12 +37,13 @@ private
 	def get_owner
 		@owner = @author ? @author : @current_site
 	end
-	# TODO -- need to scope for author or site
+
 	def get_sidebar_data
-		@topics = Article.topic_counts.sort do |a, b|
+		@topics = @owner.articles.topic_counts.sort do |a, b|
 			a.name <=> b.name
 		end
-		@archives = Article.find_by_sql( "select month(publish_on) as month, year(publish_on) as year from articles group by month(publish_on)" )
+		@recent_posts = @owner.articles.recent.published
+		@archives = Article.find_by_sql( [ "select month(publish_on) as month, year(publish_on) as year from articles where owner_id = ? and owner_type = ?  group by month(publish_on) ", @owner.id, @owner.class.name ] )
 	end
 	
 	def set_layout
