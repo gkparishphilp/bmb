@@ -23,7 +23,7 @@ class AuthorsController < ApplicationController
 		@author = Author.new
 		@author.pen_name = @current_user.name
 		@author.bio = @current_user.bio
-	
+		render :layout => 'application'
 	end
 	
 	def create
