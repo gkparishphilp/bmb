@@ -37,9 +37,13 @@ class Site < ActiveRecord::Base
 		base_model_filepath = '/Users/tay/Sites/bmb/app/models/'
 
 		for model in @legacy_models
-			#Need to gsub out the _ in model names in legacy_models to properly name the Model in model.rb
+			tmp_name = model.split(/_/)
+			model_name = ''
+			tmp_name.each do |a|
+				model_name = model_name + a.capitalize
+			end
 			model_def = <<EOS
-class V15#{model.capitalize} < ActiveRecord::Base
+class V15#{model_name} < ActiveRecord::Base
 end
 EOS
 			model_path = base_model_filepath + 'v15_' + model + '.rb'
@@ -48,11 +52,44 @@ EOS
 		end
 	end
 
+	def migrate_all
+		self.migrate_users
+		self.migrate_authors
+		self.migrate_articles
+		self.migrate_backings
+		self.migrate_backing_events
+		self.migrate_badges
+		self.migrate_badgings
+		self.migrate_books
+		self.migrate_comments
+		self.migrate_contacts
+		self.migrate_coupons
+		self.migrate_email_subscriptions
+		self.migrate_episodes
+		self.migrate_follows
+		self.migrate_genres
+		self.migrate_geo_states
+		self.migrate_links
+		self.migrate_merchandises
+		self.migrate_messages
+		self.migrate_openids
+		self.migrate_orders
+		self.migrate_order_transactions
+		self.migrate_podcasts
+		self.migrate_posts
+		self.migrate_raw_backing_events
+		self.migrate_raw_stats
+		self.migrate_redemptions
+		self.migrate_reviews
+		self.migrate_static_pages
+		self.migrate_subscription_types
+	end
 
 	def migrate_users
-		# Has attachments
-		old_users = V15User.find(:all)
+		# Migrate the has attachments
+		old_users = V15User.all
 		for old_user in old_users
+			puts "User ID = #{old_user.id} \n"
 			user = User.new
 			user.id = old_user.id
 			user.site_id = 1
@@ -76,12 +113,23 @@ EOS
 			user.updated_at = old_user.updated_at
 			user.save( false )
 		end
+		u1 = User.find 1
+		u2 = User.find 2
+		u2.name = 'Old Anonymous'
+		u2.save( false )
+		u1.name = 'Anonymous'
+		u1.email = 'anonymous@backmybook.com'
+		u1.save( false )
+		u2.update_attributes :name => 'Old Anonymous'
+		u1.update_attributes :name => 'Anonymous', :email => 'anonymous@backmybook.com'
+
 	end
-	
+
 	def migrate_authors
 		# Has attachments
-		old_authors = V15Author.find(:all)
+		old_authors = V15Author.all
 		for ao in old_authors
+			puts "Author ID = #{ao.id} \n"
 			a=Author.new
 			a.id = ao.id
 			a.user_id = ao.user_id
@@ -95,10 +143,11 @@ EOS
 			a.save
 		end
 	end
-	
+
 	def migrate_articles
-		old_articles = V15Article.find(:all)
+		old_articles = V15Article.all
 		for ao in old_articles
+			puts "Article ID = #{ao.id} \n"
 			a=Article.new
 			a.id = ao.id
 			if ao.author_id.nil?
@@ -108,48 +157,53 @@ EOS
 				a.owner_id = ao.author_id
 				a.owner_type = 'Author'
 			end
-			
+			a.title = ao.title
+			a.excerpt = ao.description
+			a.snip_at = ao.snip_at
+			a.view_count = ao.view_count
+			a.content = ao.content
+			a.status = ao.availability
 			a.save
 		end	
 	end
-	
-	def migrate_author_links
-		old_links = V15AuthorLink.find(:all)
-		for ol in old_links
-			l=Link.new
-			l.owner_id = ol.author_id
-			l.owner_type = 'Author'
-			l.title = ol.title
-			l.url = ol.url
-			l.description = ol.description
-			l.created_at = ol.created_at
-			l.updated_at = ol.updated_at
-			l.save
-		end
-	end
-	
-	def migrate_backing
-		old_backings = V15Backing.find(:all)
+
+	def migrate_backings
+		old_backings = V15Backing.all
 		for ob in old_backings
+			puts "Backing ID = #{ob.id} \n"
 			b=Backing.new
-			b=ob
+			b.id = ob.id
+			b.user_id = ob.user_id
+			b.book_id = ob.book_id
+			b.points = ob.points
+			b.created_at = ob.created_at
+			b.updated_at = ob.updated_at
 			b.save
 		end
 	end
-	
+
 	def migrate_backing_events
-		old_backings = V15BackingEvent.find(:all)
+		old_backings = V15BackingEvent.all
 		for ob in old_backings
+			puts "Backing Event ID = #{ob.id} \n"
 			b=BackingEvent.new
-			b=ob
+			b.id = ob.id
+			b.backing_id = ob.backing_id
+			b.event_type = ob.event_type
+			b.url = ob.url
+			b.ip = ob.ip
+			b.points = ob.points
+			b.created_at = ob.created_at
+			b.updated_at = ob.updated_at
 			b.save
 		end
 	end
-	
+
 	def migrate_badges
 		# Has attachments
-		old_badges = V15Badges.find(:all)
+		old_badges = V15Badge.all
 		for ob in old_badges
+			puts "Badge ID = #{ob.id} \n"
 			b=Badge.new
 			b.id = ob.id
 			b.name = ob.name
@@ -162,34 +216,36 @@ EOS
 			b.save
 		end
 	end
-	
+
 	def migrate_badgings
-		old_badgings = V15Badgings.find(:all)
+		old_badgings = V15Badging.all
 		for ob in old_badgings
+			puts "Badging ID = #{ob.id} \n"
 			b=Badging.new
 			b.id = ob.id
 			b.badge_id = ob.badge_id
-			b.badgable_id = ob.user_id
-			b.badgable_type = 'User'
+			b.badgeable_id = ob.user_id
+			b.badgeable_type = 'User'
 			b.created_at = ob.created_at
 			b.updated_at = ob.updated_at
 			b.save
 		end
 	end
-	
+
 	def migrate_bkasset
 	end
-	
+
 	def migrate_bkcontent
 	end
-	
+
 	def migrate_bkfile
 	end
-	
+
 	def migrate_books
 		# has attached files
-		old_books = V15Book.find(:all)
+		old_books = V15Book.all
 		for ob in old_books
+			puts "Book ID = #{ob.id} \n"
 			b=Book.new
 			b.id = ob.id
 			b.author_id = ob.author_id
@@ -208,18 +264,19 @@ EOS
 			b.save
 		end
 	end
-	
+
 	def migrate_book_asset
 	end
-	
+
 	def migrate_comments
-		old_comments = V15Comment.find(:all)
+		old_comments = V15Comment.all
 		for oc in old_comments
+			puts "Comment ID = #{oc.id} \n"
 			c=Comment.new
 			c.id = oc.id
 			c.user_id = oc.user_id
 			c.commentable_type = oc.commentable_type
-			c.commentable_id = oc.article_id
+			c.commentable_id = oc.commentable_id
 			c.ip = oc.ip
 			c.content = oc.content
 			c.created_at = oc.created_at
@@ -227,10 +284,11 @@ EOS
 			c.save
 		end
 	end
-	
+
 	def migrate_contacts
-		old_contacts = V15Contact.find(:all)
+		old_contacts = V15Contact.all
 		for oc in old_contacts
+			puts "Contact ID = #{oc.id} \n"
 			c=Contact.new
 			c.id = oc.id
 			c.site_id = 1
@@ -244,36 +302,495 @@ EOS
 			c.save
 		end
 	end
-	
+
 	def migrate_coupons
 		#None to migrate
 	end
-	
+
 	def migrate_crashes
-		old_crashes = V15Crash.find(:all)
+		old_crashes = V15Crash.all
 		for oc in old_crashes
+			puts "Crash ID = #{oc.id} \n"
 			c = Crash.new
-			c = oc
+			c.site_id = 1
+			c.message = oc.message
+			c.requested_url = oc.requested_url
+			c.referrer = oc.referrer
+			c.backtrace = oc.backtrace
+			c.created_at = oc.created_at
+			c.updated_at = oc.updated_at
 			c.save
 		end
 	end
-	
+
 	def migrate_email_messages
 		#None to migrate
 	end
-	
-	def migrate_email_subscriptions
-		#Need to migrate all email addresses to the users table first, if they are unique.
-		
-		
-		old_subsciptions = V15EmailSubscription.find(:all)
-		for os in old_subscriptions
-			e = EmailSubscribing.new
-			e.id = os.id
 
-				
+	def migrate_email_subscriptions
+		old_subscriptions = V15EmailSubscription.all
+		for os in old_subscriptions
+			puts "Subscription ID = #{os.id} \n"
+			if os.user_id		
+				user = User.find os.user_id 
+			else				
+				# Look for the user by email, and if he's not found, create him
+				if !User.find_by_email( os.email )
+					user = User.new
+					user.email = os.email
+					os.name ? user.name = os.name : user.name = os.email
+					user.save( false ) 
+				else
+					user = User.find_by_email( os.email )
+				end
+			end
+
+			sub = EmailSubscribing.new
+
+			if os.author_id.nil?
+				sub.subscribed_to_id = 1
+				sub.subscribed_to_type = 'Site'
+				sub.subscriber_id = user.id
+				sub.subscriber_type = 'User'
+			else
+				sub.subscribed_to_id = os.author_id
+				sub.subscribed_to_type = 'Author'
+				os.user_id ? sub.subscriber_id = user.id : sub.subscriber_id = user.id
+				sub.subscriber_type = 'User'
+			end	
+
+			sub.unsubscribe_code = os.unsubscribe_code
+			sub.status = os.status
+			sub.created_at = os.created_at
+			sub.updated_at = os.updated_at
+			sub.save
 		end
 	end
-	
-	
+
+	def migrate_episodes
+		old_episodes = V15Episode.all
+		for oe in old_episodes
+			puts "Episode ID = #{oe.id} \n"
+			e = Episode.new
+			e.id = oe.id
+			e.podcast_id = oe.podcast_id
+			e.status = oe.status
+			e.title = oe.title
+			e.subtitle = oe.subtitle
+			e.keywords = oe.keywords
+			e.duration = oe.duration
+			e.description = oe.summary
+			e.explicit = oe.explicit
+			e.transcript = oe.transcript
+			e.created_at = oe.created_at
+			e.updated_at = oe.updated_at
+			e.save
+		end
+	end
+
+	def migrate_follows
+		#TODO Check and see what follow_type means
+		old_follows = V15Follow.all
+		for of in old_follows
+			puts "Follow ID= #{of.id} \n"
+			f = Follow.new
+			f.id = of.id
+			f.followed_id = of.followable_id
+			f.followed_type = of.followable_type
+			f.follower_id = of.follower_id
+			f.follower_type = of.follower_type
+			f.created_at = of.created_at
+			f.updated_at = of.updated_at
+			f.save
+		end
+	end
+
+	def migrate_forums
+		old_forums = V15Forum.all
+		for of in old_forums
+			puts "Forum ID = #{of.id} \n"
+			f = Forum.new
+			f.id = of.id
+			if of.author_id.nil?
+				f.owner_id = 1
+				f.owner_type = 'Site'
+			else
+				f.owner_id = of.author_id
+				f.owner_type = 'Author'
+			end
+			f.title = of.name
+			f.availability = of.availability
+			f.description = of.description
+			f.created_at = of.created_at
+			f.updated_at = of.updated_at
+			f.save			
+		end
+	end
+
+
+	def migrate_genres
+		old_genres = V15Genre.all
+		for og in old_genres
+			puts "Genre ID = #{og.id} \n"
+			g = Genre.new
+			g.id = og.id
+			g.name = og.name
+			g.parent_id = og.parent_id
+			g.description = og.desc
+			g.created_at = og.created_at
+			g.updated_at = og.updated_at
+			g.save
+		end
+	end
+
+	def migrate_geo_states
+		old_geo_states = V15GeoState.all
+		for og in old_geo_states
+			puts "State ID = #{og.id} \n"
+			g = GeoState.new
+			g.id = og.id
+			g.name = og.name
+			g.abbrev = og.abbrev
+			g.country = og.country
+			g.created_at = og.created_at
+			g.updated_at = og.updated_at
+			g.save
+		end
+	end
+
+	def migrate_giveaways
+		# This will have to be custom coded for each type of legacy giveaway according to the giveaway rules since bundles are introduced in the new model structure
+	end
+
+	def migrate_links
+		old_links = V15Link.all
+		for ol in old_links
+			puts "Link ID = #{ol.id} \n"
+			l = Link.new
+			l.id = ol.id
+			l.owner_id = ol.owner_id
+			l.owner_type = ol.owner_type
+			l.title = ol.title
+			l.url = ol.url
+			l.description = ol.description
+			l.link_type = ol.link_type
+			l.created_at = ol.created_at
+			l.updated_at = ol.updated_at
+			l.save
+		end
+	end
+
+	def migrate_merchandises
+		old_merch = V15Merchandise.all
+		for om in old_merch
+			puts "Merchandise ID = #{om.od} \n"
+			m = Merch.new
+			m.id = om.id
+			m.owner_id = om.author_id
+			m.owner_type = 'Author'
+			m.title = om.title
+			m.description = om.long_desc
+			m.price = om.price
+			m.status = om.status
+			m.created_at = om.created_at
+			m.updated_at = om.updated_at
+			m.save
+		end
+	end
+
+	def migrate_messages
+		old_messages = V15Message.all
+		for om in old_messages
+			puts "Message ID = #{om.id} \n"
+			m = Message.new
+			m.id = om.id
+			m.to_id = om.to_user
+			m.to_type = 'User'
+			m.from_id = m.from_user
+			m.from_type = 'User'
+			m.title = om.subject
+			m.content = om.content
+			m.created_at = om.created_at
+			m.updated_at = om.updated_at
+			m.save
+		end
+	end
+
+	def migrate_openids
+		old_ids = V15Openid.all
+		for oo in old_ids
+			puts "Open ID = #{oo.id} \n"
+			o = Openid.new
+			o.id = oo.id
+			o.user_id = oo.user_id
+			o.identifier = oo.identifier
+			o.name = oo.name
+			o.provider = oo.provider
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_orders
+		old_orders = V15Order.all
+		for oo in old_orders
+			puts "Order ID = #{oo.id} \n"
+			#migrate shipping and billing addresses if available
+			user = V15User.find oo.user_id
+			unless user.street.nil? 
+				bill_addy = BillingAddress.new
+				bill_addy.user_id = user.id
+				bill_addy.first_name = user.fname
+				bill_addy.last_name = user.lname
+
+				bill_addy.street = user.street
+				bill_addy.street2 = user.street2
+				bill_addy.city = user.city
+				bill_addy.geo_state_id = user.geo_state_id
+				bill_addy.zip = user.zip
+				bill_addy.country = 'US'
+				bill_addy.phone = user.phone
+				bill_addy.save
+			end
+
+			unless oo.ship_street.nil?
+				ship_addy = ShippingAddress.new
+				ship_addy.user_id = user.id
+				ship_addy.first_name = user.fname
+				ship_addy.last_name = user.lname
+				ship_addy.street = oo.ship_street
+				ship_addy.city = oo.ship_city
+				ship_addy.geo_state_id = oo.ship_geo_state_id
+				ship_addy.zip = oo.ship_zip
+				ship_addy.first_name = oo.ship_name.split(/ /).first
+				ship_addy.last_name = oo.ship_name.split(/ /).last
+				ship_addy.save
+			end
+
+			o = Order.new
+			o.id = oo.id
+			o.user_id = oo.user_id
+			o.shipping_address_id = ShippingAddress.find_by_street( oo.ship_street).id unless oo.ship_street.nil?
+			o.billing_address_id = BillingAddress.find_by_street( user.street ).id unless user.street.nil?
+			o.ordered_id = oo.item_id
+			o.ordered_type = oo.item_type
+			o.ip = oo.ip_address
+			o.price = oo.price_in_cents
+			o.status = oo.status
+			o.paypal_express_token = oo.paypal_express_token
+			o.paypal_express_payer_id = oo.paypal_express_payer_id
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save( false )
+
+		end
+	end
+
+	def migrate_order_transactions
+		old_txn = V15OrderTransaction.all
+		for oo in old_txn
+			puts "Order Transaction ID = #{oo.id} \n"
+			o = OrderTransaction.new
+			o.id = oo.id
+			o.order_id = oo.order_id
+			o.price = oo.price_in_cents
+			o.message = oo.message
+			o.reference = oo.reference
+			o.action = oo.action
+			o.params = oo.params
+			o.success = oo.success
+			o.test = oo.test
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_podcasts
+		old_podcasts = V15Podcast.all
+		for op in old_podcasts
+			puts "Podcast ID = #{op.id} \n"
+			o = Podcast.new
+			if op.author_id.nil?
+				o.owner_id = 1
+				o.owner_type = 'Site'
+			else
+				o.owner_id = op.author_id
+				o.owner_type = 'Author'
+			end
+			o.title = op.title
+			o.subtitle = op.subtitle
+			o.description = op.summary
+			o.duration = op.duration
+			o.keywords = op.keywords
+			o.explicit = op.explicit
+			o.itunes_id = op.itunes_id
+			o.created_at = op.created_at
+			o.updated_at = op.updated_at
+			o.save
+		end
+	end
+
+	def migrate_posts
+		old_posts = V15Post.all
+		for op in old_posts
+			puts "Post ID = #{op.id} \n"
+			o = Post.new
+			o.id = op.id
+			o.type = op.type
+			o.forum_id = op.forum_id
+			o.topic_id = op.topic_id
+			o.reply_to_post_id = op.reply_to
+			o.user_id = op.user_id
+			o.title = op.title
+			o.content = op.content
+			o.view_count = op.view_count
+			o.ip = op.ip
+			o.created_at = op.created_at
+			o.updated_at = op.updated_at
+			o.save
+		end
+	end	
+
+	def migrate_raw_backing_events
+		old_raws = V15RawBackingEvent.all
+		for oo in old_raws
+			puts "Raw Backing Event ID = #{oo.id} \n"
+			o = RawBackingEvent.new
+			o.id = oo.id
+			o.backing_id = oo.backing_id
+			o.backing_event_id = oo.backing_event_id
+			o.event_type = oo.event_type
+			o.url = oo.url
+			o.ip = oo.ip
+			o.points = oo.points
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at 
+			o.save
+		end
+	end
+
+	def migrate_raw_stats
+		old_stats = V15RawStat.all
+		for oo in old_stats
+			puts "Raw Stat ID = #{oo.id} \n"
+			o = RawStat.new
+			o.id = oo.id
+			o.name = oo.name
+			o.statable_id = oo.statable_id
+			o.statable_type = oo.statable_type
+			o.ip = oo.ip
+			o.count = oo.count
+			o.extra_data = oo.extra_data
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at 
+			o.save
+		end
+	end
+
+	def migrate_readings
+		old_readings = V15Reading.all
+		for rr in old_readings
+			puts "Readings ID = #{rr.id} \n"
+			r = Reading.new
+			r.id = rr.id
+			r.book_id = rr.book_id
+			r.user_id = rr.user_id
+			r.page_number = rr.page_number
+			r.created_at = rr.created_at
+			r.updated_at = rr.updated_at
+			r.save
+		end
+	end
+
+	def migrate_redemptions
+		old = V15Redemption.all
+		for oo in old
+			puts "Redemption ID = #{oo.id} \n"	
+			o = Redemption.new
+			o.id = oo.id
+			o.redeemer_id = oo.redeemer_id
+			o.redeemer_type = oo.redeemer_type
+			o.coupon_id = oo.coupon_id
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_reviews
+		old = V15Review.all
+		for oo in old
+			puts "Review ID = #{oo.id} \n"
+			o = Review.new
+			o.id = oo.id
+			o.reviewable_id = oo.reviewable_id
+			o.reviewable_type = oo.reviewable_type
+			o.user_id = oo.user_id
+			o.score = oo.score
+			o.content = oo.content
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_static_pages
+		old = V15StaticPage.all
+		for oo in old
+			puts "Static ID = #{oo.id} \n"
+			o = StaticPage.new
+			o.id = oo.id
+			o.site_id = 1
+			o.title = oo.title
+			o.description = oo.description
+			o.permalink = oo.permalink
+			o.content = oo.content
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_subscription_types
+		old = V15SubscriptionType.all
+		for oo in old
+			puts "Subscription Type ID = #{oo.id} \n"
+			o = Subscription.new
+			o.owner_id = 1
+			o.owner_type = 'Site'
+			o.title = oo.name
+			o.description = oo.description
+			o.periodicity = oo.periodicity
+			o.price = oo.price
+			o.monthly_email_limit = oo.monthly_email_limit
+			oo.redemptions_remaining.nil? ? o.redemptions_remaining = -1 : o.redemptions_remaining = oo.redemptions_remaining
+			o.subscription_length_in_days = oo.subscription_length_in_days
+			o.royalty_percentage = 90
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+	def migrate_subscriptions
+		old = V15Subscription.all
+		for oo in old
+			puts "Subscription ID = #{oo.id} \n"
+			o = Subscribing.new
+			o.subscription_id = oo.subscription_type_id
+			o.user_id = oo.user_id
+			o.order_id = oo.order_id
+			o.status = oo.status
+			o.profile_id = oo.profile_id
+			o.expiration_date = oo.expiration_date
+			o.origin = oo.origin
+			o.created_at = oo.created_at
+			o.updated_at = oo.updated_at
+			o.save
+		end
+	end
+
+
 end
