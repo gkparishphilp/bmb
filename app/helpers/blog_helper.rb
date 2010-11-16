@@ -1,5 +1,5 @@
 module BlogHelper
-	def article_link( article )
+	def blog_link( article )
 		if article.owner.is_a? Author
 			author_blog_path( article.owner, article )
 		else

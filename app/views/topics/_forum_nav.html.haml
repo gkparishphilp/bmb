@@ -1,8 +1,11 @@
 .forum_nav
 	.breadcrumb
-		= link_to @current_site.name, root_path
+		- if @forum.owner.is_a? Site
+			= link_to @current_site.name, root_path
+		- else
+			= link_to @current_author.pen_name, @current_author
 		>
-		= link_to "Forums", forums_path
+		= link_to "Forums", forums_link
 		>
 		%b= @forum.title
 	.reply_link
@@ -13,6 +16,6 @@
 			to post a topic
 		-else
 			.new_button
-				= link_to image_tag( 'add.png', :width => 16 ), new_forum_topic_path( @forum )
-				%b= link_to "Post a Topic", new_forum_topic_path( @forum )
+				= link_to image_tag( 'add.png', :width => 16 ), new_forum_topic_link( @forum )
+				%b= link_to "Post a Topic", new_forum_topic_link( @forum )
 %br.clear

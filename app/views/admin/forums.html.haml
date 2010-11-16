@@ -1,0 +1,21 @@
+.column1
+	= render :partial => 'nav'
+	.pad_content
+		.form_group
+			%h1 Forums
+
+			= form_for [@current_author, @forum] do |f|
+				= f.label "Forum Name:"
+				= f.text_field :title
+				= f.label "Description:"
+				= f.text_field :description
+	
+				%br
+				= f. submit
+.column2
+	.pad_content
+		%h2 Help
+		%h2 Edit Forums
+		- for forum in @forums
+			= link_to forum.title, admin_forums_path( :forum_id => forum )
+			%hr

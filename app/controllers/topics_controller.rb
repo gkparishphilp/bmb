@@ -1,6 +1,7 @@
 class TopicsController < ApplicationController
 	before_filter :require_login, :except => [:index, :show]
 	before_filter :get_parent
+	layout			:set_layout
 
 	def index
 		@topics = @forum.topics.paginate :page => params[:page], :order => 'created_at DESC', :per_page => 10
@@ -56,9 +57,17 @@ class TopicsController < ApplicationController
 private
 
 	def get_parent
-		@forum_id = params[:forum_id]
-		return ( redirect_to( forums_url ) ) unless @forum_id
-		@forum = Forum.find( @forum_id )
-		@author = Author.find params[:author_id] if params[:author_id]
+		@forum = Forum.find params[:forum_id]
 	end 
+	
+	
+	def get_sidebar_data
+		# TODO
+	end
+	
+	def set_layout
+		"authors" unless @author.nil?
+	end
+	
+	
 end
