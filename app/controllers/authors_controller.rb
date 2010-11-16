@@ -19,6 +19,7 @@ class AuthorsController < ApplicationController
 		if @current_user.author?
 			pop_flash "Already an Author", :notice
 			redirect_to admin_index_path
+			return false
 		end
 		@author = Author.new
 		@author.pen_name = @current_user.name
