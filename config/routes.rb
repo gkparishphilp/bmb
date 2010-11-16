@@ -39,6 +39,8 @@ Backmybook::Application.routes.draw do
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
 	match '/admin/reports' => 'admin#reports', :as => :admin_reports
 	match '/admin/forums' => 'admin#forums', :as => :admin_forums
+	match '/admin/profile' => 'admin#profile', :as => :admin_profile
+	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
 	
 	resources :articles do
 		resources :comments

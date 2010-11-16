@@ -1,5 +1,6 @@
 class AdminController < ApplicationController
 	# for author admin
+	layout '3col'
 	before_filter :require_author # make sure @current_user is an author and punt if not
 	
 	def design
@@ -7,7 +8,7 @@ class AdminController < ApplicationController
 	end
 	
 	def books
-		
+		@books = @current_author.books
 	end
 	
 	def blog

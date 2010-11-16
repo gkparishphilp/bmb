@@ -1,0 +1,14 @@
+- content_for :left_column do
+	= @book.avatar.location('thumb') if @book.has_attached_avatar?
+	= link_to @book.title
+	%br
+	By
+	= @book.author.pen_name
+	%br
+	%br
+	= @book.description
+	
+
+
+- content_for :right_column do
+	= render :partial => 'authors/right_column'

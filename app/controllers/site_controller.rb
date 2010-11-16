@@ -1,5 +1,6 @@
 class SiteController < ApplicationController
 	before_filter	:require_admin, :except => :index
+	layout 'home', :only => :index
 	
 	def admin
 		

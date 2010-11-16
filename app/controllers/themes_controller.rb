@@ -1,5 +1,4 @@
 class ThemesController < ApplicationController
-	before_filter :get_author
 	
 	def create
 		@theme = Theme.new params[:theme]

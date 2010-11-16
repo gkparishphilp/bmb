@@ -1,0 +1,19 @@
+.column1
+	= render :partial => 'nav'
+	.pad_content
+		.form_group
+			%h1 Profile
+
+			= form_for @current_author, :html => { :multipart => true } do |f|
+				
+				= f.label "Bio:"
+				= f.text_area :bio
+
+				= f.label "Profile Picture:"
+				= file_field_tag :attached_avatar_file
+	
+				%br
+				= f. submit
+.column2
+	.pad_content
+		%h2 Help

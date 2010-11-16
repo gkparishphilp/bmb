@@ -16,7 +16,9 @@
 							= @author.pen_name
 						.author_corner
 							= render :partial => 'authors/menu'
-					= yield :left_column
+					.author_bd
+						#inner-content-wrapper
+							= yield :left_column
 				.column2
 					.author_photo
 						= image_tag @author.avatar.location( :profile ) unless @author.avatar.nil?

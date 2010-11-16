@@ -6,14 +6,16 @@
 		#container
 			= render :partial => 'shared/header'
 			#bd
-				.column1
+				.left_col
+					.pad_content
+						= yield :left_column
+				.middle_col
 					.pad_content
 						= render :partial => 'shared/flash', :locals => { :flash => flash }
-						= yield :left_column
-				.column2
+						= yield :middle_column
+				.right_col
 					.pad_content
 						= yield :right_column
 			= render :partial => 'shared/footer'
 		= render :partial => 'shared/analytics'
 		= render :partial => 'shared/scripts'
-

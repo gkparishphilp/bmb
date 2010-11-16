@@ -1,5 +1,14 @@
 class BooksController < ApplicationController
 	before_filter :require_author, :except => [ :index, :show ]
+	layout 'authors', :only => [ :index, :show ]
+	
+	def index
+		@books = @author.books #.published
+	end
+	
+	def show
+		@book = Book.find params[:id]
+	end
 	
 	def new
 		@book = Book.new
@@ -29,7 +38,7 @@ class BooksController < ApplicationController
 				process_attachments_for( @book )
 			end
 			pop_flash 'Book was successfully updated.'
-			redirect_to author_admin_index_path( @author )
+			redirect_to admin_index_path
 		else
 			pop_flash 'Oooops, Book not updated...', :error, @book
 			render :action => :edit

@@ -1,11 +1,12 @@
-.user
-	.name
-		= @user.name
-	.pic
-		= image_tag @user.avatar, :width => 60
-	.data
-		Member Since:
-		%br
-		= format_date_only @user.created_at
+- content_for :left_column do
+	.user
+		.name
+			= @user.name
+		.pic
+			= image_tag @user.avatar.location, :width => 60
+		.data
+			Member Since:
+			%br
+			= format_date_only @user.created_at
 	
 	

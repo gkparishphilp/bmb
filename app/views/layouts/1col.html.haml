@@ -1,0 +1,14 @@
+!!!strict
+%html
+	%head
+		= render :partial => 'layouts/meta'
+	%body
+		#container
+			= render :partial => 'shared/header'
+			#bd
+				.pad_content
+					= render :partial => 'shared/flash', :locals => { :flash => flash }
+					= yield
+			= render :partial => 'shared/footer'
+		= render :partial => 'shared/analytics'
+		= render :partial => 'shared/scripts'

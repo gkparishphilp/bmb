@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
 	
 	before_filter   :require_admin, :except => [ :show  ]
+	layout '1col'
 
 	def admin
 		@pages = @current_site.static_pages

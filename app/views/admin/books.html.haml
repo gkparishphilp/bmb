@@ -1,2 +1,8 @@
 %h1 Book Admin
 = render :partial => 'nav'
+
+- for book in @books do
+	= book.avatar.location('thumb') if book.has_attached_avatar?
+	= link_to book.title, edit_author_book_path( @current_author, book )
+	%hr
+	

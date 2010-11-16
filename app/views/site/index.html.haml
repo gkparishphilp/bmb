@@ -1,13 +1,12 @@
-.home_left
+- content_for :left_column do
 	= image_tag "welcome_authors.jpg"
-	
-	.static_content
+	.pad_content
 		%h1
 			This would be a Blog
 		.text
 			dfk sdlfkj sldfj slakjf alsdkjf alsdfj alsdfj lsdkjf lsdkjf lsdkj flsdjf lsdkjf lskjfl skd fjlsdkj flsdjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsd
 	
-.home_right
+- content_for :right_column do
 	.pad_content
 		%h2 Buy Some Books
 		.text
@@ -26,21 +25,20 @@
 				= f.text_field :email
 				= f.submit 'Submit'
 			
-	#accordion
+	%div
+		%h3 
+			=link_to 'Podcast','#'
+		%div.text Phasellus mattis tincidunt nibh.
+	%div
+		%h3 
+			=link_to 'Events','#'
+		%div.text Nam dui erat, auctor a, dignissim quis.
+	- unless @activities.empty?
 		%div
 			%h3 
-				=link_to 'Podcast','#'
-			%div.text Phasellus mattis tincidunt nibh.
-		%div
-			%h3 
-				=link_to 'Events','#'
-			%div.text Nam dui erat, auctor a, dignissim quis.
-		- unless @activities.empty?
-			%div
-				%h3 
-					=link_to 'Site Activity','#'
-				%div.text 
-					- for activity in @activities
-						= render activity
+				=link_to 'Site Activity','#'
+			%div.text 
+				- for activity in @activities
+					= render activity
 
 		
