@@ -14,7 +14,12 @@ Backmybook::Application.routes.draw do
 		end
 		resources :articles
 		resources :blog
-		resources :forums
+		resources :forums do
+			resources :topics do
+				resources :posts
+			end
+		end
+		
 		resources :themes
 		resources :upload_email_lists
 		resources :email_campaigns do
@@ -33,6 +38,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/' => 'admin#index', :as => :admin_index
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
 	match '/admin/reports' => 'admin#reports', :as => :admin_reports
+	match '/admin/forums' => 'admin#forums', :as => :admin_forums
 	
 	resources :articles do
 		resources :comments
@@ -40,9 +46,7 @@ Backmybook::Application.routes.draw do
 	
 	resources :assets
 
-	resources :blog do
-		get 'admin', :on => :collection
-	end
+	resources :blog 
 	
 	resources :bundle_assets
 	resources :bundles
@@ -58,7 +62,6 @@ Backmybook::Application.routes.draw do
 	resources :crashes
 		
 	resources :forums do
-		get 'admin', :on => :collection
 		resources :topics do
 			resources :posts
 		end
@@ -72,7 +75,6 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :podcasts do
-		get 'admin', :on => :collection
 		resources :episodes do
 			get 'download', :on => :member
 			resources :comments
@@ -95,12 +97,7 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :site do
-		collection do
-			get 'admin'
-		end
-		resources :links do
-			get 'admin', :on => :collection
-		end
+		resources :links 
 	end
 	
 

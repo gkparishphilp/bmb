@@ -1,12 +1,4 @@
 - content_for :left_column do
-
-	.author_hd
-		%h1
-			= @author ? @author.pen_name : @current_site.name
-			Blog
-		- if @author
-			.author_corner
-				= render :partial => 'authors/menu'
 	.author_bd
 		#inner-content-wrapper
 			- if @topic
@@ -38,5 +30,7 @@
 			= will_paginate @articles
 
 - content_for :right_column do
-	= render :partial => 'authors/right_column'
 	= render :partial => 'sidebar'
+	= render :partial => 'authors/right_column'
+	
+	

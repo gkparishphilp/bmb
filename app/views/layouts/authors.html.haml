@@ -11,8 +11,15 @@
 			#bd
 				= render :partial => 'shared/flash', :locals => { :flash => flash }
 				.column1
+					.author_hd
+						%h1
+							= @author.pen_name
+						.author_corner
+							= render :partial => 'authors/menu'
 					= yield :left_column
 				.column2
+					.author_photo
+						= image_tag @author.avatar.location( :profile ) unless @author.avatar.nil?
 					= yield :right_column
 			= render :partial => 'shared/footer'
 		= render :partial => 'shared/analytics'

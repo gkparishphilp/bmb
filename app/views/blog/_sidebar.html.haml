@@ -1,14 +1,14 @@
 .section_title
-	Recent Posts
+	%h3 Recent Posts
 #recent_posts
-	- for article in Article.recent.published
+	- for article in @recent_posts
 		.recent_title
 			= link_to article.title, blog_path( article )
 		.recent_preview
 			= snip article.content, 140
 
 .section_title
-	Topics
+	%h3 Topics
 #recent_posts
 	- for topic in @topics
 		.recent_title
@@ -18,7 +18,7 @@
 			)
 
 .section_title
-	Archives
+	%h3 Archives
 #recent_posts
 	- for archive in @archives
 		.recent_title
@@ -26,7 +26,7 @@
 
 - unless @links.nil? || @links.empty?
 	.section_title
-		Links
+		%h3 Links
 	#recent_posts
 		- for link in @links
 			.recent_title
@@ -34,7 +34,7 @@
 
 - unless @tweets.nil? || @tweets.first.nil?
 	.section_title
-		Todo on Twitter
+		%h3 Todo on Twitter
 	#recent_posts
 		- for tweet in @tweets
 			.recent_title

@@ -1,12 +1,13 @@
 class ForumsController < ApplicationController
-	before_filter	:require_admin, :except => [ :index, :show ]
+	before_filter	:get_owner, :get_sidebar_data
+	layout			:set_layout
 	
 	def admin
-		@forums = @current_site.forums.all
+		@forums = @owner.forums.all
 	end
 	
 	def index
-		@forums = @current_site.forums.paginate :page => params[:page], :order => 'id ASC', :per_page => 10
+		@forums = @owner.forums.paginate :page => params[:page], :order => 'id ASC', :per_page => 10
 	end
 
 	def show
@@ -25,7 +26,7 @@ class ForumsController < ApplicationController
 	def create
 		@forum = Forum.new params[:forum]
 		
-		if @current_site.forums << @forum
+		if @owner.forums << @forum
 			pop_flash 'Forum was successfully created.'
 			redirect_to admin_forums_path 
 		else
@@ -53,7 +54,18 @@ class ForumsController < ApplicationController
 		redirect_to admin_forums_path
 	end
 	
-	
+private
 
+	def get_owner
+		@owner = @author ? @author : @current_site
+	end
+
+	def get_sidebar_data
+		# TODO
+	end
+	
+	def set_layout
+		"authors" unless @author.nil?
+	end
 	
 end

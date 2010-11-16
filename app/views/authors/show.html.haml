@@ -1,25 +1,19 @@
 - content_for :left_column do
-	.author_hd
-		%h1
-			= @author.pen_name
-		.author_corner
-			= render :partial => 'menu'
-		
-			.author_promo
-				.column1
-					.image= image_tag( 'book_placeholder.jpg' , :alt=>'book placeholder' )
-					%h2 The 9th Judgement
-					%p.book_stats Backers: <em>2</em> Reads: <em>403</em>
-					%p= "Detective Lindsay Boxer chases a Jewel thief, a murderous movie star, and a killer with a vendetta against women and children. A young mother and her infant child are ruthlessly gunned down in the garage of a shopping mall. There are no witnesses ..." + (link_to "more >>", "#")
-				.column2
-					.button
-						=link_to "Back this Book", "#", :class => 'gray'
-					.button	
-						=link_to "Buy Now", "#", :class => 'gray'
-					.button	
-						=link_to "Free Sample", "#", :class => 'gray'
-					.button
-						=link_to "Reviews", "#", :class => 'gray'
+	.author_promo
+		.column1
+			.image= image_tag( 'book_placeholder.jpg' , :alt=>'book placeholder' )
+			%h2 The 9th Judgement
+			%p.book_stats Backers: <em>2</em> Reads: <em>403</em>
+			%p= "Detective Lindsay Boxer chases a Jewel thief, a murderous movie star, and a killer with a vendetta against women and children. A young mother and her infant child are ruthlessly gunned down in the garage of a shopping mall. There are no witnesses ..." + (link_to "more >>", "#")
+		.column2
+			.button
+				=link_to "Back this Book", "#", :class => 'gray'
+			.button	
+				=link_to "Buy Now", "#", :class => 'gray'
+			.button	
+				=link_to "Free Sample", "#", :class => 'gray'
+			.button
+				=link_to "Reviews", "#", :class => 'gray'
 	
 	.author_bd
 		#inner-content-wrapper

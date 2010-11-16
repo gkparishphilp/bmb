@@ -14,6 +14,11 @@ class AdminController < ApplicationController
 		@article = params[:article_id] ? ( Article.find params[:article_id] ) : Article.new
 		@articles = @current_author.articles.recent
 	end
+	
+	def forums
+		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
+		@forums = @current_author.forums
+	end
 
 	
 end

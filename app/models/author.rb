@@ -34,6 +34,7 @@ class Author < ActiveRecord::Base
 	belongs_to	:user
 	
 	has_many	:articles, :as => :owner
+	has_many	:forums, :as => :owner
 	
 	has_many	:merches, :as  => :owner
 	has_many	:royalties
@@ -47,7 +48,7 @@ class Author < ActiveRecord::Base
 	has_one		:theme
 	
 	has_friendly_id	:pen_name, :use_slug => true
-	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "64", :tiny => "20" }}
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
 	
 	def set_subdomain
 		self.subdomain = self.pen_name.gsub(/\W/, "-").downcase
