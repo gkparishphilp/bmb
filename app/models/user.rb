@@ -233,7 +233,7 @@ private
 	end
 
 	def self.encrypted_password(pw, salt)
-		string_to_hash = pw + "tryt945m43433492fgs4353zmte453" + salt
+		string_to_hash = pw + "439fgfg334gergersd9fhq34ufq" + salt
 		Digest::SHA1.hexdigest(string_to_hash)
 	end
 
