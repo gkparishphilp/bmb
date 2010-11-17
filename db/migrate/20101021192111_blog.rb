@@ -9,7 +9,7 @@ class Blog < ActiveRecord::Migration
 			t.text			:content
 			t.string		:status
 			t.boolean		:comments_allowed
-			t.datetime		:publish_on
+			t.datetime		:publish_at
 			t.string		:article_type
 			t.string		:cached_slug
 			t.timestamps
