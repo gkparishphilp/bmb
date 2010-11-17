@@ -19,7 +19,7 @@ Backmybook::Application.routes.draw do
 				resources :posts
 			end
 		end
-		
+		resources :events
 		resources :themes
 		resources :upload_email_lists
 		resources :email_campaigns do
@@ -41,6 +41,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/forums' => 'admin#forums', :as => :admin_forums
 	match '/admin/profile' => 'admin#profile', :as => :admin_profile
 	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
+	match '/admin/events' => 'admin#events', :as => :admin_events
 	
 	resources :articles do
 		resources :comments
@@ -136,6 +137,7 @@ Backmybook::Application.routes.draw do
 	match '/reset' => 'users#reset_password', :as => 'reset'
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
+	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'
 	
 	match "/:permalink", :to => 'static_pages#show'
 	

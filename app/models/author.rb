@@ -35,6 +35,7 @@ class Author < ActiveRecord::Base
 	
 	has_many	:articles, :as => :owner
 	has_many	:forums, :as => :owner
+	has_many	:events, :as => :owner
 	
 	has_many	:merches, :as  => :owner
 	has_many	:royalties
@@ -56,6 +57,18 @@ class Author < ActiveRecord::Base
 	
 	def create_default_campaign
 		EmailCampaign.create!(:owner_type => self.class, :owner_id => self.id, :title => 'Default')
+	end
+	
+	def promo_content
+		#if self.promo =~ "book_1" #use book_bookid
+		#podcast_1
+		#event_1
+		#blog_1
+		#bio
+		#or custom text in the field
+		
+		#default to bio
+		return self.bio
 	end
 	
 	

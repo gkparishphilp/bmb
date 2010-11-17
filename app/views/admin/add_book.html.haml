@@ -1,14 +1,13 @@
-.column1
+- content_for :left_column do
 	= render :partial => 'nav'
-	.pad_content
-		.form_group
-			%h1 Add Book
+- content_for :middle_column do
+	.form_group
+		%h1 Add Book
 
-			= form_tag confirm_author_books_path( @current_author ) do
-				%h3 Step 1: What is the Title?
-				= text_field_tag :title, "", :class => :book_title_field
-				= submit_tag "Enter"
-				
-.column2
-	.pad_content
-		%h2 Help
+		= form_tag confirm_author_books_path( @current_author ) do
+			%h3 Step 1: What is the Title?
+			= text_field_tag :title, "", :class => :book_title_field
+			= submit_tag "Enter"
+- content_for :right_column do
+	%h2 Help
+

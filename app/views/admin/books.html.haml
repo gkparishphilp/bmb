@@ -1,8 +1,14 @@
-%h1 Book Admin
-= render :partial => 'nav'
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Books
+		- for book in @books do
+			= image_tag( book.avatar.location('thumb'), :width => 64 ) if book.has_attached_avatar?
+			= link_to book.title, edit_author_book_path( @current_author, book )
+			%hr
+- content_for :right_column do
+	%h2 Help
 
-- for book in @books do
-	= book.avatar.location('thumb') if book.has_attached_avatar?
-	= link_to book.title, edit_author_book_path( @current_author, book )
-	%hr
+
 	

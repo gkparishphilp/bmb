@@ -1,40 +1,39 @@
-.column1
+- content_for :left_column do
 	= render :partial => 'nav'
-	.pad_content
-		.form_group
-			%h1 Blog
+- content_for :middle_column do
+	.form_group
+		%h1 Blog
 
-			= form_for [@current_author, @article], :html => { :multipart => true } do |f|
-				= f.label "Title:"
-				= f.text_field :title, :class => 'title'
-				%br
-				= f.text_area :content, :class => 'long_desc_area'
-				%br
+		= form_for [@current_author, @article], :html => { :multipart => true } do |f|
+			= f.label "Title:"
+			= f.text_field :title, :class => 'title'
+			%br
+			= f.text_area :content, :class => 'long_desc_area'
+			%br
 
-				= f.label "Publish On:"
-				= f.text_field :publish_on
-				%br
-				= f.label 'Topics:'
-				= f.text_field :topic_list
-				%br
-				= f.label 'Keywords:'
-				= f.text_field :keyword_list
+			= f.label "Publish On:"
+			= f.text_field :publish_on
+			%br
+			= f.label 'Topics:'
+			= f.text_field :topic_list
+			%br
+			= f.label 'Keywords:'
+			= f.text_field :keyword_list
 
-				= f.label "Snip Preview at Character:"
-				= f.text_field :snip_at, :style => 'width:50px;'
+			= f.label "Snip Preview at Character:"
+			= f.text_field :snip_at, :style => 'width:50px;'
 
-				%br
-				= f.check_box :comments_allowed, {}, 'true', 'false'
-				Allow Comments
-				= f.label "Status:"
-				= f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
+			%br
+			= f.check_box :comments_allowed, {}, 'true', 'false'
+			Allow Comments
+			= f.label "Status:"
+			= f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
 
-				%br
-				= submit_tag
-.column2
-	.pad_content
-		%h2 Help
-		%h2 Recent Articles
-		- for article in @articles do
-			= link_to article.title, admin_blog_path( :article_id => article )
-			%hr
+			%br
+			= submit_tag
+- content_for :right_column do
+	%h2 Help
+	%h2 Recent Articles
+	- for article in @articles do
+		= link_to article.title, admin_blog_path( :article_id => article )
+		%hr

@@ -8,10 +8,7 @@ class BooksController < ApplicationController
 	
 	def show
 		@book = Book.find params[:id]
-	end
-	
-	def new
-		@book = Book.new
+		render :layout => 'authors'
 	end
 	
 	def confirm
@@ -22,10 +19,12 @@ class BooksController < ApplicationController
 			@book = @author.books.create :title => @title
 			redirect_to edit_author_book_path( @author, @book )
 		end
+		render :layout => '3col'
 	end
 	
 	def edit
 		@book = Book.find params[:id]
+		render :layout => '3col'
 	end
 	
 	def update

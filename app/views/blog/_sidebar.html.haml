@@ -3,7 +3,7 @@
 #recent_posts
 	- for article in @recent_posts
 		.recent_title
-			= link_to article.title, blog_path( article )
+			= link_to article.title, blog_link( article )
 		.recent_preview
 			= snip article.content, 140
 
@@ -12,7 +12,7 @@
 #recent_posts
 	- for topic in @topics
 		.recent_title
-			= link_to topic.name.capitalize, blog_index_path( :topic => topic.name )
+			= link_to topic.name.capitalize, blog_index_link( :topic => topic.name )
 			(
 			= topic.count
 			)
@@ -22,7 +22,7 @@
 #recent_posts
 	- for archive in @archives
 		.recent_title
-			= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_path + "/archive/#{archive.year}/#{archive.month}"
+			= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
 
 - unless @links.nil? || @links.empty?
 	.section_title

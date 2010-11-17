@@ -54,6 +54,20 @@ class PodcastsController < ApplicationController
 		redirect_to podcasts_url
 	end
 	
+private 
+
+	def get_parent
+		@owner = params[:author_id] ? Author.find params[:author_id] : @current_site
+	end 
+	
+	
+	def get_sidebar_data
+		# TODO
+	end
+	
+	def set_layout
+		@author ? "authors" : "application"
+	end
 
 
 end

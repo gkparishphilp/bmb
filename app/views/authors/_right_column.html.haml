@@ -20,7 +20,16 @@
 	%div
 		%h3 
 			=link_to 'Events','#'
-		%div Nam dui erat, auctor a, dignissim quis.
+		%div 
+			- for event in @author.events.upcomming
+				= link_to event.title, author_event_path( @author, event )
+				.small
+					%br
+					On:
+					= format_date event.starts_at
+					%br
+					At: 
+					= event.location
 	%div
 		%h3 
 			=link_to 'Recent Activity','#'

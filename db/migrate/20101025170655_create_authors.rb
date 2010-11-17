@@ -5,6 +5,7 @@ class CreateAuthors < ActiveRecord::Migration
 			t.references	:user
 			t.references	:featured_book
 			t.string		:pen_name
+			t.text			:promo
 			t.string		:subdomain
 			t.string		:domain
 			t.text			:bio

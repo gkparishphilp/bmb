@@ -16,6 +16,11 @@ class AdminController < ApplicationController
 		@articles = @current_author.articles.recent
 	end
 	
+	def events
+		@event = params[:event_id] ? ( Event.find params[:event_id] ) : Event.new
+		@events = @current_author.events.upcomming
+	end
+	
 	def forums
 		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
 		@forums = @current_author.forums
