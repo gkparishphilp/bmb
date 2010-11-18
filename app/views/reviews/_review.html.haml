@@ -1,0 +1,17 @@
+#comment
+	.header
+		= link_to( image_tag( review.user.avatar.location( :tiny ), :width => review.user.avatar.tiny_width ), user_path( review.user ))
+		= link_to review.user.name, user_path( review.user )
+		 
+		%span.byline.date
+			On
+			= format_date review.created_at
+		- unless review.score.nil?
+			- form_for([ @author, @reviewable, review ]) do |f| 
+				= f.radio_button :score, 1, :class => :show_stars, :title => 'Poor'
+				= f.radio_button :score, 2, :class => :show_stars, :title => 'Meh...'
+				= f.radio_button :score, 3, :class => :show_stars, :title => 'Good'
+				= f.radio_button :score, 4, :class => :show_stars, :title => 'Great!'
+		%br
+	.content
+		= review.content.html_safe
