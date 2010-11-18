@@ -12,7 +12,7 @@ class AssetsController < ApplicationController
 	
 	def create
 		@asset = Asset.new params[:asset]
-		if @asset.save
+		if @book.assets << @asset
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'
 		else

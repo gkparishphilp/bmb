@@ -6,6 +6,7 @@
 #  id             :integer(4)      not null, primary key
 #  book_id        :integer(4)
 #  title          :string(255)
+#  description    :text
 #  format         :string(255)
 #  price          :integer(4)
 #  download_count :integer(4)      default(0)
@@ -30,7 +31,7 @@ class Asset < ActiveRecord::Base
 	belongs_to	:bundle_asset
 	has_many	:owners, :through => :ownings
 	
-	has_attached :content_file, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'pdf', 'mp3', 'aac', 'docx', 'odt', 'ogg', 'wav', 'htm'], :private => true
+	has_attached :etext, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'pdf', 'mp3', 'aac', 'docx', 'odt', 'ogg', 'wav', 'htm'], :private => true
 	
 	def content
 		# Alias this to the actual content of the asset

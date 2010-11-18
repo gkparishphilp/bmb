@@ -29,7 +29,7 @@ module HasAttachments #:nodoc:
 				end
 				
 				
-				if opts[:private] == 'true'
+				if opts[:private] == true
 					self.class_eval <<-END
 						def #{attachment_type}_path
 							return PRIVATE_ATTACHMENT_PATH
