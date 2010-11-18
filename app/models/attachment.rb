@@ -80,13 +80,15 @@ class Attachment < ActiveRecord::Base
 	
 	
 	# instance methods
-	def location( style=nil )
+	def location( style=nil, opts={} )
 		if self.remote
 			return self.path
 		end
-		rel_path = self.path.gsub( /\A.+public/, "" )
+		rel_path = self.path
+		rel_path = self.path.gsub( /\A.+public/, "" ) unless opts[:full] == true
 		style ? "#{rel_path}#{self.name}_#{style}.#{self.format}" : "#{rel_path}#{self.name}.#{self.format}"
 	end
+	
 	
 	def update_from_resource( resource, opts={} )
 		
@@ -118,6 +120,8 @@ class Attachment < ActiveRecord::Base
 			end
 			
 			filesize = File.size( write_path )
+			
+			# todo -- delete old files?
 		
 			self.update_attributes :filesize => filesize, :path => path, :name => name, :format => ext
 		end
@@ -172,9 +176,8 @@ class Attachment < ActiveRecord::Base
 			# one or more digit, word char, parens, or dash, then a dot, then one or more any char then end of string
 			full_name = name.match( /[\d\w\(\)-]+\..+\z/ ).to_s 
 		end
-	
 		ext = full_name.match( /\w+\z/ ).to_s.downcase # any number of word chars following non-word (ie period), then eol
-		name = full_name.match( /[\d\w-]+\./ ).to_s.chop.downcase
+		name = full_name.match( /[_ ',;:+=|()!\?\d\w-]+\./ ).to_s.chop.downcase
 
 		return name, ext
 	

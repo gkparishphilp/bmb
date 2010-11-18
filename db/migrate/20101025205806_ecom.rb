@@ -6,11 +6,6 @@ class Ecom < ActiveRecord::Migration
 			t.string	:title
 			t.text		:description
 			t.integer	:price
-			t.string	:artwork_url
-			t.string	:artwork_file_name
-		    t.string	:artwork_content_type
-		    t.integer	:artwork_file_size
-		    t.datetime	:artwork_updated_at
 			
 			t.timestamps
 		end
@@ -67,11 +62,6 @@ class Ecom < ActiveRecord::Migration
 			t.text			:description
 			t.integer		:inventory_count, :default => -1 # neg numbers of nil = infinite
 			t.integer		:price
-			t.string		:artwork_url
-			t.string		:artwork_file_name
-			t.string		:artwork_content_type
-			t.integer		:artwork_file_size
-			t.datetime		:artwork_updated_at
 			t.string		:status # published or not
 			
 			t.timestamps

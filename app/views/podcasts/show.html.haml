@@ -1,26 +1,33 @@
-%h1
-	= @podcast.title
-	= link_to image_tag( 'rss_icon.png', :height => 24 ), formatted_podcast_url( @podcast, :rss )
-	- unless @podcast.itunes_id.blank?
-		= link_to image_tag( 'itunes_button.jpg' ), "http://www.itunes.com/podcast?id=#{@podcast.itunes_id}"
-			
-%br
-= @podcast.summary
-%br
-%br
-- unless @podcast.episodes.empty?
-	%h3 Episodes
+- content_for :left_column do
+	= image_tag( @podcast.avatar.location('thumb') ) if @podcast.has_attached_avatar?
+	%h1= @podcast.title
+	= @podcast.subtitle
+	%br
+	%br
+	= @podcast.description
+	%br
+	%br
+	- unless @podcast.episodes.empty?
+		%h3 Episodes
 
-	%table{:cellspacing => 0}
-		- for episode in @podcast.episodes.reverse
-			%tr
-				%td
-					%b= link_to episode.title, podcast_episode_path( @podcast, episode )
-					(
-					= format_date_only episode.created_at
-					)
-					%br
-					= snip episode.summary, 200
-				%td= episode.duration
-- else
-	%h3 No Episodes yet....
+		%table{:cellspacing => 0}
+			- for episode in @podcast.episodes.reverse
+				%tr
+					%td
+						%b= link_to episode.title, episode_link( episode )
+						(
+						= format_date_only episode.created_at
+						)
+						%br
+						= snip episode.description, 200
+					%td= episode.duration
+	- else
+		%h3 No Episodes yet....
+
+- content_for :right_column do
+	&nbsp;
+
+
+			
+
+

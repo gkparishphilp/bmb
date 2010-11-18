@@ -1,55 +1,49 @@
 Backmybook::Application.routes.draw do
 
+	# First, catch subdomain and send root to author controller
 	constraints( Subdomain ) do
 		match '/' => 'authors#show'
 	end
-	
+	# map a root
 	root :to => "site#index"
+	
+	# app resource routes, hopefully in alpha
 
+	resources :articles do
+		resources :comments
+	end
+	
 	resources :authors do
-		get 'manage', :on => :collection
-		get 'bio', :on => :member
-		resources :books do
-			post 'confirm', :on => :collection
-		end
 		resources :articles
 		resources :blog
+		resources :books do
+			post 'confirm', :on => :collection
+			resources :assets
+		end
+		resources :email_campaigns do
+			resources :email_messages
+		end
+		resources :events
 		resources :forums do
 			resources :topics do
 				resources :posts
 			end
 		end
-		resources :events
+		resources :podcasts do
+			resources :episodes do
+				get 'download', :on => :member
+				resources :comments
+			end
+		end
 		resources :themes
 		resources :upload_email_lists
-		resources :email_campaigns do
-			resources :email_messages
-		end
+		
+		get 'manage', :on => :collection
+		get 'bio', :on => :member
+		
 	end
-	
-	#match '/authors/:author_id/blog/:id', :to => 'authors#view_article'
-	#match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'authors#blog'
-	
-	match '/admin/books' => 'admin#books', :as => :admin_books
-	match '/admin/blog' => 'admin#blog', :as => :admin_blog
-	match '/admin/design' => 'admin#design', :as => :admin_design
-	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
-	match '/admin/email' => 'admin#email', :as => :admin_email
-	match '/admin/' => 'admin#index', :as => :admin_index
-	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
-	match '/admin/reports' => 'admin#reports', :as => :admin_reports
-	match '/admin/forums' => 'admin#forums', :as => :admin_forums
-	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
-	match '/admin/events' => 'admin#events', :as => :admin_events
-	
-	resources :articles do
-		resources :comments
-	end
-	
-	resources :assets
 
-	resources :blog 
+	resources :blog  # for the site blog
 	
 	resources :bundle_assets
 	resources :bundles
@@ -72,12 +66,12 @@ Backmybook::Application.routes.draw do
 	
 	resources :merches
 
-	resources :order_transactions
-
 	resources :orders do
 	end
 	
-	resources :podcasts do
+	resources :order_transactions
+	
+	resources :podcasts do # for the site podcast
 		resources :episodes do
 			get 'download', :on => :member
 			resources :comments
@@ -127,8 +121,25 @@ Backmybook::Application.routes.draw do
 		get 'resend', :on => :member
 	end
 	
-	
+	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
+	
+	match '/admin/books' => 'admin#books', :as => :admin_books
+	match '/admin/blog' => 'admin#blog', :as => :admin_blog
+	match '/admin/design' => 'admin#design', :as => :admin_design
+	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
+	match '/admin/email' => 'admin#email', :as => :admin_email
+	match '/admin/' => 'admin#index', :as => :admin_index
+	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
+	match '/admin/reports' => 'admin#reports', :as => :admin_reports
+	match '/admin/forums' => 'admin#forums', :as => :admin_forums
+	match '/admin/profile' => 'admin#profile', :as => :admin_profile
+	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
+	match '/admin/events' => 'admin#events', :as => :admin_events
+	
+	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
+	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'
+	
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
 	match '/forgot' => 'users#forgot_password', :as => 'forgot'
 	match '/logout' => 'sessions#destroy', :as => 'logout'
@@ -136,8 +147,7 @@ Backmybook::Application.routes.draw do
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
 	
-	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
-	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'
+	
 	
 	match "/:permalink", :to => 'static_pages#show'
 	

@@ -5,14 +5,12 @@
 #
 #  id          :integer(4)      not null, primary key
 #  owner_id    :integer(4)
+#  owner_type  :string(255)
 #  title       :string(255)
 #  subtitle    :string(255)
 #  itunes_id   :string(255)
 #  description :text
-#  duration    :string(255)
-#  filename    :string(255)
 #  keywords    :string(255)
-#  filesize    :integer(4)
 #  explicit    :string(255)
 #  status      :string(255)
 #  cached_slug :string(255)
@@ -28,6 +26,8 @@ class Podcast < ActiveRecord::Base
 	
 	
 	has_friendly_id :title, :use_slug => :true
+	
+	has_attached :avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :thumb => "100", :tiny => "40"}}
 	
 	def ping_itunes
 		unless self.itunes_id.blank?

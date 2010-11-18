@@ -30,7 +30,7 @@ class Asset < ActiveRecord::Base
 	belongs_to	:bundle_asset
 	has_many	:owners, :through => :ownings
 	
-	has_attached :content_file, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'pdf', 'mp3', 'aac', 'docx', 'odt', 'ogg', 'wav', 'htm']
+	has_attached :content_file, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'pdf', 'mp3', 'aac', 'docx', 'odt', 'ogg', 'wav', 'htm'], :private => true
 	
 	def content
 		# Alias this to the actual content of the asset

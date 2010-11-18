@@ -6,10 +6,7 @@ class Podcasts < ActiveRecord::Migration
 			t.string		:subtitle
 			t.string		:itunes_id
 			t.text			:description
-			t.string		:duration
-			t.string		:filename
 			t.string		:keywords
-			t.integer		:filesize
 			t.string		:explicit
 			t.string		:status
 			t.string		:cached_slug

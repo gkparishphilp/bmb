@@ -3,6 +3,8 @@
 		= image_tag activity.actor.avatar.location, :width => 30
 	- if activity.actor == @current_user
 		You
+	- elsif activity.actor.respond_to? 'pen_name'
+		= link_to activity.actor.pen_name, polymorphic_path( activity.actor )
 	- else
 		= link_to activity.actor.name, polymorphic_path( activity.actor )
 	= activity.verb

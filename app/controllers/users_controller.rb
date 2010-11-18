@@ -70,7 +70,7 @@ class UsersController < ApplicationController
 			
 			email = UserMailer.welcome( @user, @current_site ).deliver
 			
-			flash[:notice] = "User was successfully created."
+			pop_flash "User was successfully created."
 			
 			@user.did_join @current_site
 			

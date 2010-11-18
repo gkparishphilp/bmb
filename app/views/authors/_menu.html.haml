@@ -6,5 +6,7 @@
 		%li= current_page?( author_blog_index_path( @author ) ) ? ( link_to "Blog", author_blog_index_path( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_path( @author ) )
 		%li= current_page?( author_forums_path( @author ) ) ? ( link_to "Forums", author_forums_path( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_path( @author ) )
 
-		%li= link_to "Podcast", "#"
+		%li= current_page?( author_podcasts_path( @author ) ) ? ( link_to "Podcasts", author_podcasts_path( @author ), :class => 'selected' ) : ( link_to "Podcasts", author_podcasts_path( @author ) )
+		
+		
 		%li= link_to "Store", "#"

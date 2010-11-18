@@ -1,6 +1,6 @@
 - content_for :left_column do
 	= image_tag( @book.avatar.location('thumb') ) if @book.has_attached_avatar?
-	%h1= link_to @book.title
+	%h1= @book.title
 	%br
 	By
 	= @book.author.pen_name

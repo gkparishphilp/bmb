@@ -1,3 +1,22 @@
+# == Schema Information
+# Schema version: 20101110044151
+#
+# Table name: events
+#
+#  id          :integer(4)      not null, primary key
+#  owner_id    :integer(4)
+#  owner_type  :string(255)
+#  title       :string(255)
+#  description :text
+#  starts_at   :datetime
+#  ends_at     :datetime
+#  location    :string(255)
+#  event_type  :string(255)
+#  status      :string(255)
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class Event < ActiveRecord::Base
 	
 	belongs_to :owner, :polymorphic => true

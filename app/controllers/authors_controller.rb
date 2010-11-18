@@ -47,11 +47,7 @@ class AuthorsController < ApplicationController
 	def update
 		@author = Author.find params[:id]
 		if @author.update_attributes params[:author]
-			if @author.avatar
-				@author.avatar.update_from_resource( params[:attached_avatar_file] )
-			else
-				@author.attachments.create_from_resource( params[:attached_avatar_file], 'avatar', :owner => @author )
-			end
+			process_attachments_for( @author )
 			pop_flash "Author Profile Updated!"
 		else
 			pop_flash "Profile could not be saved", :error, @author

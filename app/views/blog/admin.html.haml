@@ -22,7 +22,7 @@
 				%td
 					= blog_post.status
 				%td
-					= format_date blog_post.publish_on
+					= format_date blog_post.publish_at
 				%td
 					= link_to image_tag( 'edit.png', :width => 20 ), edit_blog_path( blog_post )
 					= link_to 'edit', edit_blog_path( blog_post )

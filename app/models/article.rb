@@ -13,7 +13,7 @@
 #  content          :text
 #  status           :string(255)
 #  comments_allowed :boolean(1)
-#  publish_on       :datetime
+#  publish_at       :datetime
 #  article_type     :string(255)
 #  cached_slug      :string(255)
 #  created_at       :datetime
@@ -21,6 +21,7 @@
 #
 
 class Article < ActiveRecord::Base
+	before_save :set_publish_at
 	
 	belongs_to :owner, :polymorphic => true
 	
@@ -33,25 +34,25 @@ class Article < ActiveRecord::Base
 	acts_as_followed
 	gets_activities
 	
-	scope :published, where( "publish_on <= ? and status = 'publish'", Time.now )
+	scope :published, where( "publish_at <= ? and status = 'publish'", Time.now )
 		
 	scope :recent, lambda { |*args|
 		limit( args.first || 5 )
-		order( 'publish_on desc' )
+		order( 'publish_at desc' )
 	}
 	
 	scope :dated_between, lambda { |*args| 
-		where( "publish_on between ? and ?", (args.first || 1.day.ago), (args.second || Time.now) ) 
+		where( "publish_at between ? and ?", (args.first || 1.day.ago), (args.second || Time.now) ) 
 	} 
 	
 	scope :month_year, lambda { |*args| 
-		where( " month(publish_on) = ? and year(publish_on) = ?", (args.first || Time.now.month), (args.second || Time.now.year) )
-		order( 'publish_on desc' )
+		where( " month(publish_at) = ? and year(publish_at) = ?", (args.first || Time.now.month), (args.second || Time.now.year) )
+		order( 'publish_at desc' )
 	}
 	
 	scope :year, lambda { |*args| 
-		where( " year(publish_on) = ?", (args.first || Time.now.year) )
-		order( 'publish_on desc' )
+		where( " year(publish_at) = ?", (args.first || Time.now.year) )
+		order( 'publish_at desc' )
 	}
 	
 	
@@ -67,7 +68,13 @@ class Article < ActiveRecord::Base
 	end
 	
 	def published?
-		self.publish_on <= Time.now && self.status == 'publish'
+		self.publish_at <= Time.now && self.status == 'publish'
+	end
+	
+private
+
+	def set_publish_at
+		self.publish_at = Time.now unless self.publish_at
 	end
 	
 end

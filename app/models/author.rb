@@ -7,6 +7,7 @@
 #  user_id            :integer(4)
 #  featured_book_id   :integer(4)
 #  pen_name           :string(255)
+#  promo              :text
 #  subdomain          :string(255)
 #  domain             :string(255)
 #  bio                :text
@@ -36,6 +37,7 @@ class Author < ActiveRecord::Base
 	has_many	:articles, :as => :owner
 	has_many	:forums, :as => :owner
 	has_many	:events, :as => :owner
+	has_many	:podcasts, :as => :owner
 	
 	has_many	:merches, :as  => :owner
 	has_many	:royalties
@@ -47,6 +49,8 @@ class Author < ActiveRecord::Base
 	has_many	:email_campaigns, :as => :owner
 	has_many	:bundles, :as => :owner
 	has_one		:theme
+	
+	does_activities
 	
 	has_friendly_id	:pen_name, :use_slug => true
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}

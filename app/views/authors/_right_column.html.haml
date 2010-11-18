@@ -12,25 +12,31 @@
 	%div
 		%h3 
 			=link_to 'Featured books','#'
-		%div Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-	%div
-		%h3 
-			=link_to 'Podcasts','#'
-		%div Phasellus mattis tincidunt nibh.
+		%div 
+			- for book in @author.books
+				= image_tag book.avatar.location( :tiny ), :width => 40
+				= link_to book.title, author_book_path( @author, book )
+				%br
 	%div
 		%h3 
 			=link_to 'Events','#'
 		%div 
-			- for event in @author.events.upcomming
-				= link_to event.title, author_event_path( @author, event )
-				.small
-					%br
-					On:
-					= format_date event.starts_at
-					%br
-					At: 
-					= event.location
+			- if @author.events.upcomming.empty?
+				No Upcomming Events
+			- else
+				- for event in @author.events.upcomming
+					= link_to event.title, author_event_path( @author, event )
+					.small
+						%br
+						On:
+						= format_date event.starts_at
+						%br
+						At: 
+						= event.location
 	%div
 		%h3 
 			=link_to 'Recent Activity','#'
-		%div Nam dui erat, auctor a, dignissim quis.
+		%div 
+			- for activity in Activity.feed @author
+				= render activity
+				
