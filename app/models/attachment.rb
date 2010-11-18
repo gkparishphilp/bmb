@@ -116,12 +116,13 @@ class Attachment < ActiveRecord::Base
 				image = MiniMagick::Image.open( resource )
 				image.write( write_path )
 			else
-				post = File.open( write_path,"wb" ) { |f| f.write( resource.read ) }
+				tmp_path = "#{path}tmp"
+				create_directory("#{path}tmp") unless File.directory? tmp_path
+				FileUtils.mv Dir.glob("#{path}*.*"), tmp_path
+				post = File.open( write_path,"wb" ) { |f| f.write( resource.read ) } ? FileUtils.rm_r(tmp_path) : FileUtils.mv(Dir.glob("#{tmp_path}/*.*"), path)
 			end
 			
 			filesize = File.size( write_path )
-			
-			# todo -- delete old files?
 		
 			self.update_attributes :filesize => filesize, :path => path, :name => name, :format => ext
 		end
