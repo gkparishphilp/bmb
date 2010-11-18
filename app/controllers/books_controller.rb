@@ -8,6 +8,11 @@ class BooksController < ApplicationController
 	
 	def show
 		@book = Book.find params[:id]
+		@reviewable = @book
+		@review = Review.new
+		
+		set_meta "#{@book.title} by #{@book.author.pen_name}", @book.description
+		
 		render :layout => 'authors'
 	end
 	

@@ -21,6 +21,7 @@ Backmybook::Application.routes.draw do
 			resources :assets do
 				get 'download', :on => :member
 			end
+			resources :reviews
 		end
 		resources :email_campaigns do
 			resources :email_messages
