@@ -153,6 +153,7 @@ class Attachment < ActiveRecord::Base
 	
 	def process_resize( styles )
 		for style_name, style_detail in styles
+			
 			directory = self.path
 			orig_filename = "#{self.name}.#{self.format}"
 			output_filename = "#{self.name}_#{style_name}.#{self.format}"

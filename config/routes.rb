@@ -18,7 +18,9 @@ Backmybook::Application.routes.draw do
 		resources :blog
 		resources :books do
 			post 'confirm', :on => :collection
-			resources :assets
+			resources :assets do
+				get 'download', :on => :member
+			end
 		end
 		resources :email_campaigns do
 			resources :email_messages
@@ -136,6 +138,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/profile' => 'admin#profile', :as => :admin_profile
 	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
 	match '/admin/events' => 'admin#events', :as => :admin_events
+	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

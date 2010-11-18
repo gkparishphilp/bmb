@@ -37,6 +37,15 @@ class AssetsController < ApplicationController
 		
 	end
 	
+	def download
+		@asset = Asset.find params[:id]
+		send_file @asset.etext.location( nil, :full => true ), :disposition  => 'attachment', 
+						:filename => @asset.book.title + "." + @asset.etext.format
+		@asset.download_count += 1
+		@asset.save
+		@current_user.did_download @asset.book
+	end
+	
 	private
 	
 	def get_parent
