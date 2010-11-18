@@ -137,28 +137,30 @@ EOS
 		for id in book_ids
 			if id.to_i > 0
 				book=Book.find id
-				original_filename = Dir.entries("#{old_dir}/#{id}/original").last
-				original_name = original_filename.split(/\./).first
-				original_format = original_filename.split(/\./).last
-				original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
-				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Books/#{id}/avatars/"
-				if !original_format.nil? and valid_formats.include?( original_format.downcase )
-					create_directory( output_dir ) unless File.directory? output_dir
-					styles = { :profile => "233", :thumb => "100", :tiny => "40"}
-					for style_name, style_detail in styles
-						output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
-						image = MiniMagick::Image.open( original_filepath )
-						image.resize style_detail
-						image.write output_filename
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Books/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase )
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "233", :thumb => "100", :tiny => "40"}
+						for style_name, style_detail in styles
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
 
-						attachment=Attachment.new
-						attachment.owner = book
-						attachment.attachment_type = 'avatar'
-						attachment.name = "#{original_name}_#{style_name}"
-						attachment.format = original_format
-						attachment.path = output_dir
-						status = attachment.save
-						puts "Cover Art saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+							attachment=Attachment.new
+							attachment.owner = book
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							status = attachment.save
+							puts "Cover Art saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+						end
 					end
 				end
 			end
@@ -172,30 +174,32 @@ EOS
 		for id in user_ids
 			if id.to_i > 0
 				user=User.find id
-				original_filename = Dir.entries("#{old_dir}/#{id}/original").last
-				original_name = original_filename.split(/\./).first
-				original_format = original_filename.split(/\./).last
-				original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
-				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Users/#{id}/avatars/"
-				if !original_format.nil? and valid_formats.include?( original_format.downcase)
-					create_directory( output_dir ) unless File.directory? output_dir
-					styles = { :profile => "120", :thumb => "64", :tiny => "20"}
-					styles.each_pair  {|style_name, style_detail| 
-						puts "ID = #{id} name = #{style_name} key = #{style_detail}"
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Users/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase)
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "120", :thumb => "64", :tiny => "20"}
+						styles.each_pair  {|style_name, style_detail| 
+							puts "ID = #{id} name = #{style_name} key = #{style_detail}"
 
-						output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
-						image = MiniMagick::Image.open( original_filepath )
-						image.resize style_detail
-						image.write output_filename
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
 
-						attachment = Attachment.new
-						attachment.owner = user
-						attachment.attachment_type = 'avatar'
-						attachment.name = "#{original_name}_#{style_name}"
-						attachment.format = original_format
-						attachment.path = output_dir
-						attachment.save
-					}
+							attachment = Attachment.new
+							attachment.owner = user
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							attachment.save
+						}
+					end
 				end
 			end
 		end
