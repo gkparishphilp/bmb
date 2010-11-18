@@ -30,7 +30,7 @@ class Site < ActiveRecord::Base
 	has_many :contacts
 	has_many :crashes
 	does_activities
-	
+
 	def create_models
 		@legacy_models = Dir.glob('/Users/tay/Sites/elit/app/models/*.rb').collect { |model_path| File.basename(model_path).gsub('.rb', '') }
 
@@ -52,7 +52,7 @@ EOS
 		end
 	end
 
-	def migrate_all
+	def migrate_models
 		self.migrate_users
 		self.migrate_authors
 		self.migrate_articles
@@ -83,6 +83,13 @@ EOS
 		self.migrate_reviews
 		self.migrate_static_pages
 		self.migrate_subscription_types
+	end
+
+	def migrate_files
+		self.migrate_book_assets
+		self.migrate_book_covers
+		self.migrate_user_photos
+		self.migrate_episode_audio
 	end
 
 	def migrate_book_assets                
@@ -126,30 +133,35 @@ EOS
 	def migrate_book_covers
 		old_dir = "#{Rails.root}/tmp/system_old/cover_arts"
 		book_ids = Dir.entries( old_dir )
+		valid_formats = ['jpg','gif','png','jpeg','bmp']
 		for id in book_ids
 			if id.to_i > 0
 				book=Book.find id
-				original_filename = Dir.entries("#{old_dir}/#{id}/original").last
-				original_name = original_filename.split(/\./).first
-				original_format = original_filename.split(/\./).last
-				original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
-				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Books/#{id}/avatar/"
-				create_directory( output_dir ) unless File.directory? output_dir
-				styles = { :profile => "233", :thumb => "100", :tiny => "40"}
-				for style_name, style_detail in styles
-					output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
-					image = MiniMagick::Image.open( original_filepath )
-					image.resize style_detail
-					image.write output_filename
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Books/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase )
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "233", :thumb => "100", :tiny => "40"}
+						for style_name, style_detail in styles
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
 
-					attachment=Attachment.new
-					attachment.owner = book
-					attachment.attachment_type = 'avatar'
-					attachment.name = "#{original_name}_#{style_name}"
-					attachment.format = original_format
-					attachment.path = output_dir
-					status = attachment.save
-					puts "Cover Art saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+							attachment=Attachment.new
+							attachment.owner = book
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							status = attachment.save
+							puts "Cover Art saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+						end
+					end
 				end
 			end
 		end
@@ -158,32 +170,37 @@ EOS
 	def migrate_user_photos
 		old_dir = "#{Rails.root}/tmp/system_old/photos"
 		user_ids = Dir.entries( old_dir )
+		valid_formats = ['jpg','gif','png','jpeg','bmp']
 		for id in user_ids
 			if id.to_i > 0
 				user=User.find id
-				original_filename = Dir.entries("#{old_dir}/#{id}/original").last
-				original_name = original_filename.split(/\./).first
-				original_format = original_filename.split(/\./).last
-				original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
-				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Users/#{id}/avatar/"
-				create_directory( output_dir ) unless File.directory? output_dir
-				styles = { :profile => "120", :thumb => "64", :tiny => "20"}
-				styles.each_pair  {|style_name, style_detail| 
-					puts "ID = #{id} name = #{style_name} key = #{style_detail}"
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Users/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase)
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "120", :thumb => "64", :tiny => "20"}
+						styles.each_pair  {|style_name, style_detail| 
+							puts "ID = #{id} name = #{style_name} key = #{style_detail}"
 
-					output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
-					image = MiniMagick::Image.open( original_filepath )
-					image.resize style_detail
-					image.write output_filename
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
 
-					attachment = Attachment.new
-					attachment.owner = user
-					attachment.attachment_type = 'avatar'
-					attachment.name = "#{original_name}_#{style_name}"
-					attachment.format = original_format
-					attachment.path = output_dir
-					attachment.save
-				}
+							attachment = Attachment.new
+							attachment.owner = user
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							attachment.save
+						}
+					end
+				end
 			end
 		end
 	end
@@ -201,17 +218,19 @@ EOS
 				original_format = original_filename.split(/\./).last
 				original_filepath = "#{old_dir}/#{id}/#{original_filename}"
 				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Episodes/#{id}/audio/"
-				create_directory( output_dir ) unless File.directory? output_dir
-				FileUtils.cp(original_filepath, "#{output_dir}/#{original_name}")
+				if !original_format.nil? and valid_formats.include?( original_format.downcase )
+					create_directory( output_dir ) unless File.directory? output_dir
+					FileUtils.cp(original_filepath, "#{output_dir}/#{original_name}")
 
-				attachment=Attachment.new
-				attachment.owner = episode
-				attachment.attachment_type = 'audio'
-				attachment.name = original_name
-				attachment.format = original_format
-				attachment.path = output_dir
-				status = attachment.save
-				puts "Episode saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+					attachment=Attachment.new
+					attachment.owner = episode
+					attachment.attachment_type = 'audio'
+					attachment.name = original_name
+					attachment.format = original_format
+					attachment.path = output_dir
+					status = attachment.save
+					puts "Episode saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+				end
 			end
 		end
 	end
