@@ -5,6 +5,7 @@ class CreateBooks < ActiveRecord::Migration
 		create_table :assets do |t|
 			t.references	:book
 			t.string		:title
+			t.text			:description
 			t.string		:format # pdf, mobi, epub, etc. even if in DB, may be txt, html, rtf, etc...
 			t.integer		:price
 			t.integer		:download_count, :default => 0

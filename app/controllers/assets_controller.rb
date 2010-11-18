@@ -12,7 +12,7 @@ class AssetsController < ApplicationController
 	
 	def create
 		@asset = Asset.new params[:asset]
-		if @asset.save
+		if @book.assets << @asset
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'
 		else
@@ -35,6 +35,15 @@ class AssetsController < ApplicationController
 
 		redirect_to :back
 		
+	end
+	
+	def download
+		@asset = Asset.find params[:id]
+		send_file @asset.etext.location( nil, :full => true ), :disposition  => 'attachment', 
+						:filename => @asset.book.title + "." + @asset.etext.format
+		@asset.download_count += 1
+		@asset.save
+		@current_user.did_download @asset.book
 	end
 	
 	private

@@ -6,7 +6,7 @@
 			Edit
 			= @book.title
 
-		= image_tag @book.avatar.location('thumb') if @book.has_attached_avatar?
+		= image_tag @book.avatar.location('thumb'), :width => @book.avatar.thumb_width if @book.has_attached_avatar?
 
 		= form_for [ @author, @book ], :html => { :multipart => true } do |f|
 			= file_field_tag :attached_avatar_file
@@ -15,6 +15,7 @@
 			= f.label "Description:"
 			= f.text_area :description
 			= f.submit
+	= link_to "Upload a file", new_author_book_asset_path( @author, @book )
 - content_for :right_column do
 	%h2 Help
 

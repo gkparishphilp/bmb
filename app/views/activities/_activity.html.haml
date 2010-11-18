@@ -13,6 +13,8 @@
 			= link_to activity.target.title, polymorphic_path( [ activity.target.forum, activity.target ] )
 		- elsif activity.target.is_a? Post
 			= link_to activity.target.topic.title, polymorphic_path( [ activity.target.forum, activity.target.topic ] )
+		- elsif activity.target.is_a? Book
+			= link_to activity.target.title, polymorphic_path( [ activity.target.author, activity.target ] )
 		- else
 			= link_to activity.target.title, polymorphic_path( activity.target )
 	- else

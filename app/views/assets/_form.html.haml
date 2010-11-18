@@ -1,0 +1,20 @@
+= f.label :title
+= f.text_field :title, :class => 'title_field'
+
+= f.label :description
+= f.text_area :description
+
+
+= f.label 'File (pdf, txt, doc, html, odt, max 100 MB)'
+= file_field_tag :attached_etext_file
+
+= f.label "Price"
+= f.text_field :price
+
+= f.label "Asset Type"
+= f.text_field :asset_type
+
+%br
+= f.submit m, :class => :button
+|
+= link_to 'Cancel', :back
