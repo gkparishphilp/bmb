@@ -6,6 +6,16 @@
 	= @book.author.pen_name
 	%br
 	%br
+	Genre:
+	= @book.genre.name
+	%br
+	%br
+	- for tag in @book.tags
+		= link_to separated_list( @book.tags, tag.name, "," ), root_path( :tag => tag.name )
+	
+	%br
+	%br
+	
 	= @book.description.html_safe
 	
 	%h3 Assets

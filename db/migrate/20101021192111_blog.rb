@@ -7,7 +7,7 @@ class Blog < ActiveRecord::Migration
 			t.integer		:snip_at
 			t.integer		:view_count,	:default => 0
 			t.text			:content
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			t.boolean		:comments_allowed
 			t.datetime		:publish_at
 			t.string		:article_type

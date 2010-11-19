@@ -14,6 +14,7 @@
 #  redemptions_remaining       :integer(4)      default(-1)
 #  subscription_length_in_days :integer(4)
 #  royalty_percentage          :integer(4)
+#  status                      :string(255)     default("publish")
 #  created_at                  :datetime
 #  updated_at                  :datetime
 #

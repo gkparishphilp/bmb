@@ -13,10 +13,24 @@
 		%h3 
 			=link_to 'Featured books','#'
 		%div 
-			- for book in @author.books
-				= image_tag book.avatar.location( :tiny ), :width => 40
-				= link_to book.title, author_book_path( @author, book )
-				%br
+			- if @author.books.published.empty?
+				No Books
+			- else
+				- for book in @author.books
+					= image_tag book.avatar.location( :tiny ), :width => 40
+					= link_to book.title, author_book_path( @author, book )
+					%br
+	%div
+		%h3 
+			=link_to 'Links','#'
+		%div 
+			- if @author.links.empty?
+				No Links
+			- else
+				- for link in @author.links
+					= link_to link.title, link.url
+					.small= link.description
+					%br
 	%div
 		%h3 
 			=link_to 'Events','#'
@@ -37,6 +51,9 @@
 		%h3 
 			=link_to 'Recent Activity','#'
 		%div 
-			- for activity in Activity.feed @author
-				= render activity
+			- if Activity.feed( @author ).empty?
+				No Activity
+			- else
+				- for activity in Activity.feed @author
+					= render activity
 				

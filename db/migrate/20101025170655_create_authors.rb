@@ -23,7 +23,7 @@ class CreateAuthors < ActiveRecord::Migration
 		create_table :themes, :force => true do |t|
 			t.references	:author
 			t.string		:name
-			t.string		:status
+			t.string		:status, :default => 'active'
 			t.boolean		:show_pen_name, :default => true
 			t.string		:bg_color
 			t.string		:bg_repeat

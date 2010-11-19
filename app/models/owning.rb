@@ -8,7 +8,7 @@
 #  owner_type :string(255)
 #  owned_id   :integer(4)
 #  owned_type :string(255)
-#  status     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #

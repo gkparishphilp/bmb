@@ -12,7 +12,7 @@
 #  description :text
 #  explicit    :string(255)
 #  transcript  :text
-#  status      :string(255)
+#  status      :string(255)     default("publish")
 #  cached_slug :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime

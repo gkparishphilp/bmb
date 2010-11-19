@@ -8,10 +8,7 @@ class Polymorphs < ActiveRecord::Migration
 			t.string	:badge_type
 			t.string	:description
 			t.integer	:level
-			t.string	:artwork_file_name
-			t.string	:artwork_content_type
-			t.integer	:artwork_file_size
-			t.datetime	:artwork_updated_at
+			t.string	:status, :default => 'publish'
 			
 			t.timestamps
 		end
@@ -31,7 +28,7 @@ class Polymorphs < ActiveRecord::Migration
 			t.datetime		:ends_at
 			t.string		:location
 			t.string		:event_type
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			
 			t.timestamps
 		end
@@ -42,6 +39,7 @@ class Polymorphs < ActiveRecord::Migration
 			t.string		:url
 			t.string		:description
 			t.string		:link_type
+			t.string		:status, :default => 'publish'
 			t.timestamps
 		end
 		
@@ -52,7 +50,7 @@ class Polymorphs < ActiveRecord::Migration
 			t.string		:title # subject
 			t.text			:content
 			t.datetime		:deliver_at
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			
 			t.timestamps
 		end

@@ -29,6 +29,11 @@ class BooksController < ApplicationController
 	
 	def edit
 		@book = Book.find params[:id]
+		
+		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
+		@genres += Genre.find_by_name( 'fiction' ).children
+		@genres += Genre.find_by_name( 'non fiction' ).children
+			
 		render :layout => '3col'
 	end
 	

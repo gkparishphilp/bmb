@@ -8,7 +8,7 @@ class Podcasts < ActiveRecord::Migration
 			t.text			:description
 			t.string		:keywords
 			t.string		:explicit
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			t.string		:cached_slug
 
 			t.timestamps
@@ -23,7 +23,7 @@ class Podcasts < ActiveRecord::Migration
 			t.text			:description
 			t.string		:explicit
 			t.text			:transcript
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			t.string		:cached_slug
 
 			t.timestamps

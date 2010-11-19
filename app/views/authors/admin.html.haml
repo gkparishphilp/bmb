@@ -3,7 +3,7 @@
 %br
 %br
 %hr
-%b Manage book, bundles, and assets
+%b Manage book, skus, and assets
 %br
 %br
 = link_to 'Create a book', '#create_book_form', :rel => 'facebox'
@@ -12,10 +12,10 @@
 = link_to 'Create an asset', '#create_asset_form', :rel => 'facebox'
 %br
 %br
-= link_to 'Create a bundle', '#create_bundle_form', :rel => 'facebox'
+= link_to 'Create a sku', '#create_sku_form', :rel => 'facebox'
 %br
 %br
-= link_to 'Add asset to bundle', '#add_asset_to_bundle_form', :rel => 'facebox'
+= link_to 'Add asset to sku', '#add_asset_to_sku_form', :rel => 'facebox'
 %br
 %br
 %hr
@@ -97,7 +97,7 @@ Existing Subscriptions
 %b Purchase Testing
 %br
 %br
-=link_to 'Purchase Bundle', new_order_path(:ordered_id => 1, :ordered_type=> 'Bundle')
+=link_to 'Purchase Sku', new_order_path(:ordered_id => 1, :ordered_type=> 'Sku')
 %br
 %br
 =link_to 'Purchase Asset', new_order_path(:ordered_id => 2, :ordered_type=> 'Asset')
@@ -143,10 +143,10 @@ Existing Subscriptions
 		%br
 		= f.submit "Create"
 
-#create_bundle_form( style = 'display:none;')
-	%h2 Create a Bundle 
+#create_sku_form( style = 'display:none;')
+	%h2 Create a Sku 
 
-	-form_for Bundle.new, :html => {:multipart => :true} do |f|
+	-form_for Sku.new, :html => {:multipart => :true} do |f|
 		=f.hidden_field :owner_id, :value => @author.id
 		=f.hidden_field :owner_type, :value => @author.class.name
 		%br
@@ -161,12 +161,12 @@ Existing Subscriptions
 		%br
 		= f.submit "Create"
 		
-#add_asset_to_bundle_form( style = 'display:none;')
-	%h2 Add Asset to Bundle 
+#add_asset_to_sku_form( style = 'display:none;')
+	%h2 Add Asset to Sku 
 
-	-form_for BundleAsset.new do |f|
-		Select Bundle:
-		= f.collection_select :bundle_id, @author.bundles, :id, :title
+	-form_for SkuAsset.new do |f|
+		Select Sku:
+		= f.collection_select :sku_id, @author.skus, :id, :title
 		%br
 		Select Asset:
 		= f.collection_select :asset_id, @all_assets, :id, :title

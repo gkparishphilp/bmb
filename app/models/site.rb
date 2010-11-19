@@ -611,7 +611,7 @@ EOS
 	end
 
 	def migrate_giveaways
-		# This will have to be custom coded for each type of legacy giveaway according to the giveaway rules since bundles are introduced in the new model structure
+		# This will have to be custom coded for each type of legacy giveaway according to the giveaway rules since skus are introduced in the new model structure
 	end
 
 	def migrate_links

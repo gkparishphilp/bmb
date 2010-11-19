@@ -6,6 +6,7 @@
 #  id           :integer(4)      not null, primary key
 #  type         :string(255)
 #  user_id      :integer(4)
+#  title        :string(255)
 #  first_name   :string(255)
 #  last_name    :string(255)
 #  street       :string(255)

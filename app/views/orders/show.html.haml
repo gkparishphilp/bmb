@@ -76,9 +76,9 @@
 		%br
 	
 	
-	-elsif @order.ordered.is_a? Bundle
+	-elsif @order.ordered.is_a? Sku
 		-#------------------------------------------
-		-# Show order results when item is a bundle
+		-# Show order results when item is a sku
 		-#------------------------------------------
 		%h1 
 			Thank you for purchasing: 
@@ -96,17 +96,17 @@
 				If you have any questions, 
 				= link_to "please contact us.", new_contact_path  
 			-else
-				You can download the contents of the bundle below.
+				You can download the contents of the sku below.
 				%br
-				- for bundle_asset in @order.ordered.bundle_assets
-					= link_to bundle_asset.asset.title,  asset_path( bundle_asset.asset ) unless bundle_asset.is_a? Merch
+				- for sku_asset in @order.ordered.sku_assets
+					= link_to sku_asset.asset.title,  asset_path( sku_asset.asset ) unless sku_asset.is_a? Merch
 					%br
 				%br
 
 				The following items will be shipped to you:
 				%br
-				- for bundle_asset in @order.ordered.bundle_assets
-					= bundle_asset.asset.title if bundle_asset.is_a? Merch
+				- for sku_asset in @order.ordered.sku_assets
+					= sku_asset.asset.title if sku_asset.is_a? Merch
 					%br
 				%br
 
