@@ -86,8 +86,9 @@ class Author < ActiveRecord::Base
 	
 	def set_domain_vhost
 		path = File.join(Rails.root, 'assets/vhosts/')
-		write_file = File.join(path, self.domain)
-		if self.domain_changed? 
+
+		if self.domain_changed? and !self.domain.nil?
+			write_file = File.join(path, self.domain)
 			FileUtils.rm("#{path}#{self.domain_was}") if !self.domain_was.nil? and File.exists?("#{path}#{self.domain_was}")
 			vhost_file = <<EOS
 		server {
@@ -103,7 +104,7 @@ class Author < ActiveRecord::Base
 
 		   }
 EOS
-		File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
+			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
 		
 		end
 	end
