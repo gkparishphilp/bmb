@@ -105,6 +105,7 @@ class Author < ActiveRecord::Base
 		   }
 EOS
 			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
+			system("sudo /etc/init.d/nginx reload")
 		
 		end
 	end
