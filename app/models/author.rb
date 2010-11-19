@@ -48,7 +48,8 @@ class Author < ActiveRecord::Base
 	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
-	has_many	:bundles, :as => :owner
+	has_many	:links, :as => :owner
+	has_many	:skus, :as => :owner
 	has_one		:theme
 	
 	does_activities

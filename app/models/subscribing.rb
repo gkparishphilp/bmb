@@ -7,7 +7,7 @@
 #  subscription_id :integer(4)
 #  user_id         :integer(4)
 #  order_id        :integer(4)
-#  status          :string(255)
+#  status          :string(255)     default("active")
 #  profile_id      :string(255)
 #  expiration_date :datetime
 #  origin          :string(255)

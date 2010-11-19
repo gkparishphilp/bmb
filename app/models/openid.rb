@@ -8,7 +8,7 @@
 #  identifier :string(255)
 #  name       :string(255)
 #  provider   :string(255)
-#  status     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #

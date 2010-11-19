@@ -48,8 +48,7 @@ Backmybook::Application.routes.draw do
 
 	resources :blog  # for the site blog
 	
-	resources :bundle_assets
-	resources :bundles
+	resources :skus
 	
 	resources :contacts
 	

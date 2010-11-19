@@ -12,7 +12,7 @@
 #  ends_at     :datetime
 #  location    :string(255)
 #  event_type  :string(255)
-#  status      :string(255)
+#  status      :string(255)     default("publish")
 #  created_at  :datetime
 #  updated_at  :datetime
 #

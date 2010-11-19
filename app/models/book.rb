@@ -11,7 +11,7 @@
 #  score          :integer(4)
 #  subtitle       :string(255)
 #  description    :text
-#  status         :string(255)
+#  status         :string(255)     default("publish")
 #  age_aprop      :string(255)
 #  rating_average :float
 #  backing_url    :string(255)
@@ -45,6 +45,8 @@ class Book < ActiveRecord::Base
 	acts_as_taggable_on		:tags
 	
 	attr_accessor :asin
+	
+	scope :published, where( "status = 'publish'" )
 	
 	# class_methods
 	def self.find_on_amazon( title )

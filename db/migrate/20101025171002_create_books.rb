@@ -4,16 +4,19 @@ class CreateBooks < ActiveRecord::Migration
 		
 		create_table :assets do |t|
 			t.references	:book
+			t.string		:type # gonna try some STI
 			t.string		:title
 			t.text			:description
-			t.string		:format # pdf, mobi, epub, etc. even if in DB, may be txt, html, rtf, etc...
-			t.integer		:price
 			t.integer		:download_count, :default => 0
-			t.string		:asset_type # full work, chapter, preview, etc...
+			t.string		:asset_type # full work, chapter, preview, bonus, etc...
+			t.string		:unlock_requirement # for future -- only to top backers, email reg, etc.
 			t.string		:content
+			t.string		:duration # for audio
+			t.string		:bitrate
+			t.string		:resolution # in case of video
 			t.integer		:word_count
 			t.string		:origin # uploaded, gernerated by Calibre, etc..
-			t.string		:status # published or not
+			t.string		:status, :default => 'publish' # published or not
 
 			t.timestamps
 		end
@@ -27,12 +30,12 @@ class CreateBooks < ActiveRecord::Migration
 			t.integer		:score
 			t.string		:subtitle
 			t.text			:description
-			t.string		:status
+			t.string		:status, :default => 'publish'
 			t.string		:age_aprop
 			t.float			:rating_average
 			t.string		:backing_url # traffic cannon
 			t.string		:cached_slug
-			t.string		:status # published or not
+			t.string		:status, :default => 'publish' # published or not
 			
 			t.timestamps
 		end
@@ -66,17 +69,6 @@ class CreateBooks < ActiveRecord::Migration
 		end
 		
 		
-		create_table :upload_files, :force => true do |t|
-			t.references	:user
-			t.references	:book
-			t.string		:title
-			t.string		:ext
-			t.string		:file_path
-			t.string		:ip
-			
-			t.timestamps
-		end
-		
 	end
 
 	def self.down
@@ -87,7 +79,6 @@ class CreateBooks < ActiveRecord::Migration
 		drop_table :content_locations
 		drop_table :genres
 		drop_table :readings
-		drop_table :upload_files
 		
 	end
 end

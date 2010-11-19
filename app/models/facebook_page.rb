@@ -8,7 +8,7 @@
 #  name                :string(255)
 #  page_type           :string(255)
 #  fb_id               :string(255)
-#  status              :string(255)
+#  status              :string(255)     default("active")
 #  created_at          :datetime
 #  updated_at          :datetime
 #

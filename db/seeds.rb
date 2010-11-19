@@ -6,12 +6,52 @@ anon.save( false )
 avatar = Attachment.create( :path => '/images/anon_user.jpg', :attachment_type => 'avatar', :owner => anon, :remote => true, :name => 'anon_user', :format => 'jpg' )
 puts "Anon saved"
 
-puts "Setup Sites"
+puts "Setup Dev Sites" # todo -- change and remove for prod
 s = Site.create :domain => 'localhost', :name => 'BmB Dev'
 s = Site.create :domain => 'tayandann.net', :name => 'BmB Facebook Dev'
 s = Site.create :domain => 'backmybook.com', :name => 'BmB Deploy'
 s = Site.create :domain => 'lvh.me', :name => 'Subdomain Testing'
 s = Site.create :domain => 'rippleread.com', :name => 'Staging'
+
+
+# Load Genres
+puts "Load Genres"
+
+f = Genre.create :name => 'Fiction'
+n = Genre.create :name => 'Non Fiction'
+
+g = f.children.create :name => "Action & Adventure"
+g = f.children.create :name => "Children's"
+g = f.children.create :name => "Drama"
+g = f.children.create :name => "Fantasy"
+g = f.children.create :name => "General Fiction"
+g = f.children.create :name => "Horror"
+g = f.children.create :name => "Literary Fiction"
+g = f.children.create :name => "Mystery"
+g = f.children.create :name => "Poetry"
+g = f.children.create :name => "Romance"
+g = f.children.create :name => "Science Fiction"
+g = f.children.create :name => "Teen"
+g = f.children.create :name => "Western"
+
+g = n.children.create :name => "Arts"
+g = n.children.create :name => "Business & Money"
+g = n.children.create :name => "Computers"
+g = n.children.create :name => "Food"
+g = n.children.create :name => "Entertainment"
+g = n.children.create :name => "General Non-Fiction"
+g = n.children.create :name => "Health"
+g = n.children.create :name => "History"
+g = n.children.create :name => "Crafts"
+g = n.children.create :name => "How to"
+g = n.children.create :name => "Philosophy & Psych"
+g = n.children.create :name => "Politics & Gov"
+g = n.children.create :name => "Spirituality"
+g = n.children.create :name => "Reference"
+g = n.children.create :name => "Science & Nature"
+g = n.children.create :name => "Self-Improvement"
+g = n.children.create :name => "Sports & Leisure"
+g = n.children.create :name => "Travel"
 
 # load GeoStates
 puts "Loading GeoStates..."

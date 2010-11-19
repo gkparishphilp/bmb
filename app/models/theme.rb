@@ -6,7 +6,7 @@
 #  id               :integer(4)      not null, primary key
 #  author_id        :integer(4)
 #  name             :string(255)
-#  status           :string(255)
+#  status           :string(255)     default("active")
 #  show_pen_name    :boolean(1)      default(TRUE)
 #  bg_color         :string(255)
 #  bg_repeat        :string(255)

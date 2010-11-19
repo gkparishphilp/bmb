@@ -127,8 +127,8 @@ private
 		case params[:ordered_type]
 			when 'Merch'
 				@ordered = Merch.find params[:ordered_id]
-			when 'Bundle'
-				@ordered = Bundle.find params[:ordered_id]
+			when 'Sku'
+				@ordered = Sku.find params[:ordered_id]
 			when 'Subscription'
 				@ordered = Subscription.find params[:ordered_id]
 			when 'Asset'
