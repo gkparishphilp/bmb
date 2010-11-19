@@ -126,11 +126,13 @@ Backmybook::Application.routes.draw do
 	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
 	
+	match '/admin/acount' => 'admin#account', :as  => :admin_account
 	match '/admin/books' => 'admin#books', :as => :admin_books
 	match '/admin/blog' => 'admin#blog', :as => :admin_blog
 	match '/admin/design' => 'admin#design', :as => :admin_design
 	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
 	match '/admin/email' => 'admin#email', :as => :admin_email
+	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
 	match '/admin/reports' => 'admin#reports', :as => :admin_reports

@@ -13,12 +13,16 @@ GK
 - Header menus (graphical)
 - Reporting
 
+
 Tay
 ----
 - Follow logic - blog comments example
-- Admin subscriptions 
-- Admin email
-- OpenID logins - Bail on open id and create a registration email capture screen for the current site
+- Admin subscriptions - Need order page
 - Raw stats model
 - Delayed job
 
+
+DONE
+-----
+- OpenID logins - Bail on open id and create a registration email capture screen for the current site
+- Admin email
