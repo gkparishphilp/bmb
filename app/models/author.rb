@@ -26,8 +26,9 @@ class Author < ActiveRecord::Base
 	# represents writer of a book
 	# may or may not belong to user
 	
-	before_create	:set_subdomain
+	before_create	:set_subdomain, :set_domain_vhost
 	after_create	:create_default_campaign
+	before_update	:set_domain_vhost
 	
 	validate	:valid_subdomain
 	
@@ -81,6 +82,32 @@ class Author < ActiveRecord::Base
 		if APP_SUBDOMAINS.include?( subdomain )
 			errors.add :subdomain, "Invalid subdomain"
 			return false
+		end
+	end
+	
+	def set_domain_vhost
+		path = File.join(Rails.root, 'assets/vhosts/')
+
+		if self.domain_changed? and !self.domain.nil?
+			write_file = File.join(path, self.domain)
+			FileUtils.rm("#{path}#{self.domain_was}") if !self.domain_was.nil? and File.exists?("#{path}#{self.domain_was}")
+			vhost_file = <<EOS
+		server {
+		       listen       80;
+		       server_name #{self.domain};
+			   root /data/vhosts/stage.rippleread.com/public;
+		       passenger_enabled on;
+		       rails_env development;
+
+		       #charset koi8-r;
+
+		       #access_log  logs/rippleread.access.log  main;
+
+		   }
+EOS
+			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
+			system("sudo /etc/init.d/nginx reload")
+		
 		end
 	end
 	

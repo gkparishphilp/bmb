@@ -1,2 +1,17 @@
 
 Site Article no longer static page, now article.
+
+Punchlist
+
+- Books, assets, sku 
+- Recommends controller
+- Follow logic
+- Library
+- Admin subscriptions 
+- Admin email 
+- Admin Ecom/Store (create bundles, merch, etc.)
+- User profile page
+- Header menus (graphical)
+- Delayed job
+- Raw stats model
+- Reporting
