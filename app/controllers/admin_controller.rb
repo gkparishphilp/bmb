@@ -30,6 +30,11 @@ class AdminController < ApplicationController
 		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
 		@forums = @current_author.forums
 	end
-
 	
+	def newsletter
+		@campaign = EmailCampaign.find_by_owner_id_and_owner_type_and_title(@current_author.id, 'Author', 'Default')
+		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
+	end
+
 end
+

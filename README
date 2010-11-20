@@ -3,16 +3,29 @@ Site Article no longer static page, now article.
 
 Punchlist
 
+GK
+----
 - Books, assets, sku 
 	- got STI assets, need to wire in interface
 - Recommends controller
 - Follow logic
+- Recommends/Backer controller
 - Library
-- Admin subscriptions 
-- Admin email 
 - Admin Ecom/Store (create bundles, merch, etc.)
 - User profile page
 - Header menus (graphical)
-- Delayed job
-- Raw stats model
 - Reporting
+
+
+Tay
+----
+- Follow logic - blog comments example
+- Admin subscriptions - Need order page
+- Raw stats model
+- Delayed job
+
+
+DONE
+-----
+- OpenID logins - Bail on open id and create a registration email capture screen for the current site
+- Admin email

@@ -1,5 +1,5 @@
 %h1 
 	New Email Message For
-	= @author.pen_name
--form_for [ @author, @campaign, EmailMessage.new ]  do |f|
+	= @current_author.pen_name
+-form_for [ @current_author, @campaign, EmailMessage.new ]  do |f|
 	=render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}
