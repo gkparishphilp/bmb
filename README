@@ -18,11 +18,12 @@ Tay
 ----
 - Follow logic - blog comments example
 - Admin subscriptions - Need order page
-- Raw stats model
-- Delayed job
+- Add raw_stat call to @article and @post show actions, ie: @post.raw_stats.create :name =>'view', :ip => request.ip
 
 
 DONE
 -----
 - OpenID logins - Bail on open id and create a registration email capture screen for the current site
 - Admin email
+- Delayed job installed...  Just call from code like before
+- Raw stats model - cleaned up from old version.  Just create a raw stat and it will automatically rate_limit and update the real stat through delayed_job

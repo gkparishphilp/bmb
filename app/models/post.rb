@@ -22,6 +22,7 @@ class Post < ActiveRecord::Base
 	belongs_to  :topic, :class_name => "Topic", :foreign_key => :topic_id
 	belongs_to  :forum
 	belongs_to  :user
+	has_many	:raw_stats, :as => :statable
 
 	validates_presence_of :content, :message => "You have to have something to say to post :)"
 

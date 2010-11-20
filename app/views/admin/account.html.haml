@@ -11,27 +11,26 @@
 		-if @current_author.user.subscribings.empty?
 			
 			= link_to 'Purchase Author Premium Subscription', new_order_path(:ordered_id => 1, :ordered_type=> 'Subscription')
-		%br
-		%br
-		%h2 Existing Subscriptions
-		%table
-			%tr
-				%td 
-					%b Subscription Title
-				%td
-					%b Actions
+		-else 
+			%h2 Existing Subscriptions
+			%table
+				%tr
+					%td 
+						%b Subscription Title
+					%td
+						%b Actions
 
-			- for sub in @current_author.user.subscribings
-				%tr{:class => cycle(:odd, :even)}
-					%td
-						=sub.subscription.title 
-						,
-						=sub.id
-						,
-						=sub.profile_id
-					%td
-						- if sub.status == 'ActiveProfile'
-							=link_to 'Cancel', cancel_subscribing_path( sub ) 
+				- for sub in @current_author.user.subscribings
+					%tr{:class => cycle(:odd, :even)}
+						%td
+							=sub.subscription.title 
+							,
+							=sub.id
+							,
+							=sub.profile_id
+						%td
+							- if sub.status == 'ActiveProfile'
+								=link_to 'Cancel', cancel_subscribing_path( sub ) 
 		
 		
 - content_for :right_column do

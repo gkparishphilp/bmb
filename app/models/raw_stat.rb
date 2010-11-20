@@ -14,5 +14,19 @@
 #  updated_at    :datetime
 #
 
+
 class RawStat < ActiveRecord::Base
+	belongs_to	:statable, :polymorphic => true
+	after_create :rate_limit
+
+	scope :views, where( "name = 'view' " )
+
+	scope :downloads, where(" name = 'download' ")
+
+	def rate_limit
+		now = Time.now.getutc
+		Delayed::Job.enqueue(ProcessStatJob.new(now, self))
+	end
+
 end
+

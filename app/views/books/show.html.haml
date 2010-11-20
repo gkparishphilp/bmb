@@ -7,7 +7,7 @@
 	%br
 	%br
 	Genre:
-	= @book.genre.name
+	= @book.genre.name if @book.genre
 	%br
 	%br
 	- for tag in @book.tags
