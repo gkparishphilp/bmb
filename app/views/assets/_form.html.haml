@@ -1,12 +1,22 @@
 = f.label :title
 = f.text_field :title, :class => 'title_field'
 
+= hidden_field_tag :type, @type
+
 = f.label :description
 = f.text_area :description
 
+- case @type
+- when 'ebook'
+	= f.label 'File (txt, doc, html, htm, odt, max 100 MB)'
+	= file_field_tag :attached_etext_file
+- when 'pdf'
+	= f.label 'File (pdf, max 100 MB)'
+	= file_field_tag :attached_pdf_file
+- when 'audio_book'
+	= f.label 'File (mp3, aac, ogg, wav, max 100 MB)'
+	= file_field_tag :attached_audio_file
 
-= f.label 'File (pdf, txt, doc, html, odt, max 100 MB)'
-= file_field_tag :attached_etext_file
 
 
 = f.label "Asset Type"

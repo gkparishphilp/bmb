@@ -4,6 +4,7 @@ Site Article no longer static page, now article.
 Punchlist
 
 - Books, assets, sku 
+	- got STI assets, need to wire in interface
 - Recommends controller
 - Follow logic
 - Library

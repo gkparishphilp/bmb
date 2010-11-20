@@ -18,6 +18,10 @@ Backmybook::Application.routes.draw do
 		resources :blog
 		resources :books do
 			post 'confirm', :on => :collection
+			# all these routes just to edit STI resource on books
+			resources :ebook, :controller => :assets
+			resources :pdf, :controller => :assets
+			resources :audio_book, :controller => :assets
 			resources :assets do
 				get 'download', :on => :member
 			end

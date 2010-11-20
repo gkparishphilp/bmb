@@ -30,6 +30,10 @@ class Book < ActiveRecord::Base
 	belongs_to  :genre
 	
 	has_many	:assets
+	has_many	:ebooks, :source => :assets
+	has_many	:audio_books, :source => :assets
+	has_many	:pdfs, :source => :assets
+	
 	has_many	:book_identifiers
 	# todo -- add links
 	has_many	:links, :as => :owner
@@ -74,5 +78,11 @@ class Book < ActiveRecord::Base
 		end
 		
 		return book
+	end
+	
+	def add_asset( asset )
+		ass = eval "#{asset.class.name}.create :book_id => self.id, :title => asset.title, :asset_type => asset.asset_type, :description => asset.description, :content => asset.content, :duration => asset.duration, :bitrate => asset.bitrate, :resolution => asset.resolution"
+		ass.save
+		return ass
 	end
 end
