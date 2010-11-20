@@ -1,6 +1,6 @@
 %div[comment]
 	.comment_pic
-		= link_to image_tag( comment.user.avatar, :width => 60 ), user_path( comment.user )
+		= link_to image_tag( comment.user.avatar.location, :width => 20 ), user_path( comment.user )
 	.comment_body
 		= link_to comment.user.name, user_path(comment.user), :class => 'comment_user'
 		- unless comment.user.website_url.blank?
