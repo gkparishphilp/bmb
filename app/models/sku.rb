@@ -21,13 +21,13 @@ class Sku < ActiveRecord::Base
 	has_many :sku_items
 
 	has_many :ebooks, :through => :sku_items, :source => :asset,
-						:conditions => "sku_items.item_type = 'Asset::Ebook'"
+						:conditions => "sku_items.item_type = 'Ebook'"
 						
 	has_many :pdfs, :through => :sku_items, :source => :asset,
-						:conditions => "sku_items.item_type = 'Asset::Pdf'"
+						:conditions => "sku_items.item_type = 'Pdf'"
 						
 	has_many :audio_books, :through => :sku_items, :source => :asset,
-						:conditions => "sku_items.item_type = 'Asset::AudioBook'"
+						:conditions => "sku_items.item_type = 'AudioBook'"
 						
 	has_many :merches, :through => :sku_items, :source => :merch,
 						:conditions => "sku_items.item_type = 'Merch'"

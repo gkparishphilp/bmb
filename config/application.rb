@@ -41,5 +41,6 @@ module Backmybook
 
 	# Rails 3 doesn’t autoload modules/code in lib by default now. 
 	config.autoload_paths += %W(#{config.root}/lib)
+	Dir["#{config.root}/app/models/**/"].each { |f| config.autoload_paths += %W(#{config.root}/app/models/#{f})}
   end
 end

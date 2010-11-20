@@ -3,16 +3,28 @@ class AssetsController < ApplicationController
 	layout			'3col'
 	
 	def new
+		@type = params[:type]
 		@asset = Asset.new
 	end
 	
 	def edit
 		@asset = Asset.find params[:id]
+		@type = @asset.type.downcase
 	end
 	
 	def create
-		@asset = Asset.new params[:asset]
-		if @book.assets << @asset
+		case params[:type]
+		when 'ebook'
+			@asset = @book.ebooks.new params[:asset]
+		when 'pdf'
+			@asset = @book.pdfs.new params[:asset]
+		when 'audio_book'
+			@asset = @book.audio_books.new params[:asset]
+		else
+			@asset = @book.assets.new params[:asset]
+		end
+		
+		if @asset.save
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'
 		else
@@ -45,6 +57,13 @@ class AssetsController < ApplicationController
 		@asset.save
 		@current_user.did_download @asset.book
 		
+	end
+	
+	def destroy
+		@asset = Asset.find params[:id]
+		@asset.destroy
+		pop_flash "Asset Deleted"
+		redirect_to :back
 	end
 	
 	private

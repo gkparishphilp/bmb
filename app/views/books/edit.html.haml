@@ -20,7 +20,24 @@
 			= f.label 'Keywords:'
 			= f.text_field :tag_list
 			= f.submit
-	= link_to "Upload a file", new_author_book_asset_path( @author, @book )
+			
+	.form_group
+		= link_to "Upload an Ebook", new_author_book_asset_path( @author, @book, :type => 'ebook' )
+		|
+		= link_to "Upload a PDF", new_author_book_asset_path( @author, @book, :type => 'pdf' )
+		|
+		= link_to "Upload an Audio Book", new_author_book_asset_path( @author, @book, :type => 'audio_book' )
+		- unless @book.assets.empty?
+			%h2
+				= @book.title
+				Assets
+			- for asset in @book.assets
+				= asset.class.name
+				= asset.title
+				= link_to 'edit', edit_author_book_asset_path( @author, @book, asset )
+				= link_to 'delete', author_book_asset_path( @author, @book, asset ), :method => :delete 
+				%hr
+		
 - content_for :right_column do
 	%h2 Help
 

@@ -39,16 +39,15 @@ class Asset < ActiveRecord::Base
 	
 end
 
-# ok, we're trying to STI this thing to cover the different kinds of attachemnts.  Rails3 seems
-# to require namespacing for STI
-class Asset::Ebook < Asset
-	has_attached :etext, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'docx', 'odt', 'htm'], :private => true
+def self.model_name
+  name = "Asset"
+  name.instance_eval do
+    def plural;   pluralize;   end
+    def singular; singularize; end
+    def human;    singularize; end # for Rails 3.0.0+
+    def i18n_key; singularize; end # for Rails 3.0.3+
+  end
+  return name
 end
 
-class Asset::Pdf < Asset
-	has_attached :pdf, :formats => ['pdf'], :private => true
-end
 
-class Asset::AudioBook < Asset
-	has_attached :audio, :formats => ['mp3', 'aac', 'wav', 'ogg'], :private => true
-end
