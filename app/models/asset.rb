@@ -33,6 +33,7 @@ class Asset < ActiveRecord::Base
 	has_many	:coupons, :as => :redeemable
 	has_many	:orders, :as  => :ordered
 	belongs_to	:book
+	has_many	:raw_stats, :as => :statable
 	
 	has_many	:owners, :through => :ownings
 	

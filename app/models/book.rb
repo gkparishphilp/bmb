@@ -42,6 +42,7 @@ class Book < ActiveRecord::Base
 	has_many	:readers, :through => :readings, :source => :user
 	has_one		:upload_file
 	has_many	:coupons, :as => :redeemable
+	has_many	:raw_stats, :as => :statable
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
 	

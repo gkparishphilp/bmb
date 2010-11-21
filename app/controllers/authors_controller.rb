@@ -62,6 +62,7 @@ class AuthorsController < ApplicationController
 			pop_flash "No author found", :notice
 			redirect_to root_path
 		end
+		
 	end
 	
 	def bio
