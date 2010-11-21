@@ -17,6 +17,7 @@ protected
 	
 	# Sets @author from either subdomain or params[:author_id]
 	def fetch_author
+		return if @author.present?
 		if request.subdomain.present? && !APP_SUBDOMAINS.include?( request.subdomain )
 			@author = Author.find_by_subdomain request.subdomain
 		elsif params[:author_id].present?
@@ -29,6 +30,7 @@ protected
 	def fetch_site
 		@domain = request.domain
 		@current_site = Site.find_by_domain @domain || Site.first
+		@author = @current_site.author
 	end
 	
 	# simply sets session cookie for passed-in user

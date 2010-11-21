@@ -22,11 +22,11 @@
 			= f.submit
 			
 	.form_group
-		= link_to "Upload an Ebook", new_author_book_asset_path( @author, @book, :type => 'ebook' )
+		%span.button= link_to "Upload an Ebook", new_author_book_asset_path( @author, @book, :type => 'ebook' ), :class => 'gray'
 		|
-		= link_to "Upload a PDF", new_author_book_asset_path( @author, @book, :type => 'pdf' )
+		%span.button= link_to "Upload a PDF", new_author_book_asset_path( @author, @book, :type => 'pdf' ), :class => 'gray'
 		|
-		= link_to "Upload an Audio Book", new_author_book_asset_path( @author, @book, :type => 'audio_book' )
+		%span.button= link_to "Upload an Audio Book", new_author_book_asset_path( @author, @book, :type => 'audio_book' ), :class => 'gray'
 		- unless @book.assets.empty?
 			%h2
 				= @book.title
@@ -40,4 +40,10 @@
 		
 - content_for :right_column do
 	%h2 Help
+	
+	%h3 Links
+	- for link in @book.links
+		= link_to link.title, link.url
+		edit | delete
+		
 
