@@ -1,11 +1,12 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: skus
 #
 #  id          :integer(4)      not null, primary key
 #  owner_id    :integer(4)
 #  owner_type  :string(255)
+#  book_id     :integer(4)
 #  title       :string(255)
 #  description :text
 #  price       :integer(4)

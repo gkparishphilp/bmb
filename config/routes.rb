@@ -47,6 +47,9 @@ Backmybook::Application.routes.draw do
 				resources :comments
 			end
 		end
+		resources :merches
+		resources :skus
+		resources :store
 		resources :themes
 		resources :upload_email_lists
 		
@@ -56,8 +59,6 @@ Backmybook::Application.routes.draw do
 	end
 
 	resources :blog  # for the site blog
-	
-	resources :skus
 	
 	resources :contacts
 	
@@ -74,8 +75,6 @@ Backmybook::Application.routes.draw do
 			resources :posts
 		end
 	end
-	
-	resources :merches
 
 	resources :orders do
 	end
@@ -139,7 +138,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/books' => 'admin#books', :as => :admin_books
 	match '/admin/blog' => 'admin#blog', :as => :admin_blog
 	match '/admin/design' => 'admin#design', :as => :admin_design
-	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
+	match '/admin/domains' => 'admin#domains', :as => :admin_domains
 	match '/admin/email' => 'admin#email', :as => :admin_email
 	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
@@ -150,6 +149,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
 	match '/admin/events' => 'admin#events', :as => :admin_events
 	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
+	match '/admin/store' => 'admin#store', :as => :admin_store
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

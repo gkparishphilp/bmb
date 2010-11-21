@@ -1,0 +1,27 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Your Store
+		
+		%br
+		%br
+		%h3 Add Merchanise
+		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
+			= f.label 'Name:'
+			= f.text_field :title
+			= f.label 'Price:'
+			= f.text_field :price
+			= f.label 'Associate with Book:'
+			= f.collection_select :book_id, @books, :id, :name
+			= f.label 'Picture:'
+			= file_field_tag :attached_avatar_file
+			= f.label 'Description:'
+			= f.text_area :description
+			= f.label "Inventory:"
+			= f.text_field :inventory_count
+			
+		
+- content_for :right_column do
+	%h2 Help
+	Here's where you can sell your ebooks, audiobooks, and merchandise
