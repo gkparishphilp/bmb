@@ -1,14 +1,19 @@
 Backmybook::Application.routes.draw do
 
-	# First, catch subdomain and send root to author controller
+	# Hoghest-priority root is non-app domain and send root to author controller
+	constraints( Domain ) do
+		match '/' => 'authors#show'
+	end
+	
+	# Next is subdomain and send root to author controller
 	constraints( Subdomain ) do
 		match '/' => 'authors#show'
 	end
-	# map a root
+	
+	# finally map application root on primary domain without subdomain to site index
 	root :to => "site#index"
 	
-	# app resource routes, hopefully in alpha
-
+	# app resource routes, hopefully maintained in alpha order
 	resources :articles do
 		resources :comments
 	end

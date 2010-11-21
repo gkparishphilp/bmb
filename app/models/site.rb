@@ -4,8 +4,7 @@
 # Table name: sites
 #
 #  id         :integer(4)      not null, primary key
-#  owner_id   :integer(4)
-#  owner_type :string(255)
+#  author_id  :integer(4)
 #  name       :string(255)
 #  domain     :string(255)
 #  created_at :datetime
@@ -29,6 +28,9 @@ class Site < ActiveRecord::Base
 	has_many :static_pages
 	has_many :contacts
 	has_many :crashes
+	
+	belongs_to	:author
+	
 	does_activities
 
 	def create_models

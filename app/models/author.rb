@@ -51,6 +51,7 @@ class Author < ActiveRecord::Base
 	has_many	:links, :as => :owner
 	has_many	:skus, :as => :owner
 	has_one		:theme
+	has_many	:sites
 	
 	does_activities
 	
