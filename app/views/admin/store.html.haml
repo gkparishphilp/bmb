@@ -21,6 +21,19 @@
 			= f.label "Inventory:"
 			= f.text_field :inventory_count
 			
+		%br
+		%br
+		%h3 Add Sku
+		- form_for [ @current_author, @sku ] do |f|
+			= f.label 'Name:'
+			= f.text_field :title
+			= f.label 'Price:'
+			= f.text_field :price
+			= f.label 'Associate with Book:'
+			= f.collection_select :book_id, @books, :id, :name
+			= f.label 'Description:'
+			= f.text_area :description
+			
 		
 - content_for :right_column do
 	%h2 Help
