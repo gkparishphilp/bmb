@@ -1,0 +1,16 @@
+Hi,
+
+A new comments has been posted on the thread: 
+= @comment.commentable.title
+
+%br
+%br
+
+Click here to see the thread: 
+= link_to "@comment.commentable.title", @comment.commentable_url
+%br
+%br
+- unsubscribe_link = "<a href=http://backmybook.com/comments/#{@unsubscribe_code}>Unsubscribe</a>"
+To unsubscribe from this thread, click below:
+= unsubscribe_link
+ 

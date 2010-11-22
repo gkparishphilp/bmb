@@ -20,6 +20,8 @@ class Comment < ActiveRecord::Base
 	belongs_to  :user
 
 	validates_presence_of :content, :message => "You really should have to have something to say to post a comment :)"
+	
+	acts_as_followed
                 
 
 end
