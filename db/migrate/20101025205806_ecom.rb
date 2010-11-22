@@ -3,6 +3,7 @@ class Ecom < ActiveRecord::Migration
 
 		create_table :skus, :force => true do |t|
 			t.references	:owner, :polymorphic => true
+			t.references	:book
 			t.string		:title
 			t.text			:description
 			t.integer		:price
@@ -60,9 +61,10 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :merches, :force => true do |t|
 			t.references	:owner, :polymorphic => true
+			t.references	:book
 			t.string		:title
 			t.text			:description
-			t.integer		:inventory_count, :default => -1 # neg numbers of nil = infinite
+			t.integer		:inventory_count, :default => -1 # neg numbers or nil = infinite
 			t.integer		:price
 			t.string		:status, :default => 'publish' # published or not
 			

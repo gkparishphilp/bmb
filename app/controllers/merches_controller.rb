@@ -1,18 +1,8 @@
 class MerchesController < ApplicationController
 
-	def index
-		@merches = Merch.all
-	end
-
-
 	def show
 		@merch = Merch.find(params[:id])
 		@orderable = @merch
-	end
-
-
-	def new
-		@merch = Merch.new
 	end
 
 	def edit
@@ -22,12 +12,15 @@ class MerchesController < ApplicationController
 
 	def create
 		@merch = Merch.new params[:merch]
-	
+		@merch.owner = @current_author
 		if @merch.save
-			redirect_to @merch, :notice => "Merch was successfully created."
+			process_attachments_for( @merch )
+			pop_flash 'Merchandise saved!'
 		else
-			render :action => "new" 	
+			pop_flash 'Merchandise could not be saved.', :error, @merch
 		end
+		
+		redirect_to admin_index_path
 	
 	end
 
@@ -35,8 +28,8 @@ class MerchesController < ApplicationController
 	def update
 		@merch = Merch.find params[:id]
 
-		if @merch.update_attributes(params[:merch])
-			redirect_to @merch, :notice => 'Merch was successfully updated.'
+		if @merch.update_attributes params[:merch] 
+			redirect_to @merch, :notice => 'Merchandise was successfully updated.'
 		else
 			render :action => "edit" 
 		end

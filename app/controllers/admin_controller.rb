@@ -31,6 +31,13 @@ class AdminController < ApplicationController
 		@forums = @current_author.forums
 	end
 	
+	def store
+		@merch = Merch.new
+		@books = @current_author.books
+		@skus = @current_author.skus
+		@sku = Sku.new
+	end
+	
 	def newsletter
 		@campaign = EmailCampaign.find_by_owner_id_and_owner_type_and_title(@current_author.id, 'Author', 'Default')
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
