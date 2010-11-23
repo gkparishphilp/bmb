@@ -26,11 +26,12 @@
 
 class Theme < ActiveRecord::Base
 		
-	belongs_to	:author
+	has_many	:themeings
+	has_many	:authors, :through => :themeings
 	
 	has_attached	:bg, :formats => ['jpg', 'gif', 'png']
 	has_attached	:banner, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :standard => "980" }}
 
-
+	
 	
 end

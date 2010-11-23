@@ -16,11 +16,23 @@
 - when 'audio_book'
 	= f.label 'File (mp3, aac, ogg, wav, max 100 MB)'
 	= file_field_tag :attached_audio_file
+	= f.label 'Duration:'
+	= f.text_field :duration
+	= f.label 'Bitrate:'
+	= f.text_field :bitrate
 
 
 
 = f.label "Asset Type"
 = f.select :asset_type, [ [ 'Free/Sample/Preview', 'sample' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+
+#price
+	= f.label "Price"
+	= f.text_field :price
+
+#unlock_req
+	= f.label "Unlock Requirement"
+	= f.text_field :unlock_requirement
 
 %br
 = f.submit m, :class => :button

@@ -1,5 +1,17 @@
 class ThemesController < ApplicationController
 	
+	def new
+		
+	end
+	
+	def edit
+		
+	end
+	
+	def apply
+		
+	end
+	
 	def create
 		@theme = Theme.new params[:theme]
 		@theme.author = @current_author

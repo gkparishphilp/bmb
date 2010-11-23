@@ -37,17 +37,9 @@ class Asset < ActiveRecord::Base
 	
 	has_many	:owners, :through => :ownings
 	
+	attr_accessor :price
+	
 end
 
-def self.model_name
-  name = "Asset"
-  name.instance_eval do
-    def plural;   pluralize;   end
-    def singular; singularize; end
-    def human;    singularize; end # for Rails 3.0.0+
-    def i18n_key; singularize; end # for Rails 3.0.3+
-  end
-  return name
-end
 
 

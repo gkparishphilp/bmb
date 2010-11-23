@@ -2,6 +2,7 @@ class SkusController < ApplicationController
 	
 	def create
 		@sku = Sku.new params[:sku]
+		@sku.sku_type = 'custom' #since the only way to hit this is through admin
 		if @current_author.skus << @sku
 			pop_flash 'Sku saved!'
 		else

@@ -39,6 +39,14 @@ class CreateAuthors < ActiveRecord::Migration
 			t.timestamps
 		end
 		
+		create_table :themeings, :force => true do |t|
+			t.references	:author
+			t.references	:theme
+			t.boolean		:applied, :default => false
+			
+			t.timestamps
+		end
+		
 	end
 
 	def self.down

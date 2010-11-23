@@ -1,248 +1,248 @@
-%h1 
-	Purchase
-	= @ordered.title
-%h3
-	Price: 
-	= number_to_currency @ordered.price.to_f / 100
+- content_for :left_column do
+	%h1 
+		Purchase
+		= @ordered.title
+	%h3
+		Price: 
+		= number_to_currency @ordered.price.to_f / 100
 	
 
--form_for @order do |f|
+	-form_for @order do |f|
 	
-	%table
-		= f.hidden_field :ordered_id, :value => @ordered.id
-		= f.hidden_field :ordered_type, :value => @ordered.class
-		= f.hidden_field :price, :value => @ordered.price
-		%tr
-			%td
-			%td 
-				%h3 Payment Information
-				(Only US Credit Cards Accepted)
-		%tr
-			%td
-				%b Payment Method:
-			%td
-				= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
-				&nbsp &nbsp &nbsp
-	%br
-	%br
-	
-	%table
-		-if params[:ordered_type] != 'Subscription'
+		%table
+			= f.hidden_field :ordered_id, :value => @ordered.id
+			= f.hidden_field :ordered_type, :value => @ordered.class
+			= f.hidden_field :price, :value => @ordered.price
 			%tr
 				%td
-					%b Enter Coupon Code (if applicable)
-				%td= text_field_tag :coupon_code
+				%td 
+					%h3 Payment Information
+					(Only US Credit Cards Accepted)
+			%tr
+				%td
+					%b Payment Method:
+				%td
+					= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
+					&nbsp &nbsp &nbsp
+		%br
+		%br
+	
+		%table
+			-if params[:ordered_type] != 'Subscription'
+				%tr
+					%td
+						%b Enter Coupon Code (if applicable)
+					%td= text_field_tag :coupon_code
 					
-		%tr
-			%td
-				%b Card Number:
-			- @order.card_number = '4411037113154626' if Rails.env.development?
-			%td= f.text_field :card_number
+			%tr
+				%td
+					%b Card Number:
+				- @order.card_number = '4411037113154626' if Rails.env.development?
+				%td= f.text_field :card_number
 
-		%tr
-			%td
-				%b Card Security Code (CVV):
-				-  @order.card_cvv = '123' if Rails.env.development?
-			%td
-				= f.text_field :card_cvv
-				&nbsp;&nbsp;
-				= image_tag 'card_images/cvv.png', :align => 'center'
-		%tr
-			%td 
-				%b Card Expiration
-				- @order.card_exp_year = '2013' if Rails.env.development?
-			%td
-				= f.select :card_exp_month, @months
-				&nbsp;/&nbsp;
-				= f.select :card_exp_year, @years
-		%tr
-			%td
-				%b E-mail:
-			- @order.email = 'tay@backmybook.com' if Rails.env.development?
-			%td= f.text_field :email
-	%br
-	%br
-
-	- if @current_user.billing_addresses.empty? 
-		= fields_for :billing_address, @order.billing_address do |bb|
-
-			=bb.hidden_field :user_id, :value => @current_user.id
-			=bb.hidden_field :country, :value => 'US'
-			%table
-				%tr
-					%td 
-					%td 
-						%h3 Billing Info
-				%tr
-					%td
-						%b First Name:
-					%td= bb.text_field :first_name
-
-				%tr
-					%td
-						%b Last Name:
-					%td= bb.text_field :last_name
-				%tr
-					%td
-						%b Address:
-					%td= bb.text_field :street
-
-				%tr
-					%td
-						%b City:
-					%td=bb.text_field :city
-
-				%tr
-					%td
-						%b State:
-					%td
-						= bb.collection_select :geo_state_id, @states, :id, :name
-						&nbsp;&nbsp;
-						%b Zip Code:
-						=bb.text_field :zip
-
-	-else
-		Select a billing address
-		= f.collection_select :billing_address_id, @current_user.billing_addresses, :id , :street
+			%tr
+				%td
+					%b Card Security Code (CVV):
+					-  @order.card_cvv = '123' if Rails.env.development?
+				%td
+					= f.text_field :card_cvv
+					&nbsp;&nbsp;
+					= image_tag 'card_images/cvv.png', :align => 'center'
+			%tr
+				%td 
+					%b Card Expiration
+					- @order.card_exp_year = '2013' if Rails.env.development?
+				%td
+					= f.select :card_exp_month, @months
+					&nbsp;/&nbsp;
+					= f.select :card_exp_year, @years
+			%tr
+				%td
+					%b E-mail:
+				- @order.email = 'tay@backmybook.com' if Rails.env.development?
+				%td= f.text_field :email
 		%br
 		%br
-		Or enter a new billing address
-		= check_box_tag "new_billing_address", "new_billing_address"
-		= fields_for :billing_address, @order.billing_address do |bb|
 
-			=bb.hidden_field :user_id, :value => @current_user.id
-			=bb.hidden_field :country, :value => 'US'
-			%table
-				%tr
-					%td 
-					%td 
-						%h3 Billing Info
-				%tr
-					%td
-						%b First Name:
-					%td= bb.text_field :first_name
+		- if @current_user.billing_addresses.empty? 
+			= fields_for :billing_address, @order.billing_address do |bb|
 
-				%tr
-					%td
-						%b Last Name:
-					%td= bb.text_field :last_name
-				%tr
-					%td
-						%b Address:
-					%td= bb.text_field :street
-
-				%tr
-					%td
-						%b City:
-					%td=bb.text_field :city
-
-				%tr
-					%td
-						%b State:
-					%td
-						= bb.collection_select :geo_state_id, @states, :id, :name
-						&nbsp;&nbsp;
-						%b Zip Code:
-						=bb.text_field :zip
-		
-	
-	%br
-	%br
-	
-	- if params[:ordered_type] == 'Merch'
-		- if @current_user.shipping_addresses.empty?
-			= fields_for :shipping_address, @order.shipping_address do |ff|
-
-				=ff.hidden_field :user_id, :value => @current_user.id
-				=ff.hidden_field :country, :value => 'US'
+				=bb.hidden_field :user_id, :value => @current_user.id
+				=bb.hidden_field :country, :value => 'US'
 				%table
 					%tr
-						%td
 						%td 
-							%h3 Shipping Information
-					%tr
-						%td
-
+						%td 
+							%h3 Billing Info
 					%tr
 						%td
 							%b First Name:
-						%td= ff.text_field :first_name
+						%td= bb.text_field :first_name
 
 					%tr
 						%td
 							%b Last Name:
-						%td= ff.text_field :last_name
-
-
+						%td= bb.text_field :last_name
 					%tr
 						%td
 							%b Address:
-						%td= ff.text_field :street
+						%td= bb.text_field :street
 
 					%tr
 						%td
 							%b City:
-						%td= ff.text_field :city
+						%td=bb.text_field :city
 
 					%tr
 						%td
 							%b State:
 						%td
-							= ff.collection_select :geo_state_id, @states, :id, :name
+							= bb.collection_select :geo_state_id, @states, :id, :name
 							&nbsp;&nbsp;
 							%b Zip Code:
-							= ff.text_field :zip
-		
+							=bb.text_field :zip
+
 		-else
-			Select a shipping address:
-			= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
+			Select a billing address
+			= f.collection_select :billing_address_id, @current_user.billing_addresses, :id , :street
 			%br
 			%br
-			Or enter a new shipping address
-			= check_box_tag "new_shipping_address", "new_shipping_address"
+			Or enter a new billing address
+			= check_box_tag "new_billing_address", "new_billing_address"
+			= fields_for :billing_address, @order.billing_address do |bb|
 
-			= fields_for :shipping_address, @order.shipping_address do |ff|
-
-				=ff.hidden_field :user_id, :value => @current_user.id		
-				=ff.hidden_field :country, :value => 'US'
+				=bb.hidden_field :user_id, :value => @current_user.id
+				=bb.hidden_field :country, :value => 'US'
 				%table
 					%tr
-						%td
 						%td 
-							%h3 Shipping Information
-					%tr
-						%td
-
+						%td 
+							%h3 Billing Info
 					%tr
 						%td
 							%b First Name:
-						%td= ff.text_field :first_name
+						%td= bb.text_field :first_name
 
 					%tr
 						%td
 							%b Last Name:
-						%td= ff.text_field :last_name
-
+						%td= bb.text_field :last_name
 					%tr
 						%td
 							%b Address:
-						%td= ff.text_field :street
+						%td= bb.text_field :street
 
 					%tr
 						%td
 							%b City:
-						%td= ff.text_field :city
+						%td=bb.text_field :city
 
 					%tr
 						%td
 							%b State:
 						%td
-							= ff.collection_select :geo_state_id, @states, :id, :name
+							= bb.collection_select :geo_state_id, @states, :id, :name
 							&nbsp;&nbsp;
 							%b Zip Code:
-							= ff.text_field :zip
+							=bb.text_field :zip
 		
-		
-	= f.submit "Buy"
+	
+		%br
+		%br
+	
+		- if params[:ordered_type] == 'Merch'
+			- if @current_user.shipping_addresses.empty?
+				= fields_for :shipping_address, @order.shipping_address do |ff|
 
-	%br
+					=ff.hidden_field :user_id, :value => @current_user.id
+					=ff.hidden_field :country, :value => 'US'
+					%table
+						%tr
+							%td
+							%td 
+								%h3 Shipping Information
+						%tr
+							%td
+
+						%tr
+							%td
+								%b First Name:
+							%td= ff.text_field :first_name
+
+						%tr
+							%td
+								%b Last Name:
+							%td= ff.text_field :last_name
+
+
+						%tr
+							%td
+								%b Address:
+							%td= ff.text_field :street
+
+						%tr
+							%td
+								%b City:
+							%td= ff.text_field :city
+
+						%tr
+							%td
+								%b State:
+							%td
+								= ff.collection_select :geo_state_id, @states, :id, :name
+								&nbsp;&nbsp;
+								%b Zip Code:
+								= ff.text_field :zip
+		
+			-else
+				Select a shipping address:
+				= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
+				%br
+				%br
+				Or enter a new shipping address
+				= check_box_tag "new_shipping_address", "new_shipping_address"
+
+				= fields_for :shipping_address, @order.shipping_address do |ff|
+
+					=ff.hidden_field :user_id, :value => @current_user.id		
+					=ff.hidden_field :country, :value => 'US'
+					%table
+						%tr
+							%td
+							%td 
+								%h3 Shipping Information
+						%tr
+							%td
+
+						%tr
+							%td
+								%b First Name:
+							%td= ff.text_field :first_name
+
+						%tr
+							%td
+								%b Last Name:
+							%td= ff.text_field :last_name
+
+						%tr
+							%td
+								%b Address:
+							%td= ff.text_field :street
+
+						%tr
+							%td
+								%b City:
+							%td= ff.text_field :city
+
+						%tr
+							%td
+								%b State:
+							%td
+								= ff.collection_select :geo_state_id, @states, :id, :name
+								&nbsp;&nbsp;
+								%b Zip Code:
+								= ff.text_field :zip
+		
+		
+		= f.submit "Buy"
+

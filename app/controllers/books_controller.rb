@@ -38,6 +38,10 @@ class BooksController < ApplicationController
 		render :layout => '3col'
 	end
 	
+	def new
+		render :layout => '3col'
+	end
+	
 	def update
 		@book = Book.find params[:id] 
 

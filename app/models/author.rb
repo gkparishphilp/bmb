@@ -49,7 +49,11 @@ class Author < ActiveRecord::Base
 	has_many	:email_campaigns, :as => :owner
 	has_many	:links, :as => :owner
 	has_many	:skus, :as => :owner
-	has_one		:theme
+	
+	has_many	:themeings
+	has_many	:themes, :through => :themeings
+	has_one		:applied_theme, :through => :themeings, :source => :theme, :conditions => "applied = true"
+	
 	has_many	:sites
 	
 	does_activities

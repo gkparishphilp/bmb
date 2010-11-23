@@ -12,7 +12,7 @@
 				.column1
 					.author_hd
 						%h1
-							- if @theme && @theme.show_pen_name
+							- if @theme.nil? || @theme.show_pen_name
 								= @author.pen_name
 							- else
 								&nbsp;

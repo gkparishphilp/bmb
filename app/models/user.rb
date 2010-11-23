@@ -59,6 +59,7 @@ class User < ActiveRecord::Base
 	has_many	:billing_addresses
 	has_one		:author
 	has_many	:orders
+	has_many	:reviews
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
 	has_many	:coupons, :as => :redeemer

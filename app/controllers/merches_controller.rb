@@ -25,7 +25,7 @@ class MerchesController < ApplicationController
 		if @merch.save
 			process_attachments_for( @merch )
 			if @merch.price.to_i > 0
-				sku = @current_author.skus.create :title => @merch.title, :description => @merch.description, :price => @merch.price, :book_id => @merch.book_id
+				sku = @current_author.skus.create :title => @merch.title, :description => @merch.description, :price => @merch.price, :book_id => @merch.book_id, :sku_type => 'merch'
 				sku.add_item @merch
 			end
 			
