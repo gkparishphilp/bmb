@@ -1,0 +1,19 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h1 
+			Edit Sku
+		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
+			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
+		
+		%h3 Items in this Sku
+		- for item in @sku.items
+			= item.title
+			%hr
+		= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
+			= f.select :item, @items
+			= f.submit 'Add'
+		
+- content_for :right_column do
+	%h2 Help

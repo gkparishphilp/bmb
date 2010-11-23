@@ -11,6 +11,16 @@ class EventsController < ApplicationController
 			@events = @owner.events.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
 	end
+	
+	def new
+		@event = Event.new
+		render :layout => '3col'
+	end
+	
+	def edit
+		@event = Event.find params[:id]
+		render :layout => '3col'
+	end
 
 
 	def show

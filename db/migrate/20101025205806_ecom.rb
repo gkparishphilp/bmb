@@ -1,23 +1,5 @@
 class Ecom < ActiveRecord::Migration
 	def self.up
-
-		create_table :skus, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.references	:book
-			t.string		:title
-			t.text			:description
-			t.integer		:price
-			t.string		:status, :default => 'publish'
-			
-			t.timestamps
-		end
-		
-		create_table :sku_items, :id => false, :force => true do |t|
-			t.references	:sku
-			t.references	:item, :polymorphic => true
-			
-			t.timestamps
-		end
 		
 		create_table :coupons, :force => true do |t|
 			t.references	:owner, :polymorphic => true
@@ -65,7 +47,6 @@ class Ecom < ActiveRecord::Migration
 			t.string		:title
 			t.text			:description
 			t.integer		:inventory_count, :default => -1 # neg numbers or nil = infinite
-			t.integer		:price
 			t.string		:status, :default => 'publish' # published or not
 			
 			t.timestamps
@@ -75,7 +56,7 @@ class Ecom < ActiveRecord::Migration
 			t.references	:user
 			t.references	:shipping_address
 			t.references	:billing_address
-			t.references	:ordered, :polymorphic => true
+			t.references	:ordered, :polymorphic => true # should always be a sku -- change to sku_id?
 			t.string		:email
 			t.string		:ip
 			t.integer		:price
@@ -124,6 +105,25 @@ class Ecom < ActiveRecord::Migration
 			
 			t.timestamps
 			
+		end
+		
+		create_table :skus, :force => true do |t|
+			t.references	:owner, :polymorphic => true
+			t.references	:book
+			t.string		:title
+			t.text			:description
+			t.integer		:price
+			t.string		:sku_type # just so we can unique the ebook sku accross the different asset formats
+			t.string		:status, :default => 'publish'
+			
+			t.timestamps
+		end
+		
+		create_table :sku_items, :id => false, :force => true do |t|
+			t.references	:sku
+			t.references	:item, :polymorphic => true
+			
+			t.timestamps
 		end
 		
 		create_table :subscribings, :force => true do |t|

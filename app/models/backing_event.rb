@@ -14,4 +14,14 @@
 #
 
 class BackingEvent < ActiveRecord::Base
+	after_save	:add_points_to_backing
+	
+	belongs_to	:backing
+	has_many	:raw_backing_events
+	
+	protected
+	def add_points_to_backing
+		self.backing.points += self.points if self.points_changed?
+		self.backing.save
+	end
 end

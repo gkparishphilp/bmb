@@ -1,0 +1,19 @@
+- content_for :left_column do
+	= image_tag( @sku.avatar.location( :thumb ), :width => @sku.avatar.thumb_width ) if @sku.has_attached_avatar?
+	%h1= @sku.title
+
+	= @sku.description
+	%br
+	- unless @sku.items.empty?
+		%h3 Items
+
+		%table{:cellspacing => 0}
+			- for item in @sku.items
+				%tr
+					%td
+						%b= item.title
+					%td
+						= snip item.description, 200
+
+- content_for :right_column do
+	&nbsp;

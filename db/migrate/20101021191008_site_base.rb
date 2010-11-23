@@ -34,6 +34,7 @@ class SiteBase < ActiveRecord::Migration
 			t.references	:author
 			t.string		:name
 			t.string		:domain
+			t.string		:status, :default => 'active'
 			t.timestamps
 		end
 		

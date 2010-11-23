@@ -1,4 +1,4 @@
-= f.label :title
+= f.label 'Asset Name'
 = f.text_field :title, :class => 'title_field'
 
 = hidden_field_tag :type, @type
@@ -20,7 +20,7 @@
 
 
 = f.label "Asset Type"
-= f.text_field :asset_type
+= f.select :asset_type, [ [ 'Free/Sample/Preview', 'sample' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
 
 %br
 = f.submit m, :class => :button

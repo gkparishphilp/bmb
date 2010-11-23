@@ -3,11 +3,13 @@ class LinksController < ApplicationController
 	
 	def new
 		@link = Link.new
+		render :layout => '3col'
 	end
 
 	def edit
 		@link = @owner.links.find  params[:id]
 		check_link_permissions
+		render :layout => '3col'
 	end
 
 	def create

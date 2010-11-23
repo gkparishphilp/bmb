@@ -6,6 +6,12 @@
 		= form_for [@current_author, @edit_theme], :html => { :multipart => true } do |f|
 			= f.label "Theme Name:"
 			= f.text_field :name
+			%br
+			= f.check_box :show_pen_name, :checked => @edit_theme.show_pen_name
+			Display Pen Name?
+			%br
+			= f.check_box :book_site
+			Book Template?
 			= f.label "Text Color:"
 			= f.text_field :text_color
 			= f.label "Link Color:"

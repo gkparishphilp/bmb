@@ -7,7 +7,6 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:pen_name
 			t.text			:promo
 			t.string		:subdomain
-			t.string		:domain
 			t.text			:bio
 			t.integer		:score
 			t.string		:cached_slug
@@ -35,6 +34,7 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:text_color
 			t.string		:link_color
 			t.string		:hover_color
+			t.boolean		:book_site, :default => false
 
 			t.timestamps
 		end

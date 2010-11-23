@@ -3,6 +3,16 @@
 - content_for :middle_column do
 	.form_group
 		%h1 Social Media
-		Yeeeehaaaawww!
+		
+		%h4 Facebook
+		- for acct in @current_author.user.facebook_accounts
+			= acct.name
+			%hr
+		%h4 Twitter
+		- for acct in @current_author.user.twitter_accounts
+			= acct.name
+			%hr
+		
+		
 - content_for :right_column do
 	%h2 Help

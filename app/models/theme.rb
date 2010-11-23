@@ -18,6 +18,7 @@
 #  text_color       :string(255)
 #  link_color       :string(255)
 #  hover_color      :string(255)
+#  book_site        :boolean(1)
 #  created_at       :datetime
 #  updated_at       :datetime
 #

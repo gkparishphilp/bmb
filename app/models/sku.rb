@@ -10,14 +10,13 @@
 #  title       :string(255)
 #  description :text
 #  price       :integer(4)
+#  sku_type    :string(255)
 #  status      :string(255)     default("publish")
 #  created_at  :datetime
 #  updated_at  :datetime
 #
 
 class Sku < ActiveRecord::Base
-	
-	validates	:item_id, :uniqueness => { :scope => [ :item_type ], :message => "Item is already in the Sku" }
 	
 	has_many :sku_items
 
@@ -32,12 +31,15 @@ class Sku < ActiveRecord::Base
 						
 	has_many :merches, :through => :sku_items, :source => :merch,
 						:conditions => "sku_items.item_type = 'Merch'"
+						
+	attr_accessor :item
+	
 	def items
 		self.ebooks + self.pdfs + self.audio_books + self.merches
 	end
 	
 	def add_item( item )
-		self.sku_items.create :item_id => item.id, :item_type => item.class.name
+		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
 	end
 
 	# Can do the reverse polymorphic through relationship this way, but I'm not gonna

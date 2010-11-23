@@ -7,7 +7,6 @@ GK
 ----
 - Books, assets, sku 
 	- got STI assets, need to wire in interface
-- Recommends controller
 - Follow logic
 - Recommends/Backer controller
 - Library
@@ -15,7 +14,8 @@ GK
 - User profile page
 - Header menus (graphical)
 - Reporting
-
+- Scope everything on status
+- Double-check all permissions
 
 Tay
 ----

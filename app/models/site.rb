@@ -7,11 +7,16 @@
 #  author_id  :integer(4)
 #  name       :string(255)
 #  domain     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #
 
 class Site < ActiveRecord::Base
+	before_validation :clean_domain
+	
+	validates :domain, :uniqueness => true
+	
 	has_many :roles
 	has_many :admins, :through => :roles, :source => :user, :conditions => "role = 'admin'"
 	has_many :contributors, :through => :roles, :source => :user, :conditions => "role = 'contributor'"
@@ -32,6 +37,15 @@ class Site < ActiveRecord::Base
 	belongs_to	:author
 	
 	does_activities
+	
+	def clean_domain
+		self.domain.gsub!( /\Ahttp:\/\//, "" )
+	end
+	
+	
+	
+	
+	
 
 	def create_models
 		@legacy_models = Dir.glob('/Users/tay/Sites/elit/app/models/*.rb').collect { |model_path| File.basename(model_path).gsub('.rb', '') }

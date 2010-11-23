@@ -12,7 +12,7 @@ class BooksController < ApplicationController
 		@review = Review.new
 		
 		set_meta "#{@book.title} by #{@book.author.pen_name}", @book.description
-		@book.raw_stats.create :name =>'view', :ip => request.ip
+		# @book.raw_stats.create :name =>'view', :ip => request.ip
 		render :layout => 'authors'
 	end
 	
