@@ -4,11 +4,11 @@
 	.form_group
 		%h1 Manage Your Store
 		%br
-		%br
+		= draw_admin_header( :skus )
 		= draw_admin_table( @current_author.skus, [:title, :price, :status] )
 		
 		%br
-		%br
+		= draw_admin_header( :merches )
 		= draw_admin_table( @current_author.merches, [:title] )
 
 		

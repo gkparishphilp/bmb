@@ -29,12 +29,24 @@ class AssetsController < ApplicationController
 		if @asset.save
 			# Check sku if type is sale
 			if @asset.asset_type == 'sale'
-				# if params[:type] == 'ebook'
-					# find_or_create ebook sku
-					# add asset as item
-				# if params[:type] == 'audio'
-					# find_or_create audio sku
-					# add asset as item
+				if params[:type] == 'ebook' || params[:type] == 'pdf'
+					sku = @current_author.skus.find_by_sku_type( 'ebook' )
+					if sku.present?
+						sku.add_item( @asset )
+					else
+						# todo -- add price field as dynamic attribute to asset -- reveal price on form is sale selected
+						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description#, :price => @asset.price
+						sku.add_item( @asset )
+					end
+				elsif params[:type] == 'audio_book'
+					sku = @current_author.skus.find_by_sku_type( 'audio_book' )
+					if sku.present?
+						sku.add_item( @asset )
+					else
+						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description#, :price => @asset.price
+						sku.add_item( @asset )
+					end
+				end
 			end
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'

@@ -2,7 +2,7 @@ class SkusController < ApplicationController
 	
 	def create
 		@sku = Sku.new params[:sku]
-		if @sku.save
+		if @current_author.skus << @sku
 			pop_flash 'Sku saved!'
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku

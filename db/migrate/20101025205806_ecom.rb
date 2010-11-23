@@ -43,7 +43,6 @@ class Ecom < ActiveRecord::Migration
 		
 		create_table :merches, :force => true do |t|
 			t.references	:owner, :polymorphic => true
-			t.references	:book
 			t.string		:title
 			t.text			:description
 			t.integer		:inventory_count, :default => -1 # neg numbers or nil = infinite

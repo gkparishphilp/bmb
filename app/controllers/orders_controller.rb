@@ -11,10 +11,8 @@ class OrdersController < ApplicationController
 		@orders = @current_user.orders
 	end
 
-
-
 	def show
-		@order = Order.find(params[:id])
+		@order = Order.find params[:id] 
 =begin
 		# todo Need to fix this for anonymous user access
 		if @order.user != @current_user 
@@ -53,7 +51,7 @@ class OrdersController < ApplicationController
 				redemption.order = @order
 				redemption.coupon = @coupon
 				redemption.save
-				@order.apply_coupon if @coupon.is_valid?(@order)
+				@order.apply_coupon if @coupon.is_valid? (@order )
 			end
 		end
 
@@ -124,6 +122,8 @@ private
 	end
 
 	def get_ordered
+		# the sexy way: @ordered = eval "#{params[:ordered_type]}.find params[:ordered_id]" 
+		# But a moot point anyway, since only skus can be ordered....
 		case params[:ordered_type]
 			when 'Merch'
 				@ordered = Merch.find params[:ordered_id]

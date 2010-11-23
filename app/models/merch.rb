@@ -6,7 +6,6 @@
 #  id              :integer(4)      not null, primary key
 #  owner_id        :integer(4)
 #  owner_type      :string(255)
-#  book_id         :integer(4)
 #  title           :string(255)
 #  description     :text
 #  inventory_count :integer(4)      default(-1)
@@ -31,7 +30,7 @@ class Merch < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
 	
-	attr_accessor	:price
+	attr_accessor	:price, :book_id
 	
 
 end
