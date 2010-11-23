@@ -1,0 +1,21 @@
+
+= f.label "Title:"
+= f.text_field :title, :class => 'title'
+= f.label "Description:"
+= f.text_area :description
+%br
+
+= f.label "Starts:"
+= f.text_field :starts_at
+%br
+= f.label 'Ends:'
+= f.text_field :ends_at
+%br
+= f.label 'Location:'
+= f.text_field :location
+
+= f.label "Status:"
+= f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
+
+%br
+= submit_tag

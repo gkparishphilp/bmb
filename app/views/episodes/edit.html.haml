@@ -4,7 +4,7 @@
 	.form_group
 		%h1 
 			Edit Podcast Episode
-		-form_for [ @podcast, @episode ], :html => { :multipart => true } do |f|
+		= form_for [ @podcast, @episode ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
 		
 - content_for :right_column do

@@ -11,6 +11,7 @@
 			= f.submit "Change"
 		%br
 		%br
+		= draw_admin_header( :sites )
 		= draw_admin_table( @current_author.sites, [:name, :domain] )
 		
 			
