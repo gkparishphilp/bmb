@@ -32,8 +32,6 @@ class AdminController < ApplicationController
 	end
 	
 	def store
-		@merch = Merch.new
-		@books = @current_author.books
 		@skus = @current_author.skus
 		@sku = Sku.new
 	end

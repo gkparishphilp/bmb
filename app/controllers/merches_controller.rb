@@ -1,12 +1,21 @@
 class MerchesController < ApplicationController
 
-	def show
-		@merch = Merch.find(params[:id])
-		@orderable = @merch
-	end
 
+	def new
+		@merch = Merch.new
+		@books = @current_author.books
+		render :layout => '3col'
+	end
+	
 	def edit
-		@merch = Merch.find(params[:id])
+		@merch = Merch.find params[:id]
+		@books = @current_author.books
+		render :layout => '3col'
+	end
+	
+	def show
+		@merch = Merch.find params[:id] 
+		@orderable = @merch
 	end
 
 
@@ -15,6 +24,11 @@ class MerchesController < ApplicationController
 		@merch.owner = @current_author
 		if @merch.save
 			process_attachments_for( @merch )
+			if @merch.price.to_i > 0
+				sku = @current_author.skus.create :title => @merch.title, :description => @merch.description, :price => @merch.price
+				sku.add_item @merch
+			end
+			
 			pop_flash 'Merchandise saved!'
 		else
 			pop_flash 'Merchandise could not be saved.', :error, @merch
@@ -29,17 +43,18 @@ class MerchesController < ApplicationController
 		@merch = Merch.find params[:id]
 
 		if @merch.update_attributes params[:merch] 
-			redirect_to @merch, :notice => 'Merchandise was successfully updated.'
+			pop_flash 'Merchandise was successfully updated.'
 		else
-			render :action => "edit" 
+			pop_flash "Oooops, couldn't update Mercandise", :error, @merch
 		end
+		redirect_to :back
 	end
 
 
 	def destroy
 		@merch = Merch.find(params[:id])
 		@merch.destroy
-		redirect_to merches_url
+		redirect_to :back
 	end
 
 

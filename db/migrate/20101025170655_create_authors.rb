@@ -7,7 +7,6 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:pen_name
 			t.text			:promo
 			t.string		:subdomain
-			t.string		:domain
 			t.text			:bio
 			t.integer		:score
 			t.string		:cached_slug

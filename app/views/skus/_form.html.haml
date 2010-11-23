@@ -1,0 +1,9 @@
+= f.label 'Name:'
+= f.text_field :title
+= f.label 'Price:'
+= f.text_field :price
+= f.label 'Associate with Book:'
+= f.collection_select :book_id, @books, :id, :title
+= f.label 'Description:'
+= f.text_area :description
+= f.submit "Create"

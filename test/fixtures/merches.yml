@@ -10,7 +10,6 @@
 #  title           :string(255)
 #  description     :text
 #  inventory_count :integer(4)      default(-1)
-#  price           :integer(4)
 #  status          :string(255)     default("publish")
 #  created_at      :datetime
 #  updated_at      :datetime

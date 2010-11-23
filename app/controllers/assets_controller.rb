@@ -5,6 +5,8 @@ class AssetsController < ApplicationController
 	def new
 		@type = params[:type]
 		@asset = Asset.new
+		@asset.title = "#{@book.title} (#{@type})"
+		@asset.asset_type = "preview/sample, giveaway, for_sale"
 	end
 	
 	def edit
@@ -25,6 +27,7 @@ class AssetsController < ApplicationController
 		end
 		
 		if @asset.save
+			# Check sku if type is sale
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'
 		else

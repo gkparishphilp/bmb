@@ -9,7 +9,8 @@
 			= link_to "Add Episode", new_podcast_episode_path( @podcast )
 				
 			- else
-				Create Podcast
+				%h1
+					Create Podcast
 
 		= form_for [@current_author, @podcast], :html => { :multipart => true } do |f|
 			= f.label "Podcast Name:"

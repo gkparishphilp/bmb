@@ -10,13 +10,13 @@
 #  title           :string(255)
 #  description     :text
 #  inventory_count :integer(4)      default(-1)
-#  price           :integer(4)
 #  status          :string(255)     default("publish")
 #  created_at      :datetime
 #  updated_at      :datetime
 #
 
 class Merch < ActiveRecord::Base
+	validates	:title, :uniqueness => { :scope => [ :owner_id, :owner_type ] }
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
@@ -30,6 +30,8 @@ class Merch < ActiveRecord::Base
 	has_many	:skus, :through => :sku_items
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
+	
+	attr_accessor	:price
 	
 
 end

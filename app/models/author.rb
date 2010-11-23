@@ -58,6 +58,11 @@ class Author < ActiveRecord::Base
 	has_friendly_id	:pen_name, :use_slug => true
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
 	
+	def assets
+		# return all assets for all books for the author
+		self.books.collect{ |b| b.assets }.flatten
+	end
+	
 	def set_subdomain
 		self.subdomain = self.pen_name.gsub(/\W/, "-").downcase
 	end

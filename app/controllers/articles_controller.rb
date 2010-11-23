@@ -4,6 +4,16 @@ class ArticlesController < ApplicationController
 	
 	before_filter :get_owner
 	
+	def new
+		@article = Article.new
+		render :layout => '3col'
+	end
+	
+	def edit
+		@article = Article.find params[:id]
+		render :layout => '3col'
+	end
+	
 	def create
 		@article = Article.new params[:article]
 

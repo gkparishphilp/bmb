@@ -5,18 +5,14 @@
 		%h1 Manage Domains
 		%br
 		%br
-		= form_for @author do |f|
+		= form_for @current_author do |f|
 			%h3 Your Subdomain on BackMyBook.com
 			= f.text_field :subdomain
 			= f.submit "Change"
 		%br
 		%br
-		%h3 Your Domains
-		- for site in @author.sites do
-			= site.name
-			|
-			= site.domain
-			%br
+		= draw_admin_table( @current_author.sites, [:name, :domain] )
+		
 			
 - content_for :right_column do
 	%h2 Help

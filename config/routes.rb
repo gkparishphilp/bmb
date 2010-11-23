@@ -11,7 +11,7 @@ Backmybook::Application.routes.draw do
 	end
 	
 	# finally map application root on primary domain without subdomain to site index
-	root :to => "site#index"
+	root :to => "sites#index"
 	
 	# app resource routes, hopefully maintained in alpha order
 	resources :articles do
@@ -48,8 +48,11 @@ Backmybook::Application.routes.draw do
 			end
 		end
 		resources :merches
-		resources :skus
+		resources :skus do
+			put 'add_item', :on => :member
+		end
 		resources :store
+		resources :sites
 		resources :themes
 		resources :upload_email_lists
 		
