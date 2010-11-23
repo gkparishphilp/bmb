@@ -81,7 +81,7 @@ class Author < ActiveRecord::Base
 		#default to bio
 		if self.promo.blank?
 			return self.bio
-		elsif self.promo =~ /book_/
+		elsif self.promo =~ /\Abook_/
 			return book_promo
 		else
 			return self.promo.html_safe
@@ -92,8 +92,9 @@ class Author < ActiveRecord::Base
 	
 	def book_promo
 		id = self.promo.split( /_/ )[1]
-		book = Book.find id.to_i
+		book = Book.find( id.to_i )
 		str = "I'm Promoting #{book.title}!!!!"
+
 		return str.html_safe
 	end
 	
@@ -104,29 +105,5 @@ class Author < ActiveRecord::Base
 		end
 	end
 	
-	def set_domain_vhost
-		path = File.join(Rails.root, 'assets/vhosts/')
-
-		if self.domain_changed? and !self.domain.nil?
-			write_file = File.join(path, self.domain)
-			FileUtils.rm("#{path}#{self.domain_was}") if !self.domain_was.nil? and File.exists?("#{path}#{self.domain_was}")
-			vhost_file = <<EOS
-		server {
-		       listen       80;
-		       server_name #{self.domain};
-			   root /data/vhosts/stage.rippleread.com/public;
-		       passenger_enabled on;
-		       rails_env development;
-
-		       #charset koi8-r;
-
-		       #access_log  logs/rippleread.access.log  main;
-
-		   }
-EOS
-			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
-		
-		end
-	end
 	
 end

@@ -13,7 +13,11 @@
 #
 
 class Site < ActiveRecord::Base
+	
+	before_create	:set_domain_vhost
 	before_validation :clean_domain
+	before_update	:set_domain_vhost
+	
 	
 	validates :domain, :uniqueness => true
 	
@@ -42,8 +46,35 @@ class Site < ActiveRecord::Base
 		self.domain.gsub!( /\Ahttp:\/\//, "" )
 	end
 	
+	# private
 	
-	
+	def set_domain_vhost
+		# don't need to do this for non-author sites
+		return unless self.author.present?
+		
+		path = File.join(Rails.root, 'assets/vhosts/')
+
+		if self.domain_changed? and !self.domain.nil?
+			write_file = File.join(path, self.domain)
+			FileUtils.rm("#{path}#{self.domain_was}") if !self.domain_was.nil? and File.exists?("#{path}#{self.domain_was}")
+			vhost_file = <<EOS
+		server {
+		       listen       80;
+		       server_name #{self.domain};
+			   root /data/vhosts/stage.rippleread.com/public;
+		       passenger_enabled on;
+		       rails_env development;
+
+		       #charset koi8-r;
+
+		       #access_log  logs/rippleread.access.log  main;
+
+		   }
+EOS
+			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
+		
+		end
+	end
 	
 	
 

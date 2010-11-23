@@ -22,9 +22,10 @@ class BooksController < ApplicationController
 		
 		if @amzn_response.empty?
 			@book = @author.books.create :title => @title
-			redirect_to edit_author_book_path( @author, @book )
+			redirect_to edit_author_book_path( @current_author, @book ), :layout => '3col'
+		else
+			render :layout => '3col'
 		end
-		render :layout => '3col'
 	end
 	
 	def edit

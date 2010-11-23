@@ -28,6 +28,14 @@ class AssetsController < ApplicationController
 		
 		if @asset.save
 			# Check sku if type is sale
+			if @asset.asset_type == 'sale'
+				# if params[:type] == 'ebook'
+					# find_or_create ebook sku
+					# add asset as item
+				# if params[:type] == 'audio'
+					# find_or_create audio sku
+					# add asset as item
+			end
 			process_attachments_for( @asset )
 			pop_flash 'Asset saved!', 'success'
 		else
