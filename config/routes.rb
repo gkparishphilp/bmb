@@ -41,6 +41,7 @@ Backmybook::Application.routes.draw do
 				resources :posts
 			end
 		end
+		resources :links
 		resources :podcasts do
 			resources :episodes do
 				get 'download', :on => :member
@@ -124,6 +125,7 @@ Backmybook::Application.routes.draw do
 	resources :upload_email_lists
 	
 	resources  :users do
+		resources :recommends
 		collection do
 			get 'admin'
 			post 'update_password'
@@ -143,6 +145,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/design' => 'admin#design', :as => :admin_design
 	match '/admin/domains' => 'admin#domains', :as => :admin_domains
 	match '/admin/email' => 'admin#email', :as => :admin_email
+	match '/admin/links' => 'admin#links', :as => :admin_links
 	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast

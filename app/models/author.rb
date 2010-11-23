@@ -9,7 +9,6 @@
 #  pen_name           :string(255)
 #  promo              :text
 #  subdomain          :string(255)
-#  domain             :string(255)
 #  bio                :text
 #  score              :integer(4)
 #  cached_slug        :string(255)
@@ -26,9 +25,9 @@ class Author < ActiveRecord::Base
 	# represents writer of a book
 	# may or may not belong to user
 	
-	before_create	:set_subdomain, :set_domain_vhost
+	before_create	:set_subdomain#, :set_domain_vhost
 	after_create	:create_default_campaign
-	before_update	:set_domain_vhost
+	#before_update	:set_domain_vhost
 	
 	validate	:valid_subdomain
 	
@@ -80,9 +79,23 @@ class Author < ActiveRecord::Base
 		#or custom text in the field
 		
 		#default to bio
-		return self.bio
+		if self.promo.blank?
+			return self.bio
+		elsif self.promo =~ /book_/
+			return book_promo
+		else
+			return self.promo.html_safe
+		end
 	end
 	
+	private
+	
+	def book_promo
+		id = self.promo.split( /_/ )[1]
+		book = Book.find id.to_i
+		str = "I'm Promoting #{book.title}!!!!"
+		return str.html_safe
+	end
 	
 	def valid_subdomain
 		if APP_SUBDOMAINS.include?( subdomain )

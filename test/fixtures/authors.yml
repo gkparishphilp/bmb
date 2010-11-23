@@ -9,7 +9,6 @@
 #  pen_name           :string(255)
 #  promo              :text
 #  subdomain          :string(255)
-#  domain             :string(255)
 #  bio                :text
 #  score              :integer(4)
 #  cached_slug        :string(255)

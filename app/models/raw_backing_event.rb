@@ -15,4 +15,6 @@
 #
 
 class RawBackingEvent < ActiveRecord::Base
+	belongs_to	:backing_event
+	belongs_to  :backing
 end

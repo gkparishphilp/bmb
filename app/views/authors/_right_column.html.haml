@@ -9,17 +9,18 @@
 		= text_field_tag :email
 		= submit_tag 'Submit'
 #accordion
-	%div
-		%h3 
-			=link_to 'Featured books','#'
-		%div 
-			- if @author.books.published.empty?
-				No Books
-			- else
-				- for book in @author.books
-					= image_tag book.avatar.location( :tiny ), :width => 40
-					= link_to book.title, author_book_path( @author, book )
-					%br
+	- if @theme.present? && @theme.book_site == false
+		%div
+			%h3 
+				=link_to 'Featured books','#'
+			%div 
+				- if @author.books.published.empty?
+					No Books
+				- else
+					- for book in @author.books
+						= image_tag book.avatar.location( :tiny ), :width => 40
+						= link_to book.title, author_book_path( @author, book )
+						%br
 	%div
 		%h3 
 			=link_to 'Links','#'

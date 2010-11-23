@@ -1,0 +1,13 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Links
+		%br
+		%br
+		= draw_admin_header( :links )
+		= draw_admin_table( @current_author.links, [:title, :url] )
+		
+			
+- content_for :right_column do
+	%h2 Help

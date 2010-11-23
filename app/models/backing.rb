@@ -13,4 +13,8 @@
 #
 
 class Backing < ActiveRecord::Base
+    belongs_to  :user
+    belongs_to  :book
+	has_many	:backing_events
+	has_many	:raw_backing_events
 end

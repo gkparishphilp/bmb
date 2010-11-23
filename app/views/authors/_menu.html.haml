@@ -1,12 +1,14 @@
 .author_menu
 	%ul.main-menu
 		%li= current_page?( author_path( @author ) ) ? ( link_to "Home", author_path( @author ), :class => 'selected' ) : ( link_to "Home", author_path( @author ) )
-		%li= current_page?( bio_author_path( @author ) ) ? ( link_to "Bio", bio_author_path( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_path( @author ) )
-		%li= current_page?( author_books_path( @author ) ) ? ( link_to "Books", author_books_path( @author ), :class => 'selected' ) : ( link_to "Books", author_books_path( @author ) )
+		- if @theme.present? && @theme.book_site == true
+			%li= current_page?( bio_author_path( @author ) ) ? ( link_to "About", bio_author_path( @author ), :class => 'selected' ) : ( link_to "About", bio_author_path( @author ) )
+		- else
+			%li= current_page?( bio_author_path( @author ) ) ? ( link_to "Bio", bio_author_path( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_path( @author ) )
+			%li= current_page?( author_books_path( @author ) ) ? ( link_to "Books", author_books_path( @author ), :class => 'selected' ) : ( link_to "Books", author_books_path( @author ) )
 		%li= current_page?( author_blog_index_path( @author ) ) ? ( link_to "Blog", author_blog_index_path( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_path( @author ) )
 		%li= current_page?( author_forums_path( @author ) ) ? ( link_to "Forums", author_forums_path( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_path( @author ) )
 
 		%li= current_page?( author_podcasts_path( @author ) ) ? ( link_to "Podcasts", author_podcasts_path( @author ), :class => 'selected' ) : ( link_to "Podcasts", author_podcasts_path( @author ) )
 		
-		
-		%li= link_to "Store", "#"
+		%li= current_page?( author_store_index_path( @author ) ) ? ( link_to "Store", author_store_index_path( @author ), :class => 'selected' ) : ( link_to "Store", author_store_index_path( @author ) )

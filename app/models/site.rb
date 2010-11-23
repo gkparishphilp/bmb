@@ -7,6 +7,7 @@
 #  author_id  :integer(4)
 #  name       :string(255)
 #  domain     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #

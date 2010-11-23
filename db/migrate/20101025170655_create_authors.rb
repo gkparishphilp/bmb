@@ -34,6 +34,7 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:text_color
 			t.string		:link_color
 			t.string		:hover_color
+			t.boolean		:book_site, :default => false
 
 			t.timestamps
 		end

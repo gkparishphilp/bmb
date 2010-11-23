@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 	# @current_user -- the user who is logged in (Anonymous user if no session)
 	# @current_author -- the author who is logged in (nil if no author)
 	# @author -- the author resource (if any) that is being requested (e.g. author page or site, forum, blog, etc.)
+	# @theme the theme the author is using, if any
 
 protected
 	# Grabs @current_user from session cookie also sets @current_author
