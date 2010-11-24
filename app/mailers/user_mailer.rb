@@ -25,14 +25,9 @@ class UserMailer < ActionMailer::Base
 		@comment = comment
 		@commentable = @comment.commentable
 		@users = @commentable.followers
-
-		if @commentable.is_a? Article
-			@path = blog_path( @commentable )
-		end
 		
-		for user in @users
-			@unsubscribe_code = Digest::SHA1.hexdigest( rand(100000000).to_s + Time.now.to_s)
-			mail( :from => "donotreply@backmybook.com", :to => user.email, :subject => "New comment to #{@commentable.title}")
+		for @user in @users
+			mail( :from => "donotreply@backmybook.com", :to => @user.email, :subject => "New comment to #{@commentable.title}")
 		end
 	end
 end
