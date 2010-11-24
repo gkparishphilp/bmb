@@ -1,19 +1,25 @@
 class ThemesController < ApplicationController
 	
-	layout '3col', :except => :index
-	
 	def new
-		@theme = Theme.new
+		@edit_theme = Theme.new
+		render :layout => '3col'
 	end
 	
 	def edit
-		@theme = Theme.find params[:id]
+		@edit_theme = Theme.find params[:id]
+		render :layout => '3col'
 	end
 	
-	def apply
+	def activate
+		author = Author.find params[:author_id]
 		@theme = Theme.find params[:id]
-		@theme.activate_for( @current_author )
-		pop_flash "Theme Applied"
+		if @theme.nil? && @current_user.active_theme.present?
+			owning_to_deactivate = @current_author.theme_ownings.find_by_theme_id( @current_author.active_theme.id )
+			owning_to_deactivate.deactivate
+			return true
+		end
+		@theme.activate_for( author )
+		pop_flash "Theme Activated"
 		redirect_to admin_themes_path
 	end
 	
@@ -24,6 +30,7 @@ class ThemesController < ApplicationController
 	
 	def create
 		@theme = Theme.new params[:theme]
+		@theme.creator = @current_author
 		if @current_author.themes << @theme
 			process_attachments_for( @theme )
 			pop_flash 'Theme saved!'

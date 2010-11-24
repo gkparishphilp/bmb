@@ -20,7 +20,7 @@ class CreateAuthors < ActiveRecord::Migration
 		end
 		
 		create_table :themes, :force => true do |t|
-			t.references	:author
+			t.references	:creator # now, the creator
 			t.string		:name
 			t.string		:status, :default => 'active'
 			t.boolean		:show_pen_name, :default => true

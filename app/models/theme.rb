@@ -4,7 +4,7 @@
 # Table name: themes
 #
 #  id               :integer(4)      not null, primary key
-#  author_id        :integer(4)
+#  creator_id       :integer(4)
 #  name             :string(255)
 #  status           :string(255)     default("active")
 #  show_pen_name    :boolean(1)      default(TRUE)
@@ -27,11 +27,14 @@
 
 class Theme < ActiveRecord::Base
 		
-	has_many	:themeings
-	has_many	:authors, :through => :themeings
+	has_many	:theme_ownings
+	has_many	:authors, :through => :theme_ownings
+	belongs_to	:creator, :class_name => 'Author'
 	
 	has_attached	:bg, :formats => ['jpg', 'gif', 'png']
 	has_attached	:banner, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :standard => "980" }}
+
+	scope :public, where( "public = true" )
 
 	def activate_for( author )
 		unless author.theme_ownings.empty?

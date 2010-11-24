@@ -17,11 +17,11 @@ class ThemeOwning < ActiveRecord::Base
 	
 	def activate
 		self.update_attributes :active => true
-		return "activated #{self.name}"
+		return "activated #{self.id}"
 	end
 	
 	def deactivate
 		self.update_attributes :active => false
-		return "deactivated #{self.name}"
+		return "deactivated #{self.id}"
 	end
 end

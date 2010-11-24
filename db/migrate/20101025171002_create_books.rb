@@ -9,7 +9,7 @@ class CreateBooks < ActiveRecord::Migration
 			t.text			:description
 			t.integer		:download_count, :default => 0
 			t.string		:asset_type # full work, chapter, preview, bonus, etc...
-			t.string		:unlock_requirement # for future -- only to top backers, email reg, etc.
+			t.string		:unlock_requirement # 'email' = email registerers, 'backer_xx' = for xx  points, etc.
 			t.string		:content
 			t.string		:duration # for audio
 			t.string		:bitrate

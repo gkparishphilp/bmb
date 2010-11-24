@@ -1,0 +1,48 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Themes
+		= draw_admin_header( :themes )
+		
+		- if @current_author.themes.empty?
+			You don't have any themes yet.  You might find a cool one
+			= link_to "here.", themes_path
+		- else
+		- form_tag activate_author_themes_path( @current_author ) do
+			%table.admin_table
+				%tr
+					%th
+						Active?
+					%th
+						Name
+					%th
+						Book Layout?
+					%th
+						Public?
+				%tr
+					%td
+						= radio_button_tag :id, 'none', @current_author.active_theme.nil?
+					%td
+						None (BackMyBook Default)
+					%td
+						false
+					%td
+						true
+				- for theme in @current_author.themes
+					%tr
+						%td
+							= radio_button_tag :id, theme.id, theme == @current_author.active_theme
+						%td
+							= theme.name
+						%td
+							= theme.book_site
+						%td
+							= theme.public
+						- if theme.creator == @current_author
+							%td
+								= link_to 'edit', edit_author_theme_path( @current_author, theme )
+			= submit_tag 'Activate'
+			
+- content_for :right_column do
+	%h2 Help

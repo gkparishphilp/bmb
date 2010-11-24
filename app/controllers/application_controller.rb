@@ -24,7 +24,7 @@ protected
 		elsif params[:author_id].present?
 			@author = Author.find params[:author_id]
 		end
-		@theme = @author.theme unless @author.nil? || @author.theme.nil?
+		@theme = @author.active_theme unless @author.nil? || @author.active_theme.nil?
 	end
 	
 	# grabs @current_site from request.domain

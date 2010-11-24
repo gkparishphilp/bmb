@@ -56,7 +56,7 @@ Backmybook::Application.routes.draw do
 		resources :store
 		resources :sites
 		resources :themes do
-			put 'apply', :on => :member
+			post 'activate', :on => :collection
 		end
 		resources :upload_email_lists
 		
@@ -124,6 +124,7 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+	resources :themes
 	resources :upload_email_lists
 	
 	resources  :users do

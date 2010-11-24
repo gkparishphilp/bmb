@@ -11,6 +11,19 @@ $(document).ready(function(){
 		$('#contact_form').toggle("slow");
 	});
 	
+	///////////////////////   Stuff For Book Asset Page ///////////////////
+	
+	$("#asset_asset_type").change(function (){
+		if( $(this).attr('value').match("sale") != null  && !$("#price").is(':visible') ) {
+			$('#price').show("slow");
+			$('#unlock_req').hide();
+		}
+		if( $(this).attr('value').match("giveaway") != null  && !$("#unlock_req").is(':visible') ) {
+			$('#unlock_req').show("slow");
+			$('#price').hide();
+		}
+	});
+	
 	////////////////// Stuff for the checkout page ////////////////////////
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){

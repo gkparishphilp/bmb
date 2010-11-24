@@ -3,9 +3,6 @@ class AdminController < ApplicationController
 	layout '3col'
 	before_filter :require_author # make sure @current_user is an author and punt if not
 	
-	def design
-		@edit_theme = @current_author.theme || Theme.new
-	end
 	
 	def books
 		@books = @current_author.books
