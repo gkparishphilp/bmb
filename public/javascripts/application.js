@@ -22,6 +22,10 @@ $(document).ready(function(){
 			$('#unlock_req').show("slow");
 			$('#price').hide();
 		}
+		if( $(this).attr('value').match("free") != null ) {
+			$('#unlock_req').hide();
+			$('#price').hide();
+		}
 	});
 	
 	////////////////// Stuff for the checkout page ////////////////////////

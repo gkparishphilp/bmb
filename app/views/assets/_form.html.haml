@@ -24,8 +24,9 @@
 
 
 = f.label "Asset Type"
-= f.select :asset_type, [ [ 'Free/Sample/Preview', 'sample' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
 
+-# if @book.ebook_sku.nil? -- todo: implement
 #price
 	= f.label "Price"
 	= f.text_field :price
