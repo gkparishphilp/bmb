@@ -4,10 +4,12 @@ Site Article no longer static page, now article.
 Punchlist
 
 - What happened to PayPal?
+    # I haven't put in Paypal Express yet.  We can punt on it, and put it in shortly afterwards.
 - What about coupon redemption ajax?
 - Only skus can be ordered, so need SKU for subscriptions with subscription as the only item (like merch)
 
 - Follow logic?? How does unsubscribe work?
+    # Will work on the unsubscribe logic when I get back.  I think I'll need an unsubscribe_code field on the follows table.  Or create an unsubscribe table, with an unsubscribe_code and a polymorphic entity to what is being unsubscribed.  Any other ideas on how to handle unsubscribes?  
 
 GK
 ----
@@ -21,6 +23,7 @@ GK
 Tay
 ----
 - Follow logic - blog comments example
+    - Got observer and email to work.  Need unsubscribe logic now.
 - Admin subscriptions - Need order page
 - Add raw_stat call to @article and @post show actions, ie: @post.raw_stats.create :name =>'view', :ip => request.ip
 
