@@ -1,0 +1,27 @@
+# == Schema Information
+# Schema version: 20101120000321
+#
+# Table name: theme_ownings
+#
+#  id         :integer(4)      not null, primary key
+#  author_id  :integer(4)
+#  theme_id   :integer(4)
+#  active     :boolean(1)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+class ThemeOwning < ActiveRecord::Base
+	belongs_to	:author
+	belongs_to	:theme
+	
+	def activate
+		self.update_attributes :active => true
+		return "activated #{self.name}"
+	end
+	
+	def deactivate
+		self.update_attributes :active => false
+		return "deactivated #{self.name}"
+	end
+end

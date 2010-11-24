@@ -50,9 +50,9 @@ class Author < ActiveRecord::Base
 	has_many	:links, :as => :owner
 	has_many	:skus, :as => :owner
 	
-	has_many	:themeings
-	has_many	:themes, :through => :themeings
-	has_one		:applied_theme, :through => :themeings, :source => :theme, :conditions => "applied = true"
+	has_many	:theme_ownings
+	has_many	:themes, :through => :theme_ownings
+	has_one		:active_theme, :through => :theme_ownings, :source => :theme, :conditions => "active = true"
 	
 	has_many	:sites
 	
