@@ -3,15 +3,16 @@ Site Article no longer static page, now article.
 
 Punchlist
 
+- What happened to PayPal?
+- What about coupon redemption ajax?
+- Only skus can be ordered, so need SKU for subscriptions with subscription as the only item (like merch)
+
+- Follow logic?? How does unsubscribe work?
+
 GK
 ----
-- Books, assets, sku 
-	- got STI assets, need to wire in interface
-- Follow logic
+
 - Recommends/Backer controller
-- Library
-- Admin Ecom/Store (create bundles, merch, etc.)
-- User profile page
 - Header menus (graphical)
 - Reporting
 - Scope everything on status
@@ -30,3 +31,12 @@ DONE
 - Admin email
 - Delayed job installed...  Just call from code like before
 - Raw stats model - cleaned up from old version.  Just create a raw stat and it will automatically rate_limit and update the real stat through delayed_job
+
+- User profile page
+	- low priority
+- Library -- let's punt for now -- just use email
+
+- Books, assets, sku 
+	- got STI assets, need to wire in interface
+	- done
+- Admin Ecom/Store (create bundles, merch, etc.) - could use polish, but should work for launch/Sigler

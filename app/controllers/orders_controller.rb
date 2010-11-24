@@ -2,6 +2,7 @@ class OrdersController < ApplicationController
 	before_filter :require_admin, :only => [:admin]
 	before_filter :get_form_data, :only => :new
 	before_filter :get_ordered
+	layout	:set_layout
 	
 	def admin
 		@orders = Order.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
@@ -124,16 +125,11 @@ private
 	def get_ordered
 		# the sexy way: @ordered = eval "#{params[:ordered_type]}.find params[:ordered_id]" 
 		# But a moot point anyway, since only skus can be ordered....
-		case params[:ordered_type]
-			when 'Merch'
-				@ordered = Merch.find params[:ordered_id]
-			when 'Sku'
-				@ordered = Sku.find params[:ordered_id]
-			when 'Subscription'
-				@ordered = Subscription.find params[:ordered_id]
-			when 'Asset'
-				@ordered = Asset.find params[:ordered_id]
-		end
+		@ordered = Sku.find params[:sku]
+	end
+	
+	def set_layout
+		@author ? "authors" : "application"
 	end
 	
 

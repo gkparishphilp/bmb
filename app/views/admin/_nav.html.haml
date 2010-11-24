@@ -3,7 +3,7 @@
 %li= link_to "Edit Profile",admin_profile_path
 
 #admin_hd  Your Books
-%li= link_to "Add a Book", admin_add_book_path( @current_author )
+%li= link_to "Add a Book", new_author_book_path( @current_author )
 %li= link_to "Manage Books", admin_books_path
 
 #admin_hd  Messaging
@@ -17,7 +17,7 @@
 %li= link_to "Blog", admin_blog_path
 %li= link_to "Store", admin_store_path
 %li= link_to "Podcast", admin_podcast_path
-%li= link_to "Design", admin_design_path
+%li= link_to "Themes", admin_themes_path
 %li= link_to "Links", admin_links_path
 %li= link_to "Events", admin_events_path
 

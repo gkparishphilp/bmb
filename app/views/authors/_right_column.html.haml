@@ -9,7 +9,7 @@
 		= text_field_tag :email
 		= submit_tag 'Submit'
 #accordion
-	- if @theme.present? && @theme.book_site == false
+	- if @theme.nil? || !@theme.book_site
 		%div
 			%h3 
 				=link_to 'Featured books','#'

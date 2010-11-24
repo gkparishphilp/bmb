@@ -35,7 +35,16 @@ class CreateAuthors < ActiveRecord::Migration
 			t.string		:link_color
 			t.string		:hover_color
 			t.boolean		:book_site, :default => false
+			t.boolean		:public, :default => false
 
+			t.timestamps
+		end
+		
+		create_table :theme_ownings, :force => true do |t|
+			t.references	:author
+			t.references	:theme
+			t.boolean		:active, :default => false
+			
 			t.timestamps
 		end
 		

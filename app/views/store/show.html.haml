@@ -6,6 +6,7 @@
 	.price
 		Price:
 		= @sku.price
+		= link_to "Buy Now", new_author_order_path( @current_author, :sku => @sku )
 
 	.items
 		Contains:

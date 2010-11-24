@@ -42,6 +42,7 @@ Backmybook::Application.routes.draw do
 			end
 		end
 		resources :links
+		resources :orders
 		resources :podcasts do
 			resources :episodes do
 				get 'download', :on => :member
@@ -54,7 +55,9 @@ Backmybook::Application.routes.draw do
 		end
 		resources :store
 		resources :sites
-		resources :themes
+		resources :themes do
+			put 'apply', :on => :member
+		end
 		resources :upload_email_lists
 		
 		get 'manage', :on => :collection
@@ -80,8 +83,7 @@ Backmybook::Application.routes.draw do
 		end
 	end
 
-	resources :orders do
-	end
+	resources :orders
 	
 	resources :order_transactions
 	
@@ -142,7 +144,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/acount' => 'admin#account', :as  => :admin_account
 	match '/admin/books' => 'admin#books', :as => :admin_books
 	match '/admin/blog' => 'admin#blog', :as => :admin_blog
-	match '/admin/design' => 'admin#design', :as => :admin_design
+	match '/admin/themes' => 'admin#themes', :as => :admin_themes
 	match '/admin/domains' => 'admin#domains', :as => :admin_domains
 	match '/admin/email' => 'admin#email', :as => :admin_email
 	match '/admin/links' => 'admin#links', :as => :admin_links
@@ -152,7 +154,6 @@ Backmybook::Application.routes.draw do
 	match '/admin/reports' => 'admin#reports', :as => :admin_reports
 	match '/admin/forums' => 'admin#forums', :as => :admin_forums
 	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
 	match '/admin/events' => 'admin#events', :as => :admin_events
 	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
 	match '/admin/store' => 'admin#store', :as => :admin_store

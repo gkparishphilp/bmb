@@ -30,20 +30,20 @@ class AssetsController < ApplicationController
 			# Check sku if type is sale
 			if @asset.asset_type == 'sale'
 				if params[:type] == 'ebook' || params[:type] == 'pdf'
-					sku = @current_author.skus.find_by_sku_type( 'ebook' )
+					sku = @current_author.skus.find_by_book_id_and_sku_type( :book_id => @asset.book.id, :sku_type => 'ebook' )
 					if sku.present?
 						sku.add_item( @asset )
 					else
 						# todo -- add price field as dynamic attribute to asset -- reveal price on form is sale selected
-						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description#, :price => @asset.price
+						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id #, :price => @asset.price
 						sku.add_item( @asset )
 					end
 				elsif params[:type] == 'audio_book'
-					sku = @current_author.skus.find_by_sku_type( 'audio_book' )
+					sku = @current_author.skus.find_by_book_id_and_sku_type( :book_id => @asset.book.id, :sku_type => 'audio_book' )
 					if sku.present?
 						sku.add_item( @asset )
 					else
-						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description#, :price => @asset.price
+						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id #, :price => @asset.price
 						sku.add_item( @asset )
 					end
 				end
