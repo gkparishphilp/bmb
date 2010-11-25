@@ -39,6 +39,8 @@ class Asset < ActiveRecord::Base
 	
 	attr_accessor :price
 	
+	scope :free, where( "asset_type = 'free'" )
+	
 end
 
 

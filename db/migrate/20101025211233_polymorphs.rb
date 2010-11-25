@@ -20,6 +20,16 @@ class Polymorphs < ActiveRecord::Migration
 			t.timestamps
 		end
 		
+		create_table :contests, :force => true do |t|
+			t.references	:owner, :polymorphic => true
+			t.string		:name
+			t.text			:description
+			t.datetime		:starts_at
+			t.datetime		:ends_at
+			
+			t.timestamps
+		end
+		
 		create_table :events, :force => true do |t|
 			t.references	:owner, :polymorphic => true
 			t.string		:title

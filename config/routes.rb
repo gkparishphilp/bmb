@@ -158,6 +158,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/events' => 'admin#events', :as => :admin_events
 	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
 	match '/admin/store' => 'admin#store', :as => :admin_store
+	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

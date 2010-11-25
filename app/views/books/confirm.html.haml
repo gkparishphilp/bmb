@@ -2,7 +2,10 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 Confirm?
+		%h1 Did We Find Your Book?
+		= form_for [ @author, Book.new ] do |f|
+			= f.hidden_field :title, :value => @title
+			= f.submit "Nope, None of these are My book"
 		#confirm_book_list
 			- for item in @amzn_response[0..9]
 				.confirm_book_item

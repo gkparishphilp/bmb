@@ -20,6 +20,9 @@
 						%td
 							= link_to image_tag( 'edit.png', :width => 20 ), edit_author_book_path( @current_author, book ) 
 							= link_to 'edit', edit_author_book_path( @current_author, book )
+						%td
+							= link_to image_tag( 'assets.png', :width => 20 ), author_book_assets_path( @current_author, book ) 
+							= link_to 'assets', author_book_assets_path( @current_author, book ) 
 			%hr
 - content_for :right_column do
 	%h2 Help

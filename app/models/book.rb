@@ -30,8 +30,8 @@ class Book < ActiveRecord::Base
 	belongs_to  :genre
 	
 	has_many	:assets
-	has_many	:ebooks, :source => :assets
-	has_many	:audio_books, :source => :assets
+	has_many	:etexts, :source => :assets
+	has_many	:audios, :source => :assets
 	has_many	:pdfs, :source => :assets
 	
 	has_many	:book_identifiers
@@ -43,9 +43,11 @@ class Book < ActiveRecord::Base
 	has_one		:upload_file
 	has_many	:coupons, :as => :redeemable
 	has_many	:raw_stats, :as => :statable
+	has_many	:skus
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
 	
+	gets_activities
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags
 	
@@ -79,6 +81,24 @@ class Book < ActiveRecord::Base
 		end
 		
 		return book
+	end
+	
+	# Instance Methods
+	
+	def ebook_sku
+		self.skus.ebook.first
+	end
+	
+	def audio_book_sku
+		self.skus.audio_book.first
+	end
+	
+	def merch_skus
+		self.skus.merch
+	end
+	
+	def custom_skus
+		self.skus.custom
 	end
 	
 	def add_asset( asset )

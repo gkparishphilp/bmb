@@ -26,7 +26,7 @@ class Podcast < ActiveRecord::Base
 	
 	
 	has_friendly_id :title, :use_slug => :true
-	
+	gets_activities
 	has_attached :avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :thumb => "100", :tiny => "40"}}
 	
 	def ping_itunes

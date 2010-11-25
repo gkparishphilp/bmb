@@ -26,7 +26,11 @@ module AdminHelper
 			for item in collection do
 				str += "<tr>"
 				for column in columns do
-					str += "<td>#{item.send( column.to_s )}</td>"
+					if column.to_s =~ /_at\z/
+						str += "<td>#{format_date_only item.send( column.to_s )}</td>"
+					else
+						str += "<td>#{item.send( column.to_s )}</td>"
+					end
 				end
 				edit_path = eval "edit_author_#{type}_path( @current_author, item )"
 				str += "<td>#{link_to image_tag( 'edit.png', :width => 20 ), edit_path} #{link_to 'edit', edit_path}</td>"

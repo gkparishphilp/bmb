@@ -5,8 +5,15 @@
 		%h1 Add Book
 
 		= form_tag confirm_author_books_path( @current_author ) do
-			%h3 Step 1: What is the Title?
+			%h3 What is the Title?
 			= text_field_tag :title, "", :class => :book_title_field
+			%br
+			= check_box_tag :amazon
+			My Book is on Amazon
+			(
+			= link_to "What's this?", '/faq'
+			)
+			%br
 			= submit_tag "Enter"
 - content_for :right_column do
 	%h2 Help

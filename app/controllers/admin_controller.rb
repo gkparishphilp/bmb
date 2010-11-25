@@ -9,8 +9,7 @@ class AdminController < ApplicationController
 	end
 	
 	def blog
-		@article = params[:article_id] ? ( Article.find params[:article_id] ) : Article.new
-		@articles = @current_author.articles.recent
+		@articles = @current_author.articles
 	end
 	
 	def podcast
@@ -36,6 +35,17 @@ class AdminController < ApplicationController
 	def newsletter
 		@campaign = EmailCampaign.find_by_owner_id_and_owner_type_and_title(@current_author.id, 'Author', 'Default')
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
+	end
+	
+	def send_social_message
+		@message = params[:message]
+		for acct in params[:accts]
+			acct_type, acct_id = acct.split(/_/)
+			account = eval "#{acct_type.capitalize}Account.find acct_id"
+			account.post_feed @message
+		end
+		pop_flash "Message Posted"
+		redirect_to admin_social_media_path
 	end
 
 end

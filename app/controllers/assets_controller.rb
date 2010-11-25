@@ -6,7 +6,6 @@ class AssetsController < ApplicationController
 		@type = params[:type]
 		@asset = Asset.new
 		@asset.title = "#{@book.title} (#{@type})"
-		@asset.asset_type = "preview/sample, giveaway, for_sale"
 	end
 	
 	def edit
@@ -14,14 +13,18 @@ class AssetsController < ApplicationController
 		@type = @asset.type.downcase
 	end
 	
+	def index
+		@assets = @book.assets
+	end
+	
 	def create
 		case params[:type]
-		when 'ebook'
-			@asset = @book.ebooks.new params[:asset]
+		when 'etext'
+			@asset = @book.etexts.new params[:asset]
 		when 'pdf'
 			@asset = @book.pdfs.new params[:asset]
-		when 'audio_book'
-			@asset = @book.audio_books.new params[:asset]
+		when 'audio'
+			@asset = @book.audios.new params[:asset]
 		else
 			@asset = @book.assets.new params[:asset]
 		end
@@ -29,21 +32,20 @@ class AssetsController < ApplicationController
 		if @asset.save
 			# Check sku if type is sale
 			if @asset.asset_type == 'sale'
-				if params[:type] == 'ebook' || params[:type] == 'pdf'
-					sku = @current_author.skus.find_by_book_id_and_sku_type( :book_id => @asset.book.id, :sku_type => 'ebook' )
+				if params[:type] == 'etext' || params[:type] == 'pdf'
+					sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'ebook' )
 					if sku.present?
 						sku.add_item( @asset )
 					else
-						# todo -- add price field as dynamic attribute to asset -- reveal price on form is sale selected
-						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id #, :price => @asset.price
+						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
 						sku.add_item( @asset )
 					end
-				elsif params[:type] == 'audio_book'
-					sku = @current_author.skus.find_by_book_id_and_sku_type( :book_id => @asset.book.id, :sku_type => 'audio_book' )
+				elsif params[:type] == 'audio'
+					sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'audio_book' )
 					if sku.present?
 						sku.add_item( @asset )
 					else
-						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id #, :price => @asset.price
+						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
 						sku.add_item( @asset )
 					end
 				end
@@ -74,9 +76,9 @@ class AssetsController < ApplicationController
 	
 	def download
 		@asset = Asset.find params[:id]
-		send_file @asset.etext.location( nil, :full => true ), :disposition  => 'attachment', 
-						:filename => @asset.book.title + "." + @asset.etext.format
-		@asset.raw_stats.create :name =>'download', :ip => request.ip
+		send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
+						:filename => @asset.book.title + "." + @asset.document.format
+		#@asset.raw_stats.create :name =>'download', :ip => request.ip
 		@asset.save
 		@current_user.did_download @asset.book
 		

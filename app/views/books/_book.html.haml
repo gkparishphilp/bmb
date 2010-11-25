@@ -1,0 +1,16 @@
+%div[book]
+	.book_cover
+		= avatar_tag( book, :tiny )
+	.book_data
+		.book_title
+			= link_to book.title, author_book_path( @author, book )
+		.book_genre
+			= book.genre.name if book.genre
+		- unless book.ebook_sku.nil?
+			.book_buy_ebook
+				= link_to "Buy Ebook", new_author_order_path( @author, :sku => book.ebook_sku )
+		- unless book.audio_book_sku.nil?
+			.book_buy_audio_book
+				= link_to "Buy Audio Book", new_author_order_path( @author, :sku => book.audio_book_sku )
+	.clear
+	

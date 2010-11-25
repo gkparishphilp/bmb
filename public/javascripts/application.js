@@ -11,7 +11,18 @@ $(document).ready(function(){
 		$('#contact_form').toggle("slow");
 	});
 	
-	///////////////////////   Stuff For Book Asset Page ///////////////////
+	///////////////////////  Stuff For Edit Book Page  //////////////////////
+	
+	$('.show_edit_title').click( function() {
+		$('#edit_title').show('slow');
+		$(this).hide();
+	});
+	$('.hide_edit_title').click( function() {
+		$('#edit_title').hide('slow');
+		$('.show_edit_title').show();
+	});
+	
+	///////////////////////   Stuff For Book Asset Page  ///////////////////
 	
 	$("#asset_asset_type").change(function (){
 		if( $(this).attr('value').match("sale") != null  && !$("#price").is(':visible') ) {

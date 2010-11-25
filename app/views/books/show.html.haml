@@ -18,10 +18,29 @@
 	
 	= @book.description.html_safe
 	
-	%h3 Assets
-	- for asset in @book.assets do
+	%h3 Preview
+	- if @book.assets.free.empty?
+		No Free Preview
+	- for asset in @book.assets.free do
 		= link_to asset.title, download_author_book_asset_path( @author, @book, asset )
-		
+		%br
+	
+	%h3 Buy It
+	- unless @book.ebook_sku.nil?
+		.book_buy_ebook
+			= link_to "Buy Ebook", new_author_order_path( @author, :sku => @book.ebook_sku )
+	- unless @book.audio_book_sku.nil?
+		.book_buy_audio_book
+			= link_to "Buy Audio Book", new_author_order_path( @author, :sku => @book.audio_book_sku )
+	- unless @book.merch_skus.empty?
+		- for merch_sku in @book.merch_skus
+			.book_buy_merch
+				= link_to "Buy #{merch_sku.title}", new_author_order_path( @author, :sku => merch_sku )
+	- unless @book.custom_skus.empty?
+		- for custom_sku in @book.custom_skus
+			.book_buy_custom
+				= link_to "Buy #{custom_sku.title}", new_author_order_path( @author, :sku => custom_sku )
+
 	%h3 Reviews?
 	= render @book.reviews
 	= render :partial=>'reviews/new'

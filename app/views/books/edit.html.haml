@@ -2,9 +2,15 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1
-			Edit
-			= @book.title
+		= form_for [ @author, @book ] do |f|
+			%h1
+				Edit
+				= @book.title
+			= link_to "Edit Title", "#", :class => :show_edit_title
+			#edit_title
+				= f.text_field :title, :class => :book_title_field
+				= f.submit "Update"
+				= link_to "Cancel", "#", :class => :hide_edit_title
 
 		= image_tag @book.avatar.location('thumb'), :width => @book.avatar.thumb_width if @book.has_attached_avatar?
 		
@@ -19,18 +25,19 @@
 			= f.text_area :description
 			= f.label 'Keywords:'
 			= f.text_field :tag_list
+			%br
 			= f.submit
 			
 	.form_group
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'ebook' )
-			= link_to "Upload E-Text", new_author_book_asset_path( @author, @book, :type => 'ebook' )
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'etext' )
+			= link_to "Upload E-Text", new_author_book_asset_path( @author, @book, :type => 'etext' )
 		.new_button
 			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'pdf' )
 			= link_to "Upload PDF", new_author_book_asset_path( @author, @book, :type => 'pdf' )
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'audio_book' )
-			= link_to "Upload Audio", new_author_book_asset_path( @author, @book, :type => 'audio_book' )
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'audio' )
+			= link_to "Upload Audio", new_author_book_asset_path( @author, @book, :type => 'audio' )
 		.clear
 		- unless @book.assets.empty?
 			%h2

@@ -22,6 +22,6 @@
 #  updated_at         :datetime
 #
 
-class AudioBook < Asset
-	has_attached :audio, :formats => ['mp3', 'aac', 'wav', 'ogg'], :private => true
+class Etext < Asset
+	has_attached :document, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'docx', 'odt', 'htm'], :private => true
 end

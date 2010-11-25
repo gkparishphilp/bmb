@@ -17,10 +17,7 @@
 				- if @author.books.published.empty?
 					No Books
 				- else
-					- for book in @author.books
-						= image_tag book.avatar.location( :tiny ), :width => 40
-						= link_to book.title, author_book_path( @author, book )
-						%br
+					= render @author.books
 	%div
 		%h3 
 			=link_to 'Links','#'
@@ -52,9 +49,9 @@
 		%h3 
 			=link_to 'Recent Activity','#'
 		%div 
-			- if Activity.feed( @author ).empty?
+			- if Activity.feed( @author, @author.books ).empty?
 				No Activity
 			- else
-				- for activity in Activity.feed @author
+				- for activity in Activity.feed @author, @author.books
 					= render activity
 				

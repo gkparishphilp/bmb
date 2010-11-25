@@ -1,6 +1,12 @@
 
 Site Article no longer static page, now article.
 
+All Assets have attached documents (where the actual file lives)
+Assets are of type: etext, audio, or pdf
+Assets can be put into SKUs (as can merch)
+SKUS are of type ebook, audio_book, merch, or custom
+
+
 Punchlist
 
 - What happened to PayPal?
