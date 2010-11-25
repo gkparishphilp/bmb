@@ -14,10 +14,9 @@
 
 class Site < ActiveRecord::Base
 	
-	before_create	:set_domain_vhost
+	#before_create	:set_domain_vhost
 	before_validation :clean_domain
-	before_update	:set_domain_vhost
-	
+	#before_update	:set_domain_vhost
 	
 	validates :domain, :uniqueness => true
 	

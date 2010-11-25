@@ -1,11 +1,35 @@
 - content_for :left_column do
 	= render :partial => 'nav'
 - content_for :middle_column do
-	%h2
+	%h1
 		= @current_author.pen_name
 		Admin Area
-		[[
-		= link_to "View Your Page", @current_author
-		]]
+	%br
+	%br
+	%h3
+		= link_to( "You Have #{pluralize( @current_author.books.count, 'Book' )}", admin_books_path )
+	- for book in @current_author.books
+		= book.title
+		= link_to 'edit', edit_author_book_path( @current_author, book )
+		%br
+	%br
+	%br
+	%h3
+		= link_to "Your Site", @current_author
+	You are using:
+	= @current_author.active_theme || 'BackMyBook Default'
+	Theme
+	%br
+	%br
+	Your Site is live on these domains:
+	%br
+	%li
+		= "#{@current_author.subdomain}.backmybook.com"
+		= link_to "edit", admin_domains_path
+	- for site in @current_author.sites
+		%li= site.domain
+	= link_to "Add a domain", new_author_site_path( @current_author )
+	
+
 - content_for :right_column do
 	%h2 Help
