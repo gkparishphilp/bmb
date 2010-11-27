@@ -68,7 +68,7 @@ class AuthorsController < ApplicationController
 	
 	def bio
 		@author = Author.find params[:id] if @author.nil?
-		@theme = @author.theme if @theme.nil? unless @author.nil? || @author.theme.nil?
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 	end
 	
 	

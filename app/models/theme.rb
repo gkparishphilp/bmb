@@ -10,10 +10,10 @@
 #  show_pen_name    :boolean(1)      default(TRUE)
 #  bg_color         :string(255)
 #  bg_repeat        :string(255)
-#  banner_bg_color  :string(255)     default("#fff")
+#  banner_bg_color  :string(255)     default("#ffffff")
 #  banner_repeat    :string(255)
 #  header_color     :string(255)
-#  content_bg_color :string(255)     default("#fff")
+#  content_bg_color :string(255)     default("#ffffff")
 #  title_color      :string(255)
 #  text_color       :string(255)
 #  link_color       :string(255)
@@ -35,6 +35,7 @@ class Theme < ActiveRecord::Base
 	has_attached	:banner, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :standard => "980" }}
 
 	scope :public, where( "public = true" )
+	scope :default, where( "creator_id is null" )
 
 	def activate_for( author )
 		unless author.theme_ownings.empty?

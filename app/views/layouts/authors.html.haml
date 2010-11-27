@@ -23,7 +23,7 @@
 							= yield :left_column
 				.column2
 					.author_photo
-						= image_tag @author.avatar.location( :profile ) unless @author.avatar.nil?
+						= avatar_tag( @author, :profile )
 					= yield :right_column
 					= render :partial => 'authors/right_column'
 			= render :partial => 'shared/footer'

@@ -29,6 +29,19 @@
 						false
 					%td
 						true
+				- for theme in @default_themes
+					%tr
+						%td
+							= radio_button_tag :id, theme.id, theme == @current_author.active_theme
+						%td
+							= theme.name
+						%td
+							= theme.book_site
+						%td
+							= theme.public
+						- if theme.creator == @current_author
+							%td
+								= link_to 'edit', edit_author_theme_path( @current_author, theme )
 				- for theme in @current_author.themes
 					%tr
 						%td

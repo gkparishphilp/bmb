@@ -17,7 +17,7 @@
 	%h3
 		= link_to "Your Site", @current_author
 	You are using:
-	= @current_author.active_theme || 'BackMyBook Default'
+	= @current_author.active_theme ? @current_author.active_theme.name : 'BackMyBook Default'
 	Theme
 	%br
 	%br

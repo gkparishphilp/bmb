@@ -26,10 +26,10 @@ class CreateAuthors < ActiveRecord::Migration
 			t.boolean		:show_pen_name, :default => true
 			t.string		:bg_color
 			t.string		:bg_repeat
-			t.string		:banner_bg_color, :default => "#fff"
+			t.string		:banner_bg_color, :default => "#ffffff"
 			t.string		:banner_repeat
 			t.string		:header_color
-			t.string		:content_bg_color, :default => "#fff"
+			t.string		:content_bg_color, :default => "#ffffff"
 			t.string		:title_color
 			t.string		:text_color
 			t.string		:link_color

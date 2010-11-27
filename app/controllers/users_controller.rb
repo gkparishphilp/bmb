@@ -68,7 +68,7 @@ class UsersController < ApplicationController
 			@user.create_activation_code
 			@user.reload
 			
-			email = UserMailer.welcome( @user, @current_site ).deliver
+			#email = UserMailer.welcome( @user, @current_site ).deliver
 			
 			pop_flash "User was successfully created."
 			

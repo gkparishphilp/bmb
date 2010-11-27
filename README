@@ -7,6 +7,10 @@ Assets can be put into SKUs (as can merch)
 SKUS are of type ebook, audio_book, merch, or custom
 
 
+- Jquery UI styles -- buttons/datepicker, etc
+- Sitewide Blog/Podcast -- check data import, no admin console for now
+
+
 Punchlist
 
 - What happened to PayPal?
@@ -21,8 +25,11 @@ GK
 ----
 
 - Recommends/Backer controller
+	- need to re-think/workaround delayed job
 - Header menus (graphical)
+	- William
 - Reporting
+	- uhhhhh probably punt
 - Scope everything on status
 - Double-check all permissions
 

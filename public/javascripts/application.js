@@ -39,6 +39,19 @@ $(document).ready(function(){
 		}
 	});
 	
+	///////////////// Themes ///////////////
+	
+	$('.cpicker').ColorPicker({
+		onSubmit: function(hsb, hex, rgb, el) {
+			$(el).val( "#" + hex );
+			$(el).ColorPickerHide(500);
+			$(el).css('backgroundColor', '#' + hex);
+		},
+		onBeforeShow: function () {
+			$(this).ColorPickerSetColor(this.value);
+		}
+	});
+	
 	////////////////// Stuff for the checkout page ////////////////////////
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){

@@ -13,6 +13,8 @@ s = Site.create :domain => 'backmybook.com', :name => 'BmB Deploy'
 s = Site.create :domain => 'lvh.me', :name => 'Subdomain Testing'
 s = Site.create :domain => 'rippleread.com', :name => 'Staging'
 
+puts "How bout some default Themes?"
+t = Theme.create :name => 'Easter Egg', :text_color => '#2b2a2b', :link_color => '#6aedfc', :hover_color => '#003fbd', :header_color => '#b835fa', :title_color => '#08f72c', :bg_color => '#ffff66', :banner_bg_color => '#8dfc93', :content_bg_color => '#ffbebe'
 
 # Load Genres
 puts "Load Genres"

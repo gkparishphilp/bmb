@@ -47,6 +47,10 @@ class AdminController < ApplicationController
 		pop_flash "Message Posted"
 		redirect_to admin_social_media_path
 	end
+	
+	def themes
+		@default_themes = Theme.default
+	end
 
 end
 
