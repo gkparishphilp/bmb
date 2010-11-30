@@ -21,6 +21,18 @@
 			= f.text_field :email
 			= f.submit "Enter"
 
+	%h3 
+		You own
+		= pluralize @user.skus.size, "Thing"
+	
+	- for sku in @user.skus
+		%li= sku.title
+		- for item in sku.items
+			%div[item]
+				= item.title
+				|
+				= link_to "Download", download_author_book_asset_path( sku.owner, sku.book, item ) if item.respond_to? 'document'
+
 
 	
 

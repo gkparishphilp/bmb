@@ -7,8 +7,7 @@
 #  user_id                 :integer(4)
 #  shipping_address_id     :integer(4)
 #  billing_address_id      :integer(4)
-#  ordered_id              :integer(4)
-#  ordered_type            :string(255)
+#  sku_id                  :integer(4)
 #  email                   :string(255)
 #  ip                      :string(255)
 #  price                   :integer(4)
@@ -21,10 +20,10 @@
 
 class Order < ActiveRecord::Base
 	belongs_to :user
-	has_one :order_transaction,
-		:dependent => :destroy
+	has_one :order_transaction, :dependent => :destroy
 	
 	belongs_to :sku
+	has_many	:royalties
 	has_one :redemption
 	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
@@ -144,37 +143,19 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 	def post_purchase_actions
 		
-	#todo - redo all post purchase actions
-=begin
-		if self.sku.sku_type == 'Merch'
-			UserMailer.bought_merch(self, self.ordered, self.user).deliver
-			# TODO Update backing events
-
-			# TODO Update any author sales events/points
-
-			#Calculate and store royalties
-			royalty = 0
-			for sub in self.ordered.owner.user.subscribings
-				royalty = sub.subscription.royalty_percentage if sub.subscription.royalty_percentage > royalty
-			end	
-
-			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
-			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
-			
-		elsif self.sku.sku_type == 'Asset'
-			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
-			
-		elsif self.ordered.is_a? Bundle
-			for bundle_asset in self.ordered.bundle_assets
-				owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => bundle_asset.id, :owned_type => bundle_asset.class
-			end
-				
-		elsif self.ordered.is_a? Subscription
-			#Subscribing has already been created in the purchase_subscription method to save Paypal response data
-			self.ordered.redemptions_remaining -= 1
-			self.ordered.save
-		end
-=end
+		# add sku_items to ownings
+		self.sku.ownings.create :user => self.user, :status => 'active'
+		
+		# send email
+		UserMailer.bought_sku( self, self.user ).deliver
+		
+		# add royalty entry
+		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+		
+		# todo - decrement subscription redemptions
+		# TODO Update backing events
+		# TODO Update any author sales events/points
+		
 	end
 
 

@@ -40,7 +40,6 @@ Tay
 - Author no longer has domain field.  Site object is created, move vhost creation to site model
 - Fulfillment emails for author and for users
 	- Need link to download etexts, what about anonymous users downloading etexts?
-- Thinking Sphinx
 - Fix raw stats that are being commented out
 	- Add raw_stat call to @article and @post show actions, ie: @post.raw_stats.create :name =>'view', :ip => request.ip
 - Admin subscriptions - Need order page
@@ -57,7 +56,7 @@ PUNT for Sigler launch
 - Make error messages on Paypal Express purchase nicer when email isn't present
 - Library -- let's punt for now -- just use email
 - Reporting
-
+- Thinking Sphinx
 
 DONE
 -----

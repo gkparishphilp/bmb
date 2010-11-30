@@ -2,9 +2,9 @@ class Ecom < ActiveRecord::Migration
 	def self.up
 		
 		create_table :coupons, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.references	:redeemable, :polymorphic => true # book, merch, subs
-			t.references	:redeemer, :polymorphic => true
+			t.references	:owner, :polymorphic => true  # the author, or us
+			t.references	:sku
+			t.references	:user
 			t.string		:code # need to validate unique on code
 			t.string		:description
 			t.datetime		:expiration_date # nil = infinite
@@ -80,15 +80,15 @@ class Ecom < ActiveRecord::Migration
 		end
 		
 		create_table :ownings, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.references	:owned, :polymorphic => true
+			t.references	:user
+			t.references	:sku
 			t.string	:status, :default => 'active'
 			
 			t.timestamps
 		end
 		
 		create_table :redemptions, :force => true do |t|
-			t.references	:redeemer, :polymorphic => true
+			t.references	:user
 			t.references	:coupon
 			t.references	:order
 			t.string		:status
@@ -150,6 +150,8 @@ class Ecom < ActiveRecord::Migration
 			
 			t.timestamps
 		end
+		
+		# todo indexes
 		
 	end
 

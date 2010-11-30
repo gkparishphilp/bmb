@@ -11,7 +11,11 @@
 	.items
 		Contains:
 		- for item in @sku.items
-			%div[item]= item.title
-			
+			%div[item]
+				= item.title
+				|
+				= item.type if item.respond_to? 'type'
+				|
+				= item.document.location if item.respond_to? 'document'
 - content_for :right_column do
 	&nbsp;
