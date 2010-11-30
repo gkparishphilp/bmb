@@ -1,0 +1,838 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> 
+*/
+/* =Reset default browser CSS.
+-------------------------------------------------------------- */
+/* line 14, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, font, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-weight: inherit;
+  font-style: inherit;
+  font-size: 100%;
+  font-family: inherit;
+  vertical-align: baseline;
+}
+
+/* line 17, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+body {
+  line-height: 1;
+  color: black;
+  background: white;
+}
+
+/* line 19, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 21, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: separate;
+  border-spacing: 0;
+  vertical-align: middle;
+}
+
+/* line 23, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 25, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: "" "";
+}
+/* line 96, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+}
+
+/* line 27, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* =Global Elements
+-------------------------------------------------------------- */
+/* line 89, ../../app/stylesheets/screen2.scss */
+body, input, textarea {
+  font-family: Arial, Verdana, sans-serif;
+  font-size: 13px;
+}
+
+/* line 93, ../../app/stylesheets/screen2.scss */
+body {
+  color: #707070;
+  background: white url("../images/bg.jpg");
+}
+
+/* line 97, ../../app/stylesheets/screen2.scss */
+a {
+  color: #0085ae;
+  text-decoration: none;
+}
+/* line 100, ../../app/stylesheets/screen2.scss */
+a:hover {
+  text-decoration: underline;
+}
+
+/* =Structure
+-------------------------------------------------------------- */
+/* line 107, ../../app/stylesheets/screen2.scss */
+#hd {
+  height: 35px;
+  background: transparent url("../images/top_hd_bg.jpg") repeat-x left top;
+}
+
+/* line 111, ../../app/stylesheets/screen2.scss */
+#hd .wrapper {
+  margin: auto;
+  width: 980px;
+}
+
+/* line 115, ../../app/stylesheets/screen2.scss */
+.wrapper:after, #bd:after, #ft:after, .author_hd:after, .author_bd:after, .author_menu:after, .author_promo:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* line 118, ../../app/stylesheets/screen2.scss */
+#hd .logo {
+  float: left;
+}
+
+/* line 121, ../../app/stylesheets/screen2.scss */
+ul.top_main_menu {
+  float: left;
+  padding: 7px 0;
+  margin-left: 20px;
+}
+/* line 58, ../../app/stylesheets/screen2.scss */
+ul.top_main_menu li {
+  float: left;
+  margin-right: 20px;
+}
+/* line 61, ../../app/stylesheets/screen2.scss */
+ul.top_main_menu li a {
+  vertical-align: baseline;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 14px 3px 2px;
+  background: transparent url("../images/arrow_rt.jpg") no-repeat 100% 44%;
+}
+
+/* line 125, ../../app/stylesheets/screen2.scss */
+ul.top_user_menu {
+  float: right;
+  padding: 7px 0;
+  margin-left: 20px;
+}
+/* line 58, ../../app/stylesheets/screen2.scss */
+ul.top_user_menu li {
+  float: left;
+  margin-left: 20px;
+}
+/* line 61, ../../app/stylesheets/screen2.scss */
+ul.top_user_menu li a {
+  vertical-align: baseline;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 14px 3px 2px;
+  background: transparent url("../images/arrow_rt.jpg") no-repeat 100% 44%;
+}
+
+/* line 129, ../../app/stylesheets/screen2.scss */
+#container {
+  width: 100%;
+}
+
+/* line 132, ../../app/stylesheets/screen2.scss */
+#bd, #ft {
+  margin: auto;
+  width: 980px;
+}
+
+/* line 136, ../../app/stylesheets/screen2.scss */
+#bd {
+  background-color: #fff;
+  border: 1px solid #b0d3e1;
+  border-bottom: none;
+  -moz-border-radius-topleft: 5px;
+  -webkit-border-top-left-radius: 5px;
+  border-top-left-radius: 5px;
+  -moz-border-radius-topright: 5px;
+  -webkit-border-top-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+/* line 142, ../../app/stylesheets/screen2.scss */
+.column1, .column2 {
+  float: left;
+}
+
+/* line 145, ../../app/stylesheets/screen2.scss */
+.column1 {
+  width: 65.5%;
+}
+
+/* line 148, ../../app/stylesheets/screen2.scss */
+.author_bd .column1 {
+  background: white url("../images/content_bg.jpg") repeat-y right top;
+}
+
+/* line 151, ../../app/stylesheets/screen2.scss */
+.column2 {
+  width: 34.4%;
+}
+
+/* line 155, ../../app/stylesheets/screen2.scss */
+input[type="text"],
+textarea {
+  padding: 2px;
+  background: #f9f9f9;
+  border: 1px solid #cccccc;
+}
+
+/* line 160, ../../app/stylesheets/screen2.scss */
+input[type="text"] {
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* =Layout
+-------------------------------------------------------------- */
+/* line 167, ../../app/stylesheets/screen2.scss */
+.search_form input[type="text"] {
+  float: right;
+  border: 1px solid #ddd;
+  color: #666;
+  margin-top: 3px;
+  padding: 0 3px 1px 6px;
+  width: 180px;
+  height: 18px;
+  background-color: #fff;
+}
+
+/* line 177, ../../app/stylesheets/screen2.scss */
+.author_hd h1 {
+  color: #0085ae;
+  font-weight: bold;
+  font-size: 52px;
+  margin: 70px 0 40px 40px;
+}
+
+/* line 183, ../../app/stylesheets/screen2.scss */
+.author_photo {
+  margin: 60px 0 30px 40px;
+}
+/* line 185, ../../app/stylesheets/screen2.scss */
+.author_photo img {
+  border: 1px solid #fff;
+  padding: 0 1px 1px 0;
+  box-shadow: 1px 2px 8px #888888;
+  -moz-box-shadow: 1px 2px 8px #888888;
+  -webkit-box-shadow: 1px 2px 8px #888888;
+}
+
+/* line 191, ../../app/stylesheets/screen2.scss */
+.author_menu {
+  border: 2px solid #cccccc;
+  border-left: none;
+  background-color: #f7f7f7;
+  -moz-border-radius-topright: 6px;
+  -webkit-border-top-right-radius: 6px;
+  border-top-right-radius: 6px;
+}
+
+/* line 197, ../../app/stylesheets/screen2.scss */
+ul.slide-menu {
+  float: left;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+/* line 202, ../../app/stylesheets/screen2.scss */
+ul.slide-menu li {
+  float: left;
+}
+/* line 204, ../../app/stylesheets/screen2.scss */
+ul.slide-menu li a {
+  color: #9c9c9c;
+  display: block;
+  vertical-align: baseline;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 13px 14px 13px 25px;
+  margin-left: 14px;
+  background: transparent url("../images/double_arrow_rt.jpg") no-repeat 0 50%;
+}
+/* line 213, ../../app/stylesheets/screen2.scss */
+ul.slide-menu li a:hover {
+  text-decoration: none;
+}
+/* line 218, ../../app/stylesheets/screen2.scss */
+ul.slide-menu li.first a {
+  border-right: 1px solid #cccccc;
+}
+/* line 221, ../../app/stylesheets/screen2.scss */
+ul.slide-menu li ul.menu_slider {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  left: -600px;
+}
+
+/* line 230, ../../app/stylesheets/screen2.scss */
+.author_promo {
+  border-right: 2px solid #cccccc;
+  padding-top: 13px;
+}
+/* line 233, ../../app/stylesheets/screen2.scss */
+.author_promo h2 {
+  color: #ce9322;
+  font-size: 22px;
+  margin: 13px 3px 3px 13px;
+}
+/* line 238, ../../app/stylesheets/screen2.scss */
+.author_promo .button a {
+  display: block;
+  width: 177px;
+  height: 31px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  text-transform: capitalize;
+  margin: 5px auto;
+  padding: 19px 5px 7px 8px;
+  clear: both;
+  background-image: url("../images/sprite_big_btns.png");
+  background-repeat: no-repeat;
+}
+/* line 253, ../../app/stylesheets/screen2.scss */
+.author_promo .button a.blue {
+  background-position: -16px -12px;
+}
+/* line 256, ../../app/stylesheets/screen2.scss */
+.author_promo .button a.yellow {
+  background-position: -16px -80px;
+}
+/* line 259, ../../app/stylesheets/screen2.scss */
+.author_promo .button a.green {
+  background-position: -16px -135px;
+}
+/* line 262, ../../app/stylesheets/screen2.scss */
+.author_promo .button a.gray {
+  background-position: -16px -193px;
+}
+/* line 265, ../../app/stylesheets/screen2.scss */
+.author_promo .image {
+  float: left;
+  padding: 13px 10px 10px 28px;
+  width: 150px;
+  height: 250px;
+}
+/* line 271, ../../app/stylesheets/screen2.scss */
+.author_promo p {
+  line-height: 1.4em;
+  padding: 0 10px 0 15px;
+}
+/* line 275, ../../app/stylesheets/screen2.scss */
+.author_promo .book_stats {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #9C9C9C;
+}
+/* line 279, ../../app/stylesheets/screen2.scss */
+.author_promo .book_stats em {
+  color: #0085ae;
+  margin-right: 10px;
+}
+
+/* line 285, ../../app/stylesheets/screen2.scss */
+.author_bd {
+  background-color: #e5e5e5;
+}
+
+/* line 288, ../../app/stylesheets/screen2.scss */
+.follow-me {
+  border-top: 2px solid #cccccc;
+  margin-top: -2px;
+  background: #f7f7f7 url("../images/big_header_bg.jpg") repeat-x left top;
+}
+/* line 292, ../../app/stylesheets/screen2.scss */
+.follow-me h3 {
+  float: left;
+  color: #0085ae;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 22px 0 21px 15px;
+}
+/* line 299, ../../app/stylesheets/screen2.scss */
+.follow-me img {
+  float: right;
+  padding: 10px 10px 0px 5px;
+}
+
+/* =Tabs - Accordian
+----------------------------------*/
+/* line 307, ../../app/stylesheets/screen2.scss */
+.ui-helper-clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* line 308, ../../app/stylesheets/screen2.scss */
+.ui-helper-clearfix {
+  display: inline-block;
+}
+
+/* required comment for clearfix to work in Opera \*/
+/* line 310, ../../app/stylesheets/screen2.scss */
+* html .ui-helper-clearfix {
+  height: 1%;
+}
+
+/* line 311, ../../app/stylesheets/screen2.scss */
+.ui-helper-clearfix {
+  display: block;
+}
+
+/* end clearfix */
+/* line 313, ../../app/stylesheets/screen2.scss */
+.ui-helper-zfix {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  opacity: 0;
+  filter: Alpha(Opacity=0);
+}
+
+/* line 315, ../../app/stylesheets/screen2.scss */
+.ui-widget-header {
+  border-bottom: 2px solid #cccccc;
+  border-right: 2px solid #cccccc;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* =Tabs - Accordian Interaction states
+----------------------------------*/
+/* line 324, ../../app/stylesheets/screen2.scss */
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+  border: 2px solid #cccccc;
+  background-color: #F7F7F7;
+  font-weight: bold;
+  color: #0085ae;
+  margin-bottom: 10px;
+}
+
+/* line 331, ../../app/stylesheets/screen2.scss */
+.ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+  color: #0085ae;
+  text-decoration: none;
+}
+
+/* line 335, ../../app/stylesheets/screen2.scss */
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus {
+  font-weight: bold;
+  color: #0085ae;
+  background-color: #fff;
+}
+
+/* line 340, ../../app/stylesheets/screen2.scss */
+.ui-state-hover a, .ui-state-hover a:hover {
+  color: #0085ae;
+  text-decoration: none;
+}
+
+/* line 344, ../../app/stylesheets/screen2.scss */
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+  font-weight: bold;
+  color: #0085ae;
+}
+
+/* line 348, ../../app/stylesheets/screen2.scss */
+.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+  color: #0085ae;
+  text-decoration: none;
+}
+
+/* line 352, ../../app/stylesheets/screen2.scss */
+.ui-widget :active {
+  outline: none;
+}
+
+/* =Tabs - Accordian Interaction Cues
+----------------------------------*/
+/* line 358, ../../app/stylesheets/screen2.scss */
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+  border: 1px solid #fed22f;
+  color: #363636;
+}
+
+/* line 362, ../../app/stylesheets/screen2.scss */
+.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {
+  color: #363636;
+}
+
+/* line 365, ../../app/stylesheets/screen2.scss */
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error {
+  border: 1px solid #cd0a0a;
+  color: #ffffff;
+}
+
+/* line 369, ../../app/stylesheets/screen2.scss */
+.ui-state-error a, .ui-widget-content .ui-state-error a, .ui-widget-header .ui-state-error a {
+  color: #ffffff;
+}
+
+/* line 372, ../../app/stylesheets/screen2.scss */
+.ui-state-error-text, .ui-widget-content .ui-state-error-text, .ui-widget-header .ui-state-error-text {
+  color: #ffffff;
+}
+
+/* line 375, ../../app/stylesheets/screen2.scss */
+.ui-priority-primary, .ui-widget-content .ui-priority-primary, .ui-widget-header .ui-priority-primary {
+  font-weight: bold;
+}
+
+/* line 378, ../../app/stylesheets/screen2.scss */
+.ui-priority-secondary, .ui-widget-content .ui-priority-secondary, .ui-widget-header .ui-priority-secondary {
+  opacity: .7;
+  filter: Alpha(Opacity=70);
+  font-weight: normal;
+}
+
+/* line 383, ../../app/stylesheets/screen2.scss */
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled {
+  opacity: .35;
+  filter: Alpha(Opacity=35);
+  background-image: none;
+}
+
+/* Corner radius */
+/* line 389, ../../app/stylesheets/screen2.scss */
+.ui-corner-tl {
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* line 392, ../../app/stylesheets/screen2.scss */
+.ui-corner-tr {
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* line 395, ../../app/stylesheets/screen2.scss */
+.ui-corner-bl {
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 398, ../../app/stylesheets/screen2.scss */
+.ui-corner-br {
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 401, ../../app/stylesheets/screen2.scss */
+.ui-corner-top {
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+/* line 404, ../../app/stylesheets/screen2.scss */
+.ui-corner-bottom {
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 407, ../../app/stylesheets/screen2.scss */
+.ui-corner-right {
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* line 411, ../../app/stylesheets/screen2.scss */
+.ui-corner-left {
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+/* Overlays */
+/* line 417, ../../app/stylesheets/screen2.scss */
+.ui-widget-overlay {
+  opacity: .50;
+  filter: Alpha(Opacity=50);
+}
+
+/* line 421, ../../app/stylesheets/screen2.scss */
+.ui-widget-shadow {
+  margin: -5px 0 0 -5px;
+  padding: 5px;
+  opacity: .20;
+  filter: Alpha(Opacity=20);
+  -moz-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+/* IE/Win - Fix animation bug - #4615 */
+/* line 430, ../../app/stylesheets/screen2.scss */
+.ui-accordion {
+  width: 100%;
+  border-bottom: 2px solid #cccccc;
+}
+
+/* line 435, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-state-default, .ui-accordion .ui-widget-content .ui-state-default, .ui-accordion .ui-widget-header .ui-state-default {
+  background: #f7f7f7 url("../images/btn_expand.jpg") no-repeat right top;
+  border: none;
+  margin: 1px 0 0 0;
+}
+/* line 440, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-state-active {
+  background: #f7f7f7 url("../images/btn_collapse.jpg") no-repeat right top;
+}
+/* line 443, ../../app/stylesheets/screen2.scss */
+.ui-accordion h3 {
+  font-size: 14px;
+}
+
+/* line 447, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-header {
+  cursor: pointer;
+  position: relative;
+  margin-top: 1px;
+  zoom: 1;
+}
+
+/* line 453, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-li-fix {
+  display: inline;
+}
+
+/* line 456, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-header-active {
+  border-bottom: 0 !important;
+}
+
+/* line 459, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-header a {
+  display: block;
+  padding: 22px 0 21px 15px;
+  text-transform: capitalize;
+}
+
+/* line 464, ../../app/stylesheets/screen2.scss */
+.ui-accordion-icons .ui-accordion-header a {
+  padding-left: 2.2em;
+}
+
+/* line 467, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-header .ui-icon {
+  position: absolute;
+  left: .5em;
+  top: 50%;
+  margin-top: -8px;
+}
+
+/* line 473, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-content {
+  background-color: #fff;
+  padding: 1em 2.2em;
+  border-top: 0;
+  margin-top: -2px;
+  position: relative;
+  top: 1px;
+  margin-bottom: 2px;
+  overflow: hide;
+  display: none;
+  zoom: 1;
+}
+
+/* line 485, ../../app/stylesheets/screen2.scss */
+.ui-accordion .ui-accordion-content-active {
+  display: block;
+}
+
+/* line 488, ../../app/stylesheets/screen2.scss */
+#tab-wrapper {
+  border-right: 2px solid #cccccc;
+  padding-bottom: 40px;
+  min-height: 600px;
+}
+
+/* line 493, ../../app/stylesheets/screen2.scss */
+.ui-tabs {
+  position: relative;
+  padding: 0;
+  zoom: 1;
+}
+
+/* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
+/* line 497, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav {
+  margin: 0;
+  padding: .2em .3em 0 1.5em;
+}
+
+/* line 501, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav li {
+  list-style: none;
+  float: left;
+  position: relative;
+  top: 2px;
+  margin: 0 .2em 2px 0;
+  border-bottom: 0 !important;
+  padding: 0;
+  white-space: nowrap;
+}
+
+/* line 511, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav li a {
+  font-size: 14px;
+  float: left;
+  padding: .5em 1em;
+  text-decoration: none;
+  width: 116px;
+}
+
+/* line 518, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected {
+  margin-bottom: 0;
+  padding-bottom: 2px;
+  background-color: #fff;
+}
+
+/* line 523, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
+  cursor: text;
+}
+
+/* line 526, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
+  cursor: pointer;
+  /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor: text overall if defined elsewhere... */
+}
+
+/* line 529, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-panel {
+  display: block;
+  border-width: 0;
+  padding: 1em 1.4em;
+  background: none;
+}
+
+/* line 535, ../../app/stylesheets/screen2.scss */
+.ui-tabs .ui-tabs-hide {
+  display: none !important;
+}
+
+/* =Footer
+----------------------------------*/
+/* line 542, ../../app/stylesheets/screen2.scss */
+#ft {
+  background-color: #0085ae;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  border: 1px solid #0085ae;
+  border-top: none;
+}
+
+/* line 548, ../../app/stylesheets/screen2.scss */
+ul.footer_menu {
+  float: left;
+  padding: 7px 0;
+  margin-left: 20px;
+  color: #fff;
+}
+/* line 74, ../../app/stylesheets/screen2.scss */
+ul.footer_menu li {
+  float: left;
+  margin-right: 8px;
+}
+/* line 77, ../../app/stylesheets/screen2.scss */
+ul.footer_menu li a {
+  vertical-align: baseline;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 14px 3px 2px;
+  color: #fff;
+}
+/* line 551, ../../app/stylesheets/screen2.scss */
+ul.footer_menu img {
+  margin-top: -2px;
+  margin-bottom: -4px;
+}
+
+/* line 556, ../../app/stylesheets/screen2.scss */
+ul.author_copy {
+  float: right;
+  margin-right: 30px;
+  padding: 7px 0;
+  margin-left: 20px;
+  color: #fff;
+}
+/* line 74, ../../app/stylesheets/screen2.scss */
+ul.author_copy li {
+  float: left;
+  margin-left: 8px;
+}
+/* line 77, ../../app/stylesheets/screen2.scss */
+ul.author_copy li a {
+  vertical-align: baseline;
+  font-size: 11px;
+  font-weight: bold;
+  padding: 3px 14px 3px 2px;
+  color: #fff;
+}

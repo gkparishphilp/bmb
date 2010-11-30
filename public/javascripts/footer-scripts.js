@@ -1,7 +1,8 @@
   jQuery(document).ready(function($) {
 	// Accordion
+	$( '.datepicker' ).datepicker();
 	$("#accordion").accordion({ header: "h3" });
-
+	$(".button").button();
 	// Tabs
 	// $('#tabs').tabs();
 	

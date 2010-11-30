@@ -24,6 +24,7 @@ Backmybook::Application.routes.draw do
 		resources :articles
 		resources :blog
 		resources :books do
+			get 'mockup', :on => :collection
 			post 'confirm', :on => :collection
 			# all these routes just to edit STI resource on books
 			resources :ebook, :controller => :assets
