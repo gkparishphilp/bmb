@@ -5,7 +5,7 @@
 %br
 
 = f.label "Publish On:"
-= f.text_field :publish_at
+= f.text_field :publish_at, :class => 'datepicker'
 %br
 = f.label 'Topics:'
 = f.text_field :topic_list
@@ -23,4 +23,4 @@ Allow Comments
 = f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
 
 %br
-= submit_tag
+= f.submit "Enter", :class => 'button'

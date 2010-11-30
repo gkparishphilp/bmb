@@ -1,6 +1,11 @@
 class BooksController < ApplicationController
 	before_filter :require_author, :except => [ :index, :show ]
-	layout 'authors', :only => [ :index, :show ]
+	layout 'authors', :only => [ :index, :show, :mockup ]
+	
+	def mockup
+		@book = @author.books.first
+		@reviewable = @book
+	end
 	
 	def index
 		@books = @author.books #.published
