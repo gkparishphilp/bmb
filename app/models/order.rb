@@ -24,7 +24,7 @@ class Order < ActiveRecord::Base
 	has_one :order_transaction,
 		:dependent => :destroy
 	
-	belongs_to :ordered, :polymorphic  => :true
+	belongs_to :sku
 	has_one :redemption
 	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
@@ -64,7 +64,7 @@ class Order < ActiveRecord::Base
 #-------------------------------------------------------------------------
 	# Call Paypal and get response object
 	def purchase
-		if self.ordered.is_a? Subscription
+		if self.sku.sku_type == 'subscription'
 			purchase_subscription
 		else
 			if price > 0
@@ -115,9 +115,10 @@ class Order < ActiveRecord::Base
 										)
 
 			if response.success?
+				#todo check the subscription_id setting
 				Subscribing.create!(	:user_id => self.user.id,
 										:order_id => self.id,
-										:subscription_id  => self.ordered_id,
+										:subscription_id  => self.sku.item.first.id,
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
 										:origin => 'paid'
@@ -142,7 +143,10 @@ class Order < ActiveRecord::Base
 # Actions after a successful order transaction
 #---------------------------------------------------------------
 	def post_purchase_actions
-		if self.ordered.is_a? Merch
+		
+	#todo - redo all post purchase actions
+=begin
+		if self.sku.sku_type == 'Merch'
 			UserMailer.bought_merch(self, self.ordered, self.user).deliver
 			# TODO Update backing events
 
@@ -157,7 +161,7 @@ class Order < ActiveRecord::Base
 			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
 			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
 			
-		elsif self.ordered.is_a? Asset
+		elsif self.sku.sku_type == 'Asset'
 			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
 			
 		elsif self.ordered.is_a? Bundle
@@ -170,7 +174,7 @@ class Order < ActiveRecord::Base
 			self.ordered.redemptions_remaining -= 1
 			self.ordered.save
 		end
-
+=end
 	end
 
 
@@ -178,6 +182,7 @@ class Order < ActiveRecord::Base
 
 	# Get royalty percentage
 	def get_max_royalty_percentage
+		#todo recalculate based on sku's
 		royalty = 0
 		for sub in self.ordered.subscriptions.active.royalty_percentages
 			royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
@@ -239,15 +244,15 @@ class Order < ActiveRecord::Base
 	
 	#Set up options hash for Paypal subscription gateway call
 	def options_recurring
-		if self.ordered.periodicity == 'daily'
+		if self.sku.item.first.periodicity == 'daily'
 			period = :daily
-		elsif self.ordered.periodicity == 'weekly'
+		elsif self.sku.item.first.periodicity == 'weekly'
 			period  = :weekly
-		elsif self.ordered.periodicity == 'monthly'
+		elsif self.sku.item.first.periodicity == 'monthly'
 			period = :monthly
-		elsif self.ordered.periodicity == 'yearly'
+		elsif self.sku.item.first.periodicity == 'yearly'
 			period = :yearly
-		elsif self.ordered.periodicity == 'quarterly'
+		elsif self.sku.item.first.periodicity == 'quarterly'
 			period = :quarterly
 		else
 			period = :monthly
@@ -257,7 +262,7 @@ class Order < ActiveRecord::Base
 			:ip => ip,
 			:periodicity => period,
 			:email => self.email,
-			:comment => self.ordered.description,
+			:comment => self.sku.description,
 			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
 				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
@@ -285,7 +290,7 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_billing_address
-		if self.billing_address.invalid?
+		if paypal_express_token.blank? && self.billing_address.invalid?
 			billing_address.errors.full_messages.each do |message|
 				errors.add_to_base message
 			end
@@ -293,7 +298,7 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_shipping_address
-		if self.shipping_address.invalid?
+		if paypal_express_token.blank? && self.shipping_address.invalid?
 			shipping_address.errors.full_messages.each do |message|
 				errors.add_to_base message
 			end

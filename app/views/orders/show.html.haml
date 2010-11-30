@@ -1,149 +1,85 @@
-- if @order.status == "failed"
-	%h1
-		Order Status
+- content_for :left_column do
+	- if @order.status == "failed"
+		%h1
+			Order Status
 
-	Hmm...  There was an error with your order.  Please contact our support team for assistance. 	
-	%br
-	%br Be sure to reference Order Id #  
-	=@order.id
+		Hmm...  There was an error with your order.  Please contact our support team for assistance. 	
+		%br
+		%br Be sure to reference Order Id #  
+		=@order.id
 	
-	%br
-	%br
-	We apologize for the inconvenience and will get it sorted out as quickly as possible.
-
--else
-	-if @order.ordered.is_a? Merch
-		-#---------------------------------------------
-		-# Show order results when item is merchandise
-		-#---------------------------------------------
-		%h1 
-			Thank you for purchasing:
-			= @order.ordered.title
 		%br
 		%br
-		It will be delivered to your address shortly.  Please
-		= link_to 'contact us', new_contact_path( :email => @order.email, :subject => "Order # #{@order.id}" )
-		if you have any questions or problems.
+		We apologize for the inconvenience and will get it sorted out as quickly as possible.
 
-		%table
-			%tr
-				%td Order ID
-				%td Confirmation #
-				%td Price
+	-else
+		%h1
+		-#------------------------------------------
+		-# Show order results when item is a book or merchandise
+		-#------------------------------------------
+		- if @order.sku.sku_type != 'subscription'
+			%h1 
+				Thank you for purchasing: 
+				= @order.sku.title
+			%br
+			%h4 
+				A purchase confirmation email has been sent to:
+				= @order.email
+				%br
+			
+				- if  @current_user.anonymous?
+					-# todo Create one time download links for anonymous purchase 
+				-else
+					- for sku_item in @order.sku.sku_items
+						= link_to "Download Now! #{sku_item.item.title}",  asset_path( sku_item.asset ) unless sku_item.item.is_a? Merch
+						%br
 
-			%tr
-				%td= @order.id
-				%td= @order.order_transaction.reference
-				%td= number_to_currency(@order.price.to_f / 100)
+				%br
+				- for sku_item in @order.sku.sku_items
+					To be shipped: 
+					= sku_item.item.title if sku_item.item.is_a? Merch
+					%br
+				%br
+						
+				Please print the confirmation information below for your records.
+				%br
+				%br
+
+			%table
+				%tr
+					%td Order ID
+					%td Confirmation #
+					%td Price
+
+				%tr
+					%td= @order.id
+					%td= @order.order_transaction.reference
+					%td= number_to_currency(@order.price.to_f / 100)
+			%br
+			%br
+
+			If you have any questions, 
+			= link_to "please contact us.", new_contact_path 
 		
-		%br
-		%br
-	
-	
-	-elsif @order.ordered.is_a? Book
-		-#------------------------------------------
-		-# Show order results when item is a book
-		-#------------------------------------------
-		%h1 
-			Thank you for purchasing: 
-			= @order.ordered.title
-		%br
-		%br
-		%h4 
-			-if @current_user.anonymous?
-				A download link has been sent to your email address:
-				= @order.email
-				%br
-				Please use it to download your book and print the confirmation information below for your records.
-				%br
-				%br
-				If you have any questions, 
-				= link_to "please contact us.", new_contact_path  
-			-else
-				You can 
-				= link_to "download it here", book_path( @order.ordered )
-		%table
-			%tr
-				%td Order ID
-				%td Confirmation #
-				%td Price
+		-else 
+			-#-------------------------------------------------
+			-# Show order results when item is a subscription
+			-#-------------------------------------------------
+			%h1 
+				Thank you for your Subscription
 
-			%tr
-				%td= @order.id
-				%td= @order.order_transaction.reference
-				%td= number_to_currency(@order.price.to_f / 100)
-		%br
-		%br
-	
-	
-	-elsif @order.ordered.is_a? Sku
-		-#------------------------------------------
-		-# Show order results when item is a sku
-		-#------------------------------------------
-		%h1 
-			Thank you for purchasing: 
-			= @order.ordered.title
-		%br
-		%br
-		%h4 
-			-if @current_user.anonymous?
-				A download link has been sent to your email address:
-				= @order.email
-				%br
-				Please use it to download your book and print the confirmation information below for your records.
-				%br
-				%br
-				If you have any questions, 
-				= link_to "please contact us.", new_contact_path  
-			-else
-				You can download the contents of the sku below.
-				%br
-				- for sku_asset in @order.ordered.sku_assets
-					= link_to sku_asset.asset.title,  asset_path( sku_asset.asset ) unless sku_asset.is_a? Merch
-					%br
-				%br
+			%table
+				%tr
+					%td Order ID
+					%td Confirmation #
+					%td Price
 
-				The following items will be shipped to you:
-				%br
-				- for sku_asset in @order.ordered.sku_assets
-					= sku_asset.asset.title if sku_asset.is_a? Merch
-					%br
-				%br
+				%tr
+					%td= @order.id
+					%td= @order.order_transaction.params["profile_id"]
+					%td= number_to_currency(@order.price.to_f / 100)
 
-		%table
-			%tr
-				%td Order ID
-				%td Confirmation #
-				%td Price
-
-			%tr
-				%td= @order.id
-				%td= @order.order_transaction.reference
-				%td= number_to_currency(@order.price.to_f / 100)
-		%br
-		%br
-	
-	
-	
-	-elsif @order.ordered.is_a? Subscription
-		-#-------------------------------------------------
-		-# Show order results when item is a subscription
-		-#-------------------------------------------------
-		%h1 
-			Thank you for your Subscription
-
-		%table
-			%tr
-				%td Order ID
-				%td Confirmation #
-				%td Price
-
-			%tr
-				%td= @order.id
-				%td= @order.order_transaction.params["profile_id"]
-				%td= number_to_currency(@order.price.to_f / 100)
-
-		%br
-		Please reference the Order ID # and Confirmation # shown above if you have any questions. 
+			%br
+			Please reference the Order ID # and Confirmation # shown above if you have any questions. 
 		
 

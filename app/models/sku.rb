@@ -26,7 +26,7 @@ class Sku < ActiveRecord::Base
 	#end
 	
 	has_many :coupons, :as => :redeemable
-	has_many :orders, :as => :ordered
+	has_many :orders
 	
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to	:owner, :polymorphic => true
@@ -44,6 +44,9 @@ class Sku < ActiveRecord::Base
 	has_many :merches, :through => :sku_items, :source => :merch,
 						:conditions => "sku_items.item_type = 'Merch'"
 						
+	has_many :subscriptions, :through => :sku_items, :source => :subscription,
+						:conditions => "sku_items.item_type = 'Subscription'"
+						
 	has_many :sku_items
 	
 	belongs_to	:book
@@ -54,6 +57,7 @@ class Sku < ActiveRecord::Base
 	scope	:audio_book, where( "sku_type = 'audio_book'" )
 	scope	:merch, where( "sku_type = 'merch'" )
 	scope	:custom, where( "sku_type = 'custom'" )
+	scope 	:subscription, where( "sku_type = 'subscription'")
 	
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches

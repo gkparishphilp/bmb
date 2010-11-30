@@ -18,6 +18,8 @@ Backmybook::Application.routes.draw do
 		resources :comments
 	end
 	
+	resources :assets
+	
 	resources :authors do
 		resources :articles
 		resources :blog
@@ -43,6 +45,7 @@ Backmybook::Application.routes.draw do
 		end
 		resources :links
 		resources :orders
+			
 		resources :podcasts do
 			resources :episodes do
 				get 'download', :on => :member
@@ -83,7 +86,9 @@ Backmybook::Application.routes.draw do
 		end
 	end
 
-	resources :orders
+	resources :orders do
+		get 'paypal_express', :on => :new
+	end
 	
 	resources :order_transactions
 	

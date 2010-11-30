@@ -55,7 +55,7 @@ class Ecom < ActiveRecord::Migration
 			t.references	:user
 			t.references	:shipping_address
 			t.references	:billing_address
-			t.references	:ordered, :polymorphic => true # should always be a sku -- change to sku_id?
+			t.references	:sku
 			t.string		:email
 			t.string		:ip
 			t.integer		:price
