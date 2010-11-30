@@ -11,6 +11,7 @@
 #
 
 class SkuItem < ActiveRecord::Base
+	# joins skus and sku-able entities
 #	validates	:sku_id, :uniqueness => { :scope => [ :item_id, ;item_type ] }  #todo WTF, why won't this work????
 	
 	belongs_to	:sku

@@ -27,11 +27,16 @@ class Sku < ActiveRecord::Base
 	
 	has_many :coupons, :as => :redeemable
 	has_many :orders
-	
-	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
-	belongs_to	:owner, :polymorphic => true
-	has_many	:owners, :through => :ownings
 
+	# The author
+	belongs_to	:owner, :polymorphic => true
+	
+	# a skus users are the people who've bought it
+	has_many	:ownings
+	has_many	:users, :through => :ownings
+
+	has_many :sku_items
+	
 	has_many :etexts, :through => :sku_items, :source => :asset,
 						:conditions => "sku_items.item_type = 'Etext'"
 						
@@ -46,8 +51,7 @@ class Sku < ActiveRecord::Base
 						
 	has_many :subscriptions, :through => :sku_items, :source => :subscription,
 						:conditions => "sku_items.item_type = 'Subscription'"
-						
-	has_many :sku_items
+
 	
 	belongs_to	:book
 	

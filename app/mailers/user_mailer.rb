@@ -14,11 +14,10 @@ class UserMailer < ActionMailer::Base
 		mail :to => "#{user.name}<#{user.email}>", :from => site.name, :subject => "Forgotten Password"
 	end
 
-	def bought_merch( order, merch, user )
+	def bought_sku( order, user )
 		@order = order
 		@user = user
-		@merch = merch
-		mail( :from => "orders@backmybook.com", :to => "tay.x.nguyen@gmail.com", :subject => "Your purchase of #{merch.title}" )
+		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
 	
 	def deliver_comment( comment )

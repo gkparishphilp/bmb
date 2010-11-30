@@ -25,4 +25,8 @@ class Subscription < ActiveRecord::Base
 
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items
+	
+	def sku
+		self.skus.first
+	end
 end

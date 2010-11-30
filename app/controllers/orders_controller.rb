@@ -61,7 +61,15 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
-		@order.user = @current_user
+		
+		if @current_user.anonymous? 
+			@order.user = User.new :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}", :email => params[:order][:email]
+			@order.user.save( false )
+			# todo = some validations here and/or punting errors on user up to controller flash
+		else
+			@order.user = @current_user
+		end
+		
 		unless params[:order][:paypal_express_token].blank?
 			@order.paypal_express_token = params[:order][:paypal_express_token] 
 			@order.paypal_express_payer_id = params[:order][:paypal_express_payer_id] 
