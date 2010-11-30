@@ -43,8 +43,6 @@ class Author < ActiveRecord::Base
 	has_many	:royalties
 	has_many	:upload_email_lists
 	has_many	:coupons, :as => :owner
-	has_many	:coupons, :as => :redeemer
-	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
 	has_many	:links, :as => :owner

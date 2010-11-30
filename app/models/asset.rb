@@ -30,7 +30,6 @@ class Asset < ActiveRecord::Base
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items
 	
-	has_many	:coupons, :as => :redeemable
 	belongs_to	:book
 	has_many	:raw_stats, :as => :statable
 	

@@ -62,11 +62,12 @@ class User < ActiveRecord::Base
 	has_many	:reviews
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
-	has_many	:coupons, :as => :redeemer
-	has_many	:redemptions, :as => :redeemer
+	has_many	:coupons
+	has_many	:redemptions
 	has_many	:email_subscribings, :as => :subscriber
 	has_many	:ownings
 	has_many	:skus, :through => :ownings
+	has_many	:coupons
 	
 	belongs_to :site
 	

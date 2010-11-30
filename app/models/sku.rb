@@ -25,7 +25,7 @@ class Sku < ActiveRecord::Base
 	#	self.sku_items.collect{ |si| si.item }
 	#end
 	
-	has_many :coupons, :as => :redeemable
+	has_many :coupons
 	has_many :orders
 
 	# The author
@@ -71,6 +71,11 @@ class Sku < ActiveRecord::Base
 		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
 	end
 
-	
+	def contains_merch?
+		for sku_item in self.sku_items
+			return true if sku_item.item_type == 'Merch'
+		end
+		return false
+	end
 	
 end

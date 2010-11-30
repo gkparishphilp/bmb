@@ -908,8 +908,7 @@ EOS
 			puts "Redemption ID = #{oo.id} \n"	
 			o = Redemption.new
 			o.id = oo.id
-			o.redeemer_id = oo.redeemer_id
-			o.redeemer_type = oo.redeemer_type
+			o.user_id = oo.redeemer_id if oo.redeemer_type == 'User'
 			o.coupon_id = oo.coupon_id
 			o.created_at = oo.created_at
 			o.updated_at = oo.updated_at

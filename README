@@ -21,6 +21,7 @@ Punchlist
 - Add a book - edit title = Pick Cover Art
 - Add an asset - price should be entered with dollars and cents, and converted to cents when saved
 - Sitewide Blog/Podcast -- check data import, no admin console for now
+- Add indexes for db
 
 
 GK
@@ -28,10 +29,9 @@ GK
 - Pop_flash for email that has been previously created in user table
 - Header menus (graphical)
 	- William
-- Reporting
-	- uhhhhh probably punt
 - Scope everything on status
 - Double-check all permissions
+
 
 Tay
 ----
@@ -46,6 +46,7 @@ Tay
 - Check coupon code functionality for Paypal express
 - Don't allow subscriptions to be ordered with Paypal express
 
+
 PUNT for Sigler launch
 ----------------------
 - Follow logic - blog comments example
@@ -54,6 +55,7 @@ PUNT for Sigler launch
 	- need to re-think/workaround delayed job
 - Make error messages on Paypal Express purchase nicer when email isn't present
 - Library -- let's punt for now -- just use email
+- Reporting
 - Thinking Sphinx
 
 DONE
