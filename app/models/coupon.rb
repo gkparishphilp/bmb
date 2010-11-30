@@ -1,15 +1,13 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: coupons
 #
 #  id                  :integer(4)      not null, primary key
 #  owner_id            :integer(4)
 #  owner_type          :string(255)
-#  redeemable_id       :integer(4)
-#  redeemable_type     :string(255)
-#  redeemer_id         :integer(4)
-#  redeemer_type       :string(255)
+#  sku_id              :integer(4)
+#  user_id             :integer(4)
 #  code                :string(255)
 #  description         :string(255)
 #  expiration_date     :datetime

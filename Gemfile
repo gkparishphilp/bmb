@@ -13,6 +13,7 @@ gem 'mini_fb'
 gem 'tiny_mce'
 gem 'amazon-ecs'
 gem 'mini_magick'
+gem 'delayed_job'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"

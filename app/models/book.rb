@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: books
 #
@@ -11,7 +11,7 @@
 #  score          :integer(4)
 #  subtitle       :string(255)
 #  description    :text
-#  status         :string(255)
+#  status         :string(255)     default("publish")
 #  age_aprop      :string(255)
 #  rating_average :float
 #  backing_url    :string(255)
@@ -30,6 +30,10 @@ class Book < ActiveRecord::Base
 	belongs_to  :genre
 	
 	has_many	:assets
+	has_many	:etexts, :source => :assets
+	has_many	:audios, :source => :assets
+	has_many	:pdfs, :source => :assets
+	
 	has_many	:book_identifiers
 	# todo -- add links
 	has_many	:links, :as => :owner
@@ -38,13 +42,18 @@ class Book < ActiveRecord::Base
 	has_many	:readers, :through => :readings, :source => :user
 	has_one		:upload_file
 	has_many	:coupons, :as => :redeemable
+	has_many	:raw_stats, :as => :statable
+	has_many	:skus
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
 	
+	gets_activities
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags
 	
 	attr_accessor :asin
+	
+	scope :published, where( "status = 'publish'" )
 	
 	# class_methods
 	def self.find_on_amazon( title )
@@ -72,5 +81,29 @@ class Book < ActiveRecord::Base
 		end
 		
 		return book
+	end
+	
+	# Instance Methods
+	
+	def ebook_sku
+		self.skus.ebook.first
+	end
+	
+	def audio_book_sku
+		self.skus.audio_book.first
+	end
+	
+	def merch_skus
+		self.skus.merch
+	end
+	
+	def custom_skus
+		self.skus.custom
+	end
+	
+	def add_asset( asset )
+		ass = eval "#{asset.class.name}.create :book_id => self.id, :title => asset.title, :asset_type => asset.asset_type, :description => asset.description, :content => asset.content, :duration => asset.duration, :bitrate => asset.bitrate, :resolution => asset.resolution"
+		ass.save
+		return ass
 	end
 end

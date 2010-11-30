@@ -19,7 +19,7 @@ module ForumsHelper
 		if forum.owner.is_a? Author
 			author_forum_topics_path( forum.owner, forum )
 		else
-			fourm_topics_path( forum )
+			forum_topics_path( forum )
 		end
 	end
 	

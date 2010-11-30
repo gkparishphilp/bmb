@@ -1,0 +1,18 @@
+Hi @user.name
+%br
+%br
+A new comment has been posted on the thread: 
+= @comment.commentable.title
+%br
+%br
+
+"
+= @comment.content
+"
+%br
+%br
+Click below to see the entire thread:
+- if @commentable.is_a? Article
+    = link_to "#{@commentable.title}", blog_url( @commentable )
+
+ 

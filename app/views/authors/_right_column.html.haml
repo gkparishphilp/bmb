@@ -9,19 +9,49 @@
 		= text_field_tag :email
 		= submit_tag 'Submit'
 #accordion
+	- if @theme.nil? || !@theme.book_site
+		%div
+			%h3 
+				=link_to 'Featured books','#'
+			%div 
+				- if @author.books.published.empty?
+					No Books
+				- else
+					= render @author.books
 	%div
 		%h3 
-			=link_to 'Featured books','#'
-		%div Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet.
-	%div
-		%h3 
-			=link_to 'Podcasts','#'
-		%div Phasellus mattis tincidunt nibh.
+			=link_to 'Links','#'
+		%div 
+			- if @author.links.empty?
+				No Links
+			- else
+				- for link in @author.links
+					= link_to link.title, link.url
+					.small= link.description
+					%br
 	%div
 		%h3 
 			=link_to 'Events','#'
-		%div Nam dui erat, auctor a, dignissim quis.
+		%div 
+			- if @author.events.upcomming.empty?
+				No Upcomming Events
+			- else
+				- for event in @author.events.upcomming
+					= link_to event.title, author_event_path( @author, event )
+					.small
+						%br
+						On:
+						= format_date event.starts_at
+						%br
+						At: 
+						= event.location
 	%div
 		%h3 
 			=link_to 'Recent Activity','#'
-		%div Nam dui erat, auctor a, dignissim quis.
+		%div 
+			- if Activity.feed( @author, @author.books ).empty?
+				No Activity
+			- else
+				- for activity in Activity.feed @author, @author.books
+					= render activity
+				

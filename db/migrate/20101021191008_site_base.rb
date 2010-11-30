@@ -21,8 +21,6 @@ class SiteBase < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		
-		
 		create_table :raw_stats, :force => true do |t|
 			t.references	:statable, :polymorphic => true
 			t.string		:name
@@ -33,9 +31,10 @@ class SiteBase < ActiveRecord::Migration
 		end
 		
 		create_table :sites do |t|
-			t.references	:owner, :polymorphic => true
+			t.references	:author
 			t.string		:name
 			t.string		:domain
+			t.string		:status, :default => 'active'
 			t.timestamps
 		end
 		
@@ -53,7 +52,7 @@ class SiteBase < ActiveRecord::Migration
 		add_index :contacts, :crash_id
 		add_index :raw_stats, :statable_id
 		add_index :sites, :domain
-		add_index :sites, :owner_id
+		add_index :sites, :author_id
 		add_index :static_pages, :site_id
 		add_index :static_pages, :permalink
 		

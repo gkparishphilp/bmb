@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: orders
 #
@@ -7,8 +7,7 @@
 #  user_id                 :integer(4)
 #  shipping_address_id     :integer(4)
 #  billing_address_id      :integer(4)
-#  ordered_id              :integer(4)
-#  ordered_type            :string(255)
+#  sku_id                  :integer(4)
 #  email                   :string(255)
 #  ip                      :string(255)
 #  price                   :integer(4)
@@ -21,10 +20,10 @@
 
 class Order < ActiveRecord::Base
 	belongs_to :user
-	has_one :order_transaction,
-		:dependent => :destroy
+	has_one :order_transaction, :dependent => :destroy
 	
-	belongs_to :ordered, :polymorphic  => :true
+	belongs_to :sku
+	has_many	:royalties
 	has_one :redemption
 	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
@@ -64,7 +63,7 @@ class Order < ActiveRecord::Base
 #-------------------------------------------------------------------------
 	# Call Paypal and get response object
 	def purchase
-		if self.ordered.is_a? Subscription
+		if self.sku.sku_type == 'subscription'
 			purchase_subscription
 		else
 			if price > 0
@@ -115,9 +114,10 @@ class Order < ActiveRecord::Base
 										)
 
 			if response.success?
+				#todo check the subscription_id setting
 				Subscribing.create!(	:user_id => self.user.id,
 										:order_id => self.id,
-										:subscription_id  => self.ordered_id,
+										:subscription_id  => self.sku.item.first.id,
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
 										:origin => 'paid'
@@ -142,35 +142,20 @@ class Order < ActiveRecord::Base
 # Actions after a successful order transaction
 #---------------------------------------------------------------
 	def post_purchase_actions
-		if self.ordered.is_a? Merch
-			UserMailer.bought_merch(self, self.ordered, self.user).deliver
-			# TODO Update backing events
-
-			# TODO Update any author sales events/points
-
-			#Calculate and store royalties
-			royalty = 0
-			for sub in self.ordered.owner.user.subscribings
-				royalty = sub.subscription.royalty_percentage if sub.subscription.royalty_percentage > royalty
-			end	
-
-			Royalty.create! :author_id => self.ordered.owner.id ,:order_id => self.id, :amount => ( self.price * (royalty.to_f/100) ).round
-			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
-			
-		elsif self.ordered.is_a? Asset
-			owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => self.ordered.id, :owned_type => self.ordered.class
-			
-		elsif self.ordered.is_a? Bundle
-			for bundle_asset in self.ordered.bundle_assets
-				owning = Owning.create! :owner_id => self.user.id, :owner_type => self.user.class, :owned_id => bundle_asset.id, :owned_type => bundle_asset.class
-			end
-				
-		elsif self.ordered.is_a? Subscription
-			#Subscribing has already been created in the purchase_subscription method to save Paypal response data
-			self.ordered.redemptions_remaining -= 1
-			self.ordered.save
-		end
-
+		
+		# add sku_items to ownings
+		self.sku.ownings.create :user => self.user, :status => 'active'
+		
+		# send email
+		UserMailer.bought_sku( self, self.user ).deliver
+		
+		# add royalty entry
+		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+		
+		# todo - decrement subscription redemptions
+		# TODO Update backing events
+		# TODO Update any author sales events/points
+		
 	end
 
 
@@ -178,6 +163,7 @@ class Order < ActiveRecord::Base
 
 	# Get royalty percentage
 	def get_max_royalty_percentage
+		#todo recalculate based on sku's
 		royalty = 0
 		for sub in self.ordered.subscriptions.active.royalty_percentages
 			royalty = sub.royalty_percentage if sub.royalty_percentage > royalty
@@ -239,15 +225,15 @@ class Order < ActiveRecord::Base
 	
 	#Set up options hash for Paypal subscription gateway call
 	def options_recurring
-		if self.ordered.periodicity == 'daily'
+		if self.sku.item.first.periodicity == 'daily'
 			period = :daily
-		elsif self.ordered.periodicity == 'weekly'
+		elsif self.sku.item.first.periodicity == 'weekly'
 			period  = :weekly
-		elsif self.ordered.periodicity == 'monthly'
+		elsif self.sku.item.first.periodicity == 'monthly'
 			period = :monthly
-		elsif self.ordered.periodicity == 'yearly'
+		elsif self.sku.item.first.periodicity == 'yearly'
 			period = :yearly
-		elsif self.ordered.periodicity == 'quarterly'
+		elsif self.sku.item.first.periodicity == 'quarterly'
 			period = :quarterly
 		else
 			period = :monthly
@@ -257,7 +243,7 @@ class Order < ActiveRecord::Base
 			:ip => ip,
 			:periodicity => period,
 			:email => self.email,
-			:comment => self.ordered.description,
+			:comment => self.sku.description,
 			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
 				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
@@ -285,7 +271,7 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_billing_address
-		if self.billing_address.invalid?
+		if paypal_express_token.blank? && self.billing_address.invalid?
 			billing_address.errors.full_messages.each do |message|
 				errors.add_to_base message
 			end
@@ -293,7 +279,7 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_shipping_address
-		if self.shipping_address.invalid?
+		if paypal_express_token.blank? && self.shipping_address.invalid?
 			shipping_address.errors.full_messages.each do |message|
 				errors.add_to_base message
 			end

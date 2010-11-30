@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: twitter_accounts
 #
@@ -10,7 +10,7 @@
 #  token      :string(255)
 #  secret     :string(255)
 #  name       :string(255)
-#  status     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #
@@ -33,7 +33,7 @@ class TwitterAccount < ActiveRecord::Base
 		end
 	end
 	
-	def tweet( message, *url )
+	def post_feed( message, *url )
 		url = url.first
 		if url
 			chars_left = 136 - url.length
@@ -41,7 +41,7 @@ class TwitterAccount < ActiveRecord::Base
 			chars_left = 138
 		end
 		message = message[0..chars_left] + (message.length > chars_left ? "..." : "")
-		message += url
+		message += url if url.present?
 		
 		tweet = self.client.update( message )
 	end

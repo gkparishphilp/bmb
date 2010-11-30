@@ -6,15 +6,15 @@ class BlogController < ApplicationController
 
 	def index
 		if @tag = params[:tag]
-            @articles = @owner.articles.tagged_with( @tag ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+            @articles = @owner.articles.tagged_with( @tag ).published.paginate :order => "publish_at desc", :page => params[:page], :per_page => 10
 		elsif @topic = params[:topic]
-			@articles = @owner.articles.tagged_with( @topic ).published.paginate :order => "publish_on desc", :page => params[:page], :per_page => 10
+			@articles = @owner.articles.tagged_with( @topic ).published.paginate :order => "publish_at desc", :page => params[:page], :per_page => 10
 		elsif ( @month = params[:month] ) && ( @year = params[:year] )
 			@articles = @owner.articles.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		elsif @year = params[:year]
 			@articles = @owner.articles.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@articles = @owner.articles.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+			@articles = @owner.articles.published.paginate :page => params[:page], :order => 'publish_at desc', :per_page => 10
 		end
 	end
 
@@ -43,11 +43,11 @@ private
 			a.name <=> b.name
 		end
 		@recent_posts = @owner.articles.recent.published
-		@archives = Article.find_by_sql( [ "select month(publish_on) as month, year(publish_on) as year from articles where owner_id = ? and owner_type = ?  group by month(publish_on) ", @owner.id, @owner.class.name ] )
+		@archives = Article.find_by_sql( [ "select month(publish_at) as month, year(publish_at) as year from articles where owner_id = ? and owner_type = ?  group by month(publish_at) ", @owner.id, @owner.class.name ] )
 	end
 	
 	def set_layout
-		"authors" unless @author.nil?
+		@author ? "authors" : "application"
 	end
 	
 end

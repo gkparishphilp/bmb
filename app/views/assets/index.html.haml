@@ -1,0 +1,33 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		.admin_title
+			%h3
+				Assets for
+				= @book.title
+		.clear
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'etext' )
+			= link_to "Upload E-Text", new_author_book_asset_path( @author, @book, :type => 'etext' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'pdf' )
+			= link_to "Upload PDF", new_author_book_asset_path( @author, @book, :type => 'pdf' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_path( @author, @book, :type => 'audio' )
+			= link_to "Upload Audio", new_author_book_asset_path( @author, @book, :type => 'audio' )
+		.clear &nbsp;
+		%table.admin_table
+			- for asset in @assets
+				%tr
+					%td
+						= asset.title
+					%td
+						= asset.type
+					%td
+						= link_to image_tag( 'edit.png', :width => 20 ), edit_author_book_asset_path( @current_author, @book, asset )
+						= link_to 'edit', edit_author_book_asset_path( @current_author, @book, asset )
+				
+				
+- content_for :right_column do
+	%h2 Help

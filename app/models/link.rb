@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: links
 #
@@ -10,6 +10,7 @@
 #  url         :string(255)
 #  description :string(255)
 #  link_type   :string(255)
+#  status      :string(255)     default("publish")
 #  created_at  :datetime
 #  updated_at  :datetime
 #

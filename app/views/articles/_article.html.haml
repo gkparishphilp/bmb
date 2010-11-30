@@ -4,7 +4,7 @@
 			= link_to article.title, blog_link( article )
 		%span.article_meta
 			%b posted
-			= format_date_only article.created_at
+			= format_date_only( article.publish_at )
 			- if article.comments_allowed?
 				= link_to pluralize( article.comments.count, "Comment" ), blog_link( article ) + "#comments"
 	.article_body

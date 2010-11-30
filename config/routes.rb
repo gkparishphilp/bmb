@@ -1,57 +1,74 @@
 Backmybook::Application.routes.draw do
 
+	# Hoghest-priority root is non-app domain and send root to author controller
+	constraints( Domain ) do
+		match '/' => 'authors#show'
+	end
+	
+	# Next is subdomain and send root to author controller
 	constraints( Subdomain ) do
 		match '/' => 'authors#show'
 	end
 	
-	root :to => "site#index"
-
-	resources :authors do
-		get 'manage', :on => :collection
-		get 'bio', :on => :member
-		resources :books do
-			post 'confirm', :on => :collection
-		end
-		resources :articles
-		resources :blog
-		resources :forums do
-			resources :topics do
-				resources :posts
-			end
-		end
-		
-		resources :themes
-		resources :upload_email_lists
-		resources :email_campaigns do
-			resources :email_messages
-		end
-	end
+	# finally map application root on primary domain without subdomain to site index
+	root :to => "sites#index"
 	
-	#match '/authors/:author_id/blog/:id', :to => 'authors#view_article'
-	#match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'authors#blog'
-	
-	match '/admin/books' => 'admin#books', :as => :admin_books
-	match '/admin/blog' => 'admin#blog', :as => :admin_blog
-	match '/admin/design' => 'admin#design', :as => :admin_design
-	match '/admin/ecom' => 'admin#ecom', :as => :admin_ecom
-	match '/admin/email' => 'admin#email', :as => :admin_email
-	match '/admin/' => 'admin#index', :as => :admin_index
-	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
-	match '/admin/reports' => 'admin#reports', :as => :admin_reports
-	match '/admin/forums' => 'admin#forums', :as => :admin_forums
-	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/add_book' => 'admin#add_book', :as => :admin_add_book
-	
+	# app resource routes, hopefully maintained in alpha order
 	resources :articles do
 		resources :comments
 	end
 	
 	resources :assets
-
-	resources :blog 
 	
-	resources :bundle_assets
-	resources :bundles
+	resources :authors do
+		resources :articles
+		resources :blog
+		resources :books do
+			post 'confirm', :on => :collection
+			# all these routes just to edit STI resource on books
+			resources :ebook, :controller => :assets
+			resources :pdf, :controller => :assets
+			resources :audio_book, :controller => :assets
+			resources :assets do
+				get 'download', :on => :member
+			end
+			resources :reviews
+		end
+		resources :email_campaigns do
+			resources :email_messages
+		end
+		resources :events
+		resources :forums do
+			resources :topics do
+				resources :posts
+			end
+		end
+		resources :links
+		resources :orders
+			
+		resources :podcasts do
+			resources :episodes do
+				get 'download', :on => :member
+				resources :comments
+			end
+		end
+		resources :merches
+		resources :skus do
+			put 'add_item', :on => :member
+		end
+		resources :store
+		resources :sites
+		resources :themes do
+			post 'activate', :on => :collection
+		end
+		resources :upload_email_lists
+		
+		get 'manage', :on => :collection
+		get 'bio', :on => :member
+		
+	end
+
+	resources :blog  # for the site blog
 	
 	resources :contacts
 	
@@ -68,15 +85,14 @@ Backmybook::Application.routes.draw do
 			resources :posts
 		end
 	end
-	
-	resources :merches
-
-	resources :order_transactions
 
 	resources :orders do
+		get 'paypal_express', :on => :new
 	end
 	
-	resources :podcasts do
+	resources :order_transactions
+	
+	resources :podcasts do # for the site podcast
 		resources :episodes do
 			get 'download', :on => :member
 			resources :comments
@@ -113,9 +129,11 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+	resources :themes
 	resources :upload_email_lists
 	
 	resources  :users do
+		resources :recommends
 		collection do
 			get 'admin'
 			post 'update_password'
@@ -126,8 +144,30 @@ Backmybook::Application.routes.draw do
 		get 'resend', :on => :member
 	end
 	
-	
+	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
+	
+	match '/admin/acount' => 'admin#account', :as  => :admin_account
+	match '/admin/books' => 'admin#books', :as => :admin_books
+	match '/admin/blog' => 'admin#blog', :as => :admin_blog
+	match '/admin/themes' => 'admin#themes', :as => :admin_themes
+	match '/admin/domains' => 'admin#domains', :as => :admin_domains
+	match '/admin/email' => 'admin#email', :as => :admin_email
+	match '/admin/links' => 'admin#links', :as => :admin_links
+	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
+	match '/admin/' => 'admin#index', :as => :admin_index
+	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
+	match '/admin/reports' => 'admin#reports', :as => :admin_reports
+	match '/admin/forums' => 'admin#forums', :as => :admin_forums
+	match '/admin/profile' => 'admin#profile', :as => :admin_profile
+	match '/admin/events' => 'admin#events', :as => :admin_events
+	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
+	match '/admin/store' => 'admin#store', :as => :admin_store
+	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message
+	
+	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
+	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'
+	
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
 	match '/forgot' => 'users#forgot_password', :as => 'forgot'
 	match '/logout' => 'sessions#destroy', :as => 'logout'
@@ -135,7 +175,7 @@ Backmybook::Application.routes.draw do
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
 	
-	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
+	
 	
 	match "/:permalink", :to => 'static_pages#show'
 	

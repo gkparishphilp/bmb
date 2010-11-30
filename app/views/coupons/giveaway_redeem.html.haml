@@ -21,8 +21,8 @@
 		= link_to redeem_coupon_path @coupon
 	-elsif @redeemable.is_a? Asset 
 		= link_to asset_path( @redeemable )
-	-elsif @redeemable.is_a? Bundle
-		= link_to bundle_path( @redeemable )
+	-elsif @redeemable.is_a? Sku
+		= link_to sku_path( @redeemable )
 	-else
 		Sorry, could not find the item.  Please contact customer support.  
 

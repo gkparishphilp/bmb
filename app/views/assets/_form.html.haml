@@ -1,0 +1,67 @@
+= f.label 'Asset Name'
+= f.text_field :title, :class => 'title_field'
+
+= hidden_field_tag :type, @type
+
+= f.label :description
+= f.text_area :description
+
+- case @type
+- when 'etext'
+	= f.label 'File (txt, doc, html, htm, odt, max 100 MB)'
+	= file_field_tag :attached_document_file
+	
+	= f.label "Asset Type"
+	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+
+	- if @book.ebook_sku.nil? # Todo - claen this so it applies to audiobook as well
+		#price
+			= f.label "Price"
+			= f.text_field :price
+
+	#unlock_req
+		= f.label "Unlock Requirement"
+		= f.text_field :unlock_requirement
+		
+- when 'pdf'
+	= f.label 'File (pdf, max 100 MB)'
+	= file_field_tag :attached_document_file
+	
+	= f.label "Asset Type"
+	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+
+	- if @book.ebook_sku.nil? # Todo - claen this so it applies to audiobook as well
+		#price
+			= f.label "Price"
+			= f.text_field :price
+
+	#unlock_req
+		= f.label "Unlock Requirement"
+		= f.text_field :unlock_requirement
+		
+		
+- when 'audio'
+	= f.label 'File (mp3, aac, ogg, wav, max 100 MB)'
+	= file_field_tag :attached_document_file
+	= f.label 'Duration:'
+	= f.text_field :duration
+	= f.label 'Bitrate:'
+	= f.text_field :bitrate
+	
+	= f.label "Asset Type"
+	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+
+	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well
+		#price
+			= f.label "Price"
+			= f.text_field :price
+
+	#unlock_req
+		= f.label "Unlock Requirement"
+		= f.text_field :unlock_requirement
+
+
+%br
+= f.submit m, :class => :button
+|
+= link_to 'Cancel', :back

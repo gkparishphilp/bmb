@@ -1,8 +1,31 @@
-%h1 Book Admin
-= render :partial => 'nav'
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Books
+		= draw_admin_header( :books )
+		%table.admin_table
+			- if @books.empty?
+				%tr
+					%td No Books Yet
+			- else
+				- for book in @books do
+					%tr
+						%td
+							= image_tag( book.avatar.location('tiny'), :width => book.avatar.tiny_width ) if book.has_attached_avatar?
+						%td
+							= link_to book.title, edit_author_book_path( @current_author, book )
+						%td
+							= book.status
+						%td
+							= link_to image_tag( 'edit.png', :width => 20 ), edit_author_book_path( @current_author, book ) 
+							= link_to 'edit', edit_author_book_path( @current_author, book )
+						%td
+							= link_to image_tag( 'assets.png', :width => 20 ), author_book_assets_path( @current_author, book ) 
+							= link_to 'assets', author_book_assets_path( @current_author, book ) 
+			%hr
+- content_for :right_column do
+	%h2 Help
 
-- for book in @books do
-	= book.avatar.location('thumb') if book.has_attached_avatar?
-	= link_to book.title, edit_author_book_path( @current_author, book )
-	%hr
+
 	

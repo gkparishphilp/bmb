@@ -13,8 +13,8 @@
 = f.label "Duration (in hh:mm:ss format)"
 = f.text_field :duration
 
-= f.label 'MP3 File (max 100 MB)'
-= file_field_tag :upload_file
+= f.label 'Audio File (mp3 or aac format, max 100 MB)'
+= file_field_tag :attached_audio_file
 
 = f.label "Explicit (Mark yes for 18 and over)"
 = f.select :explicit,  [ [ "no", "no" ], [ "yes", "yes" ]  ]
@@ -22,12 +22,6 @@
 = f.label "Keywords, separated by comma"
 = f.text_field :keywords
 
-= f.label "Follow comments"
-- if @current_user.following?( @episode )
-	= check_box_tag "follow_comments", "follow", true
--else 
-	= check_box_tag "follow_comments"
-%br
 %br
 = f.submit m, :class => :button
 |

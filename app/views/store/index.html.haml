@@ -1,0 +1,13 @@
+- content_for :left_column do
+	- if @skus.empty?
+		Nothing here Yet
+	- else
+		%h1
+			= pluralize @skus.count, "Item"
+			in the store
+		- for sku in @skus
+			%div[sku]
+				= link_to sku.title, author_store_path( @author, sku )
+
+- content_for :right_column do
+	&nbsp;

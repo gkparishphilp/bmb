@@ -65,7 +65,7 @@ private
 	end
 	
 	def set_layout
-		"authors" unless @author.nil?
+		@author ? "authors" : "application"
 	end
 	
 end

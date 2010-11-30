@@ -1,0 +1,32 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Email List
+		%br
+		%h2 Upload Email Subscriber List
+
+		-form_for [ @author, UploadEmailList.new ], :html => {:multipart => :true} do |f|
+			= f.file_field :file_name
+			= f.hidden_field :list_type, :value => "newsletter"
+			= f.submit "Upload"
+			%br
+			Comma separated value (.csv) file with name and email columns only.  
+		
+		%br
+		%br
+		
+		%h2 Upload Giveaway Email List 
+
+		-# TODO This form only lists books as the item to be given away.  Should extend this in the future perhaps?
+		-form_for UploadEmailList.new, :html => {:multipart => :true} do |f|
+			For Book: 
+			= f.collection_select :book_id, @current_user.author.books, :id, :title
+			= f.file_field :file_name
+			= f.submit "Upload"
+			= f.hidden_field :list_type, :value => "giveaway"
+			%br
+			Comma separated value (.csv) file with email column only.
+	
+- content_for :right_column do
+	%h2 Help

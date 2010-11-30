@@ -8,41 +8,51 @@ class BooksController < ApplicationController
 	
 	def show
 		@book = Book.find params[:id]
-	end
-	
-	def new
-		@book = Book.new
+		@reviewable = @book
+		@review = Review.new
+		
+		set_meta "#{@book.title} by #{@book.author.pen_name}", @book.description
+		# @book.raw_stats.create :name =>'view', :ip => request.ip
+		render :layout => 'authors'
 	end
 	
 	def confirm
 		@title = params[:title]
-		@amzn_response = Book.find_on_amazon @title
-		
+		@amzn_response = []
+		@amzn_response = Book.find_on_amazon @title if params[:amazon]
+
 		if @amzn_response.empty?
 			@book = @author.books.create :title => @title
-			redirect_to edit_author_book_path( @author, @book )
+			redirect_to edit_author_book_path( @current_author, @book ), :layout => '3col'
+		else
+			render :layout => '3col'
 		end
 	end
 	
 	def edit
 		@book = Book.find params[:id]
+		
+		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
+		@genres += Genre.find_by_name( 'fiction' ).children
+		@genres += Genre.find_by_name( 'non fiction' ).children
+			
+		render :layout => '3col'
+	end
+	
+	def new
+		render :layout => '3col'
 	end
 	
 	def update
 		@book = Book.find params[:id] 
 
 		if @book.update_attributes params[:book]
-			if @book.avatar
-				@book.avatar.update_from_resource( params[:attached_avatar_file] )
-			else
-				process_attachments_for( @book )
-			end
+			process_attachments_for( @book )
 			pop_flash 'Book was successfully updated.'
-			redirect_to admin_index_path
 		else
 			pop_flash 'Oooops, Book not updated...', :error, @book
-			render :action => :edit
 		end
+		redirect_to :back
 	end
 	
 	def create

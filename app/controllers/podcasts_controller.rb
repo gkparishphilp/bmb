@@ -1,59 +1,73 @@
 class PodcastsController < ApplicationController
-	# TODO - cleanup for author podcasts
+	before_filter :get_parent
+	layout		:set_layout
+	
 	def admin
 		@podcasts = @current_site.podcasts
 	end
 	
 	
 	def index
-		@podcasts = @current_site.podcasts
+		@podcasts = @owner.podcasts
+		#if @podcasts.count == 1
+		#	redirect_to polymorphic_path( @podcasts.first )
+		#	return false
+		#end
+		
 	end
 
 	def show
 		@podcast = Podcast.find params[:id]
-		set_meta @podcast.title, @podcast.summary
+		set_meta @podcast.title, @podcast.description
 	end
 
-	def new
-		@podcast = Podcast.new
-	end
-
-	def edit
-		@podcast = Podcast.find  params[:id]
-	end
 
 	def create
 		@podcast = Podcast.new params[:podcast]
 
-		if @current_site.podcasts << @podcast
+		if @owner.podcasts << @podcast
+			process_attachments_for( @podcast )
 			pop_flash 'Podcast was successfully created.'
-			redirect_to @podcast
 		else
 			pop_flash 'Oooops, Podcast not saved...', :error, @podcast
-			render :action => :new
 		end
+		redirect_to :back
 	end
 
 	def update
 		@podcast = Podcast.find  params[:id] 
 
 		if @podcast.update_attributes params[:podcast]
+			process_attachments_for( @podcast )
 			@podcast.ping_itunes
 			pop_flash 'Podcast was successfully updated.'
-			redirect_to @podcast
 		else
 			pop_flash 'Oooops, Podcast not updated...', :error, @podcast
-			render :action => :edit
 		end
+		redirect_to :back
 	end
 
 	def destroy
 		@podcast = Podcast.find params[:id]
 		@podcast.destroy
 		pop_flash 'Podcast was successfully deleted.'
-		redirect_to podcasts_url
+		redirect_to :back
 	end
 	
+private 
+
+	def get_parent
+		@owner = @author ? @author : @current_site
+	end 
+	
+	
+	def get_sidebar_data
+		# TODO
+	end
+	
+	def set_layout
+		@author ? "authors" : "application"
+	end
 
 
 end

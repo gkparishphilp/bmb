@@ -1,2 +1,72 @@
 
 Site Article no longer static page, now article.
+
+All Assets have attached documents (where the actual file lives)
+Assets are of type: etext, audio, or pdf
+Assets can be put into SKUs (as can merch)
+SKUS are of type ebook, audio_book, merch, or custom
+
+- Jquery UI styles -- buttons/datepicker, etc
+
+
+Punchlist
+ 
+- What about coupon redemption ajax?
+- Check model relationships between sku, sku_item, asset, merch, subscriptions, etext, etc.
+- Homepage - bring in old blog articles
+- Register - help copy
+- Author signup - make it not suck, more than a link
+- Author signup - help copy
+- Patch theme picker so it doesn't duplicate theme items when you pick a default theme.
+- Add a book - edit title = Pick Cover Art
+- Add an asset - price should be entered with dollars and cents, and converted to cents when saved
+- Sitewide Blog/Podcast -- check data import, no admin console for now
+
+
+GK
+----
+- Pop_flash for email that has been previously created in user table
+- Header menus (graphical)
+	- William
+- Reporting
+	- uhhhhh probably punt
+- Scope everything on status
+- Double-check all permissions
+
+Tay
+----
+- Migrate files and avatars
+- Don't save billing and shipping address for anonymous purchases
+- Author no longer has domain field.  Site object is created, move vhost creation to site model
+- Fulfillment emails for author and for users
+	- Need link to download etexts, what about anonymous users downloading etexts?
+- Fix raw stats that are being commented out
+	- Add raw_stat call to @article and @post show actions, ie: @post.raw_stats.create :name =>'view', :ip => request.ip
+- Admin subscriptions - Need order page
+- Check coupon code functionality for Paypal express
+- Don't allow subscriptions to be ordered with Paypal express
+
+PUNT for Sigler launch
+----------------------
+- Follow logic - blog comments example
+    - Got observer and email to work.  Need unsubscribe logic now.
+- Recommends/Backer controller
+	- need to re-think/workaround delayed job
+- Make error messages on Paypal Express purchase nicer when email isn't present
+- Library -- let's punt for now -- just use email
+- Thinking Sphinx
+
+DONE
+-----
+- OpenID logins - Bail on open id and create a registration email capture screen for the current site
+- Admin email
+- Delayed job installed...  Just call from code like before
+- Raw stats model - cleaned up from old version.  Just create a raw stat and it will automatically rate_limit and update the real stat through delayed_job
+- Change ecom to use sku instead of ordered
+- User profile page
+	- low priority
+- Books, assets, sku 
+	- got STI assets, need to wire in interface
+	- done
+- Admin Ecom/Store (create bundles, merch, etc.) - could use polish, but should work for launch/Sigler
+- What happened to PayPal Express?

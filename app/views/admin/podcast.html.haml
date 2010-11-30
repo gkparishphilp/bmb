@@ -1,0 +1,41 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		- if @podcast.title.present?
+			%h1
+				Edit 
+				= @podcast.title
+			= link_to "Add Episode", new_podcast_episode_path( @podcast )
+				
+			- else
+				%h1
+					Create Podcast
+
+		= form_for [@current_author, @podcast], :html => { :multipart => true } do |f|
+			= f.label "Podcast Name:"
+			= f.text_field :title
+			= image_tag @podcast.avatar.location( :thumb ), :width => 64 if @podcast.has_attached_avatar?
+			= f.label "Picture:"
+			= file_field_tag :attached_avatar_file
+			= f.label "Subtitle:"
+			= f.text_field :subtitle
+			= f.label "Description:"
+			= f.text_area :description
+			= f.label "Keywords:"
+			= f.text_field :keywords
+			= f.label "Explicit:"
+			= f.text_field :explicit
+			- if @podcast.title.present?
+				= f.label "Itunes ID:"
+				= f.text_field :itunes_id
+			%br
+			= f. submit
+			
+- content_for :right_column do
+	%h2 Help
+	%h2 Podcasts
+	- for podcast in @podcasts
+		= podcast.title
+		= link_to "Edit", admin_podcast_path( :podcast_id => podcast )
+		%hr

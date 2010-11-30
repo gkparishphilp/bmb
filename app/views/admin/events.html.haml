@@ -1,0 +1,11 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Event Admin
+		= draw_admin_header( :events )
+		= draw_admin_table( @events, [:title, :starts_at] )
+
+		
+- content_for :right_column do
+	%h2 Help

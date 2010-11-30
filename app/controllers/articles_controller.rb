@@ -4,11 +4,22 @@ class ArticlesController < ApplicationController
 	
 	before_filter :get_owner
 	
+	def new
+		@article = Article.new
+		render :layout => '3col'
+	end
+	
+	def edit
+		@article = Article.find params[:id]
+		render :layout => '3col'
+	end
+	
 	def create
 		@article = Article.new params[:article]
 
 		if @owner.articles << @article
 			pop_flash 'Article was successfully created.'
+			@owner.do_activity( "write", @article )
 			redirect_to :back
 		else
 			pop_flash 'Oooops, Article not saved...', :error, @article

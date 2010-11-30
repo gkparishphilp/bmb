@@ -1,0 +1,53 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Send Message:
+		- form_tag admin_send_social_message_path do
+			- unless @current_author.user.facebook_accounts.empty?
+				%h3 Facebook Accounts
+				- for acct in @current_author.user.facebook_accounts
+					= check_box_tag 'accts[]', "facebook_#{acct.id}"
+					= acct.name
+					%br
+			- unless @current_author.user.twitter_accounts.empty?
+				%h3 Twitter Accounts
+				- for acct in @current_author.user.twitter_accounts
+					= check_box_tag 'accts[]', "twitter_#{acct.id}"
+					= acct.name
+					%br
+			= text_area_tag :message
+			= submit_tag "Send"
+			
+		
+		
+	%h3
+		Accounts
+
+	- for acct in @current_author.user.facebook_accounts
+		Facebook:
+		= acct.name
+		%br
+		- for fbpg in acct.facebook_pages
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			= fbpg.page_type
+			= fbpg.name
+			%br
+		%hr
+
+	Add a Facebook Account:
+	#facebook
+		= form_tag go_facebook_sessions_path do
+			= image_submit_tag 'facebook_connect.png'
+
+
+	- for acct in @current_author.user.twitter_accounts
+		Twitter:
+		= acct.name
+	%br
+	#twitter
+		Add a Twitter Accoount
+		= form_tag go_twitter_sessions_path do
+			= image_submit_tag 'twitter_button.png'
+- content_for :right_column do
+	%h2 Help

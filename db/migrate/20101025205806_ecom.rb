@@ -1,31 +1,10 @@
 class Ecom < ActiveRecord::Migration
 	def self.up
-
-		create_table :bundles, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.string	:title
-			t.text		:description
-			t.integer	:price
-			t.string	:artwork_url
-			t.string	:artwork_file_name
-		    t.string	:artwork_content_type
-		    t.integer	:artwork_file_size
-		    t.datetime	:artwork_updated_at
-			
-			t.timestamps
-		end
-		
-		create_table :bundle_assets, :force => true do |t|
-			t.references	:bundle
-			t.references	:asset
-			
-			t.timestamps
-		end
 		
 		create_table :coupons, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.references	:redeemable, :polymorphic => true # book, merch, subs
-			t.references	:redeemer, :polymorphic => true
+			t.references	:owner, :polymorphic => true  # the author, or us
+			t.references	:sku
+			t.references	:user
 			t.string		:code # need to validate unique on code
 			t.string		:description
 			t.datetime		:expiration_date # nil = infinite
@@ -39,6 +18,7 @@ class Ecom < ActiveRecord::Migration
 		create_table :geo_addresses, :force => true do |t|
 			t.string		:type	# For single table inheritance
 			t.references	:user
+			t.string		:title
 			t.string		:first_name
 			t.string		:last_name
 			t.string		:street
@@ -65,14 +45,8 @@ class Ecom < ActiveRecord::Migration
 			t.references	:owner, :polymorphic => true
 			t.string		:title
 			t.text			:description
-			t.integer		:inventory_count, :default => -1 # neg numbers of nil = infinite
-			t.integer		:price
-			t.string		:artwork_url
-			t.string		:artwork_file_name
-			t.string		:artwork_content_type
-			t.integer		:artwork_file_size
-			t.datetime		:artwork_updated_at
-			t.string		:status # published or not
+			t.integer		:inventory_count, :default => -1 # neg numbers or nil = infinite
+			t.string		:status, :default => 'publish' # published or not
 			
 			t.timestamps
 		end
@@ -81,7 +55,7 @@ class Ecom < ActiveRecord::Migration
 			t.references	:user
 			t.references	:shipping_address
 			t.references	:billing_address
-			t.references	:ordered, :polymorphic => true
+			t.references	:sku
 			t.string		:email
 			t.string		:ip
 			t.integer		:price
@@ -106,15 +80,15 @@ class Ecom < ActiveRecord::Migration
 		end
 		
 		create_table :ownings, :force => true do |t|
-			t.references	:owner, :polymorphic => true
-			t.references	:owned, :polymorphic => true
-			t.string	:status
+			t.references	:user
+			t.references	:sku
+			t.string	:status, :default => 'active'
 			
 			t.timestamps
 		end
 		
 		create_table :redemptions, :force => true do |t|
-			t.references	:redeemer, :polymorphic => true
+			t.references	:user
 			t.references	:coupon
 			t.references	:order
 			t.string		:status
@@ -132,11 +106,30 @@ class Ecom < ActiveRecord::Migration
 			
 		end
 		
+		create_table :skus, :force => true do |t|
+			t.references	:owner, :polymorphic => true
+			t.references	:book
+			t.string		:title
+			t.text			:description
+			t.integer		:price
+			t.string		:sku_type # just so we can unique the ebook sku accross the different asset formats
+			t.string		:status, :default => 'publish'
+			
+			t.timestamps
+		end
+		
+		create_table :sku_items, :id => false, :force => true do |t|
+			t.references	:sku
+			t.references	:item, :polymorphic => true
+			
+			t.timestamps
+		end
+		
 		create_table :subscribings, :force => true do |t|
 			t.references	:subscription
 			t.references	:user
 			t.references	:order
-			t.string		:status
+			t.string		:status, :default => 'active'
 			t.string		:profile_id # Paypal return value for subscription profile
 			t.datetime		:expiration_date
 			t.string		:origin
@@ -153,16 +146,19 @@ class Ecom < ActiveRecord::Migration
 			t.integer		:redemptions_remaining, :default => -1
 			t.integer		:subscription_length_in_days
 			t.integer		:royalty_percentage
+			t.string		:status, :default => 'publish'
 			
 			t.timestamps
 		end
+		
+		# todo indexes
 		
 	end
 
 	def self.down
 		drop_table :royalties
-		drop_table :bundle_assets
-		drop_table :bundles
+		drop_table :sku_assets
+		drop_table :skus
 		drop_table :redemptions
 		drop_table :coupons
 		drop_table :ownings

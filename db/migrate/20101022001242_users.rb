@@ -15,7 +15,7 @@ class Users < ActiveRecord::Migration
 			t.string		:name
 			t.string		:page_type # page or group
 			t.string		:fb_id
-			t.string		:status
+			t.string		:status, :default => 'active'
 			
 			t.timestamps
 		end
@@ -25,7 +25,7 @@ class Users < ActiveRecord::Migration
 			t.string		:identifier
 			t.string		:name
 			t.string		:provider
-			t.string		:status
+			t.string		:status, :default => 'active'
 
 			t.timestamps
 		end
@@ -44,7 +44,7 @@ class Users < ActiveRecord::Migration
 			t.string		:token
 			t.string		:secret
 			t.string		:name
-			t.string		:status
+			t.string		:status, :default => 'active'
 			
 			t.timestamps
 		end

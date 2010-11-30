@@ -1,7 +1,8 @@
 class OrdersController < ApplicationController
 	before_filter :require_admin, :only => [:admin]
 	before_filter :get_form_data, :only => :new
-	before_filter :get_ordered
+	before_filter :get_sku, :only => [:new, :paypal_express]
+	layout	:set_layout
 	
 	def admin
 		@orders = Order.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
@@ -11,10 +12,8 @@ class OrdersController < ApplicationController
 		@orders = @current_user.orders
 	end
 
-
-
 	def show
-		@order = Order.find(params[:id])
+		@order = Order.find params[:id] 
 =begin
 		# todo Need to fix this for anonymous user access
 		if @order.user != @current_user 
@@ -29,11 +28,14 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
+		@order.paypal_express_token = params[:token] if params[:token]
+		@order.paypal_express_payer_id = params[:PayerID] if params[:PayerID]
 		unless @current_user.anonymous?
 			@billing_addresses = @current_user.billing_addresses
 			@shipping_addresses = @current_user.shipping_addresses
 		end
 
+		#todo need to redirect this to some proper error message
 		redirect_to root_path if @ordered.is_a? Subscription and @ordered.redemptions_remaining == 0
 			
 	end
@@ -41,10 +43,37 @@ class OrdersController < ApplicationController
 	def check_order
 	end
 
+	def paypal_express
+		price_in_cents = @sku.price
+		cancel_return_url = new_order_url(:sku => @sku.id)
+		
+		response = EXPRESS_GATEWAY.setup_purchase(price_in_cents,
+			:ip => request.remote_ip,
+			:return_url => new_order_url(:sku => params[:sku]),
+			:cancel_return_url => cancel_return_url
+		)
+		redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+		
+	end
+
+
+
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
-		@order.user = @current_user
+		
+		if @current_user.anonymous? 
+			@order.user = User.new :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}", :email => params[:order][:email]
+			@order.user.save( false )
+			# todo = some validations here and/or punting errors on user up to controller flash
+		else
+			@order.user = @current_user
+		end
+		
+		unless params[:order][:paypal_express_token].blank?
+			@order.paypal_express_token = params[:order][:paypal_express_token] 
+			@order.paypal_express_payer_id = params[:order][:paypal_express_payer_id] 
+		end
 		
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
@@ -53,12 +82,13 @@ class OrdersController < ApplicationController
 				redemption.order = @order
 				redemption.coupon = @coupon
 				redemption.save
-				@order.apply_coupon if @coupon.is_valid?(@order)
+				@order.apply_coupon if @coupon.is_valid? (@order )
 			end
 		end
 
 		# Get billing address information from form
-		if @current_user.billing_addresses.empty?
+		# TODO - don't save billing address for anonymous users!
+		if @current_user.billing_addresses.empty? 
 			#User does not have an existing billing address, so create one from form data		
 			unless billing_address = BillingAddress.create(params[:billing_address])
 				pop_flash "Billing address needs to be completely filled out", :error, billing_address
@@ -75,11 +105,13 @@ class OrdersController < ApplicationController
 				end
 			else
 				#User is using an existing billing address
-				@order.billing_address = @current_user.billing_addresses.find params[:order][:billing_address_id]
+				@order.billing_address = @current_user.billing_addresses.find params[:order][:billing_address_id] if @order.paypal_express_token.blank?
 			end
 		end
 
 		# Get shipping address information from form (if it exists)
+		# TODO - don't save shipping address for anonymous users!
+		
 		if params[:shipping_address] and @current_user.shipping_addresses.empty?
 			#User does not have an existing shipping address, so create one from form data 
 			unless shipping_address = ShippingAddress.create(params[:shipping_address])
@@ -97,7 +129,7 @@ class OrdersController < ApplicationController
 				end
 			else
 				#User is using an existing shipping address
-				@order.shipping_address = @current_user.shipping_addresses.find params[:order][:shipping_address_id]
+				@order.shipping_address = @current_user.shipping_addresses.find params[:order][:shipping_address_id] if @order.paypal_express_token.blank?
 			end
 		end
 
@@ -109,7 +141,7 @@ class OrdersController < ApplicationController
 			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order
-			redirect_to new_order_path( :ordered_id => @order.ordered.id, :ordered_type => @order.ordered.class.to_s)
+			redirect_to new_order_path( :sku => @order.sku.id)
 			#TODO send back errors from Paypal here also
 		end
 
@@ -123,17 +155,14 @@ private
 		@states = GeoState.where("country ='US'")
 	end
 
-	def get_ordered
-		case params[:ordered_type]
-			when 'Merch'
-				@ordered = Merch.find params[:ordered_id]
-			when 'Bundle'
-				@ordered = Bundle.find params[:ordered_id]
-			when 'Subscription'
-				@ordered = Subscription.find params[:ordered_id]
-			when 'Asset'
-				@ordered = Asset.find params[:ordered_id]
-		end
+	def get_sku
+		# the sexy way: @ordered = eval "#{params[:ordered_type]}.find params[:ordered_id]" 
+		# But a moot point anyway, since only skus can be ordered....
+		@sku = Sku.find params[:sku] 
+	end
+	
+	def set_layout
+		@author ? "authors" : "application"
 	end
 	
 

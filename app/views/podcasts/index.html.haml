@@ -1,0 +1,10 @@
+- content_for :left_column do
+	- if @podcasts.empty?
+		No Podcasts Yet
+	- else
+		- for podcast in @podcasts
+			= image_tag( podcast.avatar.location('thumb'), :width => 64 ) if podcast.has_attached_avatar?
+			%h3= link_to podcast.title, podcast_link( podcast )
+
+- content_for :right_column do
+	&nbsp;

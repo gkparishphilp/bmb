@@ -1,18 +1,25 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: sites
 #
 #  id         :integer(4)      not null, primary key
-#  owner_id   :integer(4)
-#  owner_type :string(255)
+#  author_id  :integer(4)
 #  name       :string(255)
 #  domain     :string(255)
+#  status     :string(255)     default("active")
 #  created_at :datetime
 #  updated_at :datetime
 #
 
 class Site < ActiveRecord::Base
+	
+	#before_create	:set_domain_vhost
+	before_validation :clean_domain
+	#before_update	:set_domain_vhost
+	
+	validates :domain, :uniqueness => true
+	
 	has_many :roles
 	has_many :admins, :through => :roles, :source => :user, :conditions => "role = 'admin'"
 	has_many :contributors, :through => :roles, :source => :user, :conditions => "role = 'contributor'"
@@ -29,8 +36,47 @@ class Site < ActiveRecord::Base
 	has_many :static_pages
 	has_many :contacts
 	has_many :crashes
-	does_activities
 	
+	belongs_to	:author
+	
+	gets_activities
+	
+	def clean_domain
+		self.domain.gsub!( /\Ahttp:\/\//, "" )
+	end
+	
+	# private
+	
+	def set_domain_vhost
+		# don't need to do this for non-author sites
+		return unless self.author.present?
+		
+		path = File.join(Rails.root, 'assets/vhosts/')
+
+		if self.domain_changed? and !self.domain.nil?
+			write_file = File.join(path, self.domain)
+			FileUtils.rm("#{path}#{self.domain_was}") if !self.domain_was.nil? and File.exists?("#{path}#{self.domain_was}")
+			vhost_file = <<EOS
+		server {
+		       listen       80;
+		       server_name #{self.domain};
+			   root /data/vhosts/stage.rippleread.com/public;
+		       passenger_enabled on;
+		       rails_env development;
+
+		       #charset koi8-r;
+
+		       #access_log  logs/rippleread.access.log  main;
+
+		   }
+EOS
+			File.open( write_file,"wb" ) { |f| f.write( vhost_file ) }
+		
+		end
+	end
+	
+	
+
 	def create_models
 		@legacy_models = Dir.glob('/Users/tay/Sites/elit/app/models/*.rb').collect { |model_path| File.basename(model_path).gsub('.rb', '') }
 
@@ -52,7 +98,7 @@ EOS
 		end
 	end
 
-	def migrate_all
+	def migrate_models
 		self.migrate_users
 		self.migrate_authors
 		self.migrate_articles
@@ -77,13 +123,164 @@ EOS
 		self.migrate_order_transactions
 		self.migrate_podcasts
 		self.migrate_posts
-		self.migrate_raw_backing_events
-		self.migrate_raw_stats
+		#self.migrate_raw_backing_events
+		#self.migrate_raw_stats
 		self.migrate_redemptions
 		self.migrate_reviews
 		self.migrate_static_pages
 		self.migrate_subscription_types
 	end
+
+	def migrate_files
+		self.migrate_book_assets
+		self.migrate_book_covers
+		self.migrate_user_photos
+		self.migrate_episode_audio
+	end
+
+	def migrate_book_assets                
+		old_dir = "#{Rails.root}/tmp/assets_old"
+		book_ids = Dir.entries( old_dir )
+		valid_formats = ['epub','mobi','pdf','doc','docx','rtf','txt','odt']
+		for id in book_ids
+			if id.to_i > 0 
+				book = Book.find id
+				files = Dir.entries("#{old_dir}/#{id}")
+				for file in files
+					ext = file.split(/\./).last
+					if valid_formats.include?(ext)
+						#Create asset record for the file
+						asset = Asset.new
+						asset.book_id = book.id
+						asset.title = book.title
+						asset.format = ext
+						asset.price = V15Book.find( book.id ).price
+						asset.asset_type = 'full work'
+						asset.origin = 'migration from v1.5'
+						asset.status = 'published'
+						asset.save
+
+						#Create attachment
+						attachment=Attachment.new
+						attachment.owner = book.author
+						attachment.attachment_type = 'content_file'
+						attachment.name = book.title
+						attachment.format = ext
+						attachment.path = "#{PRIVATE_ATTACHMENT_PATH}/Assets/#{asset.id}/content_files/"
+						create_directory( attachment.path ) unless File.directory? attachment.path
+						FileUtils.cp("#{old_dir}/#{id}/#{file}", "#{attachment.path}#{book.title}.#{ext}")
+						attachment.save
+					end
+				end
+			end
+		end
+	end
+
+	def migrate_book_covers
+		old_dir = "#{Rails.root}/tmp/system_old/cover_arts"
+		book_ids = Dir.entries( old_dir )
+		valid_formats = ['jpg','gif','png','jpeg','bmp']
+		for id in book_ids
+			if id.to_i > 0
+				book=Book.find id
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Books/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase )
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "233", :thumb => "100", :tiny => "40"}
+						for style_name, style_detail in styles
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
+
+							attachment=Attachment.new
+							attachment.owner = book
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							status = attachment.save
+							puts "Cover Art saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+						end
+					end
+				end
+			end
+		end
+	end
+
+	def migrate_user_photos
+		old_dir = "#{Rails.root}/tmp/system_old/photos"
+		user_ids = Dir.entries( old_dir )
+		valid_formats = ['jpg','gif','png','jpeg','bmp']
+		for id in user_ids
+			if id.to_i > 0
+				user=User.find id
+				original_filenames = Dir.entries("#{old_dir}/#{id}/original")
+				for original_filename in original_filenames
+					original_name = original_filename.split(/\./).first
+					original_format = original_filename.split(/\./).last
+					original_filepath = "#{old_dir}/#{id}/original/#{original_filename}"
+					output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Users/#{id}/avatars/"
+					if !original_format.nil? and valid_formats.include?( original_format.downcase)
+						create_directory( output_dir ) unless File.directory? output_dir
+						styles = { :profile => "120", :thumb => "64", :tiny => "20"}
+						styles.each_pair  {|style_name, style_detail| 
+							puts "ID = #{id} name = #{style_name} key = #{style_detail}"
+
+							output_filename = "#{output_dir}#{original_name}_#{style_name}.#{original_format}"
+							image = MiniMagick::Image.open( original_filepath )
+							image.resize style_detail
+							image.write output_filename
+
+							attachment = Attachment.new
+							attachment.owner = user
+							attachment.attachment_type = 'avatar'
+							attachment.name = "#{original_name}_#{style_name}"
+							attachment.format = original_format
+							attachment.path = output_dir
+							attachment.save
+						}
+					end
+				end
+			end
+		end
+	end
+
+
+	def migrate_episode_audio
+		old_dir = "#{Rails.root}/tmp/system_old/audio/podcasts/1"
+		episode_ids = Dir.entries( old_dir )
+		valid_formats = ['mp3']
+		for id in episode_ids
+			if id.to_i > 0
+				episode=Episode.find id
+				original_filename = Dir.entries("#{old_dir}/#{id}").last
+				original_name = original_filename.split(/\./).first
+				original_format = original_filename.split(/\./).last
+				original_filepath = "#{old_dir}/#{id}/#{original_filename}"
+				output_dir = "#{PUBLIC_ATTACHMENT_PATH}/Episodes/#{id}/audio/"
+				if !original_format.nil? and valid_formats.include?( original_format.downcase )
+					create_directory( output_dir ) unless File.directory? output_dir
+					FileUtils.cp(original_filepath, "#{output_dir}/#{original_name}")
+
+					attachment=Attachment.new
+					attachment.owner = episode
+					attachment.attachment_type = 'audio'
+					attachment.name = original_name
+					attachment.format = original_format
+					attachment.path = output_dir
+					status = attachment.save
+					puts "Episode saved = #{status} Name = #{attachment.name} Owner_id = #{attachment.owner_id} Owner_type = #{attachment.owner_type}\n"
+				end
+			end
+		end
+	end
+
 
 	def migrate_users
 		# Migrate the has attachments
@@ -163,6 +360,7 @@ EOS
 			a.view_count = ao.view_count
 			a.content = ao.content
 			a.status = ao.availability
+			a.publish_at = ao.created_at
 			a.save
 		end	
 	end
@@ -459,7 +657,7 @@ EOS
 	end
 
 	def migrate_giveaways
-		# This will have to be custom coded for each type of legacy giveaway according to the giveaway rules since bundles are introduced in the new model structure
+		# This will have to be custom coded for each type of legacy giveaway according to the giveaway rules since skus are introduced in the new model structure
 	end
 
 	def migrate_links
@@ -791,6 +989,5 @@ EOS
 			o.save
 		end
 	end
-
 
 end

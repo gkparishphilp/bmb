@@ -1,10 +1,27 @@
-%li= link_to "Create a book", admin_add_book_path( @current_author )
-%li= link_to "Manage Books", admin_books_path
+#admin_hd Account Stuff
+%li= link_to "My Account", admin_account_path
 %li= link_to "Edit Profile",admin_profile_path
-%li= link_to "Email", admin_email_path
+
+#admin_hd  Your Books
+%li= link_to "Add a Book", new_author_book_path( @current_author )
+%li= link_to "Manage Books", admin_books_path
+
+#admin_hd  Messaging
+%li= link_to "Newsletters", admin_newsletter_path
+%li= link_to "Email Lists", admin_email_path
+%li= link_to "Social Media", admin_social_media_path
+
+#admin_hd  Your Website
+%li= link_to "Domains", admin_domains_path
 %li= link_to "Forums", admin_forums_path
 %li= link_to "Blog", admin_blog_path
-%li= link_to "Ecom", admin_ecom_path
-%li= link_to "Reports", admin_reports_path
+%li= link_to "Store", admin_store_path
 %li= link_to "Podcast", admin_podcast_path
-%li= link_to "Design", admin_design_path
+%li= link_to "Themes", admin_themes_path
+%li= link_to "Links", admin_links_path
+%li= link_to "Events", admin_events_path
+
+
+%li= link_to "Reports", admin_reports_path
+
+

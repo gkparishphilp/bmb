@@ -5,7 +5,6 @@
 		- if @theme
 			= render :partial => 'shared/custom_style'
 	%body
-		I'm an Author site!
 		#container
 			= render :partial => 'shared/header'
 			#bd
@@ -13,7 +12,10 @@
 				.column1
 					.author_hd
 						%h1
-							= @author.pen_name
+							- if @theme.nil? || @theme.show_pen_name
+								= @author.pen_name
+							- else
+								&nbsp;
 						.author_corner
 							= render :partial => 'authors/menu'
 					.author_bd
@@ -21,8 +23,9 @@
 							= yield :left_column
 				.column2
 					.author_photo
-						= image_tag @author.avatar.location( :profile ) unless @author.avatar.nil?
+						= avatar_tag( @author, :profile )
 					= yield :right_column
+					= render :partial => 'authors/right_column'
 			= render :partial => 'shared/footer'
 		= render :partial => 'shared/analytics'
 		= render :partial => 'shared/scripts'

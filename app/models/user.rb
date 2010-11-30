@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: users
 #
@@ -59,12 +59,14 @@ class User < ActiveRecord::Base
 	has_many	:billing_addresses
 	has_one		:author
 	has_many	:orders
+	has_many	:reviews
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
 	has_many	:coupons, :as => :redeemer
 	has_many	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscriber
 	has_many	:ownings
+	has_many	:skus, :through => :ownings
 	
 	belongs_to :site
 	
@@ -233,7 +235,7 @@ private
 	end
 
 	def self.encrypted_password(pw, salt)
-		string_to_hash = pw + "tryt945m43433492fgs4353zmte453" + salt
+		string_to_hash = pw + "439fgfg334gergersd9fhq34ufq" + salt
 		Digest::SHA1.hexdigest(string_to_hash)
 	end
 

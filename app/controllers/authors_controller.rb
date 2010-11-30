@@ -2,6 +2,7 @@ class AuthorsController < ApplicationController
 	before_filter	:require_login, :except => [ :index, :show ]
 	
 	def index
+		@author = Author.last
 	end
 
 	def manage
@@ -19,6 +20,7 @@ class AuthorsController < ApplicationController
 		if @current_user.author?
 			pop_flash "Already an Author", :notice
 			redirect_to admin_index_path
+			return false
 		end
 		@author = Author.new
 		@author.pen_name = @current_user.name
@@ -46,11 +48,7 @@ class AuthorsController < ApplicationController
 	def update
 		@author = Author.find params[:id]
 		if @author.update_attributes params[:author]
-			if @author.avatar
-				@author.avatar.update_from_resource( params[:attached_avatar_file] )
-			else
-				@author.attachments.create_from_resource( params[:attached_avatar_file], 'avatar', :owner => @author )
-			end
+			process_attachments_for( @author )
 			pop_flash "Author Profile Updated!"
 		else
 			pop_flash "Profile could not be saved", :error, @author
@@ -60,16 +58,17 @@ class AuthorsController < ApplicationController
 	
 	def show 
 		@author = Author.find params[:id] if @author.nil?
-		@theme = @author.theme if @theme.nil? unless @author.nil? || @author.theme.nil?
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		if @author.nil?
 			pop_flash "No author found", :notice
 			redirect_to root_path
 		end
+		
 	end
 	
 	def bio
 		@author = Author.find params[:id] if @author.nil?
-		@theme = @author.theme if @theme.nil? unless @author.nil? || @author.theme.nil?
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 	end
 	
 	

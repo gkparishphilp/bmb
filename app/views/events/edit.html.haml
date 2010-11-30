@@ -1,0 +1,11 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h1 
+			Edit Event
+		= form_for [@current_author, @event] do |f|
+			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
+		
+- content_for :right_column do
+	%h2 Help

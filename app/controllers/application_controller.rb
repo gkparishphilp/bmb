@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
 	# @current_user -- the user who is logged in (Anonymous user if no session)
 	# @current_author -- the author who is logged in (nil if no author)
 	# @author -- the author resource (if any) that is being requested (e.g. author page or site, forum, blog, etc.)
+	# @theme the theme the author is using, if any
 
 protected
 	# Grabs @current_user from session cookie also sets @current_author
@@ -17,18 +18,20 @@ protected
 	
 	# Sets @author from either subdomain or params[:author_id]
 	def fetch_author
+		return if @author.present?
 		if request.subdomain.present? && !APP_SUBDOMAINS.include?( request.subdomain )
 			@author = Author.find_by_subdomain request.subdomain
 		elsif params[:author_id].present?
 			@author = Author.find params[:author_id]
 		end
-		@theme = @author.theme unless @author.nil? || @author.theme.nil?
+		@theme = @author.active_theme unless @author.nil? || @author.active_theme.nil?
 	end
 	
 	# grabs @current_site from request.domain
 	def fetch_site
 		@domain = request.domain
 		@current_site = Site.find_by_domain @domain || Site.first
+		@author = @current_site.author
 	end
 	
 	# simply sets session cookie for passed-in user
@@ -61,14 +64,25 @@ protected
 	end
 	
 	def process_attachments_for( obj )
-	for key in params.keys do
-		if key =~ /attached_(.+)_/
-			resource = params[key] unless params[key].blank?
-			attach = Attachment.create_from_resource( resource, $1, :owner => obj )
-			pop_flash "There was a problem with the #{attach.name} Attachment", :error, attach unless attach.errors.empty?
+		# the idea is to scan the params has for any fields with names matching "attached_whatever_something"
+		# like "attached_avatar_file", or "attached_photos_url" -- this method will take the value be it a file
+		# upload resource or a url and either update the attachment (if the attachment is a singular resource and
+		# the owning object has one already) or create a new one (otherise).  So, attachemnt collections are always added to
+		for key in params.keys do
+			if key =~ /attached_(.+)_/
+				next if params[key].blank?
+				resource = params[key]
+				if ( eval "obj.#{$1}" ) && !( eval "obj.#{$1}.respond_to? 'each'" )
+					# the object has an attachemnt of that type in the attachemnts_table and the 
+					# attachment is a singular (e.g. doesn't respond to .each ) so let's update
+					attach = eval "obj.#{$1}.update_from_resource( resource )"
+				else
+					attach = Attachment.create_from_resource( resource, $1, :owner => obj )
+				end
+				pop_flash "There was a problem with the #{attach.name} Attachment", :error, attach unless attach.errors.empty?
+			end
 		end
 	end
-end
 	
 	
 	# Controller filters -- todo -- add @current_user.validated? for filter on valid email

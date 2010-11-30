@@ -1,38 +1,33 @@
 # == Schema Information
-# Schema version: 20101110044151
+# Schema version: 20101120000321
 #
 # Table name: podcasts
 #
 #  id          :integer(4)      not null, primary key
 #  owner_id    :integer(4)
+#  owner_type  :string(255)
 #  title       :string(255)
 #  subtitle    :string(255)
 #  itunes_id   :string(255)
 #  description :text
-#  duration    :string(255)
-#  filename    :string(255)
 #  keywords    :string(255)
-#  filesize    :integer(4)
 #  explicit    :string(255)
-#  status      :string(255)
+#  status      :string(255)     default("publish")
 #  cached_slug :string(255)
 #  created_at  :datetime
 #  updated_at  :datetime
 #
 
 class Podcast < ActiveRecord::Base
-	validates_presence_of	:title
-	validates_uniqueness_of	:title
+	validates	:title, :uniqueness => { :scope => [ :owner_id, :owner_type ] }
 
 	belongs_to	:owner, :polymorphic => true
 	has_many	:episodes
 	
 	
 	has_friendly_id :title, :use_slug => :true
-	
-	def url
-		"http://" + APP_DOMAIN + "/system/audio/" + self.friendly_id + ".mp3"
-	end
+	gets_activities
+	has_attached :avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :thumb => "100", :tiny => "40"}}
 	
 	def ping_itunes
 		unless self.itunes_id.blank?

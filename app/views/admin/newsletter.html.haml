@@ -1,0 +1,60 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Newsletters
+		%br
+		%br
+		%h2 Create/Edit a newsletter
+		-form_for [ @current_author, @campaign, @email_message ]  do |f|
+		
+			Subject:
+			%br
+			=f.text_field :subject
+			%br
+
+			%br
+			= f.hidden_field :status, :value => 'Created'
+			= f.text_area :content, :class => 'mceEditor'
+
+			%br
+
+			= f.submit 'Create' 
+			|
+			= link_to 'Cancel', :back
+		
+		%br
+		%br
+		%h2 Existing Newsletters
+		%br
+		%table
+			%tr
+				%td 
+					%b Created On
+				%td 
+					%b Subject
+				%td 
+					%b Status
+				%td
+					%b Action
+
+			- for message in @current_author.email_campaigns.default.first.email_messages.reverse
+				%tr{:class => cycle(:odd, :even)}
+					%td 
+						= message.created_at.to_s(:long)
+					%td 
+						= message.subject
+					%td 
+						= message.status
+					%td
+						- if message.status.match(/created/i)
+							=link_to '[Send to me]', root_path
+							=link_to '[Send]', root_path
+							=link_to '[Edit]', admin_newsletter_path( :email_message => message )
+							=link_to '[Delete]', author_email_campaign_email_message_path( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
+						- else 
+							=link_to '[View]', admin_newsletter_path( @current_author, @campaign, message )
+		
+		
+- content_for :right_column do
+	%h2 Help

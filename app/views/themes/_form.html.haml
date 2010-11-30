@@ -1,0 +1,46 @@
+= f.label "Theme Name:"
+= f.text_field :name
+%br
+= f.check_box :show_pen_name, :checked => @edit_theme.show_pen_name
+Display Pen Name?
+%br
+= f.check_box :book_site, :checked => @edit_theme.book_site
+Book Template?
+%br
+= f.check_box :public, :checked => @edit_theme.public
+Share this Theme?
+%br
+= f.label "Text Color:"
+= f.text_field :text_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.text_color};"
+= f.label "Link Color:"
+= f.text_field :link_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.link_color};"
+= f.label "Hover Color:"
+= f.text_field :hover_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.hover_color};"
+
+= f.label "Header Color:"
+= f.text_field :header_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.header_color};"
+
+= f.label "Title Color:"
+= f.text_field :title_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.title_color};"
+
+= f.label "Body Background Color:"
+= f.text_field :bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.bg_color};"
+= f.label "Banner Background Color:"
+= f.text_field :banner_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.banner_bg_color};"
+= f.label "Content Background Color:"
+= f.text_field :content_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.content_bg_color};"
+
+= f.label "Body Background:"
+= file_field_tag :attached_bg_file
+
+= f.label "Repeat Background:"
+= f.select :bg_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+
+= f.label "Banner Image:"
+= file_field_tag :attached_banner_file
+
+= f.label "Repeat Banner:"
+= f.select :banner_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+
+%br
+= f. submit
