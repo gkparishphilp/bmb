@@ -70,7 +70,6 @@
 					- if @current_user.billing_addresses.empty? 
 						= fields_for :billing_address, @order.billing_address do |bb|
 
-							=bb.hidden_field :user_id, :value => @current_user.id
 							=bb.hidden_field :country, :value => 'US'
 							%table
 								%tr
@@ -103,20 +102,22 @@
 										= bb.collection_select :geo_state_id, @states, :id, :name
 										&nbsp;&nbsp;
 										%b Zip Code:
-										=bb.text_field :zip
+										=bb.text_field :zip, :size => 10
 
 					-else
 						Select a billing address
+			
 						= f.collection_select :billing_address_id, @current_user.billing_addresses, :id , :street
+
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						Or check to enter a new billing address
+						= check_box_tag "use_new_billing_address", "use_new_billing_address"
 						%br
 						%br
-						Or enter a new billing address
-						= check_box_tag "new_billing_address", "new_billing_address"
 						= fields_for :billing_address, @order.billing_address do |bb|
 
-							=bb.hidden_field :user_id, :value => @current_user.id
 							=bb.hidden_field :country, :value => 'US'
-							%table
+							%table#new_billing_address
 								%tr
 									%td 
 									%td 
@@ -147,17 +148,12 @@
 										= bb.collection_select :geo_state_id, @states, :id, :name
 										&nbsp;&nbsp;
 										%b Zip Code:
-										=bb.text_field :zip
-		
-	
-					%br
-					%br
-	
-					- if @sku.sku_type == 'merch'
+										=bb.text_field :zip, :size => 10
+			
+					- if @sku.contains_merch?
 						- if @current_user.shipping_addresses.empty?
 							= fields_for :shipping_address, @order.shipping_address do |ff|
 
-								=ff.hidden_field :user_id, :value => @current_user.id
 								=ff.hidden_field :country, :value => 'US'
 								%table
 									%tr
@@ -195,21 +191,22 @@
 											= ff.collection_select :geo_state_id, @states, :id, :name
 											&nbsp;&nbsp;
 											%b Zip Code:
-											= ff.text_field :zip
+											= ff.text_field :zip, :size => 10
 		
 						-else
 							Select a shipping address:
 							= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
+							
+							&nbsp;&nbsp;&nbsp;
+							Or check to enter a new shipping address
+							= check_box_tag "use_new_shipping_address", "use_new_shipping_address"
 							%br
 							%br
-							Or enter a new shipping address
-							= check_box_tag "new_shipping_address", "new_shipping_address"
-
 							= fields_for :shipping_address, @order.shipping_address do |ff|
 
-								=ff.hidden_field :user_id, :value => @current_user.id		
 								=ff.hidden_field :country, :value => 'US'
-								%table
+								%table#new_shipping_address
+
 									%tr
 										%td
 										%td 
@@ -244,9 +241,10 @@
 											= ff.collection_select :geo_state_id, @states, :id, :name
 											&nbsp;&nbsp;
 											%b Zip Code:
-											= ff.text_field :zip
+											= ff.text_field :zip, :size => 10
 		
-		
+					%br
+					%br
 					= f.submit "Buy"
 			
 			#paypal_x_checkout

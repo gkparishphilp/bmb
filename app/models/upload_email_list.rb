@@ -16,7 +16,7 @@
 class UploadEmailList < ActiveRecord::Base
 	# Created attr_accessor for book_id so select box would work on form for giveaways
 	require 'csv'
-	attr_accessor :book_id
+	attr_accessor :sku_id
 	after_save :process_file
 	belongs_to :author
 	
@@ -41,15 +41,15 @@ class UploadEmailList < ActiveRecord::Base
 		
 	def process_giveaway_list(path)
 		CSV.foreach( path ) do |row|
-			redeemable = Book.find(book_id)	
+			sku = Sku.find(sku_id)	
 			email = row[0]  # TODO better validation on email address
 			user = User.find_or_initialize_by_email( :email=> email )
 			user.save( false )					
 
-			next if user.coupons.find_by_redeemable_type_and_redeemable_id( redeemable.class, redeemable.id)
+			next if user.coupons.find_by_sku_id( sku.id)
 			coupon = Coupon.new
 			coupon.generate_giveaway_code
-			coupon.update_attributes! :owner => self.author, :redeemable => redeemable, :redeemer => user, :redemptions_allowed => 1
+			coupon.update_attributes! :owner => self.author, :sku => sku, :user => user, :redemptions_allowed => 1
 		end
 	end
 	

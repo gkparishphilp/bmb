@@ -22,8 +22,8 @@ class Coupon < ActiveRecord::Base
 	has_many	:redemptions
 	has_many 	:orders, :through => :redemptions
 	belongs_to 	:owner, :polymorphic => true
-	belongs_to 	:redeemable, :polymorphic => true
-	belongs_to 	:redeemer, :polymorphic => true
+	belongs_to 	:sku
+	belongs_to 	:user
 
 	
 	def is_valid?(order)
@@ -31,9 +31,7 @@ class Coupon < ActiveRecord::Base
 			return false
 		elsif (!self.expiration_date.nil? and self.expiration_date < Time.now)
 			return false
-		elsif !self.redeemable.blank? and self.redeemable.class != order.ordered.class
-			return false
-		elsif !self.redeemable.id.nil? and self.redeemable.id != order.ordered.id
+		elsif !self.sku_id.blank? and self.sku_id != order.sku.id
 			return false
 		else
 			return true
@@ -48,6 +46,6 @@ class Coupon < ActiveRecord::Base
 	end
 	
 	def redeem
-		Redemptions.create! :redeemer => self.redeemer, :coupon_id => self.id, :status => 'redeemed'
+		Redemption.create :user => self.user, :coupon_id => self.id, :status => 'redeemed'
 	end
 end

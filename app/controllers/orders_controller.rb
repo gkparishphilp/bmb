@@ -63,13 +63,14 @@ class OrdersController < ApplicationController
 		@order.ip = request.remote_ip
 		
 		if @current_user.anonymous? 
-			@order.user = User.new :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}", :email => params[:order][:email]
+			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
 			@order.user.save( false )
 			# todo = some validations here and/or punting errors on user up to controller flash
 		else
 			@order.user = @current_user
 		end
 		
+		# Grab Paypal Express tokens if they exist
 		unless params[:order][:paypal_express_token].blank?
 			@order.paypal_express_token = params[:order][:paypal_express_token] 
 			@order.paypal_express_payer_id = params[:order][:paypal_express_payer_id] 
@@ -81,57 +82,73 @@ class OrdersController < ApplicationController
 				redemption = Redemption.new
 				redemption.order = @order
 				redemption.coupon = @coupon
+				redemption.user = @order.user
 				redemption.save
 				@order.apply_coupon if @coupon.is_valid? (@order )
 			end
 		end
 
-		# Get billing address information from form
-		# TODO - don't save billing address for anonymous users!
-		if @current_user.billing_addresses.empty? 
-			#User does not have an existing billing address, so create one from form data		
-			unless billing_address = BillingAddress.create(params[:billing_address])
-				pop_flash "Billing address needs to be completely filled out", :error, billing_address
-			else
-				@order.billing_address = billing_address
-			end
+		#-----------------------------------------------------------
+		# Heinous code for processing shipping and billing addresses
+		# todo Refactor if time permits
+		#-----------------------------------------------------------
+		if @current_user.anonymous?
+			# For anonymous users, associate billing and shipping addresses to order, but don't associate to user
+				@billing_address = BillingAddress.new params[:billing_address]
+				@shipping_address = ShippingAddress.new params[:shipping_address] if params[:shipping_address]
+				@order.billing_address = @billing_address
+				@order.shipping_address = @shipping_address
 		else
-			if params[:new_billing_address]
-				#User has created a new billing address
-				unless billing_address = BillingAddress.create(params[:billing_address])
+			# For non-anonymous users...
+			
+			#Associating billing address with order and user
+			if @order.user.billing_addresses.empty?
+				#User does not have an existing billing address, so create one from form data
+				unless @billing_address = @order.user.billing_addresses.create( params[:billing_address] )
 					pop_flash "Billing address needs to be completely filled out", :error, billing_address
 				else
-					@order.billing_address = billing_address
+					@order.billing_address = params[:billing_address]
 				end
+				
 			else
-				#User is using an existing billing address
-				@order.billing_address = @current_user.billing_addresses.find params[:order][:billing_address_id] if @order.paypal_express_token.blank?
+				# User has created a new billing address
+				if params[:use_new_billing_address]
+					#User has created a new billing address
+					unless @billing_address = @order.user.billing_addresses.create( params[:billing_address] )
+						pop_flash "Billing address needs to be completely filled out", :error, billing_address
+					else
+						@order.billing_address = @billing_address
+					end
+				else
+					#User has selected an existing address from the drop down
+					@order.billing_address = @order.user.billing_addresses.find params[:order][:billing_address_id] if @order.paypal_express_token.blank?
+				end
+			end
+			
+			# Associating shipping address with order and user
+			if params[:shipping_address] and @order.user.shipping_addresses.empty?
+				#User does not have an existing shipping address, so create one from form data 
+				unless @shipping_address = @order.user.shipping_addresses.create( params[:shipping_address] )
+					pop_flash "Shipping address needs to be completely filled out", :error, shippinging_address	
+				else
+					@order.shipping_address = @shipping_address
+				end
+			elsif params[:shipping_address]
+				if params[:use_new_shipping_address]
+					#User has created a new shipping address
+					unless @shipping_address = @order.user.shipping_addresses.create( params[:shipping_address] )
+						pop_flash "Shipping address needs to be completely filled out", :error, shippinging_address	
+					else
+						@order.shipping_address = @shipping_address
+					end
+				else
+					#User is using an existing shipping address
+					@order.shipping_address = @order.user.shipping_addresses.find params[:order][:shipping_address_id] if @order.paypal_express_token.blank?
+				end
 			end
 		end
 
-		# Get shipping address information from form (if it exists)
-		# TODO - don't save shipping address for anonymous users!
-		
-		if params[:shipping_address] and @current_user.shipping_addresses.empty?
-			#User does not have an existing shipping address, so create one from form data 
-			unless shipping_address = ShippingAddress.create(params[:shipping_address])
-				pop_flash "Shipping address needs to be completely filled out", :error, shippinging_address	
-			else
-				@order.shipping_address = shipping_address
-			end
-		elsif params[:shipping_address]
-			if params[:new_shipping_address]
-				#User has created a new shipping address
-				unless shipping_address = ShippingAddress.create(params[:shipping_address])
-					pop_flash "Shipping address needs to be completely filled out", :error, shippinging_address	
-				else
-					@order.shipping_address = shipping_address
-				end
-			else
-				#User is using an existing shipping address
-				@order.shipping_address = @current_user.shipping_addresses.find params[:order][:shipping_address_id] if @order.paypal_express_token.blank?
-			end
-		end
+
 
 		# Process the order
 		if @order.save && @order.purchase
@@ -165,6 +182,5 @@ private
 		@author ? "authors" : "application"
 	end
 	
-
 end #End Orders controller
 

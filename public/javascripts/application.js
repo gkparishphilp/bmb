@@ -65,7 +65,12 @@ $(document).ready(function(){
 		}
 		$('#paypal_x_checkout').hide();
 	});
-	
+	$("#use_new_billing_address").click(function () {
+		$("#new_billing_address").toggle("slow");
+	});	
+	$("#use_new_shipping_address").click(function () {
+		$("#new_shipping_address").toggle("slow");
+	});
 	var visa_pat = new RegExp("^4"), // Visa
 		mast_pat = new RegExp("^5[1-5]"), // Mastercard
 		amex_pat = new RegExp("^3[47]"), // Amex

@@ -52,7 +52,7 @@ class Order < ActiveRecord::Base
 		end	
 		self.price = 0 if self.price < 0
 		self.coupon.redemptions_allowed = self.coupon.redemptions_allowed - 1
-		self.redemption.redeemer = self.user
+		self.redemption.user = self.user
 		self.redemption.status = 'redeemed'
 		self.redemption.save
 	end
