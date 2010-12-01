@@ -87,15 +87,11 @@ protected
 	
 	# Controller filters -- todo -- add @current_user.validated? for filter on valid email
 	def require_admin
-		if @current_user.anonymous?
-			fail "Please log in first"
+		unless @current_user.admin? @current_site
+			fail "Admins Only"
 			return false
-		else
-			unless @current_user.admin? @current_site
-				fail "Admins Only"
-				return false
-			end
 		end
+		@admin = @current_site
 	end
 	
 	def require_contributor
@@ -125,10 +121,20 @@ protected
 		end
 	end
 	
-	def require_author
-		if @current_author.nil?
+	def require_author_or_admin
+		unless @current_author.present? || @current_user.admin?( @current_site )
 			fail "Must be logged in as an author", :notice
 			return false
+		end
+		@admin = @current_author.present? ? @current_author : @current_site
+	end
+	
+	def author_owns( obj )
+		unless ( obj.owner == @current_author ) || @current_user.admin?( @current_site )
+			pop_flash "Not your #{obj.class.name}", :error
+			return false
+		else
+			return true
 		end
 	end
 	

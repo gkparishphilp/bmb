@@ -150,6 +150,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def make_admin( site )
+		return false if self.author?
 		r = Role.create :user_id => self.id, :site_id => site.id, :role => 'admin'
 	end
 	

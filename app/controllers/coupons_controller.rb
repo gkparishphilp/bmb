@@ -27,6 +27,26 @@ class CouponsController < ApplicationController
 			
 		end
 	end
+	
+	def validate
+		coupon = Coupon.find_by_code( params[:code] )
+		@code = params[:code]
+		@sku_id = params[:sku_id]
+		
+		sku = Sku.find( params[:sku_id] )
+		if coupon && sku
+			@response = coupon.is_valid?( sku )
+			@discount = coupon.discount_type == 'percent' ? ( coupon.discount.to_f / 100 ) : coupon.discount
+			@discount_type = coupon.discount_type
+		else
+			@response = false
+			@discount = 0
+			@discount_type = 'none'
+		end
+		
+		render :layout => false
+		
+	end
 
 end
 

@@ -11,7 +11,10 @@ class SitesController < ApplicationController
 	
 	def edit
 		@site = Site.find params[:id]
-		# require author_owns @site
+		unless author_owns( @asset )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 	
@@ -27,6 +30,10 @@ class SitesController < ApplicationController
 	
 	def update
 		@site = Site.find params[:id] 
+		unless author_owns( @asset )
+			redirect_to root_path
+			return false
+		end
 		if @site.update_attributes params[:site]
 			pop_flash "Domain Updated"
 		else
@@ -37,6 +44,13 @@ class SitesController < ApplicationController
 	
 	def index
 		@activities = Activity.feed @current_site.users, @current_site
+		
+		blog_posts = @current_site.articles.order( "created_at desc" ).limit( 5 )
+		episodes = @current_site.podcasts.first.episodes.order( "created_at desc" ).limit( 5 )
+
+		@items = blog_posts + episodes
+		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
+		
 	end
 	
 end

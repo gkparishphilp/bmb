@@ -27,7 +27,7 @@ class Site < ActiveRecord::Base
 	has_many :articles, :as => :owner
 	has_many :forums, :as => :owner
 	has_many :podcasts, :as => :owner
-	
+	has_many :events, :as => :owner
 	has_many :links, :as => :owner
 	has_many :twitter_accounts, :as => :owner
 	has_many :facebook_accounts, :as => :owner

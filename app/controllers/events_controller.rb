@@ -19,6 +19,10 @@ class EventsController < ApplicationController
 	
 	def edit
 		@event = Event.find params[:id]
+		unless author_owns( @event )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 
@@ -44,7 +48,10 @@ class EventsController < ApplicationController
 
 	def update
 		@event = Event.find  params[:id] 
-
+		unless author_owns( @event )
+			redirect_to root_path
+			return false
+		end
 		if @event.update_attributes params[:event]
 			pop_flash 'Event was successfully updated.'
 			redirect_to :back

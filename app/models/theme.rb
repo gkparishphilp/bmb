@@ -36,6 +36,10 @@ class Theme < ActiveRecord::Base
 
 	scope :public, where( "public = true" )
 	scope :default, where( "creator_id is null" )
+	
+	def owner
+		return self.creator
+	end
 
 	def activate_for( author )
 		unless author.theme_ownings.empty?

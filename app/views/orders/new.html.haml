@@ -2,13 +2,15 @@
 	%h1 
 		Purchase
 		= @sku.title
-	%h3
-		Price: 
-		= number_to_currency @sku.price.to_f / 100
+	#price_div( style="width:150px;" )
+		%h3
+			Price: 
+			%span#the_price( sku_price="#{@sku.price}" )
+				= number_to_currency @sku.price.to_f / 100
 	#checkout
 		-if @order.paypal_express_token.blank?	
 
-			-form_for @order do |f|
+			= form_for @order do |f|
 	
 				%table
 					= f.hidden_field :price, :value => @sku.price
@@ -38,14 +40,16 @@
 							%td
 								%b E-mail
 							- @order.email = @current_user.email unless @current_user.anonymous?
-							%td= f.text_field :email
+							%td= f.text_field :email, :class => 'required_email'
 
 						-if @sku.sku_type != 'subscription'
 							%tr
 								%td
 									%b Enter Coupon Code
 								%td
-									=text_field_tag :coupon_code			
+									=text_field_tag :coupon_code, "", :class => :coupon
+									#valid_coupon_div( style = "margin:10px 0px;")
+										#valid_coupon
 						%tr
 							%td
 								%b Card Number
@@ -259,7 +263,7 @@
 				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_path(:sku => @sku)
 			
 		-else
-			-form_for @order do |f|
+			= form_for @order do |f|
 				= f.hidden_field :paypal_express_token, :value => @order.paypal_express_token
 				= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
 				= f.hidden_field :user_id, :value => @current_user.id
@@ -267,12 +271,14 @@
 				= f.hidden_field :sku_id, :value => @sku.id
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)
-					= f.text_field :email
+					= f.text_field :email, :class => 'required_email'
 				-else
 					= f.hidden_field :email, :value => @current_user.email
 				%br
 				%b Enter Coupon Code (if applicable)
-				= text_field_tag :coupon_code
+				= text_field_tag :coupon_code, "", :class => :coupon
+				#valid_coupon_div( style = "margin:10px 0px;")
+					#valid_coupon
 				%br
 				Please confirm your Paypal order by clicking the button below.
 				%br

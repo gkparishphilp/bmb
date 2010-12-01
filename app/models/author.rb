@@ -66,7 +66,9 @@ class Author < ActiveRecord::Base
 		return 90
 	end
 	
-	
+	def owner
+		return self
+	end
 	
 	def assets
 		# return all assets for all books for the author

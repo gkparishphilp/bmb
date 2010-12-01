@@ -8,7 +8,10 @@ class LinksController < ApplicationController
 
 	def edit
 		@link = @owner.links.find  params[:id]
-		check_link_permissions
+		unless author_owns( @link )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 
@@ -27,7 +30,10 @@ class LinksController < ApplicationController
 	def update
 		@link = Link.find  params[:id] 
 		
-		check_link_permissions
+		unless author_owns( @link )
+			redirect_to root_path
+			return false
+		end
 		
 		if @link.update_attributes params[:link]
 			pop_flash 'Link was successfully updated.'

@@ -11,6 +11,10 @@ class ArticlesController < ApplicationController
 	
 	def edit
 		@article = Article.find params[:id]
+		unless author_owns( @article )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 	
@@ -29,6 +33,10 @@ class ArticlesController < ApplicationController
 
 	def update
 		@article = Article.find  params[:id] 
+		unless author_owns( @article )
+			redirect_to root_path
+			return false
+		end
 
 		if @article.update_attributes params[:article]
 			pop_flash 'Article was successfully updated.'

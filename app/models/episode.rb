@@ -36,4 +36,8 @@ class Episode < ActiveRecord::Base
 		"http://" + APP_DOMAIN + "/system/audio/podcasts/#{self.podcast.id}/#{self.id}/" + self.friendly_id + ".mp3"
 	end
 	
+	def owner
+		return self.podcast.owner
+	end
+	
 end
