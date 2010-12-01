@@ -154,7 +154,7 @@ class OrdersController < ApplicationController
 		if @order.save && @order.purchase
 			pop_flash 'Order was successfully processed.'
 			@order.update_attributes :status => 'success'
-			@order.post_purchase_actions
+			@order.post_purchase_actions( @current_user )
 			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order

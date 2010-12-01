@@ -37,7 +37,7 @@
 						%tr
 							%td
 								%b E-mail
-							- @order.email = 'tay@backmybook.com' if Rails.env.development?
+							- @order.email = @current_user.email unless @current_user.anonymous?
 							%td= f.text_field :email
 
 						-if @sku.sku_type != 'subscription'
@@ -265,7 +265,11 @@
 				= f.hidden_field :user_id, :value => @current_user.id
 				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
-				= f.hidden_field :email, :value => @current_user.email
+				- if @current_user.anonymous?
+					%b E-mail (REQUIRED)
+					= f.text_field :email
+				-else
+					= f.hidden_field :email, :value => @current_user.email
 				%br
 				%b Enter Coupon Code (if applicable)
 				= text_field_tag :coupon_code

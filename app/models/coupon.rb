@@ -39,7 +39,7 @@ class Coupon < ActiveRecord::Base
 		
 	end
 	
-	def generate_giveaway_code
+	def generate_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		self.code = Digest::SHA1.hexdigest random_string
 		self.save

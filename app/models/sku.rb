@@ -78,4 +78,10 @@ class Sku < ActiveRecord::Base
 		return false
 	end
 	
+	def contains_etext?
+		for sku_item in self.sku_items
+			return true if sku_item.item_type == 'Etext'
+		end
+		return false
+	end
 end

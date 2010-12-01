@@ -204,6 +204,13 @@ class User < ActiveRecord::Base
 	def facebook_user?
 		!self.facebook_accounts.empty?
 	end
+	
+	def owns?( sku )
+		for owning in self.ownings
+			return true if owning.sku == sku
+		end
+		return false
+	end
 
 	protected
 
