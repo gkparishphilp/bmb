@@ -84,7 +84,7 @@ class OrdersController < ApplicationController
 				redemption.coupon = @coupon
 				redemption.user = @order.user
 				redemption.save
-				@order.apply_coupon if @coupon.is_valid? (@order )
+				@order.apply_coupon if @coupon.is_valid? (@order.sku )
 			end
 		end
 
