@@ -107,28 +107,33 @@ h1, h2, h3 {
 }
 
 /* line 105, ../../app/stylesheets/partials/_sitewide.sass */
+p {
+  margin: 15px 5px;
+}
+
+/* line 108, ../../app/stylesheets/partials/_sitewide.sass */
 #container {
   min-height: 600px;
 }
 
-/* line 108, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 111, ../../app/stylesheets/partials/_sitewide.sass */
 .clear {
   clear: both;
 }
 
 /* =Structure */
-/* line 113, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 116, ../../app/stylesheets/partials/_sitewide.sass */
 #container {
   width: 100%;
 }
 
-/* line 116, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 119, ../../app/stylesheets/partials/_sitewide.sass */
 #bd, #ft {
   margin: auto;
   width: 980px;
 }
 
-/* line 120, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 123, ../../app/stylesheets/partials/_sitewide.sass */
 #bd {
   background-color: white;
   border: 1px solid #b0d3e1;
@@ -142,34 +147,34 @@ h1, h2, h3 {
   border-top-right-radius: 5px;
 }
 
-/* line 127, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 130, ../../app/stylesheets/partials/_sitewide.sass */
 .column1, .column2 {
   float: left;
 }
 
-/* line 130, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 133, ../../app/stylesheets/partials/_sitewide.sass */
 .column1 {
   width: 65.5%;
 }
 
-/* line 133, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 136, ../../app/stylesheets/partials/_sitewide.sass */
 .author_bd .column1 {
   background: white url("../images/content_bg.jpg") repeat-y right top;
 }
 
-/* line 136, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 139, ../../app/stylesheets/partials/_sitewide.sass */
 .column2 {
   width: 34.4%;
 }
 
-/* line 139, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 142, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="text"], input[type="password"], textarea {
   padding: 2px;
   background: #f9f9f9;
   border: 1px solid #cccccc;
 }
 
-/* line 144, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 147, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="text"] {
   -moz-border-radius: 4px;
   -khtml-border-radius: 4px;
@@ -177,7 +182,7 @@ input[type="text"] {
   border-radius: 4px;
 }
 
-/* line 147, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 150, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="password"] {
   -moz-border-radius: 4px;
   -khtml-border-radius: 4px;
@@ -185,13 +190,13 @@ input[type="password"] {
   border-radius: 4px;
 }
 
-/* line 149, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 152, ../../app/stylesheets/partials/_sitewide.sass */
 label {
   padding: 4px 3px;
 }
 
 /* =Layout */
-/* line 155, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 158, ../../app/stylesheets/partials/_sitewide.sass */
 .search_form input[type="text"] {
   float: right;
   border: 1px solid #dddddd;
@@ -203,37 +208,37 @@ label {
   background-color: white;
 }
 
-/* line 165, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 168, ../../app/stylesheets/partials/_sitewide.sass */
 .static_content {
   padding: 10px;
 }
 
-/* line 167, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 170, ../../app/stylesheets/partials/_sitewide.sass */
 .text {
   line-height: 1.4em;
   padding: 5px;
 }
 
-/* line 172, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 175, ../../app/stylesheets/partials/_sitewide.sass */
 #flash {
   width: 96%;
   margin: 20px auto;
 }
-/* line 175, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 178, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .error {
   background: #ffd1d6 url(../images/close_error.png) 99.5% 19% no-repeat;
   border: 2px solid #ff3333;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 178, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 181, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .success {
   background: #e6efc2 url(../images/close_success.png) 99.5% 19% no-repeat;
   border: 2px solid #c6d880;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 181, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 184, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .notice {
   background: #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat;
   border: 2px solid #ffd324;
@@ -1395,7 +1400,12 @@ input#order_card_cvv {
 }
 
 /* line 19, ../../app/stylesheets/partials/_order.sass */
-#shipping_address {
+#new_billing_address {
+  display: none;
+}
+
+/* line 22, ../../app/stylesheets/partials/_order.sass */
+#new_shipping_address {
   display: none;
 }
 

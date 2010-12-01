@@ -50,7 +50,11 @@ class AssetsController < ApplicationController
 					end
 				end
 			end
+			
 			process_attachments_for( @asset )
+			@asset.reload
+			@asset.update_attributes :title => @asset.title.gsub( /etext/i, "#{@asset.document.format}" )
+			
 			pop_flash 'Asset saved!', 'success'
 		else
 			pop_flash 'Asset could not be saved.', :error, @asset

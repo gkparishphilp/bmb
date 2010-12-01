@@ -49,7 +49,7 @@ class AdminController < ApplicationController
 	end
 	
 	def themes
-		@default_themes = Theme.default
+		@default_themes = Theme.default - @current_author.themes
 	end
 
 end
