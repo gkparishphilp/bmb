@@ -1,5 +1,5 @@
 class AssetsController < ApplicationController
-	before_filter   :get_parent
+	before_filter   :get_parent, :except => :deliver
 	layout			'3col'
 	
 	def new
@@ -84,8 +84,33 @@ class AssetsController < ApplicationController
 						:filename => @asset.book.title + "." + @asset.document.format
 		#@asset.raw_stats.create :name =>'download', :ip => request.ip
 		@asset.save
-		@current_user.did_download @asset.book
+		@current_user.did_download @asset.book unless @current_user.anonymous?
 		
+	end
+	
+	def deliver
+		@asset = Asset.find params[:id]
+		@order = Order.find params[:order_id]
+		if owning = Owning.find_by_sku_id_and_user_id( @order.sku.id, @order.user.id )
+			if @current_user.anonymous? and owning.delivered == false
+				send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
+							:filename => @asset.book.title + "." + @asset.document.format
+				owning.update_attributes :delivered => true
+			elsif @current_user.anonymous? and owning.delivered == true
+				pop_flash "This item has already been delivered.  Please register/login as #{@order.email} to redownload this item.", :error
+				redirect_to register_path
+			elsif @current_user == @order.user
+				send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
+							:filename => @asset.book.title + "." + @asset.document.format
+				owning.update_attributes :delivered => true if owning.delivered == false
+			else
+				pop_flash "Sorry, you do not own this item", :error
+				redirect_to root_path
+			end
+		else
+			pop_flash "Sorry, could not deliver the file.", :error
+			redirect_to root_path
+		end
 	end
 	
 	def destroy

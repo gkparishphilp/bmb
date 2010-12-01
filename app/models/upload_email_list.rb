@@ -48,7 +48,7 @@ class UploadEmailList < ActiveRecord::Base
 
 			next if user.coupons.find_by_sku_id( sku.id)
 			coupon = Coupon.new
-			coupon.generate_giveaway_code
+			coupon.generate_code
 			coupon.update_attributes! :owner => self.author, :sku => sku, :user => user, :redemptions_allowed => 1
 		end
 	end

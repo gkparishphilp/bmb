@@ -24,8 +24,8 @@ class Order < ActiveRecord::Base
 	
 	belongs_to :sku
 	has_many	:royalties
-	has_one :redemption
-	has_one :coupon, :through => :redemption
+	has_many :redemption
+	has_many :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
 	has_one	:subscribing
@@ -141,13 +141,13 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 # Actions after a successful order transaction
 #---------------------------------------------------------------
-	def post_purchase_actions
+	def post_purchase_actions(current_user)
 		
 		# add sku_items to ownings
 		self.sku.ownings.create :user => self.user, :status => 'active'
 		
 		# send email
-		UserMailer.bought_sku( self, self.user ).deliver
+		UserMailer.bought_sku( self, self.user ).deliver 
 		
 		# add royalty entry
 		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round

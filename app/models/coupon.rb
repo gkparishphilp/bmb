@@ -26,12 +26,12 @@ class Coupon < ActiveRecord::Base
 	belongs_to 	:user
 
 	
-	def is_valid?(order)
+	def is_valid?( sku )
 		if self.redemptions_allowed == 0
 			return false
-		elsif (!self.expiration_date.nil? and self.expiration_date < Time.now)
+		elsif ( self.expiration_date.present? and self.expiration_date < Time.now )
 			return false
-		elsif !self.sku_id.blank? and self.sku_id != order.sku.id
+		elsif self.sku_id.present? and self.sku_id != order.sku.id
 			return false
 		else
 			return true
@@ -39,7 +39,7 @@ class Coupon < ActiveRecord::Base
 		
 	end
 	
-	def generate_giveaway_code
+	def generate_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		self.code = Digest::SHA1.hexdigest random_string
 		self.save

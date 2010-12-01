@@ -18,8 +18,10 @@ Backmybook::Application.routes.draw do
 		resources :comments
 	end
 	
-	resources :assets
-	
+	resources :assets do
+		get 'deliver', :on => :member
+	end
+		
 	resources :authors do
 		resources :articles
 		resources :blog
@@ -179,9 +181,7 @@ Backmybook::Application.routes.draw do
 	
 	
 	match "/:permalink", :to => 'static_pages#show'
-	
-	match "/redeem/:code", :to => "coupons#giveaway_redeem"
-	
+		
 	match "/unsubscribe/:code", :to => "email_subscribings#unsubscribe"
 		
 		
