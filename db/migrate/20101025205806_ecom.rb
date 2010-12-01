@@ -83,6 +83,7 @@ class Ecom < ActiveRecord::Migration
 			t.references	:user
 			t.references	:sku
 			t.string	:status, :default => 'active'
+			t.boolean	:delivered, :default => 0
 			
 			t.timestamps
 		end

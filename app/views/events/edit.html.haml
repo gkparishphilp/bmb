@@ -5,7 +5,7 @@
 		%h1 
 			Edit Event
 		= form_for [@current_author, @event] do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
+			= render 'form', :f => f, :m => 'Update'
 		
 - content_for :right_column do
 	%h2 Help

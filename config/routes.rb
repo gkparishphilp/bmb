@@ -24,8 +24,10 @@ Backmybook::Application.routes.draw do
 		resources :comments
 	end
 	
-	resources :assets
-	
+	resources :assets do
+		get 'deliver', :on => :member
+	end
+		
 	resources :authors do
 		resources :articles
 		resources :blog
@@ -150,7 +152,9 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :themes
-	resources :upload_email_lists
+	resources :upload_email_lists do
+		get 'download', :on => :collection
+	end
 	
 	resources  :users do
 		resources :recommends
@@ -194,13 +198,11 @@ Backmybook::Application.routes.draw do
 	match '/login' => 'sessions#new', :as => 'login'
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
-	
+	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'
 	
 	
 	match "/:permalink", :to => 'static_pages#show'
-	
-	match "/redeem/:code", :to => "coupons#giveaway_redeem"
-	
+		
 	match "/unsubscribe/:code", :to => "email_subscribings#unsubscribe"
 		
 		

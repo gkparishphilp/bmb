@@ -4,7 +4,7 @@ class UploadEmailListsController < ApplicationController
 	def create
 		@upload_email_list = UploadEmailList.new params[:upload_email_list]
 		filename = params[:upload_email_list][:file_name]
-		@upload_email_list.book_id = params[:upload_email_list][:book_id]
+		@upload_email_list.sku_id = params[:upload_email_list][:sku_id]
 		@upload_email_list.list_type = params[:upload_email_list][:list_type]
 		
 		@upload_email_list.author = @author
@@ -34,6 +34,25 @@ class UploadEmailListsController < ApplicationController
 			end
 			render :action => :new
 		end
+	end
+
+	def download
+		#todo, scope coupons by sku_id 
+		@sku = params[:sku]
+		@coupons = Coupon.find_all_by_owner_id_and_owner_type_and_discount_type_and_discount( @author.id, 'Author', 'percent', 100)
+		csv_string = CSV.generate do |csv|
+			#header row
+			csv << ["email address", "download url"]
+			#data rows
+			@coupons.each do |coupon|
+				url = redeem_code_url(:code => coupon.code, :email => coupon.user.email )
+				csv << [coupon.user.email, url]
+			end
+		end
+		
+		send_data csv_string,
+			:type => 'text/csv; charset=iso-8859-1; header=present',
+			:disposition => "attachment; filename = list.csv"
 	end
 
 	protected

@@ -14,38 +14,47 @@
 					= f.hidden_field :price, :value => @sku.price
 					= f.hidden_field :sku_id, :value => @sku.id
 					%tr
+						%td &nbsp;
+						%td &nbsp;
+					%tr
 						%td
-						%td 
 							%h3 Payment Information
 							(Only US Credit Cards Accepted)
 					%tr
 						%td
-							%b Payment Method:
+							%b Payment Method
 						%td#pay_select
 							=f.radio_button :payment_type, "credit_card", :id => "credit_radio", :checked => true
 							= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
 							&nbsp &nbsp &nbsp
-							=f.radio_button :payment_type, "paypal", :id => 'paypal_radio'
-							<!-- PayPal Logo --><a href="#" onclick="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img  src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" border="0" alt="Acceptance Mark" align="center"></a><!-- PayPal Logo -->
+							-unless @sku.sku_type == 'subscription'
+								=f.radio_button :payment_type, "paypal", :id => 'paypal_radio'
+								<!-- PayPal Logo --><a href="#" onclick="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img  src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" border="0" alt="Acceptance Mark" align="center"></a><!-- PayPal Logo -->
 				%br
 				%br
 				#cc_info
 					%table
+						%tr
+							%td
+								%b E-mail
+							- @order.email = @current_user.email unless @current_user.anonymous?
+							%td= f.text_field :email
+
 						-if @sku.sku_type != 'subscription'
 							%tr
 								%td
-									%b Enter Coupon Code (if applicable)
-								%td= text_field_tag :coupon_code
-					
+									%b Enter Coupon Code
+								%td
+									=text_field_tag :coupon_code			
 						%tr
 							%td
-								%b Card Number:
+								%b Card Number
 							- @order.card_number = '4411037113154626' if Rails.env.development?
 							%td= f.text_field :card_number
 
 						%tr
 							%td
-								%b Card Security Code (CVV):
+								%b Card Security Code (CVV)
 								-  @order.card_cvv = '123' if Rails.env.development?
 							%td
 								= f.text_field :card_cvv
@@ -59,11 +68,6 @@
 								= f.select :card_exp_month, @months
 								&nbsp;/&nbsp;
 								= f.select :card_exp_year, @years
-						%tr
-							%td
-								%b E-mail:
-							- @order.email = 'tay@backmybook.com' if Rails.env.development?
-							%td= f.text_field :email
 					%br
 					%br
 
@@ -149,7 +153,8 @@
 										&nbsp;&nbsp;
 										%b Zip Code:
 										=bb.text_field :zip, :size => 10
-			
+		
+					%br
 					- if @sku.contains_merch?
 						- if @current_user.shipping_addresses.empty?
 							= fields_for :shipping_address, @order.shipping_address do |ff|
@@ -248,7 +253,7 @@
 					= f.submit "Buy"
 			
 			#paypal_x_checkout
-				Click the PayPal logo below to sign into your PayPal account.  You will be returned here to complete your order and enter any coupon codes you might have.
+				Click the PayPal logo below to sign into your PayPal account.  You will be returned here to complete your order.
 				%br
 				%br
 				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_path(:sku => @sku)
@@ -260,9 +265,11 @@
 				= f.hidden_field :user_id, :value => @current_user.id
 				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
-				%b Enter Email Address (REQUIRED)
-				= f.text_field :email
-				%br
+				- if @current_user.anonymous?
+					%b E-mail (REQUIRED)
+					= f.text_field :email
+				-else
+					= f.hidden_field :email, :value => @current_user.email
 				%br
 				%b Enter Coupon Code (if applicable)
 				= text_field_tag :coupon_code

@@ -17,10 +17,12 @@ class ForumsController < ApplicationController
 
 	def new
 		@forum = Forum.new
+		render :layout => '3col'
 	end
 
 	def edit
 		@forum = Forum.find params[:id] 
+		render :layout => '3col'
 	end
 
 	def create

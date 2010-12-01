@@ -27,7 +27,7 @@ class Coupon < ActiveRecord::Base
 
 	
 	def is_valid?( sku )
-		if self.redemptions_allowed == 0
+		if self.already_redeemed?
 			return false
 		elsif ( self.expiration_date.present? and self.expiration_date < Time.now )
 			return false
@@ -39,7 +39,7 @@ class Coupon < ActiveRecord::Base
 		
 	end
 	
-	def generate_giveaway_code
+	def generate_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		self.code = Digest::SHA1.hexdigest random_string
 		self.save
@@ -47,5 +47,17 @@ class Coupon < ActiveRecord::Base
 	
 	def redeem
 		Redemption.create :user => self.user, :coupon_id => self.id, :status => 'redeemed'
+	end
+	
+	def already_redeemed?
+		self.redemptions.count > 0 ? num_redemptions = self.redemptions.find_all_by_status( 'redeemed' ).count : num_redemptions = 0
+		if self.redemptions_allowed > 0
+			num_redemptions < self.redemptions_allowed ? false : true
+		elsif self.redemptions_allowed < 0
+			return false
+		else 
+			return true  
+		end
+			 
 	end
 end
