@@ -1395,7 +1395,12 @@ input#order_card_cvv {
 }
 
 /* line 19, ../../app/stylesheets/partials/_order.sass */
-#shipping_address {
+#new_billing_address {
+  display: none;
+}
+
+/* line 22, ../../app/stylesheets/partials/_order.sass */
+#new_shipping_address {
   display: none;
 }
 

@@ -1,11 +1,17 @@
 Backmybook::Application.routes.draw do
 
-	# Hoghest-priority root is non-app domain and send root to author controller
+	# Highest-priority root is non-app domain and send root to author controller
+	# constraints( Domain ) is defined in lib/domain.rb and simply matches request domain against 
+	# an array of known domains (defined in config/initializers/app.rb). 
+	# Anything that doesn't match is assumed to be an author
 	constraints( Domain ) do
 		match '/' => 'authors#show'
 	end
 	
 	# Next is subdomain and send root to author controller
+	# constraints( Subdomain ) is defined in lib/subdomain.rb and simply matches request domain against 
+	# an array of known subdomains (defined in config/initializers/app.rb).  
+	# Anything that doesn't match is assumed to be an author
 	constraints( Subdomain ) do
 		match '/' => 'authors#show'
 	end
@@ -68,8 +74,21 @@ Backmybook::Application.routes.draw do
 		get 'bio', :on => :member
 		
 	end
-
+	
+	# For direct - url and subdomain access....
 	resources :blog  # for the site blog
+	resources :books
+	resources :events
+	resources :forums
+	resources :store
+	resources :podcasts do
+		resources :episodes do
+			get 'download', :on => :member
+			resources :comments
+		end
+	end
+	resources :links
+	resources :merches
 	
 	resources :contacts
 	
