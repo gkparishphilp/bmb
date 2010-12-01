@@ -2,9 +2,11 @@
 	%h1 
 		Purchase
 		= @sku.title
-	%h3
-		Price: 
-		= number_to_currency @sku.price.to_f / 100
+	#price_div( style="width:150px;" )
+		%h3
+			Price: 
+			%span#the_price( sku_price="#{@sku.price}" )
+				= number_to_currency @sku.price.to_f / 100
 	#checkout
 		-if @order.paypal_express_token.blank?	
 
@@ -45,7 +47,9 @@
 								%td
 									%b Enter Coupon Code
 								%td
-									=text_field_tag :coupon_code			
+									=text_field_tag :coupon_code
+									#valid_coupon_div( style = "margin:10px 0px;")
+										#valid_coupon
 						%tr
 							%td
 								%b Card Number
