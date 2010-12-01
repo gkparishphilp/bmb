@@ -1,0 +1,16 @@
+-content_for :left_column do
+	%h3 
+		Download 
+		=@sku.title
+	%br
+	-if @sku.contains_etext?
+		You can download digital items using the links below:
+		%br	
+		- for sku_item in @sku.sku_items
+			= link_to sku_item.item.title, deliver_asset_url( sku_item.item, :order_id => @order.id)
+			%br
+		%br
+		Note: You will only be able to download one format without registering, so choose carefully.
+		%br
+		%br
+		

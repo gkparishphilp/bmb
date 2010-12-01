@@ -49,10 +49,10 @@ class UploadEmailList < ActiveRecord::Base
 			next if user.coupons.find_by_sku_id( sku.id)
 			coupon = Coupon.new
 			coupon.generate_code
-			coupon.update_attributes! :owner => self.author, :sku => sku, :user => user, :redemptions_allowed => 1
+			coupon.update_attributes! :owner => self.author, :sku => sku, :user => user, :redemptions_allowed => 1, :discount_type => 'percent', :discount => 100
 		end
 	end
-	
+
 
 	def process_newsletter_list(path)
 		CSV.foreach( path ) do |row|
