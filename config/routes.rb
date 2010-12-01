@@ -133,7 +133,9 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :themes
-	resources :upload_email_lists
+	resources :upload_email_lists do
+		get 'download', :on => :collection
+	end
 	
 	resources  :users do
 		resources :recommends
@@ -177,7 +179,7 @@ Backmybook::Application.routes.draw do
 	match '/login' => 'sessions#new', :as => 'login'
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
-	
+	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'
 	
 	
 	match "/:permalink", :to => 'static_pages#show'

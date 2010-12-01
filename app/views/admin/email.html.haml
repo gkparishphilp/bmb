@@ -4,7 +4,7 @@
 	.form_group
 		%h1 Manage Email List
 		%br
-		%h2 Upload Email Subscriber List
+		%h3 Upload Email Subscriber List
 
 		-form_for [ @author, UploadEmailList.new ], :html => {:multipart => :true} do |f|
 			= f.file_field :file_name
@@ -16,17 +16,21 @@
 		%br
 		%br
 		
-		%h2 Upload Giveaway Email List 
+		%h3 Upload Giveaway Email List 
 
-		-# TODO This form only lists books as the item to be given away.  Should extend this in the future perhaps?
 		-form_for UploadEmailList.new, :html => {:multipart => :true} do |f|
-			For Book: 
-			= f.collection_select :book_id, @current_user.author.books, :id, :title
+			For Sku: 
+			= f.collection_select :sku_id, @current_user.author.skus, :id, :title
 			= f.file_field :file_name
 			= f.submit "Upload"
 			= f.hidden_field :list_type, :value => "giveaway"
 			%br
 			Comma separated value (.csv) file with email column only.
-	
+
+		%br
+		%br
+		%h3 Download Giveway Email List
+		
+		=link_to 'Download Giveaway List', download_upload_email_lists_path
 - content_for :right_column do
 	%h2 Help
