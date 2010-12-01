@@ -18,10 +18,19 @@
 			= link_to "Upload Audio", new_author_book_asset_path( @author, @book, :type => 'audio' )
 		.clear &nbsp;
 		%table.admin_table
+			%th Title
+			%th SKU?
+			%th Type
 			- for asset in @assets
 				%tr
 					%td
 						= asset.title
+					%td
+						- if asset.asset_type == 'sale'
+							= number_to_currency asset.sku.price / 100
+							= asset.sku.sku_type
+						- else
+							Free/Preview
 					%td
 						= asset.type
 					%td

@@ -36,6 +36,10 @@ class BooksController < ApplicationController
 	
 	def edit
 		@book = Book.find params[:id]
+		unless @book.author == @current_author
+			fail "Not Your Book"
+			return false
+		end
 		
 		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
 		@genres += Genre.find_by_name( 'fiction' ).children
@@ -50,7 +54,11 @@ class BooksController < ApplicationController
 	
 	def update
 		@book = Book.find params[:id] 
-
+		unless @book.author == @current_author
+			fail "Not Your Book"
+			return false
+		end
+		
 		if @book.update_attributes params[:book]
 			process_attachments_for( @book )
 			pop_flash 'Book was successfully updated.'

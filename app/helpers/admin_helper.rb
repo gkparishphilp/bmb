@@ -28,6 +28,8 @@ module AdminHelper
 				for column in columns do
 					if column.to_s =~ /_at\z/
 						str += "<td>#{format_date_only item.send( column.to_s )}</td>"
+					elsif column.to_s == 'price'
+						str += "<td>#{number_to_currency( item.send( column.to_s ) / 100 )}"
 					else
 						str += "<td>#{item.send( column.to_s )}</td>"
 					end

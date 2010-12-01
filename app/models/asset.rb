@@ -41,6 +41,10 @@ class Asset < ActiveRecord::Base
 	
 	scope :free, where( "asset_type = 'free'" )
 	
+	def sku
+		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
+	end
+	
 	
 end
 

@@ -31,36 +31,16 @@ class AssetsController < ApplicationController
 		
 		if @asset.save
 			# Check sku if type is sale
-			if @asset.asset_type == 'sale'
-				if params[:type] == 'etext' || params[:type] == 'pdf'
-					sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'ebook' )
-					if sku.present?
-						sku.add_item( @asset )
-					else
-						sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
-						sku.add_item( @asset )
-					end
-				elsif params[:type] == 'audio'
-					sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'audio_book' )
-					if sku.present?
-						sku.add_item( @asset )
-					else
-						sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
-						sku.add_item( @asset )
-					end
-				end
-			end
-			
+			create_asset_sku if @asset.asset_type == 'sale'
 			process_attachments_for( @asset )
-			@asset.reload
+			@asset.reload # to bring the new attachemnt into the @asset model
 			@asset.update_attributes :title => @asset.title.gsub( /etext/i, "#{@asset.document.format}" )
-			
 			pop_flash 'Asset saved!', 'success'
 		else
 			pop_flash 'Asset could not be saved.', :error, @asset
 		end
 
-		redirect_to :back
+		redirect_to author_book_assets_path( @current_author, @book ) 
 
 	end
 	
@@ -124,6 +104,26 @@ class AssetsController < ApplicationController
 	
 	def get_parent
 		@book = Book.find params[:book_id]
+	end
+	
+	def create_asset_sku
+		if params[:type] == 'etext' || params[:type] == 'pdf'
+			sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'ebook' )
+			if sku.present?
+				sku.add_item( @asset )
+			else
+				sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
+				sku.add_item( @asset )
+			end
+		elsif params[:type] == 'audio'
+			sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'audio_book' )
+			if sku.present?
+				sku.add_item( @asset )
+			else
+				sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
+				sku.add_item( @asset )
+			end
+		end
 	end
 
 end
