@@ -94,8 +94,17 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#new_order').submit( function(){
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
+		 if( ! $('.required_email').attr('value').match(re) ){
+			alert( "Email is required" );
+			$('.required_email').effect("highlight", {}, 3000);
+			return false;
+		}
+	});
 	
-	$('#coupon_code').blur(function (){
+	
+	$('.coupon').blur(function (){
 		the_url = "/coupons/validate/";
 		the_url += $('#order_sku_id').attr('value');
 		the_url += "/" + $(this).attr('value');
