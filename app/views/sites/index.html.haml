@@ -1,10 +1,44 @@
 - content_for :left_column do
 	= image_tag "welcome_authors.jpg"
 	.pad_content
-		%h1
-			This would be a Blog
-		.text
-			dfk sdlfkj sldfj slakjf alsdkjf alsdfj alsdfj lsdkjf lsdkjf lsdkj flsdjf lsdkjf lskjfl skd fjlsdkj flsdjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsdkjf lsd
+		#home_blog
+			%h3
+				On being a 21st Century Author and more...
+			- for item in @items
+				-if item.is_a? Article
+					.home_article_header
+						.type_icon
+							= image_tag "blog_post_icon.png", :height => 32
+						.title
+							= link_to item.title, blog_path( item )
+						.participate
+							= image_tag "comment.png", :width => 20
+							= pluralize item.comments.count, "Comment"
+							%br
+							- if item.comments.count > 0
+								.converse= link_to "Join the Conversation", blog_path( item ) + "#comment"
+							- else
+								.converse= link_to "Be the first!", blog_path( item ) + "#comment"
+					%br.clear
+					= snip item.content.html_safe, 500
+					%hr.home
+				-if item.is_a? Episode
+					.home_article_header
+						.type_icon
+							= image_tag "podcast_icon.png", :width => 32
+						.title
+							= link_to item.title, podcast_episode_path( item.podcast, item )
+						.participate
+							= image_tag "comment.png", :width => 20
+							= pluralize item.comments.count, "Comment"
+							%br
+							- if item.comments.count > 0
+								.converse= link_to "Join the Conversation", podcast_episode_path( item.podcast, item ) + "#comment"
+							- else
+								.converse= link_to "Be the first!", podcast_episode_path( item.podcast, item ) + "#comment"
+					%br.clear
+					= snip item.description.html_safe, 500
+					%hr.home
 	
 - content_for :right_column do
 	.pad_content

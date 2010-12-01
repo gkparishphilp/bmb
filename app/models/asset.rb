@@ -45,6 +45,10 @@ class Asset < ActiveRecord::Base
 		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
 	end
 	
+	def owner
+		return self.book.author
+	end
+	
 	
 end
 

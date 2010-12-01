@@ -8,6 +8,7 @@ SKUS are of type ebook, audio_book, merch, or custom
 
 - Jquery UI styles -- buttons/datepicker, etc
 
+Site Admins CAN NOT be authors
 
 Punchlist
  
@@ -17,7 +18,7 @@ Punchlist
 - Register - help copy
 - Author signup - make it not suck, more than a link
 - Author signup - help copy
-- Patch theme picker so it doesn't duplicate theme items when you pick a default theme.
+
 - Add a book - edit title = Pick Cover Art
 - Add an asset - price should be entered with dollars and cents, and converted to cents when saved
 - Sitewide Blog/Podcast -- check data import, no admin console for now
@@ -62,6 +63,7 @@ DONE
 -----
 - OpenID logins - Bail on open id and create a registration email capture screen for the current site
 - Admin email
+- Patch theme picker so it doesn't duplicate theme items when you pick a default theme.
 - Delayed job installed...  Just call from code like before
 - Raw stats model - cleaned up from old version.  Just create a raw stat and it will automatically rate_limit and update the real stat through delayed_job
 - Change ecom to use sku instead of ordered

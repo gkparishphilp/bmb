@@ -83,6 +83,10 @@ class Book < ActiveRecord::Base
 	end
 	
 	# Instance Methods
+	def owner
+		# for permissions
+		return self.author
+	end
 	
 	def ebook_sku
 		self.skus.ebook.first

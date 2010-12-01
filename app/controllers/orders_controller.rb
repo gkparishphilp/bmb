@@ -14,15 +14,14 @@ class OrdersController < ApplicationController
 
 	def show
 		@order = Order.find params[:id] 
-=begin
-		# todo Need to fix this for anonymous user access
+
 		if @order.user != @current_user 
-			pop_flash 'Not your order', :error, @order
-			redirect_to @order
+			pop_flash 'Not your order', :error
+			redirect_to root_path
 		else
 			redirect_to @order
 		end
-=end 
+
 	end
 
 

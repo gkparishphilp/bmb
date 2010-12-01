@@ -22,6 +22,10 @@ class ForumsController < ApplicationController
 
 	def edit
 		@forum = Forum.find params[:id] 
+		unless author_owns( @forum )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 
@@ -39,7 +43,10 @@ class ForumsController < ApplicationController
 
 	def update
 		@forum = Forum.find params[:id] 
-
+		unless author_owns( @forum )
+			redirect_to root_path
+			return false
+		end
 		if @forum.update_attributes params[:forum]
 			pop_flash 'Forum was successfully updated.'
 			redirect_to admin_forums_path
