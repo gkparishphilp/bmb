@@ -58,7 +58,6 @@ class OrdersController < ApplicationController
 	end
 
 
-
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip

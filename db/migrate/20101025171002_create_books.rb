@@ -68,6 +68,15 @@ class CreateBooks < ActiveRecord::Migration
 			t.timestamps
 		end
 		
+		add_index :assets, :book_id
+		add_index :assets, :type
+		add_index :books, :author_id
+		add_index :book_identifiers, :book_id
+		add_index :book_identifiers, :identifier
+		add_index :genres, :parent_id
+		add_index :readings, :book_id
+		add_index :readings, :user_id
+		
 		
 	end
 

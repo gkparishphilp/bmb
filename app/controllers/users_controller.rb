@@ -50,7 +50,9 @@ class UsersController < ApplicationController
 	def create
 		@user = User.find_or_initialize_by_email params[:user][:email]
 		if @user.hashed_password.present?
-			# someone created an account with this email address before.... send to forgot pass?
+			pop_flash "An account exists for this email -- please login", :notice
+			redirect_to login_path( :email => @user.email )
+			return false
 		else
 			# this is a brand-new user, whether we found an email or not
 			@user.attributes = params[:user]
