@@ -10,11 +10,10 @@ function setupLabel() {
 };
   jQuery(document).ready(function($) {
 	// Accordion
+    $('body').addClass('has-js');
 	$( '.datepicker' ).datepicker();
 	$("#accordion").accordion({ header: "h3" });
 	$("input.button").button();
-
-    $('body').addClass('has-js');
     $('.label_radio').click(function(){
         setupLabel();
     });
