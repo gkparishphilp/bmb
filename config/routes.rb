@@ -62,7 +62,9 @@ Backmybook::Application.routes.draw do
 				resources :comments
 			end
 		end
-		resources :merches
+		resources :merches do
+			resources :reviews
+		end
 		resources :skus do
 			put 'add_item', :on => :member
 		end

@@ -8,6 +8,7 @@ class StoreController < ApplicationController
 	
 	def show
 		@sku = Sku.find params[:id]
+		@reviewable = @sku.merches.first if @sku.is_merch?
 	end
 	
 end

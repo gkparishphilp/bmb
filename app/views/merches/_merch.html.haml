@@ -1,0 +1,57 @@
+.books
+	.left_col
+		.book_thumb
+			= avatar_tag( merch, :profile, :width => 150 )
+		
+		.button
+			=link_to "Buy It #{format_price( sku.price )}", new_author_order_path( @author, :sku => sku ), :class=>'dark-gray'
+		
+		
+		- unless sku.book.custom_skus.empty?
+			.also-available
+				%h3 Also Available
+				%ul
+					- for sku in sku.book.custom_skus
+						%li
+							= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
+							%em= link_to "#{format_price( sku.price )} buy", new_author_order_path( @author, :sku => sku )
+					
+	.right_col.text
+		%h1= merch.title
+		.book-meta.clearfix
+			.info
+				- if sku.book.genre.present?
+					%p
+						Genre:
+						%em= sku.book.genre.name
+				%p 
+					By:
+					%em= sku.book.author.pen_name
+
+			.ratings
+				%p Avg rating: 
+				%ul.star-rating
+					%li.current-rating{ :style => "width:#{ ( merch.review_average * 125 ) / 5 }px;" }
+				%em= link_to "Rate It", "#reviews"
+		.book_content	
+			= merch.description.html_safe
+		
+		%hr.divider
+		#reviews
+		- if @current_user.anonymous?
+			%b
+				Please
+				= link_to "Login", login_path
+				or
+				= link_to "Register", register_path
+				to review this item.
+		- else
+			= render :partial => 'reviews/new'
+		
+		- unless merch.reviews.empty?
+			%hr.divider
+			%h3
+				Reviews
+			= render merch.reviews
+		
+		.clear

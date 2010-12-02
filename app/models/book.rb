@@ -44,7 +44,7 @@ class Book < ActiveRecord::Base
 	has_many	:raw_stats, :as => :statable
 	has_many	:skus
 	
-	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
 	gets_activities
 	has_friendly_id			:title, :use_slug => :true
@@ -105,8 +105,7 @@ class Book < ActiveRecord::Base
 	end
 	
 	def review_average
-		avg = self.reviews.average :score
-		avg.to_f
+		return avg = self.reviews.average( :score ).to_f
 	end
 	
 	def add_asset( asset )

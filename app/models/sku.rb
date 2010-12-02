@@ -70,6 +70,10 @@ class Sku < ActiveRecord::Base
 	def add_item( item )
 		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
 	end
+	
+	def is_merch?
+		return self.sku_items.count  == 1 && self.merches.first.present?
+	end
 
 	def contains_merch?
 		for sku_item in self.sku_items

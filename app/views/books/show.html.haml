@@ -5,7 +5,7 @@
 				= avatar_tag( @book, :profile, :width => 150 )
 			
 			- if @book.assets.free.empty?
-				&nbsp&nbsp;&nbsp;No Free Preview
+				&nbsp&nbsp;&nbsp;No Preview Available
 			- for asset in @book.assets.free do
 				.button
 					= link_to "FREE SAMPLE", download_author_book_asset_path( @author, @book, asset ), :class=>'blue'
@@ -55,12 +55,21 @@
 			
 			%hr.divider
 			#reviews
-			= render :partial => 'reviews/new'
+			- if @current_user.anonymous?
+				%b
+					Please
+					= link_to "Login", login_path
+					or
+					= link_to "Register", register_path
+					to review this book.
+			- else
+				= render :partial => 'reviews/new'
 			
-			%hr.divider
-			%h3
-				Reviews
-			= render @book.reviews
+			- unless @book.reviews.empty?
+				%hr.divider
+				%h3
+					Reviews
+				= render @book.reviews
 			
 			.clear
 	

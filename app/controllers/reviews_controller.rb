@@ -45,7 +45,8 @@ class ReviewsController < ApplicationController
 
 private 
     def get_reviewable
-        @reviewable = Book.find params[:book_id ]
+		# so far, only books and merch
+        @reviewable = params[:book_id].present? ? Book.find( params[:book_id ] ) : Merch.find( params[:merch_id] )
     end 
 
 	def validate_owner

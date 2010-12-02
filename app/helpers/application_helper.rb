@@ -1,14 +1,12 @@
 module ApplicationHelper
 	
 	def avatar_tag( obj, style=nil, opts={} )
-		tag = ""
+		tag = "No Avatar"
 		if style
 			style = style.to_s
-			if obj.has_attached_avatar?
-				tag = image_tag( obj.avatar.location( style ), :width => opts[:width] ) 
-			end
+			tag = image_tag( obj.avatar.location( style ), :width => opts[:width] ) if obj.attachments.by_type( 'avatar' ).count > 0 
 		else
-			tag = image_tag( obj.avatar.location, :width => opts[:width] ) if obj.has_attached_avatar?
+			tag = image_tag( obj.avatar.location, :width => opts[:width] ) if obj.attachments.by_type( 'avatar' ).count > 0 
 		end
 		
 		return tag
