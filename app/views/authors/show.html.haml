@@ -5,7 +5,6 @@
 		= @author.bio.html_safe
 	
 	- unless @author.articles.recent.empty?
-		%h2 Recent Blog Posts
 		- for article in @author.articles.recent
 			= render article
 		

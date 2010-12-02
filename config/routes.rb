@@ -30,6 +30,7 @@ Backmybook::Application.routes.draw do
 		
 	resources :authors do
 		resources :articles
+		get 'bio', :on => :member
 		resources :blog
 		resources :books do
 			get 'mockup', :on => :collection
@@ -71,9 +72,6 @@ Backmybook::Application.routes.draw do
 			post 'activate', :on => :collection
 		end
 		resources :upload_email_lists
-		
-		get 'manage', :on => :collection
-		get 'bio', :on => :member
 		
 	end
 	
