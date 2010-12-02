@@ -12,5 +12,12 @@
 		- unless book.audio_book_sku.nil?
 			.listing_buy
 				= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
+		.listing_description
+			= snip( book.description.html_safe, 140 )
+		.ratings
+			%p Avg rating: 
+			%ul.star-rating
+				%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
+				
 	.clear
 	

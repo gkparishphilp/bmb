@@ -1741,86 +1741,87 @@ input#order_card_cvv {
 /* line 3, ../../app/stylesheets/partials/_gks_crap.sass */
 .listing {
   margin: 20px 0px;
+  width: 100%;
 }
-/* line 5, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 6, ../../app/stylesheets/partials/_gks_crap.sass */
 .listing .listing_avatar {
   float: left;
   width: 66px;
 }
-/* line 8, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 9, ../../app/stylesheets/partials/_gks_crap.sass */
 .listing .listing_data {
   float: left;
   margin: 0px 3px 3px 13px;
 }
-/* line 11, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 12, ../../app/stylesheets/partials/_gks_crap.sass */
 .listing .listing_title {
   color: #ce9322;
   font-size: 22px;
 }
-/* line 14, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 15, ../../app/stylesheets/partials/_gks_crap.sass */
 .listing .listing_genre, .listing .listing_buy {
   font-size: 85%;
 }
 
-/* line 17, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 18, ../../app/stylesheets/partials/_gks_crap.sass */
 #user_avatar {
   float: left;
   width: 70px;
 }
 
-/* line 20, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 21, ../../app/stylesheets/partials/_gks_crap.sass */
 #user_panel {
   float: left;
   margin-left: 1em;
 }
 
-/* line 25, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 26, ../../app/stylesheets/partials/_gks_crap.sass */
 #edit_title {
   display: none;
 }
 
-/* line 27, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 28, ../../app/stylesheets/partials/_gks_crap.sass */
 #contact_form {
   display: none;
 }
 
-/* line 30, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 31, ../../app/stylesheets/partials/_gks_crap.sass */
 .pad_content {
   margin: 10px;
 }
 
-/* line 33, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 34, ../../app/stylesheets/partials/_gks_crap.sass */
 .small {
   font-size: 85%;
 }
 
-/* line 36, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 37, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .pic {
   float: left;
 }
-/* line 38, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 39, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .name {
   margin-left: 30px;
   float: left;
   font-size: 150%;
 }
-/* line 42, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 43, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .data {
   clear: both;
   font-size: 85%;
 }
 
-/* line 46, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 47, ../../app/stylesheets/partials/_gks_crap.sass */
 #price {
   display: none;
 }
 
-/* line 48, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 49, ../../app/stylesheets/partials/_gks_crap.sass */
 #unlock_req {
   display: none;
 }
 
-/* line 56, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 57, ../../app/stylesheets/partials/_gks_crap.sass */
 .home_left {
   width: 600px;
   float: left;
@@ -1830,26 +1831,26 @@ input#order_card_cvv {
   min-height: 500px;
 }
 
-/* line 61, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 62, ../../app/stylesheets/partials/_gks_crap.sass */
 .home_right {
   width: 376px;
   float: right;
 }
 
-/* line 65, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 66, ../../app/stylesheets/partials/_gks_crap.sass */
 .left_col {
   list-style: none;
   width: 130px;
   float: left;
 }
 
-/* line 69, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 70, ../../app/stylesheets/partials/_gks_crap.sass */
 .middle_col {
   float: left;
   width: 600px;
 }
 
-/* line 72, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 73, ../../app/stylesheets/partials/_gks_crap.sass */
 .right_col {
   float: right;
   width: 250px;
