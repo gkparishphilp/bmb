@@ -62,6 +62,9 @@ class AuthorsController < ApplicationController
 	
 	def show 
 		@author = Author.find params[:id] if @author.nil?
+		
+		set_meta @author.pen_name, @author.bio
+		
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		if @author.nil?
 			pop_flash "No author found", :notice

@@ -22,6 +22,10 @@ module ApplicationHelper
 		date.strftime("%b %d, %Y")
 	end
 	
+	def format_price( price )
+		return number_to_currency( price.to_f / 100 )
+	end
+	
 	def get_title
 		if @title
 			title = "BackMyBook | " + @title
