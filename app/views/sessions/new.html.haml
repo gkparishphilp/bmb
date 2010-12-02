@@ -16,11 +16,11 @@
 				%br
 				= submit_tag	"Login", :class => :login_button
 				|
-				= link_to 'Cancel', root_path, :class => :cancel_button
+				= link_to 'Cancel', root_url, :class => :cancel_button
 				|
-				= link_to 'Register', register_path +  (params['dest'] ? '?dest=' + params['dest'] : '')
+				= link_to 'Register', register_url +  (params['dest'] ? '?dest=' + params['dest'] : '')
 				|
-				= link_to "Forgot Password?", forgot_path
+				= link_to "Forgot Password?", forgot_url
 					
 
 	- content_for :right_column do
@@ -30,7 +30,7 @@
 			Login using the valid e-mail address you registered with.
 		%p
 			For additional questions please 
-			%b= link_to "contact us", new_contact_path
+			%b= link_to "contact us", new_contact_url
 		-#
 			%h3 Tip:
 			%p
@@ -39,11 +39,11 @@
 			%br
 			%br
 			#facebook
-				= form_tag go_facebook_sessions_path do
+				= form_tag go_facebook_sessions_url do
 					= image_submit_tag 'facebook_connect.png'
 			%br
 			#twitter
-				= form_tag go_twitter_sessions_path do
+				= form_tag go_twitter_sessions_url do
 					= image_submit_tag 'twitter_button.png'
 - else
 	- content_for :left_column do
@@ -51,5 +51,5 @@
 			You are already logged in as:
 			= @current_user.name
 		If this is not you, please 
-		= link_to "Logout", logout_path
+		= link_to "Logout", logout_url
 		and log back in with your account.

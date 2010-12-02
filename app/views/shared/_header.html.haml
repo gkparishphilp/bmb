@@ -3,13 +3,13 @@
 		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_url( :host => 'backmybook.com' )
 		%ul.top_main_menu
 			- if @current_author
-				%li= link_to "Admin", admin_index_path
+				%li= link_to "Admin", admin_index_url
 		%ul.top_user_menu
 			- if @current_user.anonymous?
-				%li= link_to "Login", login_path
-				%li= link_to "Register", register_path
+				%li= link_to "Login", login_url
+				%li= link_to "Register", register_url
 			- else
 				%li.user
-					= link_to image_tag( @current_user.avatar.location, :width => 20 ), user_path( @current_user ), :class=>'avatar'
-					= link_to @current_user.name, user_path( @current_user ), :class=>'username'
-				%li= link_to "Logout", logout_path + '?dest=' + request.fullpath
+					= link_to image_tag( @current_user.avatar.location, :width => 20 ), user_url( @current_user ), :class=>'avatar'
+					= link_to @current_user.name, user_url( @current_user ), :class=>'username'
+				%li= link_to "Logout", logout_url + '?dest=' + request.fullpath

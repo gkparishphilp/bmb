@@ -3,7 +3,7 @@
 	%h3.blueText
 		Register using a third-party account...
 	#twitter
-		= form_tag go_twitter_sessions_path do
+		= form_tag go_twitter_sessions_url do
 			= image_submit_tag 'twitter_button.png'
 	%p
 		%iframe(src="#{iframe_src 'rpx'}" scrolling="no" frameBorder="no" style="width:400px;height:240px;")
@@ -31,6 +31,6 @@
 			%br
 			= f.submit 'Register', :class => "login_button"
 			|
-			= link_to 'Login', new_session_path
+			= link_to 'Login', new_session_url
 			|
-			= link_to 'Cancel', root_path
+			= link_to 'Cancel', root_url

@@ -15,6 +15,6 @@
 			Reviews:
 		%br
 		- for review in @user.reviews
-			= link_to review.book.title, "#{author_book_path( review.book.author, review.book )}#reviews"
+			= link_to review.book.title, "#{author_book_url( review.book.author, review.book )}#reviews"
 
 	

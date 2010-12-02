@@ -10,7 +10,7 @@
 <% @order_transactions.each do |order_transaction| %>
   <tr>
     <td><%= link_to 'Show', order_transaction %></td>
-    <td><%= link_to 'Edit', edit_order_transaction_path(order_transaction) %></td>
+    <td><%= link_to 'Edit', edit_order_transaction_url(order_transaction) %></td>
     <td><%= link_to 'Destroy', order_transaction, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
@@ -18,4 +18,4 @@
 
 <br />
 
-<%= link_to 'New Order transaction', new_order_transaction_path %>
+<%= link_to 'New Order transaction', new_order_transaction_url %>

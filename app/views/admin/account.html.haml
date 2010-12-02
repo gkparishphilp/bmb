@@ -10,7 +10,7 @@
 
 		-if @current_author.user.subscribings.empty?
 			-# todo Fix Path
-			= link_to 'Purchase Author Premium Subscription', root_path
+			= link_to 'Purchase Author Premium Subscription', root_url
 		-else 
 			%h2 Existing Subscriptions
 			%table
@@ -30,7 +30,7 @@
 							=sub.profile_id
 						%td
 							- if sub.status == 'ActiveProfile'
-								=link_to 'Cancel', cancel_subscribing_path( sub ) 
+								=link_to 'Cancel', cancel_subscribing_url( sub ) 
 		
 		
 - content_for :right_column do

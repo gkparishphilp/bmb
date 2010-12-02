@@ -19,8 +19,8 @@
 				= format_date post.created_at
 			-if post.user == @current_user
 				%span.edit_post
-					= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_topic_post_path( @forum, post.topic, post)
-					= link_to "Edit", edit_forum_topic_post_path( @forum, post.topic, post)
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_topic_post_url( @forum, post.topic, post)
+					= link_to "Edit", edit_forum_topic_post_url( @forum, post.topic, post)
 		.post_content
 			= post.content
 %br.clear

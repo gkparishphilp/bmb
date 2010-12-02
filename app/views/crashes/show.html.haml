@@ -1,7 +1,7 @@
 %h4
 	= simple_format @crash.message
 %h5
-	= link_to "Back to Crash List", crashes_path
+	= link_to "Back to Crash List", crashes_url
 
 %h5 Occured on:
 = format_date @crash.created_at

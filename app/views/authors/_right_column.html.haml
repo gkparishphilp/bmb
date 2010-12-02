@@ -37,7 +37,7 @@
 				No Upcomming Events
 			- else
 				- for event in @author.events.upcomming
-					= link_to event.title, author_event_path( @author, event )
+					= link_to event.title, author_event_url( @author, event )
 					.small
 						%br
 						On:

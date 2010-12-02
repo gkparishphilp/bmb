@@ -22,9 +22,9 @@
 				%br
 				= f.submit 'Register', :class => "login_button"
 				|
-				= link_to 'Login', new_session_path
+				= link_to 'Login', new_session_url
 				|
-				= link_to 'Cancel', root_path
+				= link_to 'Cancel', root_url
 
 - content_for :right_column do
 	%h2 Need Help?
@@ -36,7 +36,7 @@
 		Your password must be a minimum of 4 characters
 	%p
 		For additional questions please 
-		%b= link_to "contact us", new_contact_path
+		%b= link_to "contact us", new_contact_url
 	%h2 Tip:
 	%p
 		Remember to check your inbox for our welcome email and follow the directions therein.  You definitely will want to fully activate your account to get the most out of BackMyBook!
