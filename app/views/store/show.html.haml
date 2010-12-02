@@ -7,7 +7,7 @@
 				.book_thumb
 					= avatar_tag( @sku.book, :profile, :width => 150 )
 				.button
-					=link_to "Buy SecIt #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 
 				.also-available
 					%h3 Contains
@@ -30,11 +30,11 @@
 							- for sku in @sku.book.merch_skus
 								%li
 									= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
-									%em= link_to "#{format_price( sku.price )} buy", new_author_order_path( @author, :sku => sku )
+									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 							- for sku in @sku.book.custom_skus
 								%li
 									= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
-									%em= link_to "#{format_price( sku.price )} buy", new_author_order_path( @author, :sku => sku )
+									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 
 			.right_col.text
 				%h1= @sku.title
