@@ -1,6 +1,11 @@
-%h2 
-	We'd love to hear from you!
+- content_for :left_column do
+	.form_group
+		%h2 
+			We'd love to hear from you!
 
--form_for @contact do |form|
-	=render :partial => 'add_edit_form', :locals => {:form => form}
+		-form_for @contact do |form|
+			=render :partial => 'add_edit_form', :locals => {:form => form}
+
+- content_for :right_column do
+	%h3 Help
 	

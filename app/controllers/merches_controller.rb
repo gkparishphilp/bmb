@@ -9,6 +9,10 @@ class MerchesController < ApplicationController
 	
 	def edit
 		@merch = Merch.find params[:id]
+		unless author_owns( @merch )
+			redirect_to root_path
+			return false
+		end
 		@books = @current_author.books
 		render :layout => '3col'
 	end
@@ -41,7 +45,10 @@ class MerchesController < ApplicationController
 
 	def update
 		@merch = Merch.find params[:id]
-
+		unless author_owns( @merch )
+			redirect_to root_path
+			return false
+		end
 		if @merch.update_attributes params[:merch] 
 			pop_flash 'Merchandise was successfully updated.'
 		else

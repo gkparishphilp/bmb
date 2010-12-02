@@ -24,4 +24,8 @@
 
 class Pdf < Asset
 	has_attached :document, :formats => ['pdf'], :private => true
+	
+	def sku
+		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
+	end
 end

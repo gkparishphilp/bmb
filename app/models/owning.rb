@@ -7,6 +7,7 @@
 #  user_id    :integer(4)
 #  sku_id     :integer(4)
 #  status     :string(255)     default("active")
+#  delivered  :boolean(1)
 #  created_at :datetime
 #  updated_at :datetime
 #

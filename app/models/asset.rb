@@ -27,10 +27,11 @@ class Asset < ActiveRecord::Base
 	# the digital assets we have for a book
 	# may be the full work in some digital format
 	# or a sample, or a bonus, or a giveaway, etc.
+	
+	
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items
 	
-	has_many	:coupons, :as => :redeemable
 	belongs_to	:book
 	has_many	:raw_stats, :as => :statable
 	
@@ -39,6 +40,15 @@ class Asset < ActiveRecord::Base
 	attr_accessor :price
 	
 	scope :free, where( "asset_type = 'free'" )
+	
+	def sku
+		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
+	end
+	
+	def owner
+		return self.book.author
+	end
+	
 	
 end
 

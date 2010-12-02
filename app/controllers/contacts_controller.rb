@@ -25,7 +25,7 @@ class ContactsController < ApplicationController
 		@contact = Contact.new params[:contact]
 		@contact.ip = request.ip
 		
-		if @current_site.contacts << contact
+		if @current_site.contacts << @contact
 			pop_flash 'Thank you for your message.'
 			redirect_to root_path
 		else

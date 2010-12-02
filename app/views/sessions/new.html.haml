@@ -8,7 +8,7 @@
 				= hidden_field_tag :a, @a
 				%label
 					Email:
-				= text_field_tag :email, params[:email], :class => :login_email
+				= text_field_tag :email, @email, :class => :login_email
 				%label
 					Password:
 				= password_field_tag	:password, params[:password], :class => :login_email
@@ -25,11 +25,16 @@
 
 	- content_for :right_column do
 		%h2 Need Help?
-		kfj dslkfsjd lfkjs ldfjsdl kfjs lkdfjsdlkfj sldkfj lsdkjf lsdkfj sldfjk sdljf
-		%br
-		%br
+		%p 
+			%b Email: 
+			Login using the valid e-mail address you registered with.
+		%p
+			For additional questions please 
+			%b= link_to "contact us", new_contact_path
 		%h2 Tip:
-		IF you have associated a Facebook or Twitter account to your BackMyBook account (learn more), you can use one of them to login!
+		%p
+			%b Login with Your Facebook or Twitter Account:
+			After creating your new account, you can associate your Facebook & Twitter accounts and use them to login as well as your email.  Fewer logins to remember is always better!
 		%br
 		%br
 		#facebook

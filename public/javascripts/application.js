@@ -65,7 +65,12 @@ $(document).ready(function(){
 		}
 		$('#paypal_x_checkout').hide();
 	});
-	
+	$("#use_new_billing_address").click(function () {
+		$("#new_billing_address").toggle("slow");
+	});	
+	$("#use_new_shipping_address").click(function () {
+		$("#new_shipping_address").toggle("slow");
+	});
 	var visa_pat = new RegExp("^4"), // Visa
 		mast_pat = new RegExp("^5[1-5]"), // Mastercard
 		amex_pat = new RegExp("^3[47]"), // Amex
@@ -89,25 +94,43 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#new_order').submit( function(){
+		var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/ 
+		 if( ! $('.required_email').attr('value').match(re) ){
+			alert( "Email is required" );
+			$('.required_email').effect("highlight", {}, 3000);
+			return false;
+		}
+	});
 	
-	$('#order_coupon_code').blur(function (){
-		the_url = "/orders/validate_coupon?code=";
-		the_url += $(this).attr('value');
-		the_url += "&item_type=";
-		the_url += $('#order_item_type').attr('value');
-		
+	
+	$('.coupon').blur(function (){
+		the_url = "/coupons/validate/";
+		the_url += $('#order_sku_id').attr('value');
+		the_url += "/" + $(this).attr('value');
+
 		$.get( the_url, function(data){
-			var the_response = $(data).select('#response').attr('value');
-			var discount = $(data).select('#response').attr('discount');
+			var the_response = $(data).attr('value');
+			var discount = $(data).attr('discount');
+			var discount_type = $(data).attr('discount_type');
+			var orig_price = $('#the_price').attr('sku_price');
+			
 			if( the_response == 'true' ){
-				var orig_price = $('#price').attr('price');
-				var new_price = (orig_price - discount) / 100;
-				$('#price').html( "$" + new_price );
-				$('#price').highlight("slow");
+				var new_price = orig_price;
+				if( discount_type == 'percent' ){
+					new_price = Math.round( ( orig_price - (orig_price * discount) ) ) / 100 ;
+				}
+				else{
+					new_price = (orig_price - discount) / 100;
+				}
+				
+				$('#the_price').html( "$" + new_price );
 				$('#valid_coupon').html('Valid Coupon Code Entered');
+				$('#price_div').effect("highlight", {}, 3000);
+				$('#valid_coupon_div').effect("highlight", {}, 3000);
 			}
 			else{
-				$('#price').html("$9.99");
+				$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
 				$('#valid_coupon').html('');
 			}
 		});

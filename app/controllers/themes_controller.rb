@@ -7,18 +7,26 @@ class ThemesController < ApplicationController
 	
 	def edit
 		@edit_theme = Theme.find params[:id]
+		unless author_owns( @edit_theme )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 	
 	def activate
 		author = Author.find params[:author_id]
-		@theme = Theme.find params[:id]
-		if @theme.nil? && @current_user.active_theme.present?
-			owning_to_deactivate = @current_author.theme_ownings.find_by_theme_id( @current_author.active_theme.id )
-			owning_to_deactivate.deactivate
-			return true
+		if params[:id] == 'none'
+			@current_author.theme_ownings.find_by_theme_id( @current_author.active_theme.id ).deactivate
+		else
+			@theme = Theme.find params[:id]
+			if @theme.nil? && @current_user.active_theme.present?
+				owning_to_deactivate = @current_author.theme_ownings.find_by_theme_id( @current_author.active_theme.id )
+				owning_to_deactivate.deactivate
+				return true
+			end
+			@theme.activate_for( author )
 		end
-		@theme.activate_for( author )
 		pop_flash "Theme Activated"
 		redirect_to admin_themes_path
 	end
@@ -33,6 +41,7 @@ class ThemesController < ApplicationController
 		@theme.creator = @current_author
 		if @current_author.themes << @theme
 			process_attachments_for( @theme )
+			@theme.activate_for( @current_author )
 			pop_flash 'Theme saved!'
 		else
 			pop_flash 'Theme could not be saved.', :error, @theme
@@ -44,6 +53,10 @@ class ThemesController < ApplicationController
 	
 	def update
 		@theme = Theme.find params[:id]
+		unless author_owns( @theme )
+			redirect_to root_path
+			return false
+		end
 		if @theme.update_attributes params[:theme]
 			process_attachments_for( @theme )
 			pop_flash 'Theme saved!'

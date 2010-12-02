@@ -186,9 +186,8 @@ Existing Subscriptions
 #upload_giveaway_list_form( style = 'display:none;')
 	%h2 Upload Giveaway Email List 
 
-	-# TODO This form only lists books as the item to be given away.  Should extend this in the future perhaps?
 	-form_for UploadEmailList.new, :html => {:multipart => :true} do |f|
-		= f.collection_select :book_id, @current_user.author.books, :id, :title
+		= f.collection_select :sku_id, @current_user.author.skus, :id, :title
 		= f.file_field :file_name
 		= f.submit "Upload"
 		= f.hidden_field :list_type, :value => "giveaway"

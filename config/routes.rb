@@ -1,11 +1,17 @@
 Backmybook::Application.routes.draw do
 
-	# Hoghest-priority root is non-app domain and send root to author controller
+	# Highest-priority root is non-app domain and send root to author controller
+	# constraints( Domain ) is defined in lib/domain.rb and simply matches request domain against 
+	# an array of known domains (defined in config/initializers/app.rb). 
+	# Anything that doesn't match is assumed to be an author
 	constraints( Domain ) do
 		match '/' => 'authors#show'
 	end
 	
 	# Next is subdomain and send root to author controller
+	# constraints( Subdomain ) is defined in lib/subdomain.rb and simply matches request domain against 
+	# an array of known subdomains (defined in config/initializers/app.rb).  
+	# Anything that doesn't match is assumed to be an author
 	constraints( Subdomain ) do
 		match '/' => 'authors#show'
 	end
@@ -18,8 +24,10 @@ Backmybook::Application.routes.draw do
 		resources :comments
 	end
 	
-	resources :assets
-	
+	resources :assets do
+		get 'deliver', :on => :member
+	end
+		
 	resources :authors do
 		resources :articles
 		resources :blog
@@ -68,16 +76,23 @@ Backmybook::Application.routes.draw do
 		get 'bio', :on => :member
 		
 	end
-
+	
+	# For direct - url and subdomain access....
 	resources :blog  # for the site blog
-	
-	resources :contacts
-	
-	resources :coupons do
-		collection do
-			post :giveaway_redeem
+	resources :books
+	resources :events
+	resources :forums
+	resources :store
+	resources :podcasts do
+		resources :episodes do
+			get 'download', :on => :member
+			resources :comments
 		end
 	end
+	resources :links
+	resources :merches
+	
+	resources :contacts
 	
 	resources :crashes
 		
@@ -131,7 +146,9 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :themes
-	resources :upload_email_lists
+	resources :upload_email_lists do
+		get 'download', :on => :collection
+	end
 	
 	resources  :users do
 		resources :recommends
@@ -177,11 +194,12 @@ Backmybook::Application.routes.draw do
 	match '/reset' => 'users#reset_password', :as => 'reset'
 	
 	
+	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'
+	match 'coupons/validate/:sku_id/:code', :to => 'coupons#validate', :as => 'validate_coupon'
+	
 	
 	match "/:permalink", :to => 'static_pages#show'
-	
-	match "/redeem/:code", :to => "coupons#giveaway_redeem"
-	
+		
 	match "/unsubscribe/:code", :to => "email_subscribings#unsubscribe"
 		
 		

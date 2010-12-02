@@ -4,13 +4,13 @@ module ApplicationHelper
 		if style
 			style = style.to_s
 			if obj.has_attached_avatar?
-				width = eval "obj.avatar.#{style}_width"
-				return image_tag( obj.avatar.location( style ), :width => width ) 
+				return image_tag( obj.avatar.location( style ) ) 
 			end
 		else
 			return image_tag( obj.avatar.location ) if obj.has_attached_avatar?
 		end
 	end
+	
 	def format_date( date )
 		date.strftime("%b %d, %Y @ %l:%M%p")
 	end

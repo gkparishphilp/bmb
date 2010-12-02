@@ -102,6 +102,9 @@ h1, h2, h3
 	:color $link
 	:margin 0 0 4px 1px
 
+p
+	:margin 15px 5px
+
 #container
 	:min-height 600px
 
@@ -172,9 +175,43 @@ label
 
 .static_content
 	:padding 10px
-.text
+.text,.article_body
 	:line-height 1.4em
 	:padding 5px
+	
+/* =Star Ratings */
+.star-rating,
+.current-rating 
+	:background-image url(../images/star.png)
+	:background-repeat repeat-x
+
+.star-rating 
+	:position relative
+	:width 125px
+	:height 25px
+	:overflow hidden
+	:list-style none
+	:margin 4px 4px 4px 0
+	:padding 0
+	:background-position 0 -29px
+
+.star-rating li
+	:display inline
+
+.star-rating .current-rating
+	:position absolute
+	:top 0
+	:left 0
+	:text-indent -1000em
+	:height 25px
+	:line-height 25px
+	:outline none
+	:overflow hidden
+	:border none
+
+.star-rating .current-rating
+	:z-index 1
+	:background-position 0 -2px	
 
 // Flashes
 #flash

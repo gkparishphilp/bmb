@@ -22,18 +22,16 @@ class Coupon < ActiveRecord::Base
 	has_many	:redemptions
 	has_many 	:orders, :through => :redemptions
 	belongs_to 	:owner, :polymorphic => true
-	belongs_to 	:redeemable, :polymorphic => true
-	belongs_to 	:redeemer, :polymorphic => true
+	belongs_to 	:sku
+	belongs_to 	:user
 
 	
-	def is_valid?(order)
-		if self.redemptions_allowed == 0
+	def is_valid?( sku )
+		if self.already_redeemed?
 			return false
-		elsif (!self.expiration_date.nil? and self.expiration_date < Time.now)
+		elsif ( self.expiration_date.present? and self.expiration_date < Time.now )
 			return false
-		elsif !self.redeemable.blank? and self.redeemable.class != order.ordered.class
-			return false
-		elsif !self.redeemable.id.nil? and self.redeemable.id != order.ordered.id
+		elsif self.sku_id.present? and self.sku_id != order.sku.id
 			return false
 		else
 			return true
@@ -41,13 +39,25 @@ class Coupon < ActiveRecord::Base
 		
 	end
 	
-	def generate_giveaway_code
+	def generate_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		self.code = Digest::SHA1.hexdigest random_string
 		self.save
 	end
 	
 	def redeem
-		Redemptions.create! :redeemer => self.redeemer, :coupon_id => self.id, :status => 'redeemed'
+		Redemption.create :user => self.user, :coupon_id => self.id, :status => 'redeemed'
+	end
+	
+	def already_redeemed?
+		self.redemptions.count > 0 ? num_redemptions = self.redemptions.find_all_by_status( 'redeemed' ).count : num_redemptions = 0
+		if self.redemptions_allowed > 0
+			num_redemptions < self.redemptions_allowed ? false : true
+		elsif self.redemptions_allowed < 0
+			return false
+		else 
+			return true  
+		end
+			 
 	end
 end

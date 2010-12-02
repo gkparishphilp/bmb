@@ -62,11 +62,12 @@ class User < ActiveRecord::Base
 	has_many	:reviews
 	has_many	:subscribings
 	has_many	:subscriptions, :through => :subscribings
-	has_many	:coupons, :as => :redeemer
-	has_many	:redemptions, :as => :redeemer
+	has_many	:coupons
+	has_many	:redemptions
 	has_many	:email_subscribings, :as => :subscriber
 	has_many	:ownings
 	has_many	:skus, :through => :ownings
+	has_many	:coupons
 	
 	belongs_to :site
 	
@@ -149,6 +150,7 @@ class User < ActiveRecord::Base
 	end
 	
 	def make_admin( site )
+		return false if self.author?
 		r = Role.create :user_id => self.id, :site_id => site.id, :role => 'admin'
 	end
 	
@@ -202,6 +204,13 @@ class User < ActiveRecord::Base
 	# Stuff for Facebook -------------------------------------------------
 	def facebook_user?
 		!self.facebook_accounts.empty?
+	end
+	
+	def owns?( sku )
+		for owning in self.ownings
+			return true if owning.sku == sku
+		end
+		return false
 	end
 
 	protected

@@ -87,28 +87,20 @@ protected
 	
 	# Controller filters -- todo -- add @current_user.validated? for filter on valid email
 	def require_admin
-		if @current_user.anonymous?
-			flash[:notice] = "Please log in first"
-			redirect_to new_session_path
+		unless @current_user.admin? @current_site
+			fail "Admins Only"
 			return false
-		else
-			unless @current_user.admin? @current_site
-				flash[:notice] = "Admins Only"
-				redirect_to root_path
-				return false
-			end
 		end
+		@admin = @current_site
 	end
 	
 	def require_contributor
 		if @current_user.anonymous?
-			flash[:notice] = "Please log in first"
-			redirect_to new_session_path
+			fail "Please log in first"
 			return false
 		else
 			unless @current_user.contributor? @current_site
-				flash[:notice] = "Contributors Only"
-				redirect_to root_path
+				fail "Contributors Only"
 				return false
 			end
 		end
@@ -116,45 +108,55 @@ protected
 
 	def require_login
 		if @current_user.anonymous?
-			pop_flash  "Please log in first", :notice
 			@dest = request.url
-			redirect_to new_session_path
+			fail "Please log in first", :notice
 			return false
 		end
 	end
 	
 	def require_validated
 		unless @current_user.validated?
-			pop_flash "Must have validated email", :notice
-			redirect_to root_path
+			fail "Must have validated email", :notice
 			return false
 		end
 	end
 	
-	def require_author
-		if @current_author.nil?
-			pop_flash "Must be logged in as an author", :notice
-			redirect_to root_path
+	def require_author_or_admin
+		unless @current_author.present? || @current_user.admin?( @current_site )
+			fail "Must be logged in as an author", :notice
 			return false
+		end
+		@admin = @current_author.present? ? @current_author : @current_site
+	end
+	
+	def author_owns( obj )
+		unless ( obj.owner == @current_author ) || @current_user.admin?( @current_site )
+			pop_flash "Not your #{obj.class.name}", :error
+			return false
+		else
+			return true
 		end
 	end
 	
 	def require_user_can_manage( object )
 		unless ( object.user == @current_user ) || ( @current_site.admins.include? @current_user )
-			pop_flash "Not your #{object.class.to_s}", :error
-			redirect_to root_path
+			fail"Not your #{object.class.to_s}", :error
 			return false
 		end
 	end
 	
-	def require_author_can_manage( object )
-		#todo
-	end
 	
 	# sets page metadata like page title and description
 	def set_meta( title, *description )
 		@title = title
 		@description = description.first[0..200] unless description.first.blank?
+	end
+	
+	private
+	
+	def fail( msg, level=:error )
+		pop_flash msg, level
+		redirect_to root_path
 	end
 	
 	

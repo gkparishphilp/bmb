@@ -21,7 +21,6 @@ class Merch < ActiveRecord::Base
 	has_many :owners, :through => :ownings
 	
 	belongs_to	:book #sometimes.... not necessarily
-	has_many :coupons, :as => :redeemable
 	
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items

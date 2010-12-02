@@ -57,4 +57,12 @@ Backmybook::Application.configure do
 	::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(paypal_options)
 	::EXPRESS_GATEWAY = ActiveMerchant::Billing::PaypalExpressGateway.new(paypal_options)
 	
+	require 'amazon/ecs'
+	Amazon::Ecs.configure do |options|
+        options[:aWS_access_key_id] = AMAZON_ID
+        options[:aWS_secret_key] = AMAZON_SECRET
+    end
+	
+  end
+	
 end

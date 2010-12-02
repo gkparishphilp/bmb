@@ -2,11 +2,13 @@
 	Review this 
 	= @reviewable.class.to_s
 - form_for [ @author, @reviewable, Review.new ] do |f| 
-	= f.radio_button :score, 1, :class => :star, :title => 'Poor'
-	= f.radio_button :score, 2, :class => :star, :title => 'Meh...'
-	= f.radio_button :score, 3, :class => :star, :title => 'Good'
-	= f.radio_button :score, 4, :class => :star, :title => 'Great!'
-	%br
+
+	%fieldset.radios
+		= f.radio_button :score, 1, :class => :show_stars, :title => 'Poor', :id=>'radio-01'
+		= f.radio_button :score, 2, :class => :show_stars, :title => 'Meh...'
+		= f.radio_button :score, 3, :class => :show_stars, :title => 'Good'
+		= f.radio_button :score, 4, :class => :show_stars, :title => 'Great!'
+		%br
 
 	= f.text_area :content
 	%br

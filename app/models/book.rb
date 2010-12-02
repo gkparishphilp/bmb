@@ -41,7 +41,6 @@ class Book < ActiveRecord::Base
 	has_many	:readings
 	has_many	:readers, :through => :readings, :source => :user
 	has_one		:upload_file
-	has_many	:coupons, :as => :redeemable
 	has_many	:raw_stats, :as => :statable
 	has_many	:skus
 	
@@ -84,6 +83,10 @@ class Book < ActiveRecord::Base
 	end
 	
 	# Instance Methods
+	def owner
+		# for permissions
+		return self.author
+	end
 	
 	def ebook_sku
 		self.skus.ebook.first

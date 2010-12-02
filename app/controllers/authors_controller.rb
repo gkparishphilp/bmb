@@ -42,11 +42,15 @@ class AuthorsController < ApplicationController
 	end
 	
 	def edit
-		@author = Author.find params[:id]
+		@author = @current_author
 	end
 	
 	def update
 		@author = Author.find params[:id]
+		unless author_owns( @author )
+			redirect_to root_path
+			return false
+		end
 		if @author.update_attributes params[:author]
 			process_attachments_for( @author )
 			pop_flash "Author Profile Updated!"

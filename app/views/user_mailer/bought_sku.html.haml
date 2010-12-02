@@ -1,0 +1,43 @@
+Hi
+= @user.name
+, 
+
+This email confirms your purchase of 
+= @order.sku.title
+%br
+
+-if @order.sku.contains_etext?
+	You can download digital items using the links below:
+	%br	
+	- for sku_item in @order.sku.sku_items
+		= link_to sku_item.item.title, deliver_asset_url( sku_item.item, :order_id => @order.id)
+		%br
+
+-if @order.sku.contains_merch?
+	
+	- if @order.sku.owner.is_a? Author
+		The following items will be delivered by the author:
+		= @order.sku.owner.pen_name
+		%br
+		- for sku_item in @order.sku.sku_items
+			= sku_item.item.title if sku_item.item_type == 'Merch'
+			%br
+
+%br
+Your confirmation number is:
+= @order.order_transaction.reference
+
+%br
+Please use it in all correspondence regarding this order.  
+%br
+%br
+If you have any problems with this item, you can contact us at: http://backmybook.com/contacts/new.
+Please let us know if there is anything we can do for you.
+%br
+%br
+Best Regards,
+%br
+- if @order.sku.owner.is_a? Author
+	=@order.sku.owner.pen_name
+	and 
+= APP_NAME	

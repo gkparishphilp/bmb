@@ -29,6 +29,10 @@ class StaticPagesController < ApplicationController
 
 	def edit
 		@static_page = StaticPage.find params[:id]
+		unless author_owns( @static_page )
+			redirect_to root_path
+			return false
+		end
 	end
 
 	def create
@@ -46,6 +50,10 @@ class StaticPagesController < ApplicationController
 
 	def update
 		@static_page = StaticPage.find params[:id]
+		unless author_owns( @static_page )
+			redirect_to root_path
+			return false
+		end
 
 		if @static_page.update_attributes params[:static_page]
 			pop_flash 'StaticPage was successfully updated.'

@@ -27,7 +27,7 @@ class Site < ActiveRecord::Base
 	has_many :articles, :as => :owner
 	has_many :forums, :as => :owner
 	has_many :podcasts, :as => :owner
-	
+	has_many :events, :as => :owner
 	has_many :links, :as => :owner
 	has_many :twitter_accounts, :as => :owner
 	has_many :facebook_accounts, :as => :owner
@@ -908,8 +908,7 @@ EOS
 			puts "Redemption ID = #{oo.id} \n"	
 			o = Redemption.new
 			o.id = oo.id
-			o.redeemer_id = oo.redeemer_id
-			o.redeemer_type = oo.redeemer_type
+			o.user_id = oo.redeemer_id if oo.redeemer_type == 'User'
 			o.coupon_id = oo.coupon_id
 			o.created_at = oo.created_at
 			o.updated_at = oo.updated_at

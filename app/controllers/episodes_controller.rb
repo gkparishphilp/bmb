@@ -24,6 +24,10 @@ class EpisodesController < ApplicationController
 
 	def edit
 		@episode = Episode.find params[:id]
+		unless author_owns( @episiode )
+			redirect_to root_path
+			return false
+		end
 		render :layout => '3col'
 	end
 
@@ -45,6 +49,10 @@ class EpisodesController < ApplicationController
 
 	def update
 		@episode = Episode.find  params[:id] 
+		unless author_owns( @episode )
+			redirect_to root_path
+			return false
+		end
 
 		if @episode.update_attributes params[:episode]
 			pop_flash 'Episode was successfully updated.', :success

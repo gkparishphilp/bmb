@@ -13,6 +13,10 @@ class SkusController < ApplicationController
 	
 	def update
 		@sku = Sku.find params[:id]
+		unless author_owns( @sku )
+			redirect_to root_path
+			return false
+		end
 		if @sku.update_attributes params[:sku]
 			pop_flash 'Sku saved!'
 		else
@@ -28,6 +32,10 @@ class SkusController < ApplicationController
 	
 	def edit
 		@sku = Sku.find params[:id]
+		unless author_owns( @sku )
+			redirect_to root_path
+			return false
+		end
 		@books = @current_author.books
 		@items = @current_author.merches.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
 		@items += @current_author.assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }

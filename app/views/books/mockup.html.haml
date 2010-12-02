@@ -10,10 +10,14 @@
 		.right_col.text
 			%h1= @book.title
 			.book-meta.clearfix
-				%p by: Author
-				%p Reads: 400
+				.info
+					%p by: <em>Author</em>
+					%p Reads: <em>400</em>
 				.ratings
-					Avg rating
+					%p Avg rating: 
+					%ul.star-rating
+						%li.current-rating{ :style=>'width:75px' }
+					%em= link_to "rate it","#"
 			
 			= @book.description.html_safe
 	

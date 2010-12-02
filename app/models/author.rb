@@ -3,22 +3,17 @@
 #
 # Table name: authors
 #
-#  id                 :integer(4)      not null, primary key
-#  user_id            :integer(4)
-#  featured_book_id   :integer(4)
-#  pen_name           :string(255)
-#  promo              :text
-#  subdomain          :string(255)
-#  bio                :text
-#  score              :integer(4)
-#  cached_slug        :string(255)
-#  photo_file_name    :string(255)
-#  photo_content_type :string(255)
-#  photo_file_size    :integer(4)
-#  photo_updated_at   :datetime
-#  photo_url          :string(255)
-#  created_at         :datetime
-#  updated_at         :datetime
+#  id               :integer(4)      not null, primary key
+#  user_id          :integer(4)
+#  featured_book_id :integer(4)
+#  pen_name         :string(255)
+#  promo            :text
+#  subdomain        :string(255)
+#  bio              :text
+#  score            :integer(4)
+#  cached_slug      :string(255)
+#  created_at       :datetime
+#  updated_at       :datetime
 #
 
 class Author < ActiveRecord::Base
@@ -43,8 +38,6 @@ class Author < ActiveRecord::Base
 	has_many	:royalties
 	has_many	:upload_email_lists
 	has_many	:coupons, :as => :owner
-	has_many	:coupons, :as => :redeemer
-	has_many 	:redemptions, :as => :redeemer
 	has_many	:email_subscribings, :as => :subscribed_to # This will list the author's subscribers, not what the author is subscribed to!
 	has_many	:email_campaigns, :as => :owner
 	has_many	:links, :as => :owner
@@ -68,7 +61,9 @@ class Author < ActiveRecord::Base
 		return 90
 	end
 	
-	
+	def owner
+		return self
+	end
 	
 	def assets
 		# return all assets for all books for the author

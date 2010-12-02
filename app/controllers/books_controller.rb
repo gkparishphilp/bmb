@@ -1,5 +1,5 @@
 class BooksController < ApplicationController
-	before_filter :require_author, :except => [ :index, :show ]
+	before_filter :require_author_or_admin, :except => [ :index, :show ]
 	layout 'authors', :only => [ :index, :show, :mockup ]
 	
 	def mockup
@@ -36,11 +36,13 @@ class BooksController < ApplicationController
 	
 	def edit
 		@book = Book.find params[:id]
-		
+		unless author_owns( @book )
+			redirect_to root_path
+			return false
+		end
 		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
 		@genres += Genre.find_by_name( 'fiction' ).children
 		@genres += Genre.find_by_name( 'non fiction' ).children
-			
 		render :layout => '3col'
 	end
 	
@@ -50,7 +52,10 @@ class BooksController < ApplicationController
 	
 	def update
 		@book = Book.find params[:id] 
-
+		unless author_owns( @book )
+			redirect_to root_path
+			return false
+		end
 		if @book.update_attributes params[:book]
 			process_attachments_for( @book )
 			pop_flash 'Book was successfully updated.'
