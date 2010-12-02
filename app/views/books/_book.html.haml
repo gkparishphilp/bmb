@@ -1,16 +1,16 @@
-%div[book]
-	.book_cover
-		= avatar_tag( book, :tiny )
-	.book_data
-		.book_title
+.listing
+	.listing_avatar
+		= avatar_tag( book, :thumb, :width => 64 )
+	.listing_data
+		.listing_title
 			= link_to book.title, author_book_path( @author, book )
-		.book_genre
+		.listing_genre
 			= book.genre.name if book.genre
 		- unless book.ebook_sku.nil?
-			.book_buy_ebook
-				= link_to "Buy Ebook", new_author_order_path( @author, :sku => book.ebook_sku )
+			.listing_buy
+				= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
 		- unless book.audio_book_sku.nil?
-			.book_buy_audio_book
-				= link_to "Buy Audio Book", new_author_order_path( @author, :sku => book.audio_book_sku )
+			.listing_buy
+				= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
 	.clear
 	

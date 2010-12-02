@@ -19,7 +19,7 @@ class MerchesController < ApplicationController
 	
 	def show
 		@merch = Merch.find params[:id] 
-		@orderable = @merch
+		redirect_to author_store_path( @merch.owner, @merch.skus.first )
 	end
 
 

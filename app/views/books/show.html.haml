@@ -1,53 +1,77 @@
 - content_for :left_column do
-	= image_tag( @book.avatar.location('thumb'), :width => @book.avatar.thumb_width ) if @book.has_attached_avatar?
-	%h1= @book.title
-	%br
-	By
-	= @book.author.pen_name
-	%br
-	%br
-	Genre:
-	= @book.genre.name if @book.genre
-	%br
-	%br
-	- for tag in @book.tags
-		= link_to separated_list( @book.tags, tag.name, "," ), root_path( :tag => tag.name )
-	
-	%br
-	%br
-	
-	= @book.description.html_safe
-	
-	%h3 Preview
-	- if @book.assets.free.empty?
-		No Free Preview
-	- for asset in @book.assets.free do
-		= link_to asset.title, download_author_book_asset_path( @author, @book, asset )
-		%br
-	
-	%h3 Buy It
-	- unless @book.ebook_sku.nil?
-		.book_buy_ebook
-			= link_to "Buy Ebook", new_author_order_path( @author, :sku => @book.ebook_sku )
-			= format_price( @book.ebook_sku.price )
-	- unless @book.audio_book_sku.nil?
-		.book_buy_audio_book
-			= link_to "Buy Audio Book", new_author_order_path( @author, :sku => @book.audio_book_sku )
-			= format_price( @book.audio_book_sku.price )
-	- unless @book.merch_skus.empty?
-		- for merch_sku in @book.merch_skus
-			.book_buy_merch
-				= link_to "Buy #{merch_sku.title}", new_author_order_path( @author, :sku => merch_sku )
-				= format_price( merch_sku.price )
-	- unless @book.custom_skus.empty?
-		- for custom_sku in @book.custom_skus
-			.book_buy_custom
-				= link_to "Buy #{custom_sku.title}", new_author_order_path( @author, :sku => custom_sku )
-				= format_price( custom_sku.price )
-
-	%h3 Reviews?
-	= render @book.reviews
-	= render :partial=>'reviews/new'
+	.books
+		.left_col
+			.book_thumb
+				= avatar_tag( @book, :profile, :width => 150 )
+			
+			- if @book.assets.free.empty?
+				&nbsp&nbsp;&nbsp;No Preview Available
+			- for asset in @book.assets.free do
+				.button
+					= link_to "FREE SAMPLE", download_author_book_asset_path( @author, @book, asset ), :class=>'blue'
+			
+			- unless @book.ebook_sku.nil?
+				.button
+					=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+			
+			- unless @book.audio_book_sku.nil?
+				.button
+					=link_to "Buy Audio Book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+			
+			- unless @book.custom_skus.empty? && @book.merch_skus.empty?
+				.also-available
+					%h3 Also Available
+					%ul
+						- for sku in @book.merch_skus
+							%li
+								= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
+								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+						- for sku in @book.custom_skus
+							%li
+								= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
+								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+						
+		.right_col.text
+			%h1= @book.title
+			.book-meta.clearfix
+				.info
+					- if @book.genre.present?
+						%p
+							Genre:
+							%em= @book.genre.name
+					%p 
+						By:
+						%em= @book.author.pen_name
+					%p
+						Reads:
+						%em= @book.view_count # todo fix with real stats
+				.ratings
+					%p Avg rating: 
+					%ul.star-rating
+						%li.current-rating{ :style => "width:#{ ( @book.review_average * 125 ) / 5 }px;" }
+					%em= link_to "Rate It", "#reviews"
+			.book_content	
+				= @book.description.html_safe
+			
+			%hr.divider
+			#reviews
+			- if @current_user.anonymous?
+				%b
+					Please
+					= link_to "Login", login_path
+					or
+					= link_to "Register", register_path
+					to review this book.
+			- else
+				= render :partial => 'reviews/new'
+			
+			- unless @book.reviews.empty?
+				%hr.divider
+				%h3
+					Reviews
+				= render @book.reviews
+			
+			.clear
 	
 - content_for :right_column do
 	&nbsp;

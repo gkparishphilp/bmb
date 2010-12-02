@@ -1,7 +1,7 @@
 #comment
 	.header.clearfix
 		.userinfo
-			= link_to( image_tag( review.user.avatar.location( :tiny ), :width => review.user.avatar.tiny_width ), user_path( review.user ))
+			= link_to( image_tag( review.user.avatar.location( :thumb ), :width => 64 ), user_path( review.user ))
 			= link_to review.user.name, user_path( review.user )
 		 
 			%span.byline.date
@@ -10,7 +10,7 @@
 		- unless review.score.nil?
 			%ul.star-rating
 				//Need to load current rating, and calculate. e.g.: $width = round($current_rating * 125/5); if current rate is 4, $width will be 100
-				%li.current-rating{ :style=>'width:100px' }
+				%li.current-rating{ :style => "width:#{ ( review.score * 125 ) / 5 }px;" }
 				
 	.content.text
 		= review.content.html_safe

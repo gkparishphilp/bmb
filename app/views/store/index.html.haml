@@ -1,16 +1,10 @@
 - content_for :left_column do
-	- if @skus.empty?
-		Nothing here Yet
-	- else
-		%h1
-			= pluralize @skus.count, "Item"
-			in the store
-		- for sku in @skus
-			%div[sku]
-				= link_to sku.title, author_store_path( @author, sku )
-				%br
-				= format_price( sku.price )
-				= link_to "Buy", new_author_order_path( @current_author, :sku => sku )
 
+	- for sku in @skus
+		- if sku.is_merch?
+			= render 'item_listing', :item => sku.merches.first, :sku => sku
+		- else
+			= render 'item_listing', :item => sku.book, :sku => sku
+		
 - content_for :right_column do
 	&nbsp;

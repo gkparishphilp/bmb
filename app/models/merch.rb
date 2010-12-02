@@ -25,9 +25,15 @@ class Merch < ActiveRecord::Base
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items
 	
-	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "233", :thumb => "100", :tiny => "40"}}
+	has_many	:reviews, :as => :reviewable
+	
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
 	attr_accessor	:price, :book_id
 	
+	
+	def review_average
+		return avg = self.reviews.average( :score ).to_f
+	end
 
 end
