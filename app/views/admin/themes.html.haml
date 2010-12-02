@@ -7,9 +7,9 @@
 		
 		- if @current_author.themes.empty?
 			You don't have any themes yet.  You might find a cool one
-			= link_to "here.", themes_path
+			= link_to "here.", themes_url
 		- else
-		- form_tag activate_author_themes_path( @current_author ) do
+		- form_tag activate_author_themes_url( @current_author ) do
 			%table.admin_table
 				%tr
 					%th
@@ -41,7 +41,7 @@
 							= theme.public
 						- if theme.creator == @current_author
 							%td
-								= link_to 'edit', edit_author_theme_path( @current_author, theme )
+								= link_to 'edit', edit_author_theme_url( @current_author, theme )
 				- for theme in @current_author.themes
 					%tr
 						%td
@@ -54,7 +54,7 @@
 							= theme.public
 						- if theme.creator == @current_author
 							%td
-								= link_to 'edit', edit_author_theme_path( @current_author, theme )
+								= link_to 'edit', edit_author_theme_url( @current_author, theme )
 			= submit_tag 'Activate'
 			
 - content_for :right_column do

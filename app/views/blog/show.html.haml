@@ -2,17 +2,17 @@
 	#article_list
 		.article_header
 			%h2
-				=@article.title
+				= @article.title
 
 			%span.article_meta
 				- if @article.comments_allowed?
-					= link_to pluralize( @article.comments.count, "Comment" ), blog_link( @article ) + "#comments"
+					= link_to pluralize( @article.comments.count, "Comment" ), author_blog_url( @author, @article ) + "#comment"
 				%br
 				- unless @article.topics.empty?
 					#article_topics
 						Filed under:
 						- for topic in @article.topics
-							= link_to separated_list( @article.topics, topic.name, "," ), blog_index_path( :topic => topic.name )
+							= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
 
 		.article_content
 			= @article.content
@@ -21,15 +21,15 @@
 			#related
 				%h3 Related Posts
 				- for article in @article.related_articles
-					= link_to article.title, blog_path( article )
+					= link_to article.title, blog_url( article )
 
 		- if @article.comments_allowed?
+			#comment
+				= render :partial=>'comments/new'
 			- unless @article.comments.empty?
 				#comments
 					%h3 Comments
 					= render :partial => 'comments/comment', :collection => @article.comments
-			#new_comment
-				= render :partial=>'comments/new'
 	
 - content_for :right_column do
 	= render :partial => 'sidebar'

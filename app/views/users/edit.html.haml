@@ -35,9 +35,9 @@
 	%br
 	=f.submit "Update", :class => :button
 	| 
-	=link_to 'Cancel', user_path(@user)
+	=link_to 'Cancel', user_url(@user)
 	
 	
 - unless @current_user.author?
-	=link_to "I'm an Author", authorize_user_path( @current_user ), :method=>:put
+	=link_to "I'm an Author", authorize_user_url( @current_user ), :method=>:put
 

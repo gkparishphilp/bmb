@@ -14,6 +14,6 @@
 		%br
 		= @user.email
 		| 
-		= link_to "resend activation code", resend_user_path( @user )
+		= link_to "resend activation code", resend_user_url( @user )
 - content_for :right_column do
 	= render 'shared/help'

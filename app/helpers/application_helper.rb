@@ -58,6 +58,14 @@ module ApplicationHelper
 
 	end 
 	
+	# default to http protocol if not explicitly overridden by options hash
+	def url_for( options = nil )
+		if Hash === options
+			options[:protocol] ||= 'http'
+		end
+		super( options )
+	end
+	
 	
 	
 	

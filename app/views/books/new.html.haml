@@ -4,7 +4,7 @@
 	.form_group
 		%h1 Add Book
 
-		= form_tag confirm_author_books_path( @current_author ) do
+		= form_tag confirm_author_books_url( @current_author ) do
 			%h3 What is the Title?
 			= text_field_tag :title, "", :class => :book_title_field
 			%br

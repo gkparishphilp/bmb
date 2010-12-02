@@ -8,7 +8,7 @@
 				&nbsp&nbsp;&nbsp;No Preview Available
 			- for asset in @book.assets.free do
 				.button
-					= link_to "FREE SAMPLE", download_author_book_asset_path( @author, @book, asset ), :class=>'blue'
+					= link_to "FREE SAMPLE", download_author_book_asset_url( @author, @book, asset ), :class=>'blue'
 			
 			- unless @book.ebook_sku.nil?
 				.button
@@ -24,11 +24,11 @@
 					%ul
 						- for sku in @book.merch_skus
 							%li
-								= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
+								= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
 								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 						- for sku in @book.custom_skus
 							%li
-								= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
+								= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
 								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 						
 		.right_col.text
@@ -58,9 +58,9 @@
 			- if @current_user.anonymous?
 				%b
 					Please
-					= link_to "Login", login_path
+					= link_to "Login", login_url
 					or
-					= link_to "Register", register_path
+					= link_to "Register", register_url
 					to review this book.
 			- else
 				= render :partial => 'reviews/new'

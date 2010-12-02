@@ -1,19 +1,20 @@
-%div[comment]
-	.comment_pic
-		= link_to image_tag( comment.user.avatar.location, :width => 20 ), user_path( comment.user )
-	.comment_body
-		= link_to comment.user.name, user_path(comment.user), :class => 'comment_user'
-		- unless comment.user.website_url.blank?
-			(
-			-if comment.user.website_name.blank?
-				= link_to comment.user.website_url, "http://" + comment.user.website_url
-			- else
-				= link_to comment.user.website_name, "http://" + comment.user.website_url
-			)
+#comment
+	.header.clearfix
+		.userinfo
+			= link_to( avatar_tag( comment.user, :thumb, :width => 64 ), user_url( comment.user ) )
+			= link_to comment.user.name, user_url( comment.user )
+			- unless comment.user.website_url.blank?
+				(
+				-if comment.user.website_name.blank?
+					= link_to comment.user.website_url, "http://" + comment.user.website_url
+				- else
+					= link_to comment.user.website_name, "http://" + comment.user.website_url
+				)
+			
+			%span.byline.date
+				On
+				= format_date comment.created_at
+	.content.text
+		= comment.content.html_safe
 
-		%span.comment_date
-			On
-			= format_date comment.created_at
-		.comment_content
-			= comment.content
 %br.clear

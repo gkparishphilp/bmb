@@ -7,10 +7,10 @@
 	%br
 	%br
 	%h3
-		= link_to( "You Have #{pluralize( @current_author.books.count, 'Book' )}", admin_books_path )
+		= link_to( "You Have #{pluralize( @current_author.books.count, 'Book' )}", admin_books_url )
 	- for book in @current_author.books
 		= book.title
-		= link_to 'edit', edit_author_book_path( @current_author, book )
+		= link_to 'edit', edit_author_book_url( @current_author, book )
 		%br
 	%br
 	%br
@@ -25,10 +25,10 @@
 	%br
 	%li
 		= "#{@current_author.subdomain}.backmybook.com"
-		= link_to "edit", admin_domains_path
+		= link_to "edit", admin_domains_url
 	- for site in @current_author.sites
 		%li= site.domain
-	= link_to "Add a domain", new_author_site_path( @current_author )
+	= link_to "Add a domain", new_author_site_url( @current_author )
 	
 
 - content_for :right_column do

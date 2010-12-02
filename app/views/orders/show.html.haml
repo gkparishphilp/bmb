@@ -28,7 +28,7 @@
 				%br
 			
 				- for sku_item in @order.sku.sku_items
-					= link_to "Download #{sku_item.item.title} !",  deliver_asset_path( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
+					= link_to "Download #{sku_item.item.title} !",  deliver_asset_url( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
 					%br
 				%br
 				-if @order.sku.contains_merch?
@@ -56,7 +56,7 @@
 			%br
 
 			If you have any questions, 
-			= link_to "please contact us", new_contact_path 
+			= link_to "please contact us", new_contact_url 
 			with the Order ID # and Confirmation # shown above. 
 			
 		-else 
@@ -79,7 +79,7 @@
 
 			%br
 			If you have any questions, 
-			= link_to "please contact us", new_contact_path
+			= link_to "please contact us", new_contact_url
 			with the Order ID # and Confirmation # shown above. 
 		
 
