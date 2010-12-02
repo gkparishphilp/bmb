@@ -6,7 +6,6 @@
 			.left_col
 				.book_thumb
 					= avatar_tag( @sku.book, :profile, :width => 150 )
-
 				.button
 					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_path( @author, :sku => @sku ), :class=>'dark-gray'
 
