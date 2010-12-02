@@ -1,14 +1,17 @@
 module ApplicationHelper
 	
-	def avatar_tag( obj, style=nil )
+	def avatar_tag( obj, style=nil, opts={} )
+		tag = ""
 		if style
 			style = style.to_s
 			if obj.has_attached_avatar?
-				return image_tag( obj.avatar.location( style ) ) 
+				tag = image_tag( obj.avatar.location( style ), :width => opts[:width] ) 
 			end
 		else
-			return image_tag( obj.avatar.location ) if obj.has_attached_avatar?
+			tag = image_tag( obj.avatar.location, :width => opts[:width] ) if obj.has_attached_avatar?
 		end
+		
+		return tag
 	end
 	
 	def format_date( date )
