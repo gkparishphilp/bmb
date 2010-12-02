@@ -260,7 +260,7 @@
 				Click the PayPal logo below to sign into your PayPal account.  You will be returned here to complete your order.
 				%br
 				%br
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
 			
 		-else
 			= form_for @order do |f|
