@@ -158,7 +158,7 @@ class Ecom < ActiveRecord::Migration
 		add_index :coupons, :code
 		add_index :geo_addresses, :user_id
 		add_index :geo_addresses, :geo_state_id
-		add_index :merch, :owner_id
+		add_index :merches, :owner_id
 		add_index :orders, :user_id
 		add_index :orders, :sku_id
 		add_index :order_transactions, :order_id

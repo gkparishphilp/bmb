@@ -45,7 +45,7 @@ class CreateAuthors < ActiveRecord::Migration
 		add_index :authors, :user_id
 		add_index :authors, :pen_name
 		add_index :authors, :subdomain
-		add_index :themes, :creator
+		add_index :themes, :creator_id
 		add_index :theme_ownings, :author_id
 		add_index :theme_ownings, :theme_id
 		
