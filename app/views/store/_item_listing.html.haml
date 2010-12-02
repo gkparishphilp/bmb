@@ -4,7 +4,7 @@
 	.listing_data
 		.listing_title
 			- if avatar_item.class.name == 'Merch'
-				= link_to sku.title, author_store_url( @author, avatar_item )
+				= link_to sku.title, author_store_url( @author, sku )
 			- else
 				= link_to sku.title, author_book_url( @author, avatar_item )
 		.listing_buy
@@ -12,8 +12,4 @@
 				=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
-		.ratings
-			%p Avg rating: 
-			%ul.star-rating
-				%li.current-rating{ :style => "width:#{ ( avatar_item.review_average * 125 ) / 5 }px;" }
 	.clear
