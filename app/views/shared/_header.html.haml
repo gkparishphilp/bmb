@@ -2,7 +2,6 @@
 	.wrapper
 		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_url( :host => 'backmybook.com' )
 		%ul.top_main_menu
-			%li= link_to "Menu", "#"
 			- if @current_author
 				%li= link_to "Admin", admin_index_path
 		%ul.top_user_menu

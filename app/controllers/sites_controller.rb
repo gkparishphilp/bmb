@@ -45,10 +45,10 @@ class SitesController < ApplicationController
 	def index
 		@activities = Activity.feed @current_site.users, @current_site
 		
-		blog_posts = @current_site.articles.order( "created_at desc" ).limit( 5 )
-		episodes = @current_site.podcasts.first.episodes.order( "created_at desc" ).limit( 5 )
+		@recent_blog_posts = @current_site.articles.empty? ? [] : ( @current_site.articles.order( "created_at desc" ).limit( 5 ) )
+		@recent_episodes = @current_site.podcasts.empty? ? [] : ( @current_site.podcasts.first.episodes.order( "created_at desc" ).limit( 5 ) )
 
-		@items = blog_posts + episodes
+		@items = @recent_blog_posts + @recent_episodes
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 		
 	end

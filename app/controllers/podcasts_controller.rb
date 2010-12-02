@@ -9,15 +9,6 @@ class PodcastsController < ApplicationController
 	
 	def index
 		@podcasts = @owner.podcasts
-		unless author_owns( @podcast )
-			redirect_to root_path
-			return false
-		end
-		#if @podcasts.count == 1
-		#	redirect_to polymorphic_path( @podcasts.first )
-		#	return false
-		#end
-		
 	end
 
 	def show

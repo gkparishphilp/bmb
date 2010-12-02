@@ -25,7 +25,7 @@ Punchlist
 
 GK
 ----
-- Pop_flash for email that has been previously created in user table
+
 - Header menus (graphical)
 	- William
 - Scope everything on status
@@ -59,6 +59,7 @@ PUNT for Sigler launch
 DONE
 -----
 - Homepage - bring in old blog articles
+- Pop_flash for email that has been previously created in user table
 - Register - help copy
 - What about coupon redemption ajax?
 - Double-check all permissions

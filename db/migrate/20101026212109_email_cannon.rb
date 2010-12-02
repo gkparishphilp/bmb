@@ -46,6 +46,15 @@ class EmailCannon < ActiveRecord::Migration
 			
 			t.timestamps
 		end
+	
+	add_index :email_campaigns, :owner_id
+	add_index :email_messages, :email_campaign_id
+	add_index :email_subscribings, :subscribed_to_id
+	add_index :email_subscribings, :subscriber_id
+	add_index :email_subscribings, :unsubscribe_code
+	add_index :email_deliveries, :email_subscribing_id
+	add_index :email_deliveries, :email_message_id
+	add_index :upload_email_lists, :owner_id
 		
 	end
 

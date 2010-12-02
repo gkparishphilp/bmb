@@ -1,0 +1,55 @@
+Hi 
+= @order.sku.owner.pen_name
+!
+%br
+%br
+Congratulations! A customer bought one of your items.
+%br
+%br
+Here's the information you'll need to ship it to them.
+%br
+%br
+Product Name:	
+= @order.sku.title
+%br
+%br
+Items in Product:
+%br
+-for sku_item in @order.sku.sku_items
+	= sku_item.item.title if sku_item.item.is_a? Merch
+	%br
+%br
+Customer Name:	
+= @order.user.name
+%br
+Customer Email:	
+= @order.user.email
+%br
+%br
+Shipping Address:
+%br	
+="#{@order.shipping_address.first_name} #{@order.shipping_address.last_name}"
+%br
+=@order.shipping_address.street
+%br
+- if @order.shipping_address.street2.present?
+	=@order.shipping_address.street2 
+	%br
+=@order.shipping_address.city 
+=@order.shipping_address.geo_state.name 
+=@order.shipping_address.zip 
+%br
+%br
+Please send your customer a notification email when you ship the item(s).  
+%br
+The customer's order confirmation number is :
+= @order.order_transaction.reference
+%br
+%br
+Please use the confirmation number in any correspondence with the customer or with 
+= APP_NAME
+
+Best regards,
+The 
+= APP_NAME 
+Team

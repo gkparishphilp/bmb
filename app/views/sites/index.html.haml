@@ -42,9 +42,8 @@
 	
 - content_for :right_column do
 	.pad_content
-		%h2 Buy Some Books
-		.text
-			blah ablah ablahsd a sdjsa dajsd ajshdas dkjahs ddf!
+		%h3 Buy Some Books
+		= link_to image_tag( 'home_starter_rookie.png' ), 'authors/scott-sigler'
 	.follow-me.ui-helper-clearfix
 		%h3 Follow Us
 		%div
@@ -60,14 +59,15 @@
 				= f.submit 'Submit'
 			
 	%div
-		%h3 
-			=link_to 'Podcast','#'
-		%div.text Phasellus mattis tincidunt nibh.
-	%div
-		%h3 
-			=link_to 'Events','#'
-		%div.text Nam dui erat, auctor a, dignissim quis.
+		- unless @current_site.podcasts.empty?
+			%h3 
+				=link_to 'Podcast', podcast_index_path
+			%div.text 
+				- for episode in @current_site.podcasts
+					= link_to episode.title, podcast_episode_path( episode.podcast, episode )
+					
 	- unless @activities.empty?
+		%br
 		%div
 			%h3 
 				=link_to 'Site Activity','#'

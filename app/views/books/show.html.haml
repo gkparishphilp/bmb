@@ -29,21 +29,25 @@
 	- unless @book.ebook_sku.nil?
 		.book_buy_ebook
 			= link_to "Buy Ebook", new_author_order_path( @author, :sku => @book.ebook_sku )
+			= format_price( @book.ebook_sku.price )
 	- unless @book.audio_book_sku.nil?
 		.book_buy_audio_book
 			= link_to "Buy Audio Book", new_author_order_path( @author, :sku => @book.audio_book_sku )
+			= format_price( @book.audio_book_sku.price )
 	- unless @book.merch_skus.empty?
 		- for merch_sku in @book.merch_skus
 			.book_buy_merch
 				= link_to "Buy #{merch_sku.title}", new_author_order_path( @author, :sku => merch_sku )
+				= format_price( merch_sku.price )
 	- unless @book.custom_skus.empty?
 		- for custom_sku in @book.custom_skus
 			.book_buy_custom
 				= link_to "Buy #{custom_sku.title}", new_author_order_path( @author, :sku => custom_sku )
+				= format_price( custom_sku.price )
 
 	%h3 Reviews?
 	= render @book.reviews
 	= render :partial=>'reviews/new'
 	
 - content_for :right_column do
-	= render :partial => 'authors/right_column'
+	&nbsp;

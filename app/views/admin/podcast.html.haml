@@ -33,7 +33,7 @@
 			= f. submit
 			
 - content_for :right_column do
-	%h2 Help
+	= render 'shared/help'
 	%h2 Podcasts
 	- for podcast in @podcasts
 		= podcast.title

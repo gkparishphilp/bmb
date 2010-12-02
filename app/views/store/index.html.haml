@@ -8,6 +8,9 @@
 		- for sku in @skus
 			%div[sku]
 				= link_to sku.title, author_store_path( @author, sku )
+				%br
+				= format_price( sku.price )
+				= link_to "Buy", new_author_order_path( @current_author, :sku => sku )
 
 - content_for :right_column do
 	&nbsp;

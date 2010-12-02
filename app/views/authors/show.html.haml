@@ -1,15 +1,12 @@
 - content_for :left_column do
-	= @author.promo_content
+	- if @author.promo_content.present?
+		= @author.promo_content.html_safe
+	- else
+		= @author.bio.html_safe
 	
-	%hr
-	%h2 Recent Blog Posts
-	- for article in @author.articles.recent
-		= render article
+	- unless @author.articles.recent.empty?
+		- for article in @author.articles.recent
+			= render article
 		
-	%hr
-	- if @author.forums.first && @author.forums.first.topics
-		%h2 Recent Forum Topics
-		- for topic in @author.forums.first.topics.recent
-			%h3= link_to topic.title, author_forum_topic_path( @author, @author.forums.first, topic )
 - content_for :right_column do
 	&nbsp;

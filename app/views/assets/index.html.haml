@@ -27,7 +27,7 @@
 						= asset.title
 					%td
 						- if asset.asset_type == 'sale'
-							= number_to_currency asset.sku.price / 100
+							= number_to_currency asset.sku.price.to_f / 100
 							= asset.sku.sku_type
 						- else
 							Free/Preview
@@ -39,4 +39,4 @@
 				
 				
 - content_for :right_column do
-	%h2 Help
+	= render 'shared/help'
