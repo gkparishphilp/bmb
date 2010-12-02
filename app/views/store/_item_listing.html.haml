@@ -3,10 +3,10 @@
 		= avatar_tag( avatar_item, :thumb, :width => 64 )
 	.listing_data
 		.listing_title
-			- if item.class.name == 'Merch'
-				= link_to sku.title, author_store_url( @author, item )
+			- if avatar_item.class.name == 'Merch'
+				= link_to sku.title, author_store_url( @author, avatar_item )
 			- else
-				= link_to sku.title, author_book_url( @author, item )
+				= link_to sku.title, author_book_url( @author, avatar_item )
 		.listing_buy
 			= link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 	.clear
