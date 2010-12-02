@@ -16,4 +16,4 @@
 		| 
 		= link_to "resend activation code", resend_user_path( @user )
 - content_for :right_column do
-	%h2 Help
+	= render 'shared/help'

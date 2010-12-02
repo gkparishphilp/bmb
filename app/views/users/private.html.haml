@@ -2,50 +2,72 @@
 	%h1
 		= @user.name
 		Home
+	%br
+	%br
 	- if @welcome_message
-		%h3= @welcome_message
+		%h4= @welcome_message
+	
+	.form_group
+		#user_avatar
+			= avatar_tag( @user, :thumb, :width => 64 )
+		#user_panel
+			%b
+				Change your avatar at 
+				= link_to "gravatar.com", 'http://gravatar.com'
+			%br
+			We're using:
+			= @user.email
 
-	#user_avatar
-		= avatar_tag( @user, :thumb, :width => 64 )
-	#user_change_avatar
-		%b
-			Change your avatar at 
-			= link_to "gravatar.com", 'http://gravatar.com'
-		%br
-		We're using:
-		= @user.email
+			- unless @current_user.has_email?
+				= form_for @current_user do |f|
+					= f.label "Email"
+					= f.text_field :email
+					= f.submit "Enter"
+			%br
+			%br
+			%h3 Settings
+			= form_for @user do |f|
+				= f.label 'Website Name:'
+				= f.text_field :website_name
+				= f.label 'Website URL:'
+				= f.text_field :website_url
+				.actions
+					= f.submit "Enter", :class => :button
 
-	- unless @current_user.has_email?
-		= form_for @current_user do |f|
-			= f.label "Email"
-			= f.text_field :email
-			= f.submit "Enter"
 			
-	- unless @user.skus.empty?
-		%h3 
-			Thank You for Purchasing:
-		- for sku in @user.skus
-			%li= sku.title
-			- for item in sku.items
-				%div[item]
-					= item.title
-					|
-					= link_to "Download", download_author_book_asset_path( sku.owner, sku.book, item ) if item.respond_to? 'document'
+		- unless @user.skus.empty?
+			%h3 
+				Thank You for Purchasing:
+			- for sku in @user.skus
+				%li= sku.title
+				- for item in sku.items
+					%div[item]
+						= item.title
+						|
+						= link_to "Download", download_author_book_asset_path( sku.owner, sku.book, item ) if item.respond_to? 'document'
+		.clear
 
 
 - content_for :right_column do
+	%br
+	-#
+		%h3
+			Add a Twitter Accoount:
+		#twitter
+			= form_tag go_twitter_sessions_path do
+				= image_submit_tag 'twitter_button.png'
+		%h3
+			Add a Facebook Account:
+		#facebook
+			= form_tag go_facebook_sessions_path do
+				= image_submit_tag 'facebook_connect.png'
+	%h3 Need Help?
+	%p
+		For assistance please 
+		%b= link_to "contact us", new_contact_path
+		
 	%h3
-		Add a Twitter Accoount:
-	#twitter
-		= form_tag go_twitter_sessions_path do
-			= image_submit_tag 'twitter_button.png'
-	%h3
-		Add a Facebook Account:
-	#facebook
-		= form_tag go_facebook_sessions_path do
-			= image_submit_tag 'facebook_connect.png'
-	%h3
-		Activity
+		Recent Activity
 	= render @activities
 	
 	

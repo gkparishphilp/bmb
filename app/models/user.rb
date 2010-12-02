@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
 	after_create	:set_avatar
   
 	# Validations	--------------------------------------
-	validates	:password, :confirmation => true, :length => { :minimum => 4, :maximum => 254 }, :if => :old_school_user?
+	validates	:password, :confirmation => true, :length => { :minimum => 4, :maximum => 254 }, :if => :password_present?
 
 	validates	:email, :uniqueness => true, 
 						:length => {:minimum => 3, :maximum => 254},
@@ -192,8 +192,8 @@ class User < ActiveRecord::Base
 		self.twitter_accounts + self.facebook_accounts
 	end
 
-	def old_school_user?
-		self.social_accounts.empty?
+	def password_present?
+		self.password.present?
 	end
 	
 	# Stuff for Twitter --------------------------------------------------

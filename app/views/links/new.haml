@@ -8,7 +8,7 @@
 			= render :partial => 'form', :locals => { :f => f, :m => 'Create'}
 		
 - content_for :right_column do
-	%h2 Help
+	= render 'shared/help'
 	%h2 Notice
 	By uploading content to BackMyBook, you agree to our 
 	= link_to "terms of service", "/terms", :target => "_blank"

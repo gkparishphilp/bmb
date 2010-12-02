@@ -58,7 +58,7 @@
 							= link_to 'delete', author_book_asset_path( @author, @book, asset ), :method => :delete 
 		
 - content_for :right_column do
-	%h2 Help
+	= render 'shared/help'
 	
 	%h3 Links
 	- for link in @book.links

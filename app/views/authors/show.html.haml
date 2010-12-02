@@ -1,5 +1,8 @@
 - content_for :left_column do
-	= @author.promo_content
+	- if @author.promo_content.present?
+		= @author.promo_content.html_safe
+	- else
+		= @author.bio.html_safe
 	
 	- unless @author.articles.recent.empty?
 		%h2 Recent Blog Posts
