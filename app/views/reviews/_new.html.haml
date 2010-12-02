@@ -1,15 +1,22 @@
-%h3
-	Review this 
-	= @reviewable.class.to_s
-- form_for [ @author, @reviewable, Review.new ] do |f| 
+.reviews
+	%h3
+		Review this 
+		= @reviewable.class.to_s
+	- form_for [ @author, @reviewable, Review.new ] do |f| 
 
-	%fieldset.radios
-		= f.radio_button :score, 1, :class => :show_stars, :title => 'Poor', :id=>'radio-01'
-		= f.radio_button :score, 2, :class => :show_stars, :title => 'Meh...'
-		= f.radio_button :score, 3, :class => :show_stars, :title => 'Good'
-		= f.radio_button :score, 4, :class => :show_stars, :title => 'Great!'
-		%br
+		%fieldset.radios
+			%em rate it
+			%label{ :class=>'label_radio' , :for=>'radio-01'} 
+				= f.radio_button :score, 1, :class => :show_stars, :title => 'Poor', :id=>'radio-01'
+			%label{ :class=>'label_radio' , :for=>'radio-02'}
+				= f.radio_button :score, 2, :class => :show_stars, :title => 'Meh...', :id=>'radio-02'
+			%label{ :class=>'label_radio' , :for=>'radio-03'}
+				= f.radio_button :score, 3, :class => :show_stars, :title => 'Good', :id=>'radio-03'
+			%label{ :class=>'label_radio' , :for=>'radio-04'}
+				= f.radio_button :score, 4, :class => :show_stars, :title => 'Great!', :id=>'radio-04'
+			%label{ :class=>'label_radio' , :for=>'radio-05'}
+				= f.radio_button :score, 5, :class => :show_stars, :title => 'Excellent!', :id=>'radio-05'
+			%br
 
-	= f.text_area :content
-	%br
-	= f.submit 'Create', :class=>'button'
+		= f.text_area :content
+		= f.submit 'Create', :class=>'button'

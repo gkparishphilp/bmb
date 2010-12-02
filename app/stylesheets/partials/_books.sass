@@ -1,0 +1,158 @@
+.books
+	:padding-top 15px
+	h1
+		:color #CE9322
+	p.blue
+		:color $link
+		
+	.left_col
+		:width 165px
+		:margin-right 13px
+	.right_col
+		:float left
+		:width 420px
+		
+	textarea
+		:width 99%
+		:border 1px solid $link
+	
+	.book-meta
+		:margin 10px 0
+		:font-weight bold
+		p
+			:margin 0
+		.info
+			:float left
+			:width 47%
+		em
+			:color $link
+	
+	.ratings
+		:width 52%
+		:float right
+		p
+			:float left
+			:width 83px
+			:padding-top 4px
+		.star-rating
+			:float left
+			:margin 0
+		em
+			:float right
+			:margin-right 62px
+			:text-transform uppercase
+			:font-size 10px
+	.reviews
+		:margin 20px 0
+	.book_content
+		:padding 0 0 20px 0
+	.new_review
+		.ui-state-default
+			:border 1px solid $link
+			:background-color #f2f2f2
+			:margin-top 6px
+			+rounded
+		.ui-state-hover
+			:background-color #fff
+
+	.button a
+		:display block
+		:width 157px
+		:height 25px
+		// :font-size 18px
+		:font-weight bold
+		:text-align center
+		:text-decoration none
+		:text-transform capitalize
+		:margin 5px auto
+		:padding 12px 5px 0 3px
+		:clear both
+		:background-image url("../images/buttons.png")
+		:background-repeat no-repeat
+	.button a.blue
+		:background-position -2px -119px
+	.button a.yellow
+		:background-position -2px -2px
+	.button a.green
+		:background-position -2px -41px
+	.button a.dark-gray
+		:background-position -2px -80px
+	.button a:hover
+		:background-position -2px -158px
+		
+	.book_thumb
+		:text-align center
+		:margin-bottom 10px
+	.also-available
+		:margin 20px 0
+		h3
+			:text-align center
+			:border-bottom 1px solid #ccc
+			:padding-bottom 16px
+	.also-available
+		:line-height 1.2em
+		li
+			:border-bottom 1px solid #ccc
+			:padding 5px 1px 7px 2px
+		& a
+			:color #CE9322
+			:font-size 12px
+			:font-weight bold
+		li:after
+			+clearfix
+		em
+			:float right
+			:width 28%
+			:text-align center
+			a
+				:color $link
+				:line-height 1em
+				:text-transform uppercase
+		a.main
+			:float left
+			:width 69%
+.has-js		
+	.radios 
+		:padding 10px 0
+	
+		fieldset 
+			:border 0
+			:padding-bottom 9px
+		label
+			:display block
+			:cursor pointer
+			:line-height 20px
+			:padding-bottom 9px
+			:text-shadow 0 -1px 0 rgba(0,0,0,.2)
+			:float left
+			:width 20px
+			:height 15px
+
+		.label_radio input
+			:margin-right 5px
+
+		.label_radio
+			:background url(../images/star.png) no-repeat
+			:background-position -2px -29px
+		label.r_on
+			:background url(../images/star.png) no-repeat
+			:background-position -2px -2px
+		.label_radio input
+			:position absolute
+			:left -9999px
+		em
+			:float left
+			:font-size 14px
+			:font-weight bold
+			:padding-top 3px
+			:text-transform capitalize
+			:width 55px			
+	#comment
+		.header
+			.userinfo
+				:float left
+				:width 60%
+				a
+					:color #CE9322
+			.star-rating
+				:float right

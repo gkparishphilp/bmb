@@ -1,11 +1,24 @@
 - content_for :left_column do
 	.books
 		.left_col
-			= avatar_tag( @book, :thumb )
-			%h3 Also Available
+			.book_thumb
+				= avatar_tag( @book, :thumb )
 			
-			%ul
-				%li 
+			.button
+				=link_to "FREE SAMPLE","#", :class=>'blue'
+			.button
+				=link_to "Buy E-book $6.99","#", :class=>'dark-gray'				
+			
+			.also-available
+				%h3 Also Available
+			
+				%ul
+					%li
+						= link_to "Hardcover Book (Signed Edition)","#", :class=>'main' 
+						%em= link_to "$24.99 buy","#"
+					%li
+						= link_to "My ugly Mug Mug","#"
+						%em= link_to "$4.99 buy","#"
 		
 		.right_col.text
 			%h1= @book.title
@@ -18,13 +31,15 @@
 					%ul.star-rating
 						%li.current-rating{ :style=>'width:75px' }
 					%em= link_to "rate it","#"
-			
-			= @book.description.html_safe
+			.book_content	
+				= @book.description.html_safe
 	
 			%hr.divider
-			
-			= render @book.reviews
+						
 			= render :partial => 'reviews/new'
+			%hr.divider
+			= render @book.reviews
+			
 	
 - content_for :right_column do
 	&nbsp;
