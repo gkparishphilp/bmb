@@ -2,9 +2,9 @@
 
 	- for sku in @skus
 		- if sku.is_merch?
-			= render 'item_listing', :item => sku.merches.first, :sku => sku
+			= render 'item_listing', :avatar_item => sku.merches.first, :sku => sku
 		- else
-			= render 'item_listing', :item => sku.book, :sku => sku
+			= render 'item_listing', :avatar_item => sku.book, :sku => sku
 		
 - content_for :right_column do
 	&nbsp;
