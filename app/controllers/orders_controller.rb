@@ -154,7 +154,7 @@ class OrdersController < ApplicationController
 			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order
-			redirect_to new_order_path( :sku => @order.sku.id)
+			redirect_to new_order_path( :sku => @order.sku.id), :protocol => Rails.env.production? ? "https" : "http"
 			#TODO send back errors from Paypal here also
 		end
 

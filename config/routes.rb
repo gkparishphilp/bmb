@@ -54,7 +54,7 @@ Backmybook::Application.routes.draw do
 			end
 		end
 		resources :links
-		resources :orders
+		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 			
 		resources :podcasts do
 			resources :episodes do
@@ -100,7 +100,7 @@ Backmybook::Application.routes.draw do
 		end
 	end
 
-	resources :orders do
+	resources :orders , :constraints => { :protocol => Rails.env.production? ? "https" : "http"} do
 		get 'paypal_express', :on => :new
 	end
 	

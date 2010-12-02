@@ -9,8 +9,8 @@
 		%br
 
 		-if @current_author.user.subscribings.empty?
-			
-			= link_to 'Purchase Author Premium Subscription', new_order_path(:ordered_id => 1, :ordered_type=> 'Subscription')
+			-# todo Fix Path
+			= link_to 'Purchase Author Premium Subscription', root_path
 		-else 
 			%h2 Existing Subscriptions
 			%table
