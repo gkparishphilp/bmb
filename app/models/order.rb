@@ -43,20 +43,20 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 # Apply coupon to order
 #---------------------------------------------------------------
-	def apply_coupon
-		case discount_type=self.coupon.discount_type
+	def apply_coupon( coupon )
+		case discount_type=coupon.discount_type
 			when 'percent'
-				self.price = (self.price - (self.coupon.discount/100.0 * self.price)).round 
+				self.price = (self.price - (coupon.discount/100.0 * self.price)).round 
 			when 'cents'
-				self.price = self.price - self.coupon.discount
+				self.price = self.price - coupon.discount
 		end	
 		self.price = 0 if self.price < 0
-		self.redemption.coupon = self.coupon
-		self.redemption.user = self.user
-		self.redemption.status = 'redeemed'
-		self.redemption.save
 	end
 
+	def redeem_coupon( coupon )
+		# Mark a coupon as redeemed in the redemptions table
+		self.redemption.create :user => self.user, :coupon => coupon, :status => 'redeemed'
+	end
 
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases  (regular,express, and subscription)
@@ -146,8 +146,9 @@ class Order < ActiveRecord::Base
 		# add sku_items to ownings
 		self.sku.ownings.create :user => self.user, :status => 'active'
 		
-		# send email
+		# send emails
 		UserMailer.bought_sku( self, self.user ).deliver 
+		UserMailer.fulfill_order( self, self.user).deliver if self.sku.contains_merch?
 		
 		# add royalty entry
 		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round

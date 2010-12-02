@@ -14,14 +14,16 @@ class OrdersController < ApplicationController
 
 	def show
 		@order = Order.find params[:id] 
-
+		
+#Need to fix for anonymous purchases, where @order.user is NEVER the @current_user
+=begin
 		if @order.user != @current_user 
 			pop_flash 'Not your order', :error
-			redirect_to root_path
+			redirect_to @order
 		else
 			redirect_to @order
 		end
-
+=end
 	end
 
 
@@ -77,12 +79,7 @@ class OrdersController < ApplicationController
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
 			if @coupon = Coupon.find_by_code(params[:coupon_code])
-				redemption = Redemption.new
-				redemption.order = @order
-				redemption.coupon = @coupon
-				redemption.user = @order.user
-				redemption.save
-				@order.apply_coupon if @coupon.is_valid? (@order.sku )
+				@order.apply_coupon( @coupon ) if @coupon.is_valid? (@order.sku )
 			end
 		end
 
@@ -153,6 +150,7 @@ class OrdersController < ApplicationController
 			pop_flash 'Order was successfully processed.'
 			@order.update_attributes :status => 'success'
 			@order.post_purchase_actions( @current_user )
+			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
 			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order
