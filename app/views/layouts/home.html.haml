@@ -7,7 +7,7 @@
 			= render :partial => 'shared/header'
 			#bd
 				.home_left
-					= render :partial => 'shared/flash', :locals => { :flash => flash }
+					= render 'shared/flash', :flash => flash
 					= yield :left_column
 				.home_right
 					= yield :right_column

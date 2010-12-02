@@ -104,6 +104,11 @@ class Book < ActiveRecord::Base
 		self.skus.custom
 	end
 	
+	def review_average
+		avg = self.reviews.average :score
+		avg.to_f
+	end
+	
 	def add_asset( asset )
 		ass = eval "#{asset.class.name}.create :book_id => self.id, :title => asset.title, :asset_type => asset.asset_type, :description => asset.description, :content => asset.content, :duration => asset.duration, :bitrate => asset.bitrate, :resolution => asset.resolution"
 		ass.save

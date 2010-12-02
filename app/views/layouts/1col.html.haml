@@ -7,7 +7,7 @@
 			= render :partial => 'shared/header'
 			#bd
 				.pad_content
-					= render :partial => 'shared/flash', :locals => { :flash => flash }
+					= render 'shared/flash', :flash => flash
 					= yield
 			= render :partial => 'shared/footer'
 		= render :partial => 'shared/analytics'
