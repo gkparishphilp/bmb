@@ -74,6 +74,15 @@ class Polymorphs < ActiveRecord::Migration
 			t.timestamps
 		end
 		
+		add_index :badgings, :badge_id
+		add_index :badgings, :badgeable_id
+		add_index :contents, :owner_id
+		add_index :events, :owner_id
+		add_index :links, :owner_id
+		add_index :messages, to_id
+		add_index :messages, :from_id
+		add_index :reviews, :reviewable_id
+		
 	end
 
 	def self.down

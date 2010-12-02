@@ -152,7 +152,32 @@ class Ecom < ActiveRecord::Migration
 			t.timestamps
 		end
 		
-		# todo indexes
+		add_index :coupons, :owner_id
+		add_index :coupons, :user_id
+		add_index :coupons, :sku_id
+		add_index :coupons, :code
+		add_index :geo_addresses, :user_id
+		add_index :geo_addresses, :geo_state_id
+		add_index :merch, :owner_id
+		add_index :orders, :user_id
+		add_index :orders, :sku_id
+		add_index :order_transactions, :order_id
+		add_index :ownings, :user_id
+		add_index :ownings, :sku_id
+		add_index :redemptions, :user_id
+		add_index :redemptions, :coupon_id
+		add_index :redemptions, :order_id
+		add_index :royalties, :author_id
+		add_index :royalties, :order_id
+		add_index :skus, :owner_id
+		add_index :skus, :book_id
+		add_index :sku_items, :sku_id
+		add_index :sku_items, :item_id
+		add_index :subscribings, :subscription_id
+		add_index :subscribings, :user_id
+		add_index :subscribings, :order_id
+		add_index :subscriptions, :owner_id
+		
 		
 	end
 

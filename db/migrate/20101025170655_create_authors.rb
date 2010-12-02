@@ -10,12 +10,6 @@ class CreateAuthors < ActiveRecord::Migration
 			t.text			:bio
 			t.integer		:score
 			t.string		:cached_slug
-			t.string		:photo_file_name
-		    t.string		:photo_content_type
-		    t.integer		:photo_file_size
-		    t.datetime		:photo_updated_at
-		    t.string		:photo_url
-
 			t.timestamps
 		end
 		
@@ -47,6 +41,13 @@ class CreateAuthors < ActiveRecord::Migration
 			
 			t.timestamps
 		end
+		
+		add_index :authors, :user_id
+		add_index :authors, :pen_name
+		add_index :authors, :subdomain
+		add_index :themes, :creator
+		add_index :theme_ownings, :author_id
+		add_index :theme_ownings, :theme_id
 		
 	end
 

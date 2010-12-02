@@ -9,7 +9,6 @@
 				= number_to_currency @sku.price.to_f / 100
 	#checkout
 		-if @order.paypal_express_token.blank?	
-
 			= form_for @order do |f|
 	
 				%table
@@ -21,16 +20,19 @@
 					%tr
 						%td
 							%h3 Payment Information
-							(Only US Credit Cards Accepted)
+							(US Credit Cards or PayPal Only)
 					%tr
 						%td
 							%b Payment Method
 						%td#pay_select
 							=f.radio_button :payment_type, "credit_card", :id => "credit_radio", :checked => true
+							Credit Card:
 							= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
 							&nbsp &nbsp &nbsp
 							-unless @sku.sku_type == 'subscription'
+								%br
 								=f.radio_button :payment_type, "paypal", :id => 'paypal_radio'
+								PayPal:
 								<!-- PayPal Logo --><a href="#" onclick="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img  src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" border="0" alt="Acceptance Mark" align="center"></a><!-- PayPal Logo -->
 				%br
 				%br
