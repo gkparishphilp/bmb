@@ -31,7 +31,7 @@ class Coupon < ActiveRecord::Base
 			return false
 		elsif ( self.expiration_date.present? and self.expiration_date < Time.now )
 			return false
-		elsif self.sku_id.present? and self.sku_id != order.sku.id
+		elsif self.sku_id.present? and self.sku_id != sku.id
 			return false
 		else
 			return true
