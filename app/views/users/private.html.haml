@@ -35,17 +35,17 @@
 					= f.submit "Enter", :class => :button
 
 			
-		- unless @user.skus.empty?
-			.clear
-			%h3 
-				Thank You for Purchasing:
-			- for sku in @user.skus
-				%li= sku.title
-				- for item in sku.items
-					%div[item]
-						= item.title
-						|
-						= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+			- unless @user.skus.empty?
+				%br
+				%h3 
+					Thank You for Purchasing:
+				- for sku in @user.skus
+					%li= sku.title
+					- for item in sku.items
+						%div[item]
+							= item.title
+							|
+							= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
 		.clear
 
 
