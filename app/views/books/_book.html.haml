@@ -8,9 +8,9 @@
 			= book.genre.name if book.genre
 		- unless book.ebook_sku.nil?
 			.book_buy_ebook
-				= link_to "Buy Ebook", new_author_order_path( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
+				= link_to "Buy Ebook", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
 		- unless book.audio_book_sku.nil?
 			.book_buy_audio_book
-				= link_to "Buy Audio Book", new_author_order_path( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
+				= link_to "Buy Audio Book", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
 	.clear
 	

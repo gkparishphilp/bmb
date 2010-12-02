@@ -10,7 +10,7 @@
 				= link_to sku.title, author_store_path( @author, sku )
 				%br
 				= format_price( sku.price )
-				= link_to "Buy", new_author_order_path( @current_author, :sku => sku )
+				= link_to "Buy", new_author_order_url( @current_author, :sku => sku, :protocol => SSL_PROTOCOL )
 
 - content_for :right_column do
 	&nbsp;

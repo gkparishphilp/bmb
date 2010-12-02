@@ -14,7 +14,7 @@
 					- for sku in sku.book.custom_skus
 						%li
 							= link_to sku.title, author_store_path( @author, sku ), :class => 'main' 
-							%em= link_to "#{format_price( sku.price )} buy", new_author_order_path( @author, :sku => sku )
+							%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 					
 	.right_col.text
 		%h1= merch.title
