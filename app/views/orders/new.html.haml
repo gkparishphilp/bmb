@@ -118,8 +118,7 @@
 						Select a billing address
 			
 						= f.collection_select :billing_address_id, @current_user.billing_addresses, :id , :street
-
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						%br
 						Or check to enter a new billing address
 						= check_box_tag "use_new_billing_address", "use_new_billing_address"
 						%br
@@ -207,8 +206,7 @@
 						-else
 							Select a shipping address:
 							= f.collection_select :shipping_address_id, @current_user.shipping_addresses, :id , :street
-							
-							&nbsp;&nbsp;&nbsp;
+							%br
 							Or check to enter a new shipping address
 							= check_box_tag "use_new_shipping_address", "use_new_shipping_address"
 							%br

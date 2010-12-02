@@ -146,8 +146,9 @@ class Order < ActiveRecord::Base
 		# add sku_items to ownings
 		self.sku.ownings.create :user => self.user, :status => 'active'
 		
-		# send email
+		# send emails
 		UserMailer.bought_sku( self, self.user ).deliver 
+		UserMailer.fulfill_order( self, self.user).deliver if self.sku.contains_merch?
 		
 		# add royalty entry
 		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round

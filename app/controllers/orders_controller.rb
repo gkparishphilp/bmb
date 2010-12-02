@@ -150,7 +150,7 @@ class OrdersController < ApplicationController
 			pop_flash 'Order was successfully processed.'
 			@order.update_attributes :status => 'success'
 			@order.post_purchase_actions( @current_user )
-			@order.redeem_coupon( @coupon ) if @coupon.is_valid? (@order.sku )
+			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
 			redirect_to @order
 		else
 			pop_flash 'Oooops, order was not saved', :error, @order

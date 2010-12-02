@@ -20,6 +20,12 @@ class UserMailer < ActionMailer::Base
 		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
 	
+	def fulfill_order( order, user )
+		@order = order
+		@user = user
+		mail( :from => "orders@backmybook.com", :to => @order.sku.owner.user.email, :subject => "You have an order to fulfill!")
+	end
+	
 	def deliver_comment( comment )
 		@comment = comment
 		@commentable = @comment.commentable
