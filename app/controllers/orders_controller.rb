@@ -102,7 +102,7 @@ class OrdersController < ApplicationController
 				unless @billing_address = @order.user.billing_addresses.create( params[:billing_address] )
 					pop_flash "Billing address needs to be completely filled out", :error, billing_address
 				else
-					@billing_address = BillinAddress.new params[:billing_address]
+					@billing_address = BillingAddress.new params[:billing_address]
 					@order.billing_address = @billing_address
 				end
 				
