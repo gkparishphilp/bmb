@@ -1,6 +1,6 @@
 %div[book]
 	.book_cover
-		= avatar_tag( book, :tiny )
+		= avatar_tag( book, :tiny, :width => 40 )
 	.book_data
 		.book_title
 			= link_to book.title, author_book_path( @author, book )
