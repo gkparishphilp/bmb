@@ -1,4 +1,4 @@
-/* line 14, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 14, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -18,42 +18,42 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 }
 
-/* line 17, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
   color: black;
   background: white;
 }
 
-/* line 19, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 19, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 21, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 21, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: separate;
   border-spacing: 0;
   vertical-align: middle;
 }
 
-/* line 23, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 23, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 25, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 25, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: "" "";
 }
-/* line 96, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 96, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
 }
 
-/* line 27, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 27, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
@@ -116,19 +116,36 @@ h1, h2, h3 {
   clear: both;
 }
 
+/* line 111, ../../app/stylesheets/partials/_sitewide.sass */
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+
+/* line 114, ../../app/stylesheets/partials/_sitewide.sass */
+hr {
+  color: #cccccc;
+  background-color: #cccccc;
+  height: 1px;
+  border: none;
+}
+
 /* =Structure */
-/* line 113, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 121, ../../app/stylesheets/partials/_sitewide.sass */
 #container {
   width: 100%;
 }
 
-/* line 116, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 124, ../../app/stylesheets/partials/_sitewide.sass */
 #bd, #ft {
   margin: auto;
   width: 980px;
 }
 
-/* line 120, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 128, ../../app/stylesheets/partials/_sitewide.sass */
 #bd {
   background-color: white;
   border: 1px solid #b0d3e1;
@@ -142,34 +159,34 @@ h1, h2, h3 {
   border-top-right-radius: 5px;
 }
 
-/* line 127, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 135, ../../app/stylesheets/partials/_sitewide.sass */
 .column1, .column2 {
   float: left;
 }
 
-/* line 130, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 138, ../../app/stylesheets/partials/_sitewide.sass */
 .column1 {
   width: 65.5%;
 }
 
-/* line 133, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 141, ../../app/stylesheets/partials/_sitewide.sass */
 .author_bd .column1 {
   background: white url("../images/content_bg.jpg") repeat-y right top;
 }
 
-/* line 136, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 144, ../../app/stylesheets/partials/_sitewide.sass */
 .column2 {
   width: 34.4%;
 }
 
-/* line 139, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 147, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="text"], input[type="password"], textarea {
   padding: 2px;
   background: #f9f9f9;
   border: 1px solid #cccccc;
 }
 
-/* line 144, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 152, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="text"] {
   -moz-border-radius: 4px;
   -khtml-border-radius: 4px;
@@ -177,7 +194,7 @@ input[type="text"] {
   border-radius: 4px;
 }
 
-/* line 147, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 155, ../../app/stylesheets/partials/_sitewide.sass */
 input[type="password"] {
   -moz-border-radius: 4px;
   -khtml-border-radius: 4px;
@@ -185,13 +202,13 @@ input[type="password"] {
   border-radius: 4px;
 }
 
-/* line 149, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 157, ../../app/stylesheets/partials/_sitewide.sass */
 label {
   padding: 4px 3px;
 }
 
 /* =Layout */
-/* line 155, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 163, ../../app/stylesheets/partials/_sitewide.sass */
 .search_form input[type="text"] {
   float: right;
   border: 1px solid #dddddd;
@@ -203,37 +220,37 @@ label {
   background-color: white;
 }
 
-/* line 165, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 173, ../../app/stylesheets/partials/_sitewide.sass */
 .static_content {
   padding: 10px;
 }
 
-/* line 167, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 175, ../../app/stylesheets/partials/_sitewide.sass */
 .text {
   line-height: 1.4em;
   padding: 5px;
 }
 
-/* line 172, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 180, ../../app/stylesheets/partials/_sitewide.sass */
 #flash {
   width: 96%;
   margin: 20px auto;
 }
-/* line 175, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 183, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .error {
   background: #ffd1d6 url(../images/close_error.png) 99.5% 19% no-repeat;
   border: 2px solid #ff3333;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 178, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 186, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .success {
   background: #e6efc2 url(../images/close_success.png) 99.5% 19% no-repeat;
   border: 2px solid #c6d880;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 181, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 189, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .notice {
   background: #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat;
   border: 2px solid #ffd324;
@@ -390,8 +407,9 @@ ul.top_user_menu li a.username {
 /* line 15, ../../app/stylesheets/partials/_author.sass */
 .author_photo {
   margin: 30px 0 30px 40px;
+  min-height: 101px;
 }
-/* line 17, ../../app/stylesheets/partials/_author.sass */
+/* line 18, ../../app/stylesheets/partials/_author.sass */
 .author_photo img {
   border: 1px solid white;
   padding: 0 1px 1px 0;
@@ -400,7 +418,7 @@ ul.top_user_menu li a.username {
   -webkit-box-shadow: 1px 2px 8px #888888;
 }
 
-/* line 22, ../../app/stylesheets/partials/_author.sass */
+/* line 23, ../../app/stylesheets/partials/_author.sass */
 .author_menu {
   border: 2px solid #cccccc;
   border-left: none;
@@ -410,18 +428,18 @@ ul.top_user_menu li a.username {
   border-top-right-radius: 6px;
 }
 
-/* line 28, ../../app/stylesheets/partials/_author.sass */
+/* line 29, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu {
   float: left;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
-/* line 33, ../../app/stylesheets/partials/_author.sass */
+/* line 34, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li {
   float: left;
 }
-/* line 35, ../../app/stylesheets/partials/_author.sass */
+/* line 36, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a {
   color: #0085ae;
   display: block;
@@ -430,7 +448,7 @@ ul.main-menu li a {
   font-weight: bold;
   padding: 13px 19px 13px 20px;
 }
-/* line 42, ../../app/stylesheets/partials/_author.sass */
+/* line 43, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a:hover {
   text-decoration: none;
   background: #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom;
@@ -438,35 +456,35 @@ ul.main-menu li a:hover {
   border-left: 1px solid #cccccc;
   margin: 0 -1px;
 }
-/* line 48, ../../app/stylesheets/partials/_author.sass */
+/* line 49, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a.selected {
   background: #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom;
   border-right: 1px solid #cccccc;
   border-left: 1px solid #cccccc;
 }
-/* line 52, ../../app/stylesheets/partials/_author.sass */
+/* line 53, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li.first a {
   border-right: 1px solid #cccccc;
   margin: 0;
 }
 
-/* line 55, ../../app/stylesheets/partials/_author.sass */
+/* line 56, ../../app/stylesheets/partials/_author.sass */
 .author_corner {
   background: white url() no-repeat;
 }
 
-/* line 58, ../../app/stylesheets/partials/_author.sass */
+/* line 59, ../../app/stylesheets/partials/_author.sass */
 .author_promo {
   border-right: 2px solid #cccccc;
   padding-top: 13px;
 }
-/* line 61, ../../app/stylesheets/partials/_author.sass */
+/* line 62, ../../app/stylesheets/partials/_author.sass */
 .author_promo h2 {
   color: #ce9322;
   font-size: 22px;
   margin: 13px 3px 3px 13px;
 }
-/* line 65, ../../app/stylesheets/partials/_author.sass */
+/* line 66, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a {
   display: block;
   width: 177px;
@@ -482,51 +500,51 @@ ul.main-menu li.first a {
   background-image: url("../images/sprite_big_btns.png");
   background-repeat: no-repeat;
 }
-/* line 79, ../../app/stylesheets/partials/_author.sass */
+/* line 80, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.blue {
   background-position: -16px -12px;
 }
-/* line 81, ../../app/stylesheets/partials/_author.sass */
+/* line 82, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.yellow {
   background-position: -16px -79px;
 }
-/* line 83, ../../app/stylesheets/partials/_author.sass */
+/* line 84, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.green {
   background-position: -16px -135px;
 }
-/* line 85, ../../app/stylesheets/partials/_author.sass */
+/* line 86, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.gray {
   background-position: -16px -192px;
 }
-/* line 87, ../../app/stylesheets/partials/_author.sass */
+/* line 88, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a:hover {
   background-position: -16px -12px;
 }
-/* line 89, ../../app/stylesheets/partials/_author.sass */
+/* line 90, ../../app/stylesheets/partials/_author.sass */
 .author_promo .image {
   float: left;
   padding: 13px 10px 10px 28px;
   width: 150px;
   height: 250px;
 }
-/* line 94, ../../app/stylesheets/partials/_author.sass */
+/* line 95, ../../app/stylesheets/partials/_author.sass */
 .author_promo p {
   line-height: 1.4em;
   padding: 0 10px 0 15px;
 }
-/* line 97, ../../app/stylesheets/partials/_author.sass */
+/* line 98, ../../app/stylesheets/partials/_author.sass */
 .author_promo .book_stats {
   font-weight: bold;
   margin-bottom: 10px;
   color: #9c9c9c;
 }
-/* line 101, ../../app/stylesheets/partials/_author.sass */
+/* line 102, ../../app/stylesheets/partials/_author.sass */
 .author_promo .book_stats em {
   color: #0085ae;
   margin-right: 10px;
 }
 
-/* line 105, ../../app/stylesheets/partials/_author.sass */
+/* line 106, ../../app/stylesheets/partials/_author.sass */
 #inner-content-wrapper {
   border-right: 2px solid #cccccc;
   padding-bottom: 40px;
@@ -535,13 +553,13 @@ ul.main-menu li.first a {
   background: white url() no-repeat;
 }
 
-/* line 112, ../../app/stylesheets/partials/_author.sass */
+/* line 113, ../../app/stylesheets/partials/_author.sass */
 .follow-me {
   border-top: 2px solid #cccccc;
   margin-top: -2px;
   background: #f7f7f7 url("../images/big_header_bg.jpg") repeat-x left top;
 }
-/* line 116, ../../app/stylesheets/partials/_author.sass */
+/* line 117, ../../app/stylesheets/partials/_author.sass */
 .follow-me h3 {
   float: left;
   color: #0085ae;
@@ -549,10 +567,46 @@ ul.main-menu li.first a {
   font-size: 14px;
   padding: 22px 0 21px 15px;
 }
-/* line 122, ../../app/stylesheets/partials/_author.sass */
+/* line 123, ../../app/stylesheets/partials/_author.sass */
 .follow-me img {
   float: right;
   padding: 10px 10px 0px 5px;
+}
+
+/* line 2, ../../app/stylesheets/partials/_books.sass */
+.books h1 {
+  color: #ce9322;
+}
+/* line 4, ../../app/stylesheets/partials/_books.sass */
+.books p.blue {
+  color: #0085ae;
+}
+/* line 7, ../../app/stylesheets/partials/_books.sass */
+.books .left_col {
+  width: 165px;
+}
+/* line 9, ../../app/stylesheets/partials/_books.sass */
+.books .right_col {
+  float: left;
+  width: 433px;
+}
+/* line 13, ../../app/stylesheets/partials/_books.sass */
+.books textarea {
+  width: 99%;
+  border: 1px solid #0085ae;
+}
+/* line 17, ../../app/stylesheets/partials/_books.sass */
+.books .book-meta {
+  margin: 2px 0 10px 0;
+}
+/* line 19, ../../app/stylesheets/partials/_books.sass */
+.books .book-meta p {
+  float: left;
+}
+/* line 22, ../../app/stylesheets/partials/_books.sass */
+.books .ratings {
+  width: 80px;
+  float: right;
 }
 
 /* line 1, ../../app/stylesheets/partials/_forum.sass */
@@ -1026,11 +1080,6 @@ ul.main-menu li.first a {
 }
 
 /* line 173, ../../app/stylesheets/partials/_tabs.ui.sass */
-.ui-accordion-icons .ui-accordion-header a {
-  padding-left: 2.2em;
-}
-
-/* line 176, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-accordion .ui-accordion-header .ui-icon {
   position: absolute;
   left: 0.5em;
@@ -1038,10 +1087,10 @@ ul.main-menu li.first a {
   margin-top: -8px;
 }
 
-/* line 182, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 179, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-accordion .ui-accordion-content {
   background-color: white;
-  padding: 1em 2.2em;
+  padding: 1em 1.2em;
   border-top: 0;
   margin-top: -2px;
   position: relative;
@@ -1052,12 +1101,12 @@ ul.main-menu li.first a {
   zoom: 1;
 }
 
-/* line 194, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 191, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-accordion .ui-accordion-content-active {
   display: block;
 }
 
-/* line 197, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 194, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs {
   position: relative;
   padding: 0;
@@ -1065,13 +1114,13 @@ ul.main-menu li.first a {
 }
 
 /* position relative prevents IE scroll bug (element with position relative inside container with overflow auto appear as "fixed") */
-/* line 203, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 200, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav {
   margin: 0;
   padding: 0.2em 0.3em 0 1.5em;
 }
 
-/* line 207, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 204, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav li {
   list-style: none;
   float: left;
@@ -1083,7 +1132,7 @@ ul.main-menu li.first a {
   white-space: nowrap;
 }
 
-/* line 217, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 214, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav li a {
   font-size: 14px;
   float: left;
@@ -1092,25 +1141,25 @@ ul.main-menu li.first a {
   width: 116px;
 }
 
-/* line 224, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 221, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected {
   margin-bottom: 0;
   padding-bottom: 2px;
   background-color: white;
 }
 
-/* line 229, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 226, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav li.ui-tabs-selected a, .ui-tabs .ui-tabs-nav li.ui-state-disabled a, .ui-tabs .ui-tabs-nav li.ui-state-processing a {
   cursor: text;
 }
 
-/* line 232, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 229, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-nav li a, .ui-tabs.ui-tabs-collapsible .ui-tabs-nav li.ui-tabs-selected a {
   cursor: pointer;
   /* first selector in group seems obsolete, but required to overcome bug in Opera applying cursor text overall if defined elsewhere... */
 }
 
-/* line 236, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 233, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-panel {
   display: block;
   border-width: 0;
@@ -1118,7 +1167,7 @@ ul.main-menu li.first a {
   background: none;
 }
 
-/* line 242, ../../app/stylesheets/partials/_tabs.ui.sass */
+/* line 239, ../../app/stylesheets/partials/_tabs.ui.sass */
 .ui-tabs .ui-tabs-hide {
   display: none !important;
 }

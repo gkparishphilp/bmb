@@ -1,14 +1,26 @@
 - content_for :left_column do
-	= avatar_tag( @book, :thumb )
-	%h1= @book.title
+	.books
+		.left_col
+			= avatar_tag( @book, :thumb )
+			%h3 Also Available
+			
+			%ul
+				%li 
+		
+		.right_col.text
+			%h1= @book.title
+			.book-meta.clearfix
+				%p by: Author
+				%p Reads: 400
+				.ratings
+					Avg rating
+			
+			= @book.description.html_safe
 	
-	
-	= @book.description.html_safe
-	
-
-	%h3 Reviews?
-	= render @book.reviews
-	= render :partial => 'reviews/new'
+			%hr.divider
+			
+			= render @book.reviews
+			= render :partial => 'reviews/new'
 	
 - content_for :right_column do
 	&nbsp;

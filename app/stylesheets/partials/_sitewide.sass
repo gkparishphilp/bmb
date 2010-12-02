@@ -107,7 +107,15 @@ h1, h2, h3
 
 .clear
 	:clear both
+
+.clearfix:after
+	+clearfix()
 	
+hr
+	:color #ccc
+	:background-color #ccc
+	:height 1px
+	:border none
 /* =Structure */
 
 #container
