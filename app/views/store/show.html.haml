@@ -7,7 +7,7 @@
 				.book_thumb
 					= avatar_tag( @sku.book, :profile, :width => 150 )
 				.button
-					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_path( @author, :sku => @sku ), :class=>'dark-gray'
+					=link_to "Buy SecIt #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 
 				.also-available
 					%h3 Contains
