@@ -14,7 +14,7 @@
 						- for topic in @article.topics
 							= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
 
-		.article_content
+		.article_content.text
 			= @article.content
 		
 		- unless @article.related_articles.empty?
