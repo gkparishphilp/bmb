@@ -52,22 +52,15 @@
 					.listing_data
 						.listing_title
 							= @order.sku.title
-						.listing_description
-							= snip( @order.sku.description.html_safe, 140 )
 						%b
 							Files in this order:
 						.listing_buy
 							- for item in @order.sku.items
 								%div[item]
-									= item.title
 									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( @order.sku.owner, @order.sku.book, item ) if item.respond_to? 'document'
 					.clear
 					
-					
-					
-					- for sku_item in @order.sku.sku_items
-						= link_to "Download #{sku_item.item.title} !",  deliver_asset_url( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
-						%br
+					%br
 					%br
 					-if @order.sku.contains_merch?
 						- if @order.sku.owner.is_a? Author
