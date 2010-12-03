@@ -105,7 +105,7 @@ $(document).ready(function(){
 	
 	
 	$('.coupon').blur(function (){
-		the_url = "/coupons/validate/";
+		the_url = "https://backmybook.com/coupons/validate/";
 		the_url += $('#order_sku_id').attr('value');
 		the_url += "/" + $(this).attr('value');
 
