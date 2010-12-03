@@ -18,8 +18,6 @@ class OrdersController < ApplicationController
 		if @order.user != @current_user 
 			pop_flash 'Not your order', :error
 			redirect_to root_path
-		else
-			redirect_to @order
 		end
 	end
 
