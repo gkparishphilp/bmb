@@ -1,5 +1,5 @@
 - content_for :left_column do
-	= image_tag "welcome_authors.jpg"
+	= link_to image_tag( "welcome_authors.jpg" ), register_url
 	.pad_content
 		#home_blog
 			- for item in @items
