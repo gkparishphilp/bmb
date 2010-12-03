@@ -12,12 +12,8 @@ function setupLabel() {
 	// Accordion
     $('body').addClass('has-js');
 	$( '.datepicker' ).datepicker();
-	$("#accordion").accordion({ header: "h3" });
+	$("#accordion").accordion({ header: "h3",autoHeight: false });
 	$("input.button").button();
-    $('.label_radio').click(function(){
-        setupLabel();
-    });
-    setupLabel(); 
 	// Tabs
 	// $('#tabs').tabs();
 	

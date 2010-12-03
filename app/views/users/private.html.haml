@@ -5,8 +5,38 @@
 	%br
 	%p 
 		Hi, Welcome to BackMyBook!  This is your personal user dashboard.  You would do things like manage your user profile settings here, but since some people can't seem to figure out those kind of advanced internetty concepts, for now the only thing you can do here is download stuff if you are kind enough to buy it.
-	
+	- unless @user.skus.empty?
+		%br
+			%h3 
+				Thank You for Purchasing:
+			- for sku in @user.skus
+				.listing( style = 'margin-left:30px;' )
+					.listing_avatar
+						- if sku.avatar.present?
+							= avatar_tag( sku, :thumb, :width => 64 )
+						- else
+							= avatar_tag( sku.book, :thumb, :width => 64 )
+					.listing_data
+						.listing_title
+							= sku.title
+						%b
+							Files in this order:
+						.listing_buy
+							- for item in sku.items
+								%div[item]
+									= item.title
+									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+						.listing_description
+							= snip( sku.description.html_safe, 140 )
+					.clear
+			
+			
+			
+				
+				
 	.form_group
+		%h2 Settings
+		%br
 		#user_avatar
 			= avatar_tag( @user, :thumb, :width => 64 )
 		#user_panel
@@ -16,36 +46,34 @@
 			%br
 			We're using:
 			= @user.email
-
-			- unless @current_user.has_email?
-				= form_for @current_user do |f|
-					= f.label "Email"
-					= f.text_field :email
-					= f.submit "Enter"
 			%br
 			%br
-			-#
-				%h3 Settings
-				= form_for @user do |f|
-					= f.label 'Website Name:'
-					= f.text_field :website_name
-					= f.label 'Website URL:'
-					= f.text_field :website_url
-					.actions
-						= f.submit "Enter", :class => :button
-
-			
-			- unless @user.skus.empty?
+			%h4 Change Your Email Address
+			= form_for @current_user do |f|
+				= f.label "Email"
+				= f.text_field :email
+				= f.submit "Enter"
+			%br
+			%br
+			%h4 Change Your Password:
+			= form_tag :controller=>'users', :action => :reset_password do
+				%label New Password:
+				= password_field_tag :password, params[:password], :size=>30, :class=>"password"
+				%label Confirm Password:
+				= password_field_tag :password_confirmation, params[:password_confirmation], :size=>30, :class=>"password"
+				= hidden_field_tag :token, @user.remember_token
 				%br
-				%h3 
-					Thank You for Purchasing:
-				- for sku in @user.skus
-					%li= sku.title
-					- for item in sku.items
-						%div[item]
-							= item.title
-							|
-							= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+				= submit_tag "Change Password", :class => 'button'
+			%br
+			%br
+			%h4 Misc Settings:
+			= form_for @user do |f|
+				= f.label 'Website Name:'
+				= f.text_field :website_name
+				= f.label 'Website URL:'
+				= f.text_field :website_url
+				.actions
+					= f.submit "Enter", :class => :button
 		.clear
 
 

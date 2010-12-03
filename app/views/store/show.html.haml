@@ -23,7 +23,7 @@
 									
 							- else
 								= link_to item.title, "", :class => 'main' 
-								%em= link_to item.type, ""
+								%em= link_to item.type, "" if item.respond_to? 'type'
 
 
 				- unless @sku.book.custom_skus.empty? && @sku.book.merch_skus.empty?
