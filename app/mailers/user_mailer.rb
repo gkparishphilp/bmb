@@ -35,4 +35,12 @@ class UserMailer < ActionMailer::Base
 			mail( :from => "donotreply@backmybook.com", :to => @user.email, :subject => "New comment to #{@commentable.title}")
 		end
 	end
+	
+	def support_email( contact )
+		@contact = contact
+		mail( :from => "donotreply@backmybook.com", :to => 'tay@backmybook.com', :subject => "Support email from #{@contact.email}" )
+		mail( :from => "donotreply@backmybook.com", :to => 'wayland@backmybook.com', :subject => "Support email from #{@contact.email}" )
+		mail( :from => "donotreply@backmybook.com", :to => 'gk@backmybook.com', :subject => "Support email from #{@contact.email}" )
+		mail( :from => "donotreply@backmybook.com", :to => 'mike@backmybook.com', :subject => "Support email from #{@contact.email}" )
+	end
 end
