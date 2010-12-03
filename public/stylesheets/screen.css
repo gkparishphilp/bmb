@@ -1845,53 +1845,64 @@ input#order_card_cvv {
   margin-left: 1em;
 }
 
-/* line 26, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 25, ../../app/stylesheets/partials/_gks_crap.sass */
+.activity {
+  margin: 10px 4px;
+  font-size: 85%;
+}
+/* line 28, ../../app/stylesheets/partials/_gks_crap.sass */
+.activity img {
+  float: left;
+  margin-right: 5px;
+}
+
+/* line 32, ../../app/stylesheets/partials/_gks_crap.sass */
 #edit_title {
   display: none;
 }
 
-/* line 28, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 34, ../../app/stylesheets/partials/_gks_crap.sass */
 #contact_form {
   display: none;
 }
 
-/* line 31, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 37, ../../app/stylesheets/partials/_gks_crap.sass */
 .pad_content {
   margin: 10px;
 }
 
-/* line 34, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 40, ../../app/stylesheets/partials/_gks_crap.sass */
 .small {
   font-size: 85%;
 }
 
-/* line 37, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 43, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .pic {
   float: left;
 }
-/* line 39, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 45, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .name {
   margin-left: 30px;
   float: left;
   font-size: 150%;
 }
-/* line 43, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 49, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .data {
   clear: both;
   font-size: 85%;
 }
 
-/* line 47, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 53, ../../app/stylesheets/partials/_gks_crap.sass */
 #price {
   display: none;
 }
 
-/* line 49, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 55, ../../app/stylesheets/partials/_gks_crap.sass */
 #unlock_req {
   display: none;
 }
 
-/* line 57, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 63, ../../app/stylesheets/partials/_gks_crap.sass */
 .home_left {
   width: 600px;
   float: left;
@@ -1899,26 +1910,26 @@ input#order_card_cvv {
   border-right: 2px solid #cccccc;
 }
 
-/* line 63, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 69, ../../app/stylesheets/partials/_gks_crap.sass */
 .home_right {
   width: 378px;
   float: left;
 }
 
-/* line 67, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 73, ../../app/stylesheets/partials/_gks_crap.sass */
 .left_col {
   list-style: none;
   width: 130px;
   float: left;
 }
 
-/* line 71, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 77, ../../app/stylesheets/partials/_gks_crap.sass */
 .middle_col {
   float: left;
   width: 600px;
 }
 
-/* line 74, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 80, ../../app/stylesheets/partials/_gks_crap.sass */
 .right_col {
   float: right;
   width: 250px;

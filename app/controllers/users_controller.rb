@@ -163,7 +163,7 @@ class UsersController < ApplicationController
   
 				#just in case we're coming from forgot pw / email flow
 				login( @user )
-				redirect_to root_path
+				redirect_to @user
 			else
 				pop_flash "Passwords must match", :error
 			end

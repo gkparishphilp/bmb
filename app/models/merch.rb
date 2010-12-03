@@ -29,6 +29,8 @@ class Merch < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
+	gets_activities
+	
 	attr_accessor	:price, :book_id
 	
 	
