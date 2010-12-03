@@ -63,7 +63,7 @@
 			%h3 
 				=link_to 'Podcast', podcasts_url
 			%div.text 
-				- for episode in @current_site.podcasts
+				- for episode in @current_site.podcasts.first.episodes
 					= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 					
 	- unless @activities.empty?
