@@ -18,9 +18,13 @@ class UsersController < ApplicationController
 			@activities = Activity.feed @user
 			render :private
 		else 
-			# Let's just show the public profile
-			set_meta @user.name, @user.bio
-			render	:public
+			if @user.author?
+				redirect_to author_url( @user.author )
+			else
+				# Let's just show the public profile
+				set_meta @user.name, @user.bio
+				render	:public
+			end
 		end
 	end
 

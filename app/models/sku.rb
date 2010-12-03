@@ -52,7 +52,6 @@ class Sku < ActiveRecord::Base
 	has_many :subscriptions, :through => :sku_items, :source => :subscription,
 						:conditions => "sku_items.item_type = 'Subscription'"
 
-	
 	belongs_to	:book
 	
 	attr_accessor :item
@@ -62,6 +61,8 @@ class Sku < ActiveRecord::Base
 	scope	:merch, where( "sku_type = 'merch'" )
 	scope	:custom, where( "sku_type = 'custom'" )
 	scope 	:subscription, where( "sku_type = 'subscription'")
+	
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches
