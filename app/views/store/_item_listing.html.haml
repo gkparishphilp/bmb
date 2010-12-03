@@ -1,12 +1,19 @@
 .listing
 	.listing_avatar
-		= avatar_tag( item, :thumb, :width => 64 )
+		- if sku.avatar.present?
+			= avatar_tag( sku, :thumb, :width => 64 )
+		- else
+			= avatar_tag( sku.book, :thumb, :width => 64 )
 	.listing_data
 		.listing_title
-			- if item.class.name == 'Merch'
-				= link_to item.title, author_store_path( @author, item )
+			- if sku.book_sku?
+				= link_to sku.title, author_book_url( @author, sku.book )
 			- else
-				= link_to item.title, author_book_path( @author, item )
+				= link_to sku.title, author_store_url( @author, sku )
+				
 		.listing_buy
-			= link_to "Buy #{sku.title} #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+			.button
+				=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+		.listing_description
+			= snip( sku.description.html_safe, 140 )
 	.clear

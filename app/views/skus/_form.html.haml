@@ -2,6 +2,8 @@
 = f.text_field :title
 = f.label 'Price:'
 = f.text_field :price
+= f.label "Picture:"
+= file_field_tag :attached_avatar_file
 = f.label 'Associate with Book:'
 = f.collection_select :book_id, @books, :id, :title
 = f.label 'Description:'

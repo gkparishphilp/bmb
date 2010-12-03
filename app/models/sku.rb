@@ -52,7 +52,6 @@ class Sku < ActiveRecord::Base
 	has_many :subscriptions, :through => :sku_items, :source => :subscription,
 						:conditions => "sku_items.item_type = 'Subscription'"
 
-	
 	belongs_to	:book
 	
 	attr_accessor :item
@@ -63,6 +62,8 @@ class Sku < ActiveRecord::Base
 	scope	:custom, where( "sku_type = 'custom'" )
 	scope 	:subscription, where( "sku_type = 'subscription'")
 	
+	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
+	
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches
 	end
@@ -71,8 +72,14 @@ class Sku < ActiveRecord::Base
 		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
 	end
 	
-	def is_merch?
-		return self.sku_items.count  == 1 && self.merches.first.present?
+	def merch_sku?
+		# A merch singleton sku -- contains merch, and only merch
+		return self.sku_items.count == 1 && self.merches.first.present?
+	end
+	
+	def book_sku?
+		# either ebook or audiobook, not merch or bundle
+		return self.sku_type == 'ebook' || self.sku_type == 'audio_book'
 	end
 
 	def contains_merch?

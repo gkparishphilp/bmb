@@ -15,15 +15,12 @@ class OrdersController < ApplicationController
 	def show
 		@order = Order.find params[:id] 
 		
-#Need to fix for anonymous purchases, where @order.user is NEVER the @current_user
-=begin
 		if @order.user != @current_user 
 			pop_flash 'Not your order', :error
-			redirect_to @order
+			redirect_to root_path
 		else
 			redirect_to @order
 		end
-=end
 	end
 
 
@@ -102,7 +99,8 @@ class OrdersController < ApplicationController
 				unless @billing_address = @order.user.billing_addresses.create( params[:billing_address] )
 					pop_flash "Billing address needs to be completely filled out", :error, billing_address
 				else
-					@order.billing_address = params[:billing_address]
+					@billing_address = BillingAddress.new params[:billing_address]
+					@order.billing_address = @billing_address
 				end
 				
 			else

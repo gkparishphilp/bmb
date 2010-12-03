@@ -6,7 +6,7 @@
 			%h1
 				Edit 
 				= @podcast.title
-			= link_to "Add Episode", new_podcast_episode_path( @podcast )
+			= link_to "Add Episode", new_podcast_episode_url( @podcast )
 				
 			- else
 				%h1
@@ -37,5 +37,5 @@
 	%h2 Podcasts
 	- for podcast in @podcasts
 		= podcast.title
-		= link_to "Edit", admin_podcast_path( :podcast_id => podcast )
+		= link_to "Edit", admin_podcast_url( :podcast_id => podcast )
 		%hr

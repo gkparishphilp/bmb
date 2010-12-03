@@ -38,11 +38,13 @@
 				%br
 				#cc_info
 					%table
-						%tr
-							%td
-								%b E-mail
-							- @order.email = @current_user.email unless @current_user.anonymous?
-							%td= f.text_field :email, :class => 'required_email'
+						- if @current_user.anonymous?
+							%tr
+								%td
+									%b E-mail
+								%td= f.text_field :email, :class => 'required_email'
+						-else
+							= f.hidden_field :email, :value => @current_user.email
 
 						-if @sku.sku_type != 'subscription'
 							%tr
@@ -260,7 +262,7 @@
 				Click the PayPal logo below to sign into your PayPal account.  You will be returned here to complete your order.
 				%br
 				%br
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_path(:sku => @sku)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
 			
 		-else
 			= form_for @order do |f|

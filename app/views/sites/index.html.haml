@@ -10,15 +10,15 @@
 						.type_icon
 							= image_tag "blog_post_icon.png", :height => 32
 						.title
-							= link_to item.title, blog_path( item )
+							= link_to item.title, blog_url( item )
 						.participate
 							= image_tag "comment.png", :width => 20
 							= pluralize item.comments.count, "Comment"
 							%br
 							- if item.comments.count > 0
-								.converse= link_to "Join the Conversation", blog_path( item ) + "#comment"
+								.converse= link_to "Join the Conversation", blog_url( item ) + "#comment"
 							- else
-								.converse= link_to "Be the first!", blog_path( item ) + "#comment"
+								.converse= link_to "Be the first!", blog_url( item ) + "#comment"
 					%br.clear
 					= snip item.content.html_safe, 500
 					%hr.home
@@ -27,15 +27,15 @@
 						.type_icon
 							= image_tag "podcast_icon.png", :width => 32
 						.title
-							= link_to item.title, podcast_episode_path( item.podcast, item )
+							= link_to item.title, podcast_episode_url( item.podcast, item )
 						.participate
 							= image_tag "comment.png", :width => 20
 							= pluralize item.comments.count, "Comment"
 							%br
 							- if item.comments.count > 0
-								.converse= link_to "Join the Conversation", podcast_episode_path( item.podcast, item ) + "#comment"
+								.converse= link_to "Join the Conversation", podcast_episode_url( item.podcast, item ) + "#comment"
 							- else
-								.converse= link_to "Be the first!", podcast_episode_path( item.podcast, item ) + "#comment"
+								.converse= link_to "Be the first!", podcast_episode_url( item.podcast, item ) + "#comment"
 					%br.clear
 					= snip item.description.html_safe, 500
 					%hr.home
@@ -47,10 +47,10 @@
 	.follow-me.ui-helper-clearfix
 		%h3 Follow Us
 		%div
-			=image_tag( 'twitter.jpg' )
-			=image_tag( 'facebook.jpg' )
-			=image_tag( 'rss.jpg',:alt=>'rss feed' )
-			=image_tag( 'mail.jpg',:alt=>'contact author', :class => :toggle_contact_form )
+			= link_to image_tag( 'twitter.jpg' ), "http://twitter.com/backmybook"
+			= link_to image_tag( 'facebook.jpg' ), "http://www.facebook.com/pages/BackMyBook/129259667097024"
+			= link_to image_tag( 'rss.jpg',:alt=>'rss feed' ), "http://feeds.feedburner.com/TheBackmybookBlog"
+			= link_to image_tag( 'mail.jpg',:alt=>'contact author', :class => :toggle_contact_form ), ""
 		#contact_form
 			%br.clear
 			= form_for Contact.new do |f|
@@ -61,10 +61,10 @@
 	%div
 		- unless @current_site.podcasts.empty?
 			%h3 
-				=link_to 'Podcast', podcast_index_path
+				=link_to 'Podcast', podcast_index_url
 			%div.text 
 				- for episode in @current_site.podcasts
-					= link_to episode.title, podcast_episode_path( episode.podcast, episode )
+					= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 					
 	- unless @activities.empty?
 		%br

@@ -4,19 +4,19 @@
 	- if activity.actor == @current_user
 		You
 	- elsif activity.actor.respond_to? 'pen_name'
-		= link_to activity.actor.pen_name, polymorphic_path( activity.actor )
+		= link_to activity.actor.pen_name, polymorphic_url( activity.actor )
 	- else
-		= link_to activity.actor.name, polymorphic_path( activity.actor )
+		= link_to activity.actor.name, polymorphic_url( activity.actor )
 	= activity.verb
 	- if activity.target.respond_to? 'title'
 		- if activity.target.is_a? Topic
-			= link_to activity.target.title, polymorphic_path( [ activity.target.forum, activity.target ] )
+			= link_to activity.target.title, polymorphic_url( [ activity.target.forum, activity.target ] )
 		- elsif activity.target.is_a? Post
-			= link_to activity.target.topic.title, polymorphic_path( [ activity.target.forum, activity.target.topic ] )
+			= link_to activity.target.topic.title, polymorphic_url( [ activity.target.forum, activity.target.topic ] )
 		- elsif activity.target.is_a? Book
-			= link_to activity.target.title, polymorphic_path( [ activity.target.author, activity.target ] )
+			= link_to activity.target.title, polymorphic_url( [ activity.target.author, activity.target ] )
 		- else
-			= link_to activity.target.title, polymorphic_path( activity.target )
+			= link_to activity.target.title, polymorphic_url( activity.target )
 	- else
 		= activity.target.name
 	= time_ago_in_words( activity.created_at )
