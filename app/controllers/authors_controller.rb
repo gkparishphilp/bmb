@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-	before_filter	:require_login, :except => [ :index, :show, :bio ]
+	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
 	
 	def index
 		@author = Author.last
