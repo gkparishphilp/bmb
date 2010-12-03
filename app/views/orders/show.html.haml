@@ -60,7 +60,7 @@
 							- for item in @order.sku.items
 								%div[item]
 									= item.title
-									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( @order.sku.owner, @order.sku.book, item ) if item.respond_to? 'document'
 					.clear
 					
 					
