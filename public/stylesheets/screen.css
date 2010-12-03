@@ -1803,6 +1803,51 @@ input#order_card_cvv {
   display: none;
 }
 
+/* line 1, ../../app/stylesheets/partials/_home.sass */
+.home_left {
+  width: 600px;
+  float: left;
+  min-height: 600px;
+  border-right: 2px solid #cccccc;
+}
+
+/* line 7, ../../app/stylesheets/partials/_home.sass */
+.home_right {
+  width: 378px;
+  float: left;
+}
+
+/* line 11, ../../app/stylesheets/partials/_home.sass */
+.home_article_header {
+  width: 100%;
+  height: 32px;
+  margin-top: 10px;
+  vertical-align: bottom;
+}
+/* line 17, ../../app/stylesheets/partials/_home.sass */
+.home_article_header .type_icon {
+  vertical-align: bottom;
+  width: 36px;
+  float: left;
+}
+/* line 21, ../../app/stylesheets/partials/_home.sass */
+.home_article_header .title {
+  font-size: 150%;
+  vertical-align: bottom;
+  width: 400px;
+  float: left;
+}
+/* line 26, ../../app/stylesheets/partials/_home.sass */
+.home_article_header .participate {
+  vertical-align: bottom;
+  width: 130px;
+  float: left;
+}
+/* line 30, ../../app/stylesheets/partials/_home.sass */
+.home_article_header .converse {
+  text-align: center;
+}
+
 /* line 1, ../../app/stylesheets/partials/_gks_crap.sass */
 .cpicker {
   width: 80px;
@@ -1902,34 +1947,20 @@ input#order_card_cvv {
   display: none;
 }
 
-/* line 63, ../../app/stylesheets/partials/_gks_crap.sass */
-.home_left {
-  width: 600px;
-  float: left;
-  min-height: 600px;
-  border-right: 2px solid #cccccc;
-}
-
-/* line 69, ../../app/stylesheets/partials/_gks_crap.sass */
-.home_right {
-  width: 378px;
-  float: left;
-}
-
-/* line 73, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 64, ../../app/stylesheets/partials/_gks_crap.sass */
 .left_col {
   list-style: none;
   width: 130px;
   float: left;
 }
 
-/* line 77, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 68, ../../app/stylesheets/partials/_gks_crap.sass */
 .middle_col {
   float: left;
   width: 600px;
 }
 
-/* line 80, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 71, ../../app/stylesheets/partials/_gks_crap.sass */
 .right_col {
   float: right;
   width: 250px;
