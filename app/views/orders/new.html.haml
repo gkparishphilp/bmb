@@ -45,15 +45,15 @@
 								%td= f.text_field :email, :class => 'required_email'
 						-else
 							= f.hidden_field :email, :value => @current_user.email
-
-						-if @sku.sku_type != 'subscription'
-							%tr
-								%td
-									%b Enter Coupon Code
-								%td
-									=text_field_tag :coupon_code, "", :class => :coupon
-									#valid_coupon_div( style = "margin:10px 0px;")
-										#valid_coupon
+						-#todo re-enable coupons
+						-#if @sku.sku_type != 'subscription'
+						-#	%tr
+						-#		%td
+						-#			%b Enter Coupon Code
+						-#		%td
+						-#			=text_field_tag :coupon_code, "", :class => :coupon
+						-#			#valid_coupon_div( style = "margin:10px 0px;")
+						-#				#valid_coupon
 						%tr
 							%td
 								%b Card Number
@@ -259,7 +259,7 @@
 					= f.submit "Buy"
 			
 			#paypal_x_checkout
-				Click the PayPal logo below to sign into your PayPal account.  You will be returned here to complete your order.
+				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct billing and shipping address at Paypal. You will be returned here to enter coupon codes and complete your order.
 				%br
 				%br
 				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
@@ -277,11 +277,12 @@
 				-else
 					= f.hidden_field :email, :value => @current_user.email
 				%br
-				%b Enter Coupon Code (if applicable)
-				= text_field_tag :coupon_code, "", :class => :coupon
-				#valid_coupon_div( style = "margin:10px 0px;")
-					#valid_coupon
-				%br
+				-# re-enable coupons
+				-#%b Enter Coupon Code (if applicable)
+				-#= text_field_tag :coupon_code, "", :class => :coupon
+				-##valid_coupon_div( style = "margin:10px 0px;")
+				-#	#valid_coupon
+				-#%br
 				Please confirm your Paypal order by clicking the button below.
 				%br
 				%br
