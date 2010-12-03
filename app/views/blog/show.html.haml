@@ -22,7 +22,8 @@
 				%h3 Related Posts
 				- for article in @article.related_articles
 					= link_to article.title, blog_url( article )
-
+		%br
+		%br
 		- if @article.comments_allowed?
 			#comment
 				= render :partial=>'comments/new'

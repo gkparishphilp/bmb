@@ -15,7 +15,7 @@
 
 class Review < ActiveRecord::Base
 
-	validates	:reviewable_id, :uniqueness => { :scope => [ :user_id, :reviewable_type ], :message => "You already reviewd this" }
+	validates	:reviewable_id, :uniqueness => { :scope => [ :user_id, :reviewable_type ], :message => "You already reviewed this" }
 	
 	belongs_to      :reviewable, :polymorphic => :true
 	belongs_to      :user
