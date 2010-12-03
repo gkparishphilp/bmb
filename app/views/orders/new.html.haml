@@ -259,7 +259,7 @@
 					= f.submit "Buy"
 			
 			#paypal_x_checkout
-				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct billing and shipping address at Paypal. You will be returned here to enter coupon codes and complete your order.
+				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct shipping address at Paypal. You will be returned here to complete your order.
 				%br
 				%br
 				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
