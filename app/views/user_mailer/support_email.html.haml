@@ -1,6 +1,9 @@
 %h2 
 	New support email from 
-	=@contact.email
+	= @contact.email
 %br
 %br
-= @contact.content
+%h3
+	= @contact.subject
+%p
+	= @contact.content

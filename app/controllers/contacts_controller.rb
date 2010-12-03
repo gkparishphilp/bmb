@@ -27,7 +27,7 @@ class ContactsController < ApplicationController
 		
 		if @current_site.contacts << @contact
 			pop_flash 'Thank you for your message.'
-			send_email = UserMailer.support_email(@contact).deliver
+			send_email = UserMailer.support_email( @contact ).deliver
 			redirect_to root_path
 		else
 			pop_flash 'Oooops, Contact not saved...', :error, @contact
