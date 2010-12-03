@@ -17,6 +17,7 @@ $tab-font: 14px
 	:height 0
 	:clear both
 	:visibility hidden
+	:zoom 1
 
 =rounded($radius: 4px)
 	-moz-border-radius: $radius
@@ -137,16 +138,15 @@ hr
 	:min-height 600px
 	+rounded-sides(top, 5px)
 
-.column1, .column2
-	:float left
-
 .column1
-	:width 65.7%
+	:float left
+	:width 65.8%
 
 .author_bd .column1
 	:background white url("../images/content_bg.jpg") repeat-y right top
 
 .column2
+	:float right
 	:width 34.4%
 	:margin-left -2px
 
