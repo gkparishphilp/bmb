@@ -15,15 +15,12 @@ class OrdersController < ApplicationController
 	def show
 		@order = Order.find params[:id] 
 		
-#Need to fix for anonymous purchases, where @order.user is NEVER the @current_user
-=begin
 		if @order.user != @current_user 
 			pop_flash 'Not your order', :error
-			redirect_to @order
+			redirect_to root_path
 		else
 			redirect_to @order
 		end
-=end
 	end
 
 

@@ -38,11 +38,13 @@
 				%br
 				#cc_info
 					%table
-						%tr
-							%td
-								%b E-mail
-							- @order.email = @current_user.email unless @current_user.anonymous?
-							%td= f.text_field :email, :class => 'required_email'
+						- if @current_user.anonymous?
+							%tr
+								%td
+									%b E-mail
+								%td= f.text_field :email, :class => 'required_email'
+						-else
+							= f.hidden_field :email, :value => @current_user.email
 
 						-if @sku.sku_type != 'subscription'
 							%tr
