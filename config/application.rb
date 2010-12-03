@@ -13,7 +13,7 @@ module Backmybook
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+    # config.autoload_urls += %W(#{config.root}/extras)
 
     # Only load the plugins named here, in the order given (default is alphabetical).
     # :all can be used as a placeholder for all plugins not explicitly named.
@@ -29,7 +29,7 @@ module Backmybook
     config.time_zone = 'Pacific Time (US & Canada)'
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+    # config.i18n.load_url += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
     # JavaScript files you want as :defaults (application.js is always included).
@@ -42,7 +42,7 @@ module Backmybook
     config.filter_parameters += [:password]
 
 	# Rails 3 doesn’t autoload modules/code in lib by default now. 
-	config.autoload_paths += %W(#{config.root}/lib)
-	Dir["#{config.root}/app/models/**/"].each { |f| config.autoload_paths += %W(#{config.root}/app/models/#{f})}
+	config.autoload_urls += %W(#{config.root}/lib)
+	Dir["#{config.root}/app/models/**/"].each { |f| config.autoload_urls += %W(#{config.root}/app/models/#{f})}
   end
 end

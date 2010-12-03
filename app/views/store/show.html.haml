@@ -1,11 +1,14 @@
 - content_for :left_column do
-	- if @sku.is_merch?
+	- if @sku.merch_sku?
 		= render 'merches/merch', :merch => @sku.merches.first, :sku => @sku
 	- else
 		.books
 			.left_col
 				.book_thumb
-					= avatar_tag( @sku.book, :profile, :width => 150 )
+					- if @sku.book_sku?
+						= avatar_tag( @sku.book, :profile, :width => 150 )
+					- else
+						= avatar_tag( @sku, :profile, :width => 150 )
 				.button
 					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 

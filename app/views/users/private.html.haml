@@ -3,9 +3,8 @@
 		= @user.name
 		Home
 	%br
-	%br
-	- if @welcome_message
-		%h4= @welcome_message
+	%p 
+		Hi, Welcome to BackMyBook!  This is your personal user dashboard.  You would do things like manage your user profile settings here, but since some people can't seem to figure that out, for now the only thing you can do here is download stuff if you are kind enough to buy it.
 	
 	.form_group
 		#user_avatar
@@ -25,14 +24,15 @@
 					= f.submit "Enter"
 			%br
 			%br
-			%h3 Settings
-			= form_for @user do |f|
-				= f.label 'Website Name:'
-				= f.text_field :website_name
-				= f.label 'Website URL:'
-				= f.text_field :website_url
-				.actions
-					= f.submit "Enter", :class => :button
+			-#
+				%h3 Settings
+				= form_for @user do |f|
+					= f.label 'Website Name:'
+					= f.text_field :website_name
+					= f.label 'Website URL:'
+					= f.text_field :website_url
+					.actions
+						= f.submit "Enter", :class => :button
 
 			
 			- unless @user.skus.empty?
