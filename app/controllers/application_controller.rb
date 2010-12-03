@@ -180,9 +180,7 @@ protected
 		render 'errors/server_error', :layout => 'error', :status => 500
 	end
 	
-	
-	
-	
+
 	private
 	
 	def fail( msg, level=:error )

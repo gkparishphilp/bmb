@@ -1,10 +1,8 @@
 #ft
 	%ul.footer_menu
 		%li= link_to "Blog", blog_index_url
-		%li= link_to "Forums", forums_url
-		%li= link_to "Podcast", podcasts_url
-		%li= link_to "Events", events_url
-		%li= link_to "Join E-mail List", "#"
+		%li= link_to "Terms", ""
+		%li= link_to "Privacy", ""
 		%li= link_to image_tag( 'contact.jpg', :alt=> 'contact us', :align => 'right' ) + " Contact", new_contact_url
 	%ul.author_copy
 		%li= link_to "&copy; #{Time.now.year} BackMyBook".html_safe, root_url( :host => @current_site.domain )
