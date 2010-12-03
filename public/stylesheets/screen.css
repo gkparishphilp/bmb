@@ -518,16 +518,15 @@ ul.top_user_menu li a.username {
 
 /* line 27, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu {
-  float: left;
   position: relative;
   width: 100%;
   overflow: hidden;
 }
-/* line 32, ../../app/stylesheets/partials/_author.sass */
+/* line 31, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li {
   float: left;
 }
-/* line 34, ../../app/stylesheets/partials/_author.sass */
+/* line 33, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a {
   color: #0085ae;
   display: block;
@@ -536,7 +535,7 @@ ul.main-menu li a {
   font-weight: bold;
   padding: 13px 19px 13px 20px;
 }
-/* line 41, ../../app/stylesheets/partials/_author.sass */
+/* line 40, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a:hover {
   text-decoration: none;
   background: #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom;
@@ -544,7 +543,7 @@ ul.main-menu li a:hover {
   border-left: 1px solid #cccccc;
   margin: 0 -1px;
 }
-/* line 47, ../../app/stylesheets/partials/_author.sass */
+/* line 46, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a.selected {
   background: #dff3fd url("../images/flyout_menu_bg.gif") repeat-x left bottom;
   border-right: 1px solid #cccccc;
@@ -552,33 +551,33 @@ ul.main-menu li a.selected {
   margin: 0;
   padding: 13px 18px 13px 19px;
 }
-/* line 53, ../../app/stylesheets/partials/_author.sass */
+/* line 52, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li a.selected:hover {
   margin: 0;
 }
-/* line 55, ../../app/stylesheets/partials/_author.sass */
+/* line 54, ../../app/stylesheets/partials/_author.sass */
 ul.main-menu li.first a {
   border-right: 1px solid #cccccc;
   margin: 0;
 }
 
-/* line 58, ../../app/stylesheets/partials/_author.sass */
+/* line 57, ../../app/stylesheets/partials/_author.sass */
 .author_corner {
   background: none;
 }
 
-/* line 61, ../../app/stylesheets/partials/_author.sass */
+/* line 60, ../../app/stylesheets/partials/_author.sass */
 .author_promo {
   border-right: 2px solid #cccccc;
   padding-top: 13px;
 }
-/* line 64, ../../app/stylesheets/partials/_author.sass */
+/* line 63, ../../app/stylesheets/partials/_author.sass */
 .author_promo h2 {
   color: #ce9322;
   font-size: 22px;
   margin: 13px 3px 3px 13px;
 }
-/* line 68, ../../app/stylesheets/partials/_author.sass */
+/* line 67, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a {
   display: block;
   width: 177px;
@@ -594,51 +593,51 @@ ul.main-menu li.first a {
   background-image: url("../images/sprite_big_btns.png");
   background-repeat: no-repeat;
 }
-/* line 82, ../../app/stylesheets/partials/_author.sass */
+/* line 81, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.blue {
   background-position: -16px -12px;
 }
-/* line 84, ../../app/stylesheets/partials/_author.sass */
+/* line 83, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.yellow {
   background-position: -16px -79px;
 }
-/* line 86, ../../app/stylesheets/partials/_author.sass */
+/* line 85, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.green {
   background-position: -16px -135px;
 }
-/* line 88, ../../app/stylesheets/partials/_author.sass */
+/* line 87, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a.gray {
   background-position: -16px -192px;
 }
-/* line 90, ../../app/stylesheets/partials/_author.sass */
+/* line 89, ../../app/stylesheets/partials/_author.sass */
 .author_promo .button a:hover {
   background-position: -16px -12px;
 }
-/* line 92, ../../app/stylesheets/partials/_author.sass */
+/* line 91, ../../app/stylesheets/partials/_author.sass */
 .author_promo .image {
   float: left;
   padding: 13px 10px 10px 28px;
   width: 150px;
   height: 250px;
 }
-/* line 97, ../../app/stylesheets/partials/_author.sass */
+/* line 96, ../../app/stylesheets/partials/_author.sass */
 .author_promo p {
   line-height: 1.4em;
   padding: 0 10px 0 15px;
 }
-/* line 100, ../../app/stylesheets/partials/_author.sass */
+/* line 99, ../../app/stylesheets/partials/_author.sass */
 .author_promo .book_stats {
   font-weight: bold;
   margin-bottom: 10px;
   color: #9c9c9c;
 }
-/* line 104, ../../app/stylesheets/partials/_author.sass */
+/* line 103, ../../app/stylesheets/partials/_author.sass */
 .author_promo .book_stats em {
   color: #0085ae;
   margin-right: 10px;
 }
 
-/* line 108, ../../app/stylesheets/partials/_author.sass */
+/* line 107, ../../app/stylesheets/partials/_author.sass */
 #inner-content-wrapper {
   border-right: 2px solid #cccccc;
   padding-bottom: 40px;
@@ -647,13 +646,13 @@ ul.main-menu li.first a {
   background: white url() no-repeat;
 }
 
-/* line 115, ../../app/stylesheets/partials/_author.sass */
+/* line 114, ../../app/stylesheets/partials/_author.sass */
 .follow-me {
   border-top: 2px solid #cccccc;
   margin-top: -2px;
   background: #f7f7f7 url("../images/big_header_bg.jpg") repeat-x left top;
 }
-/* line 119, ../../app/stylesheets/partials/_author.sass */
+/* line 118, ../../app/stylesheets/partials/_author.sass */
 .follow-me h3 {
   float: left;
   color: #0085ae;
@@ -661,7 +660,7 @@ ul.main-menu li.first a {
   font-size: 14px;
   padding: 22px 0 21px 15px;
 }
-/* line 125, ../../app/stylesheets/partials/_author.sass */
+/* line 124, ../../app/stylesheets/partials/_author.sass */
 .follow-me img {
   float: right;
   padding: 10px 10px 0px 5px;
