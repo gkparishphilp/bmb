@@ -309,26 +309,41 @@ label {
   vertical-align: text-top;
 }
 
-/* line 235, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 234, ../../app/stylesheets/partials/_sitewide.sass */
+.buttons {
+  background-color: #f2f2f2;
+  border: 1px solid #0085ae;
+  margin-top: 6px;
+  padding: 4px 10px;
+  color: #0085ae;
+  font-weight: bold;
+  margin-bottom: 10px;
+  -moz-border-radius: 4px;
+  -khtml-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+}
+
+/* line 245, ../../app/stylesheets/partials/_sitewide.sass */
 #flash {
   width: 96%;
   margin: 20px auto;
 }
-/* line 238, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 248, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .error {
   background: #ffd1d6 url(../images/close_error.png) 99.5% 19% no-repeat;
   border: 2px solid #ff3333;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 241, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 251, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .success {
   background: #e6efc2 url(../images/close_success.png) 99.5% 19% no-repeat;
   border: 2px solid #c6d880;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 244, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 254, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .notice {
   background: #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat;
   border: 2px solid #ffd324;
@@ -724,46 +739,51 @@ ul.main-menu li.first a {
   margin-right: 13px;
 }
 /* line 39, ../../app/stylesheets/partials/_books.sass */
+.books .left_col .button a {
+  font-size: 12px;
+  padding-top: 13px;
+}
+/* line 42, ../../app/stylesheets/partials/_books.sass */
 .books .right_col {
   float: left;
   width: 420px;
 }
-/* line 43, ../../app/stylesheets/partials/_books.sass */
+/* line 46, ../../app/stylesheets/partials/_books.sass */
 .books textarea {
   width: 99%;
 }
-/* line 46, ../../app/stylesheets/partials/_books.sass */
+/* line 49, ../../app/stylesheets/partials/_books.sass */
 .books .ratings {
   width: 52%;
   float: right;
 }
-/* line 49, ../../app/stylesheets/partials/_books.sass */
+/* line 52, ../../app/stylesheets/partials/_books.sass */
 .books .ratings p {
   float: left;
   width: 83px;
   padding-top: 4px;
 }
-/* line 53, ../../app/stylesheets/partials/_books.sass */
+/* line 56, ../../app/stylesheets/partials/_books.sass */
 .books .ratings .star-rating {
   float: left;
   margin: 0;
 }
-/* line 56, ../../app/stylesheets/partials/_books.sass */
+/* line 59, ../../app/stylesheets/partials/_books.sass */
 .books .ratings em {
   float: right;
   margin-right: 62px;
   text-transform: uppercase;
   font-size: 10px;
 }
-/* line 61, ../../app/stylesheets/partials/_books.sass */
+/* line 64, ../../app/stylesheets/partials/_books.sass */
 .books .reviews {
   margin: 20px 0;
 }
-/* line 63, ../../app/stylesheets/partials/_books.sass */
+/* line 66, ../../app/stylesheets/partials/_books.sass */
 .books .book_content {
   padding: 0 0 20px 0;
 }
-/* line 66, ../../app/stylesheets/partials/_books.sass */
+/* line 69, ../../app/stylesheets/partials/_books.sass */
 .books .new_review .ui-state-default {
   border: 1px solid #0085ae;
   background-color: #f2f2f2;
@@ -773,41 +793,41 @@ ul.main-menu li.first a {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 71, ../../app/stylesheets/partials/_books.sass */
+/* line 74, ../../app/stylesheets/partials/_books.sass */
 .books .new_review .ui-state-hover {
   background-color: white;
 }
-/* line 76, ../../app/stylesheets/partials/_books.sass */
+/* line 79, ../../app/stylesheets/partials/_books.sass */
 .books .book_thumb {
   text-align: center;
   margin-bottom: 10px;
 }
-/* line 79, ../../app/stylesheets/partials/_books.sass */
+/* line 82, ../../app/stylesheets/partials/_books.sass */
 .books .also-available {
   margin: 20px 0;
 }
-/* line 81, ../../app/stylesheets/partials/_books.sass */
+/* line 84, ../../app/stylesheets/partials/_books.sass */
 .books .also-available h3 {
   text-align: center;
   border-bottom: 1px solid #cccccc;
   padding-bottom: 16px;
 }
-/* line 85, ../../app/stylesheets/partials/_books.sass */
+/* line 88, ../../app/stylesheets/partials/_books.sass */
 .books .also-available {
   line-height: 1.2em;
 }
-/* line 87, ../../app/stylesheets/partials/_books.sass */
+/* line 90, ../../app/stylesheets/partials/_books.sass */
 .books .also-available li {
   border-bottom: 1px solid #cccccc;
   padding: 5px 1px 7px 2px;
 }
-/* line 90, ../../app/stylesheets/partials/_books.sass */
+/* line 93, ../../app/stylesheets/partials/_books.sass */
 .books .also-available a {
   color: #ce9322;
   font-size: 12px;
   font-weight: bold;
 }
-/* line 94, ../../app/stylesheets/partials/_books.sass */
+/* line 97, ../../app/stylesheets/partials/_books.sass */
 .books .also-available li:after {
   content: ".";
   display: block;
@@ -815,29 +835,29 @@ ul.main-menu li.first a {
   clear: both;
   visibility: hidden;
 }
-/* line 96, ../../app/stylesheets/partials/_books.sass */
+/* line 99, ../../app/stylesheets/partials/_books.sass */
 .books .also-available em {
   float: right;
   width: 28%;
   text-align: center;
 }
-/* line 100, ../../app/stylesheets/partials/_books.sass */
+/* line 103, ../../app/stylesheets/partials/_books.sass */
 .books .also-available em a {
   color: #0085ae;
   line-height: 1em;
   text-transform: uppercase;
 }
-/* line 104, ../../app/stylesheets/partials/_books.sass */
+/* line 107, ../../app/stylesheets/partials/_books.sass */
 .books .also-available a.main {
   float: left;
   width: 69%;
 }
 
-/* line 108, ../../app/stylesheets/partials/_books.sass */
+/* line 111, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input {
   float: left;
 }
-/* line 110, ../../app/stylesheets/partials/_books.sass */
+/* line 113, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel,
 .has-js .star_input div.star-rating {
   float: left;
@@ -850,63 +870,63 @@ ul.main-menu li.first a {
   background: transparent;
   overflow: hidden;
 }
-/* line 121, ../../app/stylesheets/partials/_books.sass */
+/* line 124, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel,
 .has-js .star_input div.rating-cancel a {
   background: url(../images/delete.gif) no-repeat 0 0;
   height: 17px;
 }
-/* line 125, ../../app/stylesheets/partials/_books.sass */
+/* line 128, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel {
   margin: 6px 0 4px 0;
   background-position: 0 0;
 }
-/* line 128, ../../app/stylesheets/partials/_books.sass */
+/* line 131, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.star-rating, .has-js .star_input div.star-rating a {
   background: url(../images/star2.png) no-repeat 0 -27px;
 }
-/* line 130, ../../app/stylesheets/partials/_books.sass */
+/* line 133, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel a, .has-js .star_input div.star-rating a {
   display: block;
   width: 25px;
   height: 100%;
   border: 0;
 }
-/* line 135, ../../app/stylesheets/partials/_books.sass */
+/* line 138, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel a {
   background-position: 0 0;
 }
-/* line 137, ../../app/stylesheets/partials/_books.sass */
+/* line 140, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.rating-cancel a:hover {
   background-position: 0 -16px;
 }
-/* line 139, ../../app/stylesheets/partials/_books.sass */
+/* line 142, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.star-rating-on a {
   background-position: 0 0 !important;
 }
-/* line 141, ../../app/stylesheets/partials/_books.sass */
+/* line 144, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.star-rating-hover a {
   background-position: 0 0;
 }
-/* line 143, ../../app/stylesheets/partials/_books.sass */
+/* line 146, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.star-rating-readonly a {
   cursor: default !important;
 }
-/* line 145, ../../app/stylesheets/partials/_books.sass */
+/* line 148, ../../app/stylesheets/partials/_books.sass */
 .has-js .star_input div.star-rating {
   background: transparent !important;
   overflow: hidden !important;
 }
-/* line 149, ../../app/stylesheets/partials/_books.sass */
+/* line 152, ../../app/stylesheets/partials/_books.sass */
 .has-js .radios {
   padding: 10px 0;
 }
-/* line 152, ../../app/stylesheets/partials/_books.sass */
+/* line 155, ../../app/stylesheets/partials/_books.sass */
 .has-js .radios fieldset {
   border: 0;
   padding-bottom: 9px;
 }
-/* line 155, ../../app/stylesheets/partials/_books.sass */
+/* line 158, ../../app/stylesheets/partials/_books.sass */
 .has-js .radios label {
   display: block;
   cursor: pointer;
@@ -917,7 +937,7 @@ ul.main-menu li.first a {
   width: 20px;
   height: 15px;
 }
-/* line 164, ../../app/stylesheets/partials/_books.sass */
+/* line 167, ../../app/stylesheets/partials/_books.sass */
 .has-js .radios em {
   float: left;
   font-size: 14px;
@@ -926,50 +946,50 @@ ul.main-menu li.first a {
   text-transform: capitalize;
   width: 55px;
 }
-/* line 173, ../../app/stylesheets/partials/_books.sass */
+/* line 176, ../../app/stylesheets/partials/_books.sass */
 .has-js #comment .header .userinfo {
   float: left;
   width: 60%;
 }
-/* line 176, ../../app/stylesheets/partials/_books.sass */
+/* line 179, ../../app/stylesheets/partials/_books.sass */
 .has-js #comment .header .userinfo a {
   color: #ce9322;
 }
-/* line 178, ../../app/stylesheets/partials/_books.sass */
+/* line 181, ../../app/stylesheets/partials/_books.sass */
 .has-js #comment .header .star-rating {
   float: right;
 }
 
-/* line 180, ../../app/stylesheets/partials/_books.sass */
+/* line 183, ../../app/stylesheets/partials/_books.sass */
 .book-meta {
   margin: 10px 0;
   font-weight: bold;
 }
-/* line 183, ../../app/stylesheets/partials/_books.sass */
+/* line 186, ../../app/stylesheets/partials/_books.sass */
 .book-meta p {
   margin: 0;
 }
-/* line 185, ../../app/stylesheets/partials/_books.sass */
+/* line 188, ../../app/stylesheets/partials/_books.sass */
 .book-meta .info {
   float: left;
   width: 47%;
 }
-/* line 188, ../../app/stylesheets/partials/_books.sass */
+/* line 191, ../../app/stylesheets/partials/_books.sass */
 .book-meta em {
   color: #0085ae;
 }
 
-/* line 191, ../../app/stylesheets/partials/_books.sass */
+/* line 194, ../../app/stylesheets/partials/_books.sass */
 .listing {
   margin: 20px 0px;
   width: 100%;
 }
-/* line 194, ../../app/stylesheets/partials/_books.sass */
+/* line 197, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_avatar {
   float: left;
   width: 14%;
 }
-/* line 197, ../../app/stylesheets/partials/_books.sass */
+/* line 200, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_data {
   float: left;
   margin: 0px 3px 3px 3px;
@@ -978,101 +998,101 @@ ul.main-menu li.first a {
   min-height: 100px;
   border-bottom: 1px solid #cccccc;
 }
-/* line 204, ../../app/stylesheets/partials/_books.sass */
+/* line 207, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_title {
   font-size: 22px;
   line-height: 1.2em;
 }
-/* line 207, ../../app/stylesheets/partials/_books.sass */
+/* line 210, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_title a {
   color: #ce9322;
 }
-/* line 209, ../../app/stylesheets/partials/_books.sass */
+/* line 212, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_title .book-meta {
   font-size: 14px;
   color: #666666;
   margin: 0 0 3px 0;
 }
-/* line 213, ../../app/stylesheets/partials/_books.sass */
+/* line 216, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_genre, .listing .listing_buy {
   font-size: 85%;
 }
-/* line 215, ../../app/stylesheets/partials/_books.sass */
+/* line 218, ../../app/stylesheets/partials/_books.sass */
 .listing .info {
   float: left;
   width: 340px;
 }
-/* line 218, ../../app/stylesheets/partials/_books.sass */
+/* line 221, ../../app/stylesheets/partials/_books.sass */
 .listing .info p {
   float: left;
   margin: 0 15px 3px 1px;
 }
-/* line 221, ../../app/stylesheets/partials/_books.sass */
+/* line 224, ../../app/stylesheets/partials/_books.sass */
 .listing .book-info {
   float: left;
   width: 29%;
 }
-/* line 224, ../../app/stylesheets/partials/_books.sass */
+/* line 227, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_description, .listing .ratings {
   float: right;
 }
-/* line 226, ../../app/stylesheets/partials/_books.sass */
+/* line 229, ../../app/stylesheets/partials/_books.sass */
 .listing .listing_description {
   width: 68%;
 }
 
-/* line 229, ../../app/stylesheets/partials/_books.sass */
+/* line 232, ../../app/stylesheets/partials/_books.sass */
 .store .listing_title {
   margin-bottom: 12px;
   line-height: 1.2em;
 }
-/* line 232, ../../app/stylesheets/partials/_books.sass */
+/* line 235, ../../app/stylesheets/partials/_books.sass */
 .store .book-info {
   width: 35%;
 }
-/* line 234, ../../app/stylesheets/partials/_books.sass */
+/* line 237, ../../app/stylesheets/partials/_books.sass */
 .store .listing_description {
   width: 57%;
 }
-/* line 236, ../../app/stylesheets/partials/_books.sass */
+/* line 239, ../../app/stylesheets/partials/_books.sass */
 .store .button a {
   margin-top: 1px;
 }
 
-/* line 239, ../../app/stylesheets/partials/_books.sass */
+/* line 242, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content {
   font-size: 85%;
 }
-/* line 241, ../../app/stylesheets/partials/_books.sass */
+/* line 244, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .listing_title {
   font-size: 19px;
 }
-/* line 243, ../../app/stylesheets/partials/_books.sass */
+/* line 246, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .listing_avatar {
   width: 23%;
 }
-/* line 245, ../../app/stylesheets/partials/_books.sass */
+/* line 248, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .listing_avatar img {
   width: 80%;
 }
-/* line 247, ../../app/stylesheets/partials/_books.sass */
+/* line 250, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .listing_data {
   width: 70%;
 }
-/* line 249, ../../app/stylesheets/partials/_books.sass */
+/* line 252, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .info, .ui-accordion-content .ratings {
   float: none;
   width: 200px;
 }
-/* line 252, ../../app/stylesheets/partials/_books.sass */
+/* line 255, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .info {
   font-size: 12px;
 }
-/* line 254, ../../app/stylesheets/partials/_books.sass */
+/* line 257, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .info p {
   margin: 0 10px 0 0;
 }
-/* line 256, ../../app/stylesheets/partials/_books.sass */
+/* line 259, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .info:after {
   content: ".";
   display: block;
@@ -1080,12 +1100,12 @@ ul.main-menu li.first a {
   clear: both;
   visibility: hidden;
 }
-/* line 258, ../../app/stylesheets/partials/_books.sass */
+/* line 261, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .book-info, .ui-accordion-content .listing_description {
   float: none;
   width: 100%;
 }
-/* line 261, ../../app/stylesheets/partials/_books.sass */
+/* line 264, ../../app/stylesheets/partials/_books.sass */
 .ui-accordion-content .book-info {
   margin-bottom: 10px;
 }
@@ -1965,39 +1985,41 @@ input#order_card_cvv {
   border-right: 2px solid #cccccc;
 }
 
-/* line 7, ../../app/stylesheets/partials/_home.sass */
+/* line 6, ../../app/stylesheets/partials/_home.sass */
 .home_right {
   width: 378px;
   float: left;
+  margin-left: -2px;
+  border-left: 2px solid #cccccc;
 }
 
-/* line 11, ../../app/stylesheets/partials/_home.sass */
+/* line 12, ../../app/stylesheets/partials/_home.sass */
 .home_article_header {
   width: 100%;
   height: 32px;
   margin-top: 10px;
   vertical-align: bottom;
 }
-/* line 17, ../../app/stylesheets/partials/_home.sass */
+/* line 18, ../../app/stylesheets/partials/_home.sass */
 .home_article_header .type_icon {
   vertical-align: bottom;
   width: 36px;
   float: left;
 }
-/* line 21, ../../app/stylesheets/partials/_home.sass */
+/* line 22, ../../app/stylesheets/partials/_home.sass */
 .home_article_header .title {
   font-size: 150%;
   vertical-align: bottom;
   width: 400px;
   float: left;
 }
-/* line 26, ../../app/stylesheets/partials/_home.sass */
+/* line 27, ../../app/stylesheets/partials/_home.sass */
 .home_article_header .participate {
   vertical-align: bottom;
   width: 130px;
   float: left;
 }
-/* line 30, ../../app/stylesheets/partials/_home.sass */
+/* line 31, ../../app/stylesheets/partials/_home.sass */
 .home_article_header .converse {
   text-align: center;
 }
