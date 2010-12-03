@@ -207,7 +207,7 @@ label
 .star-rating .current-rating
 	:position absolute
 	:top 0
-	:left 0G
+	:left 0
 	:text-indent -1000em
 	:height 25px
 	:line-height 25px
@@ -240,6 +240,11 @@ label
 	:font-weight bold
 	:margin-bottom 10px
 	+rounded()
+	:cursor pointer
+	&:hover
+		:background-color #fff
+		:color #0085AE + #333
+		:border 1px solid #0085AE + #333
 
 // Flashes
 #flash
