@@ -328,26 +328,31 @@ label {
   border: 1px solid #33b8e1;
 }
 
-/* line 249, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 248, ../../app/stylesheets/partials/_sitewide.sass */
+.new_order #cc_info td {
+  padding: 5px;
+}
+
+/* line 252, ../../app/stylesheets/partials/_sitewide.sass */
 #flash {
   width: 96%;
   margin: 20px auto;
 }
-/* line 252, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 255, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .error {
   background: #ffd1d6 url(../images/close_error.png) 99.5% 19% no-repeat;
   border: 2px solid #ff3333;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 255, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 258, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .success {
   background: #e6efc2 url(../images/close_success.png) 99.5% 19% no-repeat;
   border: 2px solid #c6d880;
   cursor: pointer;
   padding: 9px 10px 10px 15px;
 }
-/* line 258, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 261, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .notice {
   background: #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat;
   border: 2px solid #ffd324;
