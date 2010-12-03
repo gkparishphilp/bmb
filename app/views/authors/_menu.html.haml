@@ -23,3 +23,5 @@
 		
 		- unless @author.skus.empty?
 			%li= current_page?( author_store_index_url( @author ) ) ? ( link_to "Store", author_store_index_url( @author ), :class => 'selected' ) : ( link_to "Store", author_store_index_url( @author ) )
+			
+		%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )

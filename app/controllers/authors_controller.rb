@@ -78,6 +78,11 @@ class AuthorsController < ApplicationController
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 	end
 	
+	def help
+		@author = Author.find params[:id] if @author.nil?
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
 	
 	
 end

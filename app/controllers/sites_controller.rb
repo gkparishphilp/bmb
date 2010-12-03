@@ -37,7 +37,7 @@ class SitesController < ApplicationController
 		if @site.update_attributes params[:site]
 			pop_flash "Domain Updated"
 		else
-			pop_flash "Domain coudl not be updated", @site
+			pop_flash "Domain could not be updated", @site
 		end
 		redirect_to :back
 	end
