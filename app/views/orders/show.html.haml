@@ -13,73 +13,89 @@
 		We apologize for the inconvenience and will get it sorted out as quickly as possible.
 
 	-else
-		%h1
-		-#------------------------------------------
-		-# Show order results when item is a book or merchandise
-		-#------------------------------------------
-		- if @order.sku.sku_type != 'subscription'
-			%h1 
-				Thank you for purchasing: 
+		-if @current_user.anonymous?
+			%h2
+				Thank you for purchasing:
 				= @order.sku.title
 			%br
-			%h4 
-				A purchase confirmation email has been sent to:
-				= @order.email
+			A download link has been sent to the email address you provided.
+			%br
+			Please use it to download your items.  If you have any questions, 
+			= link_to "please contact us.", new_contact_url
+			%br
+			%br
+			Thank you for your order!
+			%br
+			The BackMyBook Team
+		-else
+		
+			%h1
+			-#------------------------------------------
+			-# Show order results when item is a book or merchandise
+			-#------------------------------------------
+			- if @order.sku.sku_type != 'subscription'
+				%h2 
+					Thank you for purchasing: 
+					= @order.sku.title
 				%br
-			
-				- for sku_item in @order.sku.sku_items
-					= link_to "Download #{sku_item.item.title} !",  deliver_asset_url( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
+				%h4 
+					A purchase confirmation email has been sent to:
+					= @order.email
 					%br
-				%br
-				-if @order.sku.contains_merch?
-					- if @order.sku.owner.is_a? Author
-						The following items will be delivered by the author:
-						= @order.sku.owner.pen_name
+			
+					- for sku_item in @order.sku.sku_items
+						= link_to "Download #{sku_item.item.title} !",  deliver_asset_url( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
 						%br
-						%br
-						- for sku_item in @order.sku.sku_items
-							= sku_item.item.title if sku_item.item_type == 'Merch'
+					%br
+					-if @order.sku.contains_merch?
+						- if @order.sku.owner.is_a? Author
+							The following items will be delivered by the author:
+							= @order.sku.owner.pen_name
 							%br
-			%br 
+							%br
+							- for sku_item in @order.sku.sku_items
+								= sku_item.item.title if sku_item.item_type == 'Merch'
+								%br
+				%br 
 			
-			%table.admin_table
-				%tr
-					%td Order ID
-					%td Confirmation #
-					%td Price
+				%table.admin_table
+					%tr
+						%td Order ID
+						%td Confirmation #
+						%td Price
 
-				%tr
-					%td= @order.id
-					%td= @order.order_transaction.reference
-					%td= number_to_currency(@order.price.to_f / 100)
-			%br
-			%br
+					%tr
+						%td= @order.id
+						%td= @order.order_transaction.reference
+						%td= number_to_currency(@order.price.to_f / 100)
+				%br
+				%br
 
-			If you have any questions, 
-			= link_to "please contact us", new_contact_url 
-			with the Order ID # and Confirmation # shown above. 
+				If you have any questions, 
+				= link_to "please contact us", new_contact_url 
+				with the Order ID # and Confirmation # shown above. 
 			
-		-else 
-			-#-------------------------------------------------
-			-# Show order results when item is a subscription
-			-#-------------------------------------------------
-			%h1 
-				Thank you for your Subscription
+			-else 
+				-#-------------------------------------------------
+				-# Show order results when item is a subscription
+				-#-------------------------------------------------
+				%h1 
+					Thank you for your Subscription
 
-			%table
-				%tr
-					%td Order ID
-					%td Confirmation #
-					%td Price
+				%table
+					%tr
+						%td Order ID
+						%td Confirmation #
+						%td Price
 
-				%tr
-					%td= @order.id
-					%td= @order.order_transaction.params["profile_id"]
-					%td= number_to_currency(@order.price.to_f / 100)
+					%tr
+						%td= @order.id
+						%td= @order.order_transaction.params["profile_id"]
+						%td= number_to_currency(@order.price.to_f / 100)
 
-			%br
-			If you have any questions, 
-			= link_to "please contact us", new_contact_url
-			with the Order ID # and Confirmation # shown above. 
+				%br
+				If you have any questions, 
+				= link_to "please contact us", new_contact_url
+				with the Order ID # and Confirmation # shown above. 
 		
 
