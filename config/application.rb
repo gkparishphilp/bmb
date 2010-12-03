@@ -42,7 +42,6 @@ module Backmybook
     config.filter_parameters += [:password]
 
 	# Rails 3 doesn’t autoload modules/code in lib by default now. 
-	config.autoload_urls += %W(#{config.root}/lib)
-	Dir["#{config.root}/app/models/**/"].each { |f| config.autoload_urls += %W(#{config.root}/app/models/#{f})}
+	config.autoload_paths += %W(#{config.root}/lib)
   end
 end
