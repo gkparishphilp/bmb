@@ -157,6 +157,8 @@
 	:cursor pointer
 	:position relative
 	:margin-top 0
+	:border-top 1px solid $border-color	
+	:border-bottom 1px solid $border-color		
 	:zoom 1
 
 .ui-accordion .ui-accordion-li-fix
@@ -165,7 +167,15 @@
 .ui-accordion .ui-accordion-header-active
 	:border-bottom 0 !important
 
-.ui-accordion .ui-accordion-header a
+.sidebar_sections h3
+	:background #f7f7f7 url("../images/big_header_bg.jpg") repeat-x left bottom
+	:border-top 1px solid $border-color
+	:border-bottom 1px solid $border-color
+	:margin 0
+	:font-size 14px
+	:font-weight bold
+
+.ui-accordion .ui-accordion-header a, .sidebar_sections h3
 	:display block
 	:padding 22px 0 21px 15px
 	:text-transform capitalize
