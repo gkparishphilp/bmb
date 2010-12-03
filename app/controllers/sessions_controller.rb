@@ -6,17 +6,11 @@ class SessionsController < ApplicationController
   
 	def create
 		user = User.authenticate( params[:email], params[:password] )
-		dest = params[:dest]
+
 		if user
 			login( user )
-			pop_flash  "#{user.email} successfully logged in"
-			
-			if dest.empty? || dest == "/"
-				redirect_to user_path( user )
-			else
-				redirect_to dest
-			end
-
+			pop_flash  "#{user.email} successfully logged in"	
+			redirect_to user_path( user )
 		else
 			params[:password] = nil
 			@user = User.new
