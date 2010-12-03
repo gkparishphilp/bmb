@@ -49,7 +49,7 @@
 			= form_for @current_user do |f|
 				= f.label "Email"
 				= f.text_field :email
-				= f.submit "Enter"
+				= f.submit "Enter", :class=>'buttons'
 			%br
 			%br
 			%h4 Change Your Password:
@@ -60,7 +60,7 @@
 				= password_field_tag :password_confirmation, params[:password_confirmation], :size=>30, :class=>"password"
 				= hidden_field_tag :token, @user.remember_token
 				%br
-				= submit_tag "Change Password", :class => 'button'
+				= submit_tag "Change Password", :class => 'buttons'
 			%br
 			%br
 			%h4 Misc Settings:
@@ -70,7 +70,7 @@
 				= f.label 'Website URL:'
 				= f.text_field :website_url
 				.actions
-					= f.submit "Enter", :class => :button
+					= f.submit "Enter", :class => :buttons
 		.clear
 
 
