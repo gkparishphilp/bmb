@@ -53,6 +53,8 @@ class SitesController < ApplicationController
 		@items = @recent_blog_posts + @recent_episodes
 		@items = @items.sort { |a,b| b.created_at <=> a.created_at }
 		
+		set_meta "Home"
+		
 	end
 	
 end

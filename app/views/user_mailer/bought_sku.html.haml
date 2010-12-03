@@ -14,7 +14,8 @@ This email confirms your purchase of
 	%br
 	%br
 	- for item in @order.sku.items
-		= link_to item.title, deliver_asset_url( item, :order_id => @order.id, :host => 'backmybook.com' ), :if => item.respond_to? 'document'
+		- if item.respond_to? 'document'
+			= link_to item.title, deliver_asset_url( item, :order_id => @order.id, :host => 'backmybook.com' )
 		%br
 
 - if @order.sku.contains_merch?
