@@ -4,8 +4,6 @@
 			%h1
 				Login to your account:
 			= form_tag :controller=>'sessions' do
-				= hidden_field_tag :dest, @dest
-				= hidden_field_tag :a, @a
 				%label
 					Email:
 				= text_field_tag :email, @email, :class => :login_email
