@@ -1,7 +1,7 @@
 - content_for :left_column do
 	#article_list
 		.article_header
-			%h2
+			%h2.text
 				= @article.title
 
 			%span.article_meta
@@ -15,7 +15,7 @@
 							= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
 
 		.article_content.text
-			= @article.content
+			= @article.content.html_safe
 		
 		- unless @article.related_articles.empty?
 			#related
