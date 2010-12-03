@@ -18,13 +18,20 @@
 				Thank you for purchasing:
 				= @order.sku.title
 			%br
-			A download link has been sent to the email address you provided.
-			%br
-			Please use it to download your items.  If you have any questions, 
-			= link_to "please contact us.", new_contact_url
+			If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
 			%br
 			%br
-			Thank you for your order!
+			Please use the link to download your items.  
+			%br
+			%br
+			If you purchased as physical book, or merchandise, the author will ship it to you.
+			%br
+			%br 
+			= link_to "Please contact us ", new_contact_url
+			if you have any questions.
+			%br
+			%br
+			Thanks for your order!
 			%br
 			The BackMyBook Team
 		-else

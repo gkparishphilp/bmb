@@ -74,7 +74,7 @@ EOS
 		
 		end
 	end
-	
+
 	def create_sigler_coupons
 		a = Author.find_by_pen_name('Scott Sigler')
 		c = Coupon.create :owner => a, :sku_id => 15, :code => 'aloha', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
