@@ -1,0 +1,15 @@
+= f.label :email, "Your Email:"
+
+- if @current_user.anonymous?
+	= f.text_field :email
+- else
+	= f.text_field :email, :value => @current_user.email
+
+= f.label :subject, "Subject:"
+= f.text_field :subject
+%p
+	= f.text_area :content, :rows => 12, :cols => 72
+%br
+= f.submit 'Enter', :class=>'buttons'
+|
+= link_to "Cancel", root_url
