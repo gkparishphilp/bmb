@@ -9,6 +9,15 @@ class ApplicationController < ActionController::Base
 	# @theme the theme the author is using, if any
 
 protected
+
+	# Custom 404s & 500 catch-all
+	if Rails.env.production?
+		rescue_from ActionController::UnknownAction, :with => :invalid_method
+		rescue_from ActionController::RoutingError, :with => :invalid_method
+		rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
+		rescue_from Exception, :with => :server_error
+	end
+
 	# Grabs @current_user from session cookie also sets @current_author
 	def fetch_logged_in_user
 		@current_user = ( session[:user_id] && User.find( session[:user_id] ) ) || User.anonymous
@@ -145,12 +154,34 @@ protected
 		end
 	end
 	
-	
 	# sets page metadata like page title and description
 	def set_meta( title, *description )
 		@title = title
 		@description = description.first[0..200] unless description.first.blank?
 	end
+	
+	
+	########### FAIL PAGES   ##################
+	def record_not_found( exception )
+		@crash = Crash.create :message => exception.to_s, :requested_url => request.url, 
+						:referrer => request.env['HTTP_REFERER'], :backtrace => exception.backtrace.join("\n")
+		render 'errors/not_found', :layout => 'error', :status => :not_found
+	end
+
+	def invalid_method( exception )
+		@crash = Crash.create :message => exception.to_s, :requested_url => request.url, 
+						:referrer => request.env['HTTP_REFERER'], :backtrace => exception.backtrace.join("\n")
+		render 'errors/not_found', :layout => 'error', :status => :method_not_allowed
+	end
+	
+	def server_error( exception )
+		@crash = Crash.create :message => exception.to_s, :requested_url => request.url, 
+						:referrer => request.env['HTTP_REFERER'], :backtrace => exception.backtrace.join("\n")
+		render 'errors/server_error', :layout => 'error', :status => 500
+	end
+	
+	
+	
 	
 	private
 	
