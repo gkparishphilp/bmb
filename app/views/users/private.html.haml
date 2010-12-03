@@ -5,26 +5,26 @@
 	%br
 	%p 
 		Hi, Welcome to BackMyBook!  This is your personal user dashboard.  You can do things like manage your user profile settings here, and download books if you are kind enough to buy them.  Thanks for joining!
-	- unless @user.skus.empty?
+	- unless @user.orders.empty?
 		%br
 			%h3 
 				Thank You for Purchasing:
-			- for sku in @user.skus
+			- for order in @user.orders
 				.listing( style = 'margin-left:30px;' )
 					.listing_avatar
-						- if sku.avatar.present?
-							= avatar_tag( sku, :thumb, :width => 64 )
+						- if order.sku.avatar.present?
+							= avatar_tag( order.sku, :thumb, :width => 64 )
 						- else
-							= avatar_tag( sku.book, :thumb, :width => 64 )
+							= avatar_tag( order.sku.book, :thumb, :width => 64 )
 					.listing_data
 						.listing_title
-							= sku.title
+							= order.sku.title
 						%b
 							Files in this order:
 						.listing_buy
-							- for item in sku.items
+							- for item in order.sku.items
 								%div[item]
-									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => sku.order.id ) if item.respond_to? 'document'
+									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => order.id ) if item.respond_to? 'document'
 					.clear
 			
 			
