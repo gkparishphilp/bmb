@@ -6,8 +6,12 @@
 			= link_to book.title, author_book_url( @author, book )
 			.book-meta.clearfix
 				.info
-					%p by: <em>Author</em>
-					%p Reads: <em>400</em>
+					%p 
+						By:
+						%em= book.author.pen_name
+					%p
+						Reads:
+						%em= book.view_count
 				.ratings
 					%ul.star-rating
 						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
