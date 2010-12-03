@@ -1,4 +1,6 @@
 class AssetsController < ApplicationController
+	before_filter	:http_auth, :only => [ :download, :deliver ]
+	
 	before_filter   :get_parent, :except => :deliver
 	layout			'3col'
 	

@@ -12,8 +12,8 @@
 	= stylesheet_link_tag 'ie.css', :media => 'screen, projection'
 
 -# remote javascripts (need https when under protocol)
-= javascript_include_tag "#{SSL_PROTOCOL}://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js?ver=1.4.2"
-= javascript_include_tag "#{SSL_PROTOCOL}://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"
+= javascript_include_tag "#{request.protocol}://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js?ver=1.4.2"
+= javascript_include_tag "#{request.protocol}://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"
 
 -# local javascripts
 = javascript_include_tag 'rails', 'colorpicker', 'application', 'jquery.rating.min'
