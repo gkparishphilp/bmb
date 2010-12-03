@@ -7,14 +7,33 @@
 		Hi, Welcome to BackMyBook!  This is your personal user dashboard.  You would do things like manage your user profile settings here, but since some people can't seem to figure out those kind of advanced internetty concepts, for now the only thing you can do here is download stuff if you are kind enough to buy it.
 	- unless @user.skus.empty?
 		%br
-		%h3 
-			Thank You for Purchasing:
-		- for sku in @user.skus
-			%li= sku.title
-			- for item in sku.items
-				%div[item]
-					= item.title
-					= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+			%h3 
+				Thank You for Purchasing:
+			- for sku in @user.skus
+				.listing( style = 'margin-left:30px;' )
+					.listing_avatar
+						- if sku.avatar.present?
+							= avatar_tag( sku, :thumb, :width => 64 )
+						- else
+							= avatar_tag( sku.book, :thumb, :width => 64 )
+					.listing_data
+						.listing_title
+							= sku.title
+						%b
+							Files in this order:
+						.listing_buy
+							- for item in sku.items
+								%div[item]
+									= item.title
+									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
+						.listing_description
+							= snip( sku.description.html_safe, 140 )
+					.clear
+			
+			
+			
+				
+				
 	.form_group
 		%h2 Settings
 		%br
