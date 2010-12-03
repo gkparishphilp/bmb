@@ -10,6 +10,8 @@ This email confirms your purchase of
 -if @order.sku.contains_etext?
 	You can download digital items using the links below:
 	%br	
+	After downloading one of the items, you may be prompted to register to BackMyBook.com to download the remaining items.  This is to protect the author from digital privacy.  Your email address will not be shared with any other parties.
+	%br
 	%br
 	- for sku_item in @order.sku.sku_items
 		= link_to sku_item.item.title, deliver_asset_url( sku_item.item, :order_id => @order.id, :host => 'backmybook.com')
@@ -41,5 +43,5 @@ Best Regards,
 %br
 - if @order.sku.owner.is_a? Author
 	=@order.sku.owner.pen_name
-	and 
-= APP_NAME	
+	and the BackMyBook team
+	

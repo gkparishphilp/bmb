@@ -257,6 +257,9 @@
 					%br
 					%br
 					= f.submit "Buy", :class=>'buttons'
+					%br
+					%br
+					Note: Your credit card will be billed by "Groundswell Enterprises".
 			
 			#paypal_x_checkout
 				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct shipping address at Paypal. You will be returned here to complete your order.
@@ -274,6 +277,9 @@
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)
 					= f.text_field :email, :class => 'required_email'
+					%br
+					Please provide an email address for your order confirmation and receipt.
+					%br
 				-else
 					= f.hidden_field :email, :value => @current_user.email
 				%br
@@ -285,5 +291,10 @@
 				-#%br
 				Please confirm your Paypal order by clicking the button below.
 				%br
+				Note: Your Paypal Account will be billed by "Groundswell Enterprises".
+				%br
 				%br
 				= f.submit "Confirm Your Paypal Order", :class => :buttons
+				%br
+				%br
+				
