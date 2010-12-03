@@ -1,14 +1,16 @@
 Hi
 = @user.name
 , 
-
+%br
+%br
 This email confirms your purchase of 
 = @order.sku.title
 %br
-
+%br
 -if @order.sku.contains_etext?
 	You can download digital items using the links below:
 	%br	
+	%br
 	- for sku_item in @order.sku.sku_items
 		= link_to sku_item.item.title, deliver_asset_url( sku_item.item, :order_id => @order.id, :host => 'backmybook.com')
 		%br
