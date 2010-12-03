@@ -7,24 +7,24 @@ This email confirms your purchase of
 = @order.sku.title
 %br
 %br
--if @order.sku.contains_etext?
+- if not( @order.sku.merch_sku? ) 
 	You can download digital items using the links below:
 	%br	
-	After downloading one of the items, you may be prompted to register to BackMyBook.com to download the remaining items.  This is to protect the author from digital privacy.  Your email address will not be shared with any other parties.
+	After downloading one of the items, you may be prompted to register to BackMyBook.com to download the remaining items.  This is to protect the author from digital piracy.  Your email address will not be shared with any other parties.
 	%br
 	%br
-	- for sku_item in @order.sku.sku_items
-		= link_to sku_item.item.title, deliver_asset_url( sku_item.item, :order_id => @order.id, :host => 'backmybook.com')
+	- for item in @order.sku.items
+		= link_to item.title, deliver_asset_url( item, :order_id => @order.id, :host => 'backmybook.com' ), :if :item.respond_to? 'document'
 		%br
 
--if @order.sku.contains_merch?
-	
+- if @order.sku.contains_merch?
+
 	- if @order.sku.owner.is_a? Author
 		The following items will be delivered by the author:
 		= @order.sku.owner.pen_name
 		%br
-		- for sku_item in @order.sku.sku_items
-			= sku_item.item.title if sku_item.item_type == 'Merch'
+		- for item in @order.sku.items
+			= item.title if item.item_type == 'Merch'
 			%br
 
 %br
