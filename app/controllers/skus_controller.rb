@@ -4,6 +4,7 @@ class SkusController < ApplicationController
 		@sku = Sku.new params[:sku]
 		@sku.sku_type = 'custom' #since the only way to hit this is through admin
 		if @current_author.skus << @sku
+			process_attachments_for @sku
 			pop_flash 'Sku saved!'
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
@@ -18,6 +19,7 @@ class SkusController < ApplicationController
 			return false
 		end
 		if @sku.update_attributes params[:sku]
+			process_attachments_for @sku
 			pop_flash 'Sku saved!'
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku

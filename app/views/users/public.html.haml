@@ -9,12 +9,5 @@
 			%br
 			= format_date_only @user.created_at
 	
-	- unless @user.reviews.empty?
-		%h3
-			= possessize @user.name
-			Reviews:
-		%br
-		- for review in @user.reviews
-			= link_to review.book.title, "#{author_book_url( review.book.author, review.book )}#reviews"
 
 	

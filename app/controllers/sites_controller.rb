@@ -44,6 +44,8 @@ class SitesController < ApplicationController
 	
 	def index
 		@activities = Activity.feed @current_site.users, @current_site
+		@activities.sort{ |a, b| a.created_at <=> b.created_at }
+		@activities = @activities[0..19]
 		
 		@recent_blog_posts = @current_site.articles.empty? ? [] : ( @current_site.articles.order( "created_at desc" ).limit( 5 ) )
 		@recent_episodes = @current_site.podcasts.empty? ? [] : ( @current_site.podcasts.first.episodes.order( "created_at desc" ).limit( 5 ) )

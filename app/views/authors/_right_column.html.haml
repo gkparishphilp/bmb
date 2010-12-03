@@ -1,13 +1,14 @@
-.follow-me.ui-helper-clearfix
-	%h3 Follow Me
-	%div
-		=image_tag('twitter.jpg')
-		=image_tag('facebook.jpg')
-		=image_tag('rss.jpg',:alt=>'rss feed')
-		=image_tag('mail.jpg', :alt=>'contact author', :class => :toggle_contact_form )
-	#contact_form
-		= text_field_tag :email
-		= submit_tag 'Submit'
+-#
+	.follow-me.ui-helper-clearfix
+		%h3 Follow Me
+		%div
+			=image_tag('twitter.jpg')
+			=image_tag('facebook.jpg')
+			=image_tag('rss.jpg',:alt=>'rss feed')
+			=image_tag('mail.jpg', :alt=>'contact author', :class => :toggle_contact_form )
+		#contact_form
+			= text_field_tag :email
+			= submit_tag 'Submit'
 #accordion
 	- if @theme.nil? || !@theme.book_site
 		%div
