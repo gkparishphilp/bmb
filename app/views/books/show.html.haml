@@ -7,16 +7,19 @@
 			- if @book.assets.free.empty?
 				&nbsp&nbsp;&nbsp;No Preview Available
 			- for asset in @book.assets.free do
-				.button
-					= link_to "FREE SAMPLE", download_author_book_asset_url( @author, @book, asset ), :class=>'blue'
+				%li
+					.button
+						= link_to "Free Sample", download_author_book_asset_url( @author, @book, asset ), :class=>'blue'
 			
 			- unless @book.ebook_sku.nil?
-				.button
-					=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+				%li
+					.button
+						=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 			
 			- unless @book.audio_book_sku.nil?
-				.button
-					=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+				%li
+					.button
+						=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 			
 			- unless @book.custom_skus.empty? && @book.merch_skus.empty?
 				.also-available
