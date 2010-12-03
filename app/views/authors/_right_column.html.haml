@@ -53,6 +53,6 @@
 			- if Activity.feed( @author, @author.books, @author.merches ).empty?
 				No Activity
 			- else
-				- for activity in Activity.feed( @author, @author.books, @author.merches )
+				- for activity in Activity.feed( @author, @author.books, @author.merches )[0..19]
 					= render activity
 				
