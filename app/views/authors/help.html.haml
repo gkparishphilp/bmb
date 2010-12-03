@@ -1,10 +1,38 @@
 - content_for :left_column do
 	%h1
 		= @author.pen_name
-		Help and FAQs
+		Help and 
+		= link_to "FAQs", "#faq"
 	.form_group
+		%h3
+			If you have any questions about ordering my books, please send us a note below and we’ll sort you out.
 		= form_for Contact.new do |f|
 			= render 'contacts/form', :f => f
+			
+	%br
+	%br
+	#faq
+	%h2 FAQs
+	%h4 Can I order more than one thing? Where's my shopping cart?
+	%p
+		Absolutely! You can order however many different items you like, but the "continue shopping" option is still pending.  Instead, if you don't see the combo you want, you're just going to have to place multiple orders for now.  We're sorry about that, and now that the the eBooks and audiobooks are launched, we'll work on shining up the rest.
 
+	%h4 I own a hardcover copy of THE STARTER, and will be receiving the eBook for free.  Instead, will you discount the cost of THE STARTER from another item (like the flash drive)?  
+	%p
+		No.  All the "Make it Right" copies of THE STARTER eBook will be sent as stand alone items, and no adjustments or special deals on other items will be made to accommodate.
+		
+	%h4 Can I also get a free copy of THE ROOKIE eBook?  Can I trade my free eBook for a free audiobook?
+	%p
+		Nope.  The "Make it Right" offer only applies only to the eBook of THE STARTER.  No substitutions will be made.  The eBooks are in .mobi or .epub formats and will work on most eReaders.  
+	%h4 Will Scott personalize my hardcover?
+	%p
+		Alas, the time for personalization is long gone.  The only way to obtain personalized copies of the hardcover is to call Borderlands Books, just as you would for any other Sigler novel.
+	%h4 Will you ship the hardcover to my country/APO/FPO/backwater town?
+	%p
+		Yes.
+	%h4 What if THE STARTER or THE ROOKIE sells out before I can buy a copy?
+	%p
+		Life is cold, brutish, short and hella unfair. But never fear, dear Damn Dirty Junkie, should be plenty of time for you to get your copy if you order before September.
 - content_for :right_column do
 	&nbsp;
+	

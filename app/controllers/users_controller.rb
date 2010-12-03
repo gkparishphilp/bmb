@@ -95,17 +95,12 @@ class UsersController < ApplicationController
 		end
 
 	end
-	
-	def update_avatar
-		@user = User.find params[:id] 
-		@user.avatar.update_from_resource( params[:attached_avatar_file] )
-		redirect_to request.env['HTTP_REFERER']
-	end
 
 	def update
 		@user = User.find params[:id] 
 		
 		if @user.update_attributes( params[:user] )
+			process_attachments_for( @user )
 			pop_flash 'User was successfully updated.'	
 		else
 			pop_flash 'Oooops, User not updated...', 'error', @user
