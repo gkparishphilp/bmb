@@ -5,7 +5,16 @@
 	%br
 	%p 
 		Hi, Welcome to BackMyBook!  This is your personal user dashboard.  You would do things like manage your user profile settings here, but since some people can't seem to figure out those kind of advanced internetty concepts, for now the only thing you can do here is download stuff if you are kind enough to buy it.
-	
+	- unless @user.skus.empty?
+		%br
+		%h3 
+			Thank You for Purchasing:
+		- for sku in @user.skus
+			%li= sku.title
+			- for item in sku.items
+				%div[item]
+					= item.title
+					= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
 	.form_group
 		%h2 Settings
 		%br
@@ -18,7 +27,8 @@
 			%br
 			We're using:
 			= @user.email
-
+			%br
+			%br
 			%h4 Change Your Email Address
 			= form_for @current_user do |f|
 				= f.label "Email"
@@ -45,19 +55,6 @@
 				= f.text_field :website_url
 				.actions
 					= f.submit "Enter", :class => :button
-
-			
-			- unless @user.skus.empty?
-				%br
-				%h3 
-					Thank You for Purchasing:
-				- for sku in @user.skus
-					%li= sku.title
-					- for item in sku.items
-						%div[item]
-							= item.title
-							|
-							= link_to "Download", download_author_book_asset_url( sku.owner, sku.book, item ) if item.respond_to? 'document'
 		.clear
 
 
