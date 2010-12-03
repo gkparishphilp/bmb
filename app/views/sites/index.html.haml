@@ -2,8 +2,6 @@
 	= image_tag "welcome_authors.jpg"
 	.pad_content
 		#home_blog
-			%h3
-				On being a 21st Century Author and more...
 			- for item in @items
 				-if item.is_a? Article
 					.home_article_header
@@ -20,7 +18,8 @@
 							- else
 								.converse= link_to "Be the first!", blog_url( item ) + "#comment"
 					%br.clear
-					= snip item.content.html_safe, 500
+					%p.text
+						= snip item.content.html_safe, 500
 					%hr.home
 				-if item.is_a? Episode
 					.home_article_header
@@ -37,7 +36,8 @@
 							- else
 								.converse= link_to "Be the first!", podcast_episode_url( item.podcast, item ) + "#comment"
 					%br.clear
-					= snip item.description.html_safe, 500
+					%p.text
+						= snip item.description.html_safe, 500
 					%hr.home
 	
 - content_for :right_column do

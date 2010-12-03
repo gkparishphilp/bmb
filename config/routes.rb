@@ -31,6 +31,7 @@ Backmybook::Application.routes.draw do
 	resources :authors do
 		resources :articles
 		get 'bio', :on => :member
+		get 'help', :on => :member
 		resources :blog
 		resources :books do
 			get 'mockup', :on => :collection

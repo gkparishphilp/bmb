@@ -141,13 +141,14 @@ hr
 	:float left
 
 .column1
-	:width 65.5%
+	:width 65.7%
 
 .author_bd .column1
 	:background white url("../images/content_bg.jpg") repeat-y right top
 
 .column2
-	:width 34.5%
+	:width 34.4%
+	:margin-left -2px
 
 input[type="text"],input[type="password"], textarea
 	:padding 2px
@@ -181,7 +182,7 @@ label
 .static_content
 	:padding 10px
 .text,.article_body
-	:line-height 1.4em
+	:line-height 1.3em
 	:padding 5px
 	
 /* =Star Ratings */
@@ -196,7 +197,7 @@ label
 	:height 25px
 	:overflow hidden
 	:list-style none
-	:margin 4px 4px 4px 0
+	:margin 0 4px 4px 0
 	:padding 0
 	:background-position 0 -29px
 
@@ -206,7 +207,7 @@ label
 .star-rating .current-rating
 	:position absolute
 	:top 0
-	:left 0G
+	:left 0
 	:text-indent -1000em
 	:height 25px
 	:line-height 25px
@@ -229,6 +230,21 @@ label
 				:vertical-align text-bottom
 			img
 				:vertical-align text-top
+
+.buttons
+	:background-color #F2F2F2
+	:border 1px solid #0085AE
+	:margin-top 6px
+	:padding 4px 10px
+	:color #0085AE
+	:font-weight bold
+	:margin-bottom 10px
+	+rounded()
+	:cursor pointer
+	&:hover
+		:background-color #fff
+		:color #0085AE + #333
+		:border 1px solid #0085AE + #333
 
 // Flashes
 #flash

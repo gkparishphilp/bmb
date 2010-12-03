@@ -1,19 +1,19 @@
-.listing
+.listing.store
 	.listing_avatar
 		- if sku.avatar.present?
 			= avatar_tag( sku, :thumb, :width => 64 )
 		- else
 			= avatar_tag( sku.book, :thumb, :width => 64 )
-	.listing_data
+	.listing_data.clearfix
 		.listing_title
 			- if sku.book_sku?
 				= link_to sku.title, author_book_url( @author, sku.book )
 			- else
 				= link_to sku.title, author_store_url( @author, sku )
-				
-		.listing_buy
-			.button
-				=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+		.book-info			
+			.listing_buy
+				.button
+					=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'yellow'
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
 	.clear

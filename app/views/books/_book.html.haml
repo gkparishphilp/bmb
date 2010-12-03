@@ -1,23 +1,31 @@
-.listing
+.listing.text
 	.listing_avatar
 		= avatar_tag( book, :thumb, :width => 64 )
-	.listing_data
+	.listing_data.clearfix
 		.listing_title
 			= link_to book.title, author_book_url( @author, book )
-		.listing_genre
-			= book.genre.name if book.genre
-		- unless book.ebook_sku.nil?
-			.listing_buy
-				= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
-		- unless book.audio_book_sku.nil?
-			.listing_buy
-				= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
+			.book-meta.clearfix
+				.info
+					%p 
+						By:
+						%em= book.author.pen_name
+					%p
+						Reads:
+						%em= book.view_count
+				.ratings
+					%ul.star-rating
+						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
+		.book-info
+			.listing_genre
+				= book.genre.name if book.genre
+			- unless book.ebook_sku.nil?
+				.listing_buy
+					= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
+			- unless book.audio_book_sku.nil?
+				.listing_buy
+					= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
 		.listing_description
 			= snip( book.description.html_safe, 140 )
-		.ratings
-			%p Avg rating: 
-			%ul.star-rating
-				%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
 				
 	.clear
 	

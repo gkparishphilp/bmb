@@ -1,35 +1,50 @@
-// #bd 
-// 	:background-color #000
+.button a
+	:display block
+	:width 154px
+	:height 25px
+	// :font-size 18px
+	:font-weight bold
+	:text-align center
+	:text-decoration none
+	:text-transform capitalize
+	:margin 5px auto
+	:padding 12px 5px 1px 3px
+	:clear both
+	:background-image url("../images/buttons.png")
+	:background-repeat no-repeat
+.button a.blue
+	:background-position -2px -119px
+.button a.yellow
+	:background-position -2px -2px
+.button a.green
+	:background-position -2px -41px
+.button a.dark-gray
+	:background-position -2px -80px
+.button a:hover
+	:background-position -2px -158px
 .books:after
 	+clearfix
-	
+
 .books
 	:padding-top 15px
 	h1
 		:color #CE9322
+		:line-height 1em
 	p.blue
 		:color $link
 		
 	.left_col
 		:width 165px
 		:margin-right 13px
+		.button a
+			:font-size 12px
+			:padding-top 13px
 	.right_col
 		:float left
 		:width 420px
 		
 	textarea
 		:width 99%
-	
-	.book-meta
-		:margin 10px 0
-		:font-weight bold
-		p
-			:margin 0
-		.info
-			:float left
-			:width 47%
-		em
-			:color $link
 			
 	.ratings
 		:width 52%
@@ -59,30 +74,7 @@
 		.ui-state-hover
 			:background-color #fff
 
-	.button a
-		:display block
-		:width 154px
-		:height 25px
-		// :font-size 18px
-		:font-weight bold
-		:text-align center
-		:text-decoration none
-		:text-transform capitalize
-		:margin 5px auto
-		:padding 12px 5px 1px 3px
-		:clear both
-		:background-image url("../images/buttons.png")
-		:background-repeat no-repeat
-	.button a.blue
-		:background-position -2px -119px
-	.button a.yellow
-		:background-position -2px -2px
-	.button a.green
-		:background-position -2px -41px
-	.button a.dark-gray
-		:background-position -2px -80px
-	.button a:hover
-		:background-position -2px -158px
+
 		
 	.book_thumb
 		:text-align center
@@ -188,3 +180,86 @@
 					:color #CE9322
 			.star-rating
 				:float right
+.book-meta
+	:margin 10px 0
+	:font-weight bold
+	p
+		:margin 0
+	.info
+		:float left
+		:width 47%
+	em
+		:color $link
+
+.listing
+	:margin 20px 0px
+	:width 100%
+	.listing_avatar
+		:float left
+		:width 14%
+	.listing_data
+		:float left
+		:margin 0px 3px 3px 3px
+		:padding-bottom 20px
+		:width 80%
+		:min-height 100px
+		:border-bottom 1px solid #ccc
+	.listing_title
+		:font-size 22px
+		:line-height 1.2em
+		a
+			:color #ce9322
+		.book-meta
+			:font-size 14px
+			:color #666
+			:margin 0 0 3px 0
+	.listing_genre, .listing_buy
+		:font-size 85%
+	.info
+		:float left
+		:width 340px
+		p
+			:float left
+			:margin 0 15px 3px 1px
+	.book-info
+		:float left
+		:width 29%
+	.listing_description,.ratings
+		:float right
+	.listing_description
+		:width 68%
+.store
+	.listing_title
+		:margin-bottom 12px
+		:line-height 1.2em		
+	.book-info
+		:width 35%
+	.listing_description		
+		:width 57%
+	.button a
+		:margin-top 1px
+		
+.ui-accordion-content
+	:font-size 85%
+	.listing_title
+		:font-size 19px
+	.listing_avatar
+		:width 23%
+		img
+			:width 80%
+	.listing_data
+		:width 70%
+	.info, .ratings
+		:float none
+		:width 200px
+	.info
+		:font-size 12px
+		p
+			:margin 0 10px 0 0
+	.info:after
+		+clearfix
+	.book-info,.listing_description
+		:float none		
+		:width 100%
+	.book-info
+		:margin-bottom 10px
