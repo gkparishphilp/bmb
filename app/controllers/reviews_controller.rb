@@ -12,6 +12,7 @@ class ReviewsController < ApplicationController
         
         if @reviewable.reviews << @review
             pop_flash 'Review was successfully created.'
+			@current_user.did_review @reviewable
 
             redirect_to polymorphic_path [ @author, @reviewable ] 
         else

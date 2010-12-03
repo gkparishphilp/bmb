@@ -50,9 +50,9 @@
 		%h3 
 			=link_to 'Recent Activity','#'
 		%div 
-			- if Activity.feed( @author, @author.books ).empty?
+			- if Activity.feed( @author, @author.books, @author.merches ).empty?
 				No Activity
 			- else
-				- for activity in Activity.feed @author, @author.books
+				- for activity in Activity.feed( @author, @author.books, @author.merches )
 					= render activity
 				

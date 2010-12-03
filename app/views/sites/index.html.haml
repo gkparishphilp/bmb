@@ -61,10 +61,12 @@
 	%div
 		- unless @current_site.podcasts.empty?
 			%h3 
-				=link_to 'Podcast', podcast_index_url
+				=link_to 'Podcast', podcasts_url
 			%div.text 
-				- for episode in @current_site.podcasts
-					= link_to episode.title, podcast_episode_url( episode.podcast, episode )
+				- for episode in @current_site.podcasts.first.episodes
+					.episode
+						= image_tag "podcast_icon.png", :width => 20
+						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 					
 	- unless @activities.empty?
 		%br

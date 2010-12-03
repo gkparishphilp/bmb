@@ -34,18 +34,33 @@
 			-# Show order results when item is a book or merchandise
 			-#------------------------------------------
 			- if @order.sku.sku_type != 'subscription'
-				%h2 
-					Thank you for purchasing: 
-					= @order.sku.title
+				%h1
+					Thank you for your purchase! 
 				%br
 				%h4 
 					A purchase confirmation email has been sent to:
 					= @order.email
 					%br
-			
-					- for sku_item in @order.sku.sku_items
-						= link_to "Download #{sku_item.item.title} !",  deliver_asset_url( sku_item.item, :order_id => @order.id ) unless sku_item.item.is_a? Merch
-						%br
+					
+					
+				.listing( style = 'margin-left:30px;' )
+					.listing_avatar
+						- if @order.sku.avatar.present?
+							= avatar_tag( @order.sku, :thumb, :width => 64 )
+						- else
+							= avatar_tag( @order.sku.book, :thumb, :width => 64 )
+					.listing_data
+						.listing_title
+							= @order.sku.title
+						%b
+							Files in this order:
+						.listing_buy
+							- for item in @order.sku.items
+								%div[item]
+									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", download_author_book_asset_url( @order.sku.owner, @order.sku.book, item ) if item.respond_to? 'document'
+					.clear
+					
+					%br
 					%br
 					-if @order.sku.contains_merch?
 						- if @order.sku.owner.is_a? Author

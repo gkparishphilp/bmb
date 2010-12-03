@@ -7,14 +7,7 @@ avatar = Attachment.create( :path => '/images/anon_user.jpg', :attachment_type =
 puts "Anon saved"
 
 puts "Setup Dev Sites" # todo -- change and remove for prod
-s = Site.create :domain => 'localhost', :name => 'BmB Dev'
-s = Site.create :domain => 'tayandann.net', :name => 'BmB Facebook Dev'
-s = Site.create :domain => 'backmybook.com', :name => 'BmB Deploy'
-s = Site.create :domain => 'lvh.me', :name => 'Subdomain Testing'
-s = Site.create :domain => 'rippleread.com', :name => 'Staging'
-
-puts "How bout some default Themes?"
-t = Theme.create :name => 'Easter Egg', :text_color => '#2b2a2b', :link_color => '#6aedfc', :hover_color => '#003fbd', :header_color => '#b835fa', :title_color => '#08f72c', :bg_color => '#ffff66', :banner_bg_color => '#8dfc93', :content_bg_color => '#ffbebe'
+s = Site.create :domain => 'backmybook.com', :name => 'BackMyBook'
 
 # Load Genres
 puts "Load Genres"

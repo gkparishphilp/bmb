@@ -147,8 +147,9 @@ class Order < ActiveRecord::Base
 		self.sku.ownings.create :user => self.user, :status => 'active'
 		
 		# send emails
+		# todo - Automatically get shipping address from paypal express so we can use it to send out fulfillment email
 		UserMailer.bought_sku( self, self.user ).deliver 
-		UserMailer.fulfill_order( self, self.user).deliver if self.sku.contains_merch?
+		UserMailer.fulfill_order( self, self.user).deliver if (self.sku.contains_merch? and paypal_express_token.blank?)
 		
 		# add royalty entry
 		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round

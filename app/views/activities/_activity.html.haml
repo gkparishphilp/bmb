@@ -13,8 +13,15 @@
 			= link_to activity.target.title, polymorphic_url( [ activity.target.forum, activity.target ] )
 		- elsif activity.target.is_a? Post
 			= link_to activity.target.topic.title, polymorphic_url( [ activity.target.forum, activity.target.topic ] )
+		- elsif activity.target.is_a? Article
+			- if activity.target.owner.is_a? Author
+				= link_to activity.target.title, author_blog_url( activity.target.owner, activity.target )
+			- else
+				= link_to activity.target.title, blog_url( activity.target )
 		- elsif activity.target.is_a? Book
 			= link_to activity.target.title, polymorphic_url( [ activity.target.author, activity.target ] )
+		- elsif activity.target.is_a? Merch
+			= link_to activity.target.title, polymorphic_url( [ activity.target.owner, activity.target ] )
 		- else
 			= link_to activity.target.title, polymorphic_url( activity.target )
 	- else
