@@ -16,7 +16,8 @@
 	= text_field_tag :website_url
 
 	- unless @current_user.human?
-		= recaptcha_tags :display => { :theme=>"clean" }
+		- recap = recaptcha_tags :display => { :theme=>"clean" }
+		= recap.html_safe
 -#= check_box_tag :subscribe_comments, 1, true
 -#Notify me of followup comments via e-mail
 %br
