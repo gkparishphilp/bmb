@@ -19,40 +19,43 @@
 					No Books
 				- else
 					= render @author.books
-	%div
-		%h3 
-			=link_to 'Links','#'
-		%div 
-			- if @author.links.empty?
-				No Links
-			- else
-				- for link in @author.links
-					= link_to link.title, link.url
-					.small= link.description
-					%br
-	%div
-		%h3 
-			=link_to 'Events','#'
-		%div 
-			- if @author.events.upcomming.empty?
-				No Upcomming Events
-			- else
-				- for event in @author.events.upcomming
-					= link_to event.title, author_event_url( @author, event )
-					.small
+	- unless @author.links.empty?
+		%div
+			%h3 
+				=link_to 'Links','#'
+			%div 
+				- if @author.links.empty?
+					No Links
+				- else
+					- for link in @author.links
+						= link_to link.title, link.url
+						.small= link.description
 						%br
-						On:
-						= format_date event.starts_at
-						%br
-						At: 
-						= event.location
-	%div
-		%h3 
-			=link_to 'Recent Activity','#'
-		%div 
-			- if Activity.feed( @author, @author.books, @author.merches ).empty?
-				No Activity
-			- else
-				- for activity in Activity.feed( @author, @author.books, @author.merches )[0..19]
-					= render activity
+	- unless @author.events.upcomming.empty?
+		%div
+			%h3 
+				=link_to 'Events','#'
+			%div 
+				- if @author.events.upcomming.empty?
+					No Upcomming Events
+				- else
+					- for event in @author.events.upcomming
+						= link_to event.title, author_event_url( @author, event )
+						.small
+							%br
+							On:
+							= format_date event.starts_at
+							%br
+							At: 
+							= event.location
+	- unless current_page?( new_author_order_path( @author ) )
+		%div
+			%h3 
+				=link_to 'Recent Activity','#'
+			%div 
+				- if Activity.feed( @author, @author.books, @author.merches ).empty?
+					No Activity
+				- else
+					- for activity in Activity.feed( @author, @author.books, @author.merches )[0..19]
+						= render activity
 				
