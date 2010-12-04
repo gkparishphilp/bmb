@@ -45,15 +45,14 @@
 								%td= f.text_field :email, :class => 'required_email'
 						-else
 							= f.hidden_field :email, :value => @current_user.email
-						-#todo re-enable coupons
-						-#if @sku.sku_type != 'subscription'
-						-#	%tr
-						-#		%td
-						-#			%b Enter Coupon Code
-						-#		%td
-						-#			=text_field_tag :coupon_code, "", :class => :coupon
-						-#			#valid_coupon_div( style = "margin:10px 0px;")
-						-#				#valid_coupon
+						-if @sku.sku_type != 'subscription'
+							%tr
+								%td
+									%b Enter Coupon Code
+								%td
+									=text_field_tag :coupon_code, "", :class => :coupon
+									#valid_coupon_div( style = "margin:10px 0px;")
+										#valid_coupon
 						%tr
 							%td
 								%b Card Number
@@ -283,12 +282,11 @@
 				-else
 					= f.hidden_field :email, :value => @current_user.email
 				%br
-				-# re-enable coupons
-				-#%b Enter Coupon Code (if applicable)
-				-#= text_field_tag :coupon_code, "", :class => :coupon
-				-##valid_coupon_div( style = "margin:10px 0px;")
-				-#	#valid_coupon
-				-#%br
+				%b Enter Coupon Code (if applicable)
+				= text_field_tag :coupon_code, "", :class => :coupon
+				#valid_coupon_div( style = "margin:10px 0px;")
+					#valid_coupon
+				%br
 				Please confirm your Paypal order by clicking the button below.
 				%br
 				Note: Your Paypal Account will be billed by "Groundswell Enterprises".

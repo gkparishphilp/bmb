@@ -150,7 +150,7 @@ class OrdersController < ApplicationController
 			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
 			redirect_to @order
 		else
-			pop_flash 'Oooops, order was not saved', :error, @order
+			pop_flash 'Oooops, order could not be processed.  Please check and re-enter your payment information.', :error, @order
 			redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL)
 			#TODO send back errors from Paypal here also
 		end
