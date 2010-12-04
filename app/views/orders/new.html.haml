@@ -46,6 +46,7 @@
 								%td= f.text_field :email, :class => 'required_email'
 						-else
 							= f.hidden_field :email, :value => @current_user.email
+							
 						-if @sku.sku_type != 'subscription'
 							%tr
 								%td
@@ -87,7 +88,7 @@
 								%tr
 									%td 
 									%td 
-										%h3 Billing Info
+										%h3 Billing Information
 								%tr
 									%td
 										%b First Name:
@@ -132,7 +133,7 @@
 								%tr
 									%td 
 									%td 
-										%h3 Billing Info
+										%h3 Billing Information
 								%tr
 									%td
 										%b First Name:
