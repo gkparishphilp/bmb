@@ -28,7 +28,7 @@
 										= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => order.id ) if item.respond_to? 'document'
 						- else
 							%b
-								= @order.owner.name
+								= order.owner.name
 								will ship this item.
 					.clear
 			
