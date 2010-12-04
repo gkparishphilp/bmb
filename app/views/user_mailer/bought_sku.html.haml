@@ -19,9 +19,11 @@ This email confirms your purchase of
 		%br
 
 - if @order.sku.contains_merch?
-
+	%br
+	%br
 	- if @order.sku.owner.is_a? Author
 		The following items will be delivered by the author:
+		%br
 		= @order.sku.owner.pen_name
 		%br
 		- for item in @order.sku.items

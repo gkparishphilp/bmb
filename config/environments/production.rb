@@ -27,6 +27,18 @@ Backmybook::Application.configure do
   # Use a different cache store in production
   # config.cache_store = :mem_cache_store
 
+  # Mail configuration
+	config.action_mailer.delivery_method = :smtp
+	config.action_mailer.smtp_settings = {
+	    :address        => "localhost",
+	    :port           =>  25,
+	    :domain         => "backmybook.com"
+	}
+
+	config.action_mailer.default_url_options = {
+	    :host   => 'backmybook.com'
+	}
+
   # Disable Rails's static asset server
   # In production, Apache or nginx will already do this
   config.serve_static_assets = false
