@@ -14,6 +14,7 @@
 				%table
 					= f.hidden_field :price, :value => @sku.price
 					= f.hidden_field :sku_id, :value => @sku.id
+					= hidden_field_tag :author_id, @author.id # todo make this part of the form_for
 					%tr
 						%td &nbsp;
 						%td &nbsp;
@@ -273,6 +274,7 @@
 				= f.hidden_field :user_id, :value => @current_user.id
 				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
+				= hidden_field_tag :author_id, @author.id # todo make this part of the form_for
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)
 					= f.text_field :email, :class => 'required_email'

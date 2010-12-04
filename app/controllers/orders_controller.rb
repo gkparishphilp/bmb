@@ -16,10 +16,12 @@ class OrdersController < ApplicationController
 	def show
 		@order = Order.find params[:id] 
 		
-		if (@order.user != @current_user && @order.paypal_express_token.blank? && @order.ip != request.ip)  
+		if ( @order.user != @current_user && @order.paypal_express_token.blank? && @order.ip != request.ip )  
 			pop_flash 'Not your order', :error
 			redirect_to root_path
 		end
+		
+		
 	end
 
 
@@ -148,10 +150,18 @@ class OrdersController < ApplicationController
 			@order.update_attributes :status => 'success'
 			@order.post_purchase_actions( @current_user )
 			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
-			redirect_to @order
+			if @author.present?
+				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )
+			else
+				redirect_to @order
+			end
 		else
 			pop_flash 'Oooops, order could not be processed.  Please check and re-enter your payment information.', :error, @order
-			redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL)
+			if @author.present?
+				redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			else
+				redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			end
 			#TODO send back errors from Paypal here also
 		end
 
