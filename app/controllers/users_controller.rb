@@ -111,13 +111,13 @@ class UsersController < ApplicationController
   
 	def forgot_password
 		if request.post?
-			user = User.find_by_email(params[:email])
-			if user
-				user.create_remember_token
-				user.reload
+			@user = User.find_by_email( params[:email] )
+			if @user
+				@user.create_remember_token
+				@user.reload
 
 				email = UserMailer.forgot_password( @user, @current_site ).deliver
-				pop_flash = "Email sent to #{user.email}.Please follow the enclosed instructions to recover your password.", :notice
+				pop_flash = "Email sent to #{@user.email}.Please follow the enclosed instructions to recover your password.", :notice
 				redirect_to root_path
 			else
 				params[:email] = nil
