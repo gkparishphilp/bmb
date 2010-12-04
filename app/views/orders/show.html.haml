@@ -30,9 +30,11 @@
 				Thanks for your order!
 			%p
 				The BackMyBook Team
+				
+			%p
+				%b= link_to "Back to #{@order.owner.name}", @order.owner
 		-else
 		
-			%h1
 			-#------------------------------------------
 			-# Show order results when item is a book or merchandise
 			-#------------------------------------------
@@ -90,6 +92,9 @@
 					If you have any questions, 
 					= link_to "please contact us", new_contact_url 
 					with the Order ID # and Confirmation # shown above. 
+				
+				%p
+					%b= link_to "Back to #{@order.owner.name}", @order.owner
 				
 			
 			-else 
