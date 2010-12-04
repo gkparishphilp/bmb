@@ -44,11 +44,11 @@ class OrdersController < ApplicationController
 
 	def paypal_express
 		price_in_cents = @sku.price
-		cancel_return_url = new_order_url(:sku => @sku.id)
+		cancel_return_url = new_order_url(:sku => @sku.id, :author_id => params[:author_id])
 		
 		response = EXPRESS_GATEWAY.setup_purchase(price_in_cents,
 			:ip => request.remote_ip,
-			:return_url => new_order_url(:sku => params[:sku]),
+			:return_url => new_order_url(:sku => params[:sku], :author_id => params[:author_id]),
 			:cancel_return_url => cancel_return_url
 		)
 		redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
