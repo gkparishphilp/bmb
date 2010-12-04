@@ -1,5 +1,4 @@
 class OrdersController < ApplicationController
-	before_filter	:http_auth
 	
 	before_filter :require_admin, :only => [:admin]
 	before_filter :get_form_data, :only => :new

@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+	before_filter :http_auth
 	protect_from_forgery
 	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
 	# so, we set these application-level global instance vars:
