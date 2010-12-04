@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 				@user.reload
 
 				email = UserMailer.forgot_password( @user, @current_site ).deliver
-				pop_flash = "Email sent to #{@user.email}.Please follow the enclosed instructions to recover your password.", :notice
+				pop_flash "Email sent to #{@user.email}.Please follow the enclosed instructions to recover your password.", :notice
 				redirect_to root_path
 			else
 				params[:email] = nil
