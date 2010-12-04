@@ -105,35 +105,40 @@ $(document).ready(function(){
 	
 	
 	$('.coupon').blur(function (){
-		the_url = "https://backmybook.com/coupons/validate/";
-		the_url += $('#order_sku_id').attr('value');
-		the_url += "/" + $(this).attr('value');
-
-		$.get( the_url, function(data){
-			var the_response = $(data).attr('value');
-			var discount = $(data).attr('discount');
-			var discount_type = $(data).attr('discount_type');
-			var orig_price = $('#the_price').attr('sku_price');
+		
+		if ( $(this).attr('value') ){
+		
+			the_url = "https://backmybook.com/coupons/validate/";
+			the_url += $('#order_sku_id').attr('value');
+			the_url += "/" + $(this).attr('value');
+		
+			$.get( the_url, function(data){
+				var the_response = $(data).attr('value');
+				var discount = $(data).attr('discount');
+				var discount_type = $(data).attr('discount_type');
+				var orig_price = $('#the_price').attr('sku_price');
 			
-			if( the_response == 'true' ){
-				var new_price = orig_price;
-				if( discount_type == 'percent' ){
-					new_price = Math.round( ( orig_price - (orig_price * discount) ) ) / 100 ;
+				if( the_response == 'true' ){
+					var new_price = orig_price;
+					if( discount_type == 'percent' ){
+						new_price = Math.round( ( orig_price - (orig_price * discount) ) ) / 100 ;
+					}
+					else{
+						new_price = (orig_price - discount) / 100;
+					}
+				
+					$('#the_price').html( "$" + new_price );
+					$('#valid_coupon').html('Valid Coupon Code Entered');
+					$('#price_div').effect("highlight", {}, 3000);
+					$('#valid_coupon_div').effect("highlight", {}, 3000);
 				}
 				else{
-					new_price = (orig_price - discount) / 100;
+					$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+					$('#valid_coupon').html('');
 				}
-				
-				$('#the_price').html( "$" + new_price );
-				$('#valid_coupon').html('Valid Coupon Code Entered');
-				$('#price_div').effect("highlight", {}, 3000);
-				$('#valid_coupon_div').effect("highlight", {}, 3000);
-			}
-			else{
-				$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
-				$('#valid_coupon').html('');
-			}
-		});
+			});
+		
+	}	
 	});
 
 });
