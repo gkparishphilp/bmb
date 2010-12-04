@@ -76,8 +76,8 @@ class OrdersController < ApplicationController
 		
 		# Process coupons
 		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
-			if @coupon = Coupon.find_by_code(params[:coupon_code])
-				@order.apply_coupon( @coupon ) if @coupon.is_valid? (@order.sku )
+			if @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] )
+				@order.apply_coupon( @coupon ) if @coupon.is_valid?( @order.sku )
 			end
 		end
 
