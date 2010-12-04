@@ -1,6 +1,6 @@
 .listing.text
 	.listing_avatar
-		= avatar_tag( book, :thumb, :width => 64 )
+		= link_to( avatar_tag( book, :thumb, :width => 64 ) ), author_book_path( @author, book )
 	.listing_data.clearfix
 		.listing_title
 			= link_to book.title, author_book_url( @author, book )

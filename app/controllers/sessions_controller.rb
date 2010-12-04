@@ -13,7 +13,6 @@ class SessionsController < ApplicationController
 		else
 			params[:password] = nil
 			@user = User.new
-			@dest = dest
 			pop_flash "Invalid user/password combination", :error
 			redirect_to new_session_path
 		end
@@ -21,8 +20,6 @@ class SessionsController < ApplicationController
 	
 	def register
 		@user = User.new
-		@dest = params[:dest]
-		@a = params[:a]
 	end
 
 	def destroy
