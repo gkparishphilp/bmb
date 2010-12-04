@@ -30,8 +30,7 @@
 				Thanks for your order!
 			%p
 				The BackMyBook Team
-			%p
-				= link_to "And now back to #{@order.owner.name}", @order.owner
+
 		-else
 		
 			%h1
@@ -93,8 +92,6 @@
 					= link_to "please contact us", new_contact_url 
 					with the Order ID # and Confirmation # shown above. 
 				
-				%p
-					= link_to "And now back to #{@order.owner.name}", @order.owner
 			
 			-else 
 				-#-------------------------------------------------
