@@ -17,23 +17,21 @@
 			%h2
 				Thank you for purchasing:
 				= @order.sku.title
-			%br
-			If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
-			%br
-			%br
-			Please use the link to download your items.  
-			%br
-			%br
-			If you purchased as physical book, or merchandise, the author will ship it to you.
-			%br
-			%br 
-			= link_to "Please contact us ", new_contact_url
-			if you have any questions.
-			%br
-			%br
-			Thanks for your order!
-			%br
-			The BackMyBook Team
+			%p
+				If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
+			%p
+				Please use the link to download your items.  
+			%p
+				If you purchased a physical book or merchandise, the author will ship it to you.
+			%p 
+				= link_to "Please contact us ", new_contact_url
+				if you have any questions.
+			%p
+				Thanks for your order!
+			%p
+				The BackMyBook Team
+			%p
+				= link_to "And now back to #{@order.owner.name}", @order.owner
 		-else
 		
 			%h1
@@ -79,7 +77,6 @@
 							- for sku_item in @order.sku.sku_items
 								= sku_item.item.title if sku_item.item_type == 'Merch'
 								%br
-				%br 
 			
 				%table.admin_table
 					%tr
@@ -91,12 +88,13 @@
 						%td= @order.id
 						%td= @order.order_transaction.reference
 						%td= number_to_currency(@order.price.to_f / 100)
-				%br
-				%br
-
-				If you have any questions, 
-				= link_to "please contact us", new_contact_url 
-				with the Order ID # and Confirmation # shown above. 
+				%p
+					If you have any questions, 
+					= link_to "please contact us", new_contact_url 
+					with the Order ID # and Confirmation # shown above. 
+				
+				%p
+					= link_to "And now back to #{@order.owner.name}", @order.owner
 			
 			-else 
 				-#-------------------------------------------------

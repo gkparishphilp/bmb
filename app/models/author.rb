@@ -65,6 +65,10 @@ class Author < ActiveRecord::Base
 		return self
 	end
 	
+	def name
+		return self.pen_name
+	end
+	
 	def assets
 		# return all assets for all books for the author
 		self.books.collect{ |b| b.assets }.flatten

@@ -16,10 +16,12 @@ class OrdersController < ApplicationController
 	def show
 		@order = Order.find params[:id] 
 		
-		if (@order.user != @current_user && @order.paypal_express_token.blank? && @order.ip != request.ip)  
+		if ( @order.user != @current_user && @order.paypal_express_token.blank? && @order.ip != request.ip )  
 			pop_flash 'Not your order', :error
 			redirect_to root_path
 		end
+		
+		
 	end
 
 
