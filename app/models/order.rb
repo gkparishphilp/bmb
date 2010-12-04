@@ -45,7 +45,7 @@ class Order < ActiveRecord::Base
 	
 	def contains_files?
 		# meaning, no merch
-		self.sku.contains_etext?
+		return self.sku.contains_etext? || self.sku.contains_audio?
 	end
 
 #---------------------------------------------------------------

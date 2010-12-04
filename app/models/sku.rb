@@ -95,4 +95,13 @@ class Sku < ActiveRecord::Base
 		end
 		return false
 	end
+	
+	def contains_audio?
+		for sku_item in self.sku_items
+			return true if sku_item.item_type == 'Audio'
+		end
+		return false
+	end
+	
+	
 end
