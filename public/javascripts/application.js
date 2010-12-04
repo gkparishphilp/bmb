@@ -137,8 +137,11 @@ $(document).ready(function(){
 					$('#valid_coupon').html('');
 				}
 			});
-		
-	}	
+		}
+		else{
+			$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+			$('#valid_coupon').html('');
+		}
 	});
 
 });
