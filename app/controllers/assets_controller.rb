@@ -89,7 +89,7 @@ class AssetsController < ApplicationController
 				end
 				owning.update_attributes :delivered => true
 			elsif @current_user.anonymous? and owning.delivered == true
-				pop_flash "This item has already been delivered.  Please register/login as #{@order.email} to redownload this item.", :error
+				pop_flash "This item has already been delivered.  Please register or login as #{@order.email} to redownload this item.", :error
 				redirect_to register_path
 			elsif @current_user == @order.user
 				if @asset.document.remote?

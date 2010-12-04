@@ -8,9 +8,7 @@ This email confirms your purchase of
 %br
 %br
 - if not( @order.sku.merch_sku? ) 
-	You can download digital items using the links below:
-	%br	
-	After downloading one of the items, you may be prompted to register to BackMyBook.com to download the remaining items.  This is to protect the author from digital piracy.  Your email address will not be shared with any other parties.
+	You can download digital items using the links below. After downloading one of the items, you may be prompted to register or login to BackMyBook.com to download the remaining items.  This is to protect the author from digital piracy.  Your email address will not be shared with any other parties.
 	%br
 	%br
 	- for item in @order.sku.items
@@ -20,14 +18,13 @@ This email confirms your purchase of
 
 - if @order.sku.contains_merch?
 	%br
-	%br
 	- if @order.sku.owner.is_a? Author
 		The following items will be delivered by the author:
-		%br
 		= @order.sku.owner.pen_name
 		%br
+		%br
 		- for item in @order.sku.items
-			= item.title if item.item_type == 'Merch'
+			= item.title if item.is_a? Merch
 			%br
 
 %br

@@ -77,26 +77,45 @@ EOS
 
 	def create_sigler_coupons
 		a = Author.find_by_pen_name('Scott Sigler')
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'aloha', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'aloha', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'chapman', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'chapman', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'evo', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'evo', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'grammar', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'grammar', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'hutch', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'hutch', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'KATG', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'KATG', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'mur', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'mur', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'podiobooks', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'podiobooks', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'seth', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'seth', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 15, :code => 'ginger', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
-		c = Coupon.create :owner => a, :sku_id => 16, :code => 'ginger', :description => '', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'aloha', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'aloha', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'aloha', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'chapman', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'chapman', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'chapman', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'evo', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'evo', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'evo', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'grammar', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'grammar', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'grammar', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'hutch', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'hutch', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'hutch', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'KATG', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'KATG', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'KATG', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'mur', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'mur', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'mur', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'podiobooks', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'podiobooks', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'podiobooks', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'seth', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'seth', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'seth', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
+
+		c = Coupon.create :owner => a, :sku_id => 4, :code => 'ginger', :description => 'Rookie Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 6, :code => 'ginger', :description => 'Starter Hardcover discount', :discount_type => 'cents', :discount => 300, :redemptions_allowed => -1
+		c = Coupon.create :owner => a, :sku_id => 12, :code => 'ginger', :description => 'Rookie and Starter Hardcover Combo discount', :discount_type => 'cents', :discount => 700, :redemptions_allowed => -1
 		
 	end
 end

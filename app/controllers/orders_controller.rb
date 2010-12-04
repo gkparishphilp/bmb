@@ -156,7 +156,7 @@ class OrdersController < ApplicationController
 				redirect_to @order
 			end
 		else
-			pop_flash 'Oooops, order was not saved', :error, @order
+			pop_flash 'Oooops, order could not be processed.  Please check and re-enter your payment information.', :error, @order
 			if @author.present?
 				redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
 			else
