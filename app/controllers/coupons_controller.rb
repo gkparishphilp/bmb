@@ -29,11 +29,12 @@ class CouponsController < ApplicationController
 	end
 	
 	def validate
-		coupon = Coupon.find_by_code( params[:code] )
 		@code = params[:code]
 		@sku_id = params[:sku_id]
 		
-		sku = Sku.find( params[:sku_id] )
+		coupon = Coupon.find_by_code_and_sku_id( @code, @sku_id )
+		
+		sku = Sku.find( @sku_id )
 		if coupon && sku
 			@response = coupon.is_valid?( sku )
 			@discount = coupon.discount_type == 'percent' ? ( coupon.discount.to_f / 100 ) : coupon.discount
