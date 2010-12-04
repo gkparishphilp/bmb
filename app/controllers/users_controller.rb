@@ -65,8 +65,7 @@ class UsersController < ApplicationController
 		
 	
 		@user.orig_ip = request.ip
-		dest = params[:dest]
-		@a = params[:a]
+
 		@user.status = 'pending'
 		@user.site = @current_site
 	
@@ -82,16 +81,11 @@ class UsersController < ApplicationController
 			@user.did_join @current_site
 			
 			login( @user )
-			
-			if @a == 1
-				redirect_to new_author_path
-			else
-				redirect_to @user
-			end
+
+			redirect_to @user
 
 		else
 			pop_flash 'Ooops, User not saved.... ', 'error', @user
-			@dest = dest
 			redirect_to register_path
 		end
 

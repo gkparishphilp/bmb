@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
 	def new
-		@dest = params[:dest]
 		@email = params[:email]
 	end
   
