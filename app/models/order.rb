@@ -42,6 +42,11 @@ class Order < ActiveRecord::Base
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner
 	end
+	
+	def contains_files?
+		# meaning, no merch
+		self.sku.contains_etext?
+	end
 
 #---------------------------------------------------------------
 # Apply coupon to order
