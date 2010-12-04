@@ -266,7 +266,7 @@
 				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct shipping address at Paypal. You will be returned here to complete your order.
 				%br
 				%br
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
 			
 		-else
 			= form_for @order do |f|
@@ -275,7 +275,6 @@
 				= f.hidden_field :user_id, :value => @current_user.id
 				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
-				= hidden_field_tag :author_id, @author.id # todo make this part of the form_for
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)
 					= f.text_field :email, :class => 'required_email'
