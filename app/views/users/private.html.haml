@@ -9,7 +9,7 @@
 		%br
 			%h3 
 				Thank You for Purchasing:
-			- for order in @user.orders
+			- for order in @user.orders.successful
 				.listing( style = 'margin-left:30px;' )
 					.listing_avatar
 						- if order.sku.avatar.present?

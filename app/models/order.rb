@@ -32,9 +32,16 @@ class Order < ActiveRecord::Base
 	
 	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
+	# adding for 12/4 fixpass....
+	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
+	
+	
 #---------------------------------------------------------------
 # Validations
 #---------------------------------------------------------------
+	# adding for 12/4 fixpass....
+	validates :sku_id, :uniqueness => { :scope => :user_id }
+	
 	validate_on_create	:validate_card, :validate_billing_address
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 
