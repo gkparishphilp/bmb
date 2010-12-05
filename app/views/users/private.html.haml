@@ -26,7 +26,7 @@
 								- for item in order.sku.items
 									%div[item]
 										- if item.respond_to? 'document'
-											= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => order.id ) 
+											= link_to "Download  #{item.title} #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => order.id ) 
 										- else
 											= order.owner.name
 											will ship this item.

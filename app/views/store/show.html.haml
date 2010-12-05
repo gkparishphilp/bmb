@@ -18,7 +18,7 @@
 						- for item in @sku.items
 							- if item.respond_to? 'document'
 								%li
-									= link_to "#{item.document.format} File", "", :class => 'main'
+									= link_to "#{item.title} #{item.document.format} File", "", :class => 'main'
 									%em= link_to number_to_human_size( item.document.filesize ), ""
 									
 							- else
