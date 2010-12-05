@@ -1,4 +1,4 @@
-/* line 14, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 14, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -18,42 +18,42 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   vertical-align: baseline;
 }
 
-/* line 17, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 17, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 body {
   line-height: 1;
   color: black;
   background: white;
 }
 
-/* line 19, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 19, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 ol, ul {
   list-style: none;
 }
 
-/* line 21, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 21, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 table {
   border-collapse: separate;
   border-spacing: 0;
   vertical-align: middle;
 }
 
-/* line 23, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 23, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 caption, th, td {
   text-align: left;
   font-weight: normal;
   vertical-align: middle;
 }
 
-/* line 25, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 25, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q, blockquote {
   quotes: "" "";
 }
-/* line 96, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 96, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 q:before, q:after, blockquote:before, blockquote:after {
   content: "";
 }
 
-/* line 27, ../../../../../../../../Users/william/.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+/* line 27, ../../../../.rvm/gems/ruby-1.9.2-p0/gems/compass-0.10.5/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
 a img {
   border: none;
 }
@@ -2071,66 +2071,71 @@ input#order_card_cvv {
   margin-right: 5px;
 }
 
-/* line 17, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 16, ../../app/stylesheets/partials/_gks_crap.sass */
+.indent {
+  margin-left: 20px;
+}
+
+/* line 19, ../../app/stylesheets/partials/_gks_crap.sass */
 #edit_title {
   display: none;
 }
 
-/* line 19, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 21, ../../app/stylesheets/partials/_gks_crap.sass */
 #contact_form {
   display: none;
 }
 
-/* line 22, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 24, ../../app/stylesheets/partials/_gks_crap.sass */
 .pad_content {
   margin: 10px;
 }
 
-/* line 25, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 27, ../../app/stylesheets/partials/_gks_crap.sass */
 .small {
   font-size: 85%;
 }
 
-/* line 28, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 30, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .pic {
   float: left;
 }
-/* line 30, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 32, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .name {
   margin-left: 30px;
   float: left;
   font-size: 150%;
 }
-/* line 34, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 36, ../../app/stylesheets/partials/_gks_crap.sass */
 .user .data {
   clear: both;
   font-size: 85%;
 }
 
-/* line 38, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 40, ../../app/stylesheets/partials/_gks_crap.sass */
 #price {
   display: none;
 }
 
-/* line 40, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 42, ../../app/stylesheets/partials/_gks_crap.sass */
 #unlock_req {
   display: none;
 }
 
-/* line 49, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 51, ../../app/stylesheets/partials/_gks_crap.sass */
 .left_col {
   list-style: none;
   width: 130px;
   float: left;
 }
 
-/* line 53, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 55, ../../app/stylesheets/partials/_gks_crap.sass */
 .middle_col {
   float: left;
   width: 600px;
 }
 
-/* line 56, ../../app/stylesheets/partials/_gks_crap.sass */
+/* line 58, ../../app/stylesheets/partials/_gks_crap.sass */
 .right_col {
   float: right;
   width: 250px;

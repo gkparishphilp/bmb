@@ -14,7 +14,7 @@ class BlogController < ApplicationController
 		elsif @year = params[:year]
 			@articles = @owner.articles.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@articles = @owner.articles.published.paginate :page => params[:page], :order => 'publish_at desc', :per_page => 10
+			@articles = @owner.articles.published.order( 'publish_at desc' ).paginate :page => params[:page], :per_page => 10
 		end
 	end
 

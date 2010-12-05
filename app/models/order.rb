@@ -39,10 +39,11 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 # Validations
 #---------------------------------------------------------------
-	# adding for 12/4 fixpass....
-	validates :sku_id, :uniqueness => { :scope => :user_id }
-	
 	validate_on_create	:validate_card, :validate_billing_address
+	
+	# adding for 12/4 fixpass....
+	validate_on_create :validate_unique_order
+	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 
 	def owner
@@ -298,6 +299,17 @@ class Order < ActiveRecord::Base
 	def validate_shipping_address
 		if paypal_express_token.blank? && self.shipping_address.invalid?
 			shipping_address.errors.full_messages.each do |message|
+				errors.add_to_base message
+			end
+		end
+	end
+	
+	def validate_unique_order
+		# of course, only do this for digital orders.  FOlks can buy all the t-shirts they want
+		unless self.sku.merch_sku?
+			if existing_order = Order.find_by_user_id_and_sku_id( self.user.id, self.sku_id )
+				txn_number = existing_order.order_transaction.reference
+				message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by loging in or creating an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='contacts/new'>contact support</a>." 
 				errors.add_to_base message
 			end
 		end
