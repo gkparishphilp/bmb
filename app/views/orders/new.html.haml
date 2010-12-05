@@ -14,7 +14,7 @@
 				%table
 					= f.hidden_field :price, :value => @sku.price
 					= f.hidden_field :sku_id, :value => @sku.id
-					= hidden_field_tag :author_id, @author.id # todo make this part of the form_for
+					= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 					%tr
 						%td &nbsp;
 						%td &nbsp;
@@ -266,12 +266,16 @@
 				Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct shipping address at Paypal. You will be returned here to complete your order.
 				%br
 				%br
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+				-if params[:author_id]
+					= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+				-else
+					= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
 			
 		-else
 			= form_for @order do |f|
 				= f.hidden_field :paypal_express_token, :value => @order.paypal_express_token
 				= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
+				= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 				= f.hidden_field :user_id, :value => @current_user.id
 				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
