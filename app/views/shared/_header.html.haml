@@ -10,6 +10,6 @@
 				%li= link_to "Register", register_url
 			- else
 				%li.user
-					= link_to image_tag( @current_user.avatar.location, :width => 20 ), user_url( @current_user ), :class=>'avatar'
+					= link_to avatar_tag( @current_user, :tiny, :width => 20 ), user_url( @current_user ), :class=>'avatar'
 					= link_to @current_user.name, user_url( @current_user ), :class=>'username'
 				%li= link_to "Logout", logout_url + '?dest=' + request.fullpath
