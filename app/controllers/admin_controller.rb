@@ -52,5 +52,18 @@ class AdminController < ApplicationController
 		@default_themes = Theme.default - @admin.themes
 	end
 
+	def orders
+		#Should resource orders properly to belong to authors and make this cleaner
+		if params[:reference]
+			ot = OrderTransaction.find_by_reference params[:reference]
+			@order = ot.order
+			if @current_user.author != @order.sku.owner
+				pop_flash "Not Your Order", :error
+				redirect_to admin_orders_path
+			end
+		end
+
+	end
+
 end
 

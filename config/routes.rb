@@ -178,6 +178,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
 	match '/admin/reports' => 'admin#reports', :as => :admin_reports
 	match '/admin/forums' => 'admin#forums', :as => :admin_forums
+	match '/admin/orders'  => 'admin#orders', :as => :admin_orders
 	match '/admin/profile' => 'admin#profile', :as => :admin_profile
 	match '/admin/events' => 'admin#events', :as => :admin_events
 	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
