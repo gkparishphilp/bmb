@@ -7,6 +7,10 @@
 			%h3 Show order info
 			%table.admin_table
 				%tr
+					%td	Confirmation Number:
+					%td 
+						= @order.order_transaction.reference
+				%tr
 					%td	Status:
 					%td 
 						= @order.order_transaction.success
@@ -19,7 +23,7 @@
 					%td 
 						=@order.email
 				%tr
-					%td Email:
+					%td Name:
 					%td
 						-if @order.billing_address
 							=@order.billing_address.first_name 
@@ -33,7 +37,7 @@
 				%tr
 					%td Amount
 					%td 
-						=@order.price.to_f / 100
+						=number_to_currency( @order.price.to_f / 100 )
 				-if @order.shipping_address
 					%tr
 						%td Shipping Street 
@@ -48,6 +52,7 @@
 						%td State, Zip
 						%td	
 							=@order.shipping_address.geo_state.abbrev 
+							=@order.shipping_address.zip
 					%tr
 					%td Country
 					

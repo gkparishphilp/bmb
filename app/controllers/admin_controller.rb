@@ -55,11 +55,14 @@ class AdminController < ApplicationController
 	def orders
 		#Should resource orders properly to belong to authors and make this cleaner
 		if params[:reference]
-			ot = OrderTransaction.find_by_reference params[:reference]
-			@order = ot.order
-			if @current_user.author != @order.sku.owner
-				pop_flash "Not Your Order", :error
-				redirect_to admin_orders_path
+			if ot = OrderTransaction.find_by_reference( params[:reference] )
+				@order = ot.order
+				if @current_user.author != @order.sku.owner
+					pop_flash "Not Your Order", :error
+					redirect_to admin_orders_path
+				end
+			else
+				pop_flash "Could not find order", :error
 			end
 		end
 
