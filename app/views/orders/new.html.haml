@@ -2,13 +2,15 @@
 	%h1 
 		Purchase
 		= @sku.title
-	#price_div( style="width:150px;" )
-		%h3
-			Price: 
-			%span#the_price( sku_price="#{@sku.price}" )
-				= number_to_currency @sku.price.to_f / 100
+
 	#checkout
 		-if @order.paypal_express_token.blank?	
+			#price_div( style="width:150px;" )
+				%h3
+					Price: 
+					%span#the_price( sku_price="#{@sku.price}" )
+						= number_to_currency @sku.price.to_f / 100
+						
 			= form_for @order do |f|
 	
 				%table
@@ -277,7 +279,8 @@
 				= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
 				= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 				= f.hidden_field :user_id, :value => @current_user.id
-				= f.hidden_field :price, :value => @sku.price
+				- @shipping_price.present? ? total_price = @sku.price + @shipping_price : total_price = @sku.price
+				= f.hidden_field :price, :value => total_price
 				= f.hidden_field :sku_id, :value => @sku.id
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)
@@ -292,13 +295,30 @@
 				= text_field_tag :coupon_code, "", :class => :coupon
 				#valid_coupon_div( style = "margin:10px 0px;")
 					#valid_coupon
-				%br
-				Please confirm your Paypal order by clicking the button below.
-				%br
-				Note: Your Paypal Account will be billed by "Groundswell Enterprises".
-				%br
-				%br
+				%p Please confirm your Paypal order by clicking the button below.
+				
+				
+				%table.admin_table
+					%tr
+						%td 
+							%b Item
+						%td 
+							%b Price
+					%tr
+						%td=@sku.title
+						%td=number_to_currency( @sku.price.to_f / 100 )
+					-if @shipping_price.present? and @shipping_price > 0
+						%tr
+							%td Shipping
+							%td=number_to_currency( @shipping_price.to_f / 100 )
+					%tr
+						%td Total
+						%td
+							%span#the_price( total_price="#{total_price}" )
+								= number_to_currency total_price.to_f / 100
+						
+				
+				%p Note: Your Paypal Account will be billed by "Groundswell Enterprises".
+				%p
 				= f.submit "Confirm Your Paypal Order", :class => :buttons
-				%br
-				%br
 				

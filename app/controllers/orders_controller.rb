@@ -27,8 +27,23 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
-		@order.paypal_express_token = params[:token] if params[:token]
-		@order.paypal_express_payer_id = params[:PayerID] if params[:PayerID]
+		if params[:token]
+			# Store Paypal info and get shipping price.  
+			# todo - this whole paypal_express order path should be moved out of the order/new view now that it has gotten more complex.
+			
+			@order.paypal_express_token = params[:token] 
+			@order.paypal_express_payer_id = params[:PayerID] 
+			if @sku.contains_merch?
+				paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
+				@country = paypal_express_details.params["country"] 
+				if @country == @sku.owner.user.billing_addresses.first.country
+					@shipping_price = @sku.domestic_shipping_price
+				else
+					@shipping_price = @sku.international_shipping_price
+				end
+			end
+			
+		end
 		unless @current_user.anonymous?
 			@billing_addresses = @current_user.billing_addresses
 			@shipping_addresses = @current_user.shipping_addresses
