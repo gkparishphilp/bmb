@@ -14,6 +14,7 @@ gem 'tiny_mce'
 gem 'amazon-ecs'
 gem 'mini_magick'
 gem 'delayed_job'
+gem 'aws-s3', :require=>'aws/s3'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"
