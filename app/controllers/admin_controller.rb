@@ -65,7 +65,13 @@ class AdminController < ApplicationController
 				pop_flash "Could not find order", :error
 			end
 		end
-
+	end
+	
+	def free_download
+		if params[:item]
+			@asset = Asset.find params[:item][:item_id]
+			@download_url = @asset.generate_secure_url
+		end
 	end
 
 end

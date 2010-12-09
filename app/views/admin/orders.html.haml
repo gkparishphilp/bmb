@@ -55,20 +55,22 @@
 							=@order.shipping_address.zip
 					%tr
 					%td Country
-					
-		%p
-			
-		= link_to 'Enter Order Confirmation #', admin_orders_path
+		%br			
+		%h4
+			Enter Order Confirmation #
 			
 
-		-form_tag   do |f|
+		-form_tag do 
 	
 			Order Confirmation Number:
 			=text_field_tag :reference
-		
+			%br
 			= submit_tag 'Search' 
 			|
 			= link_to 'Cancel', :back
+			
+		%hr
+		
 				
 
 		

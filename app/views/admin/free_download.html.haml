@@ -1,0 +1,25 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	%h1 Download URL's
+	-if @download_url
+		%p
+			Title: 
+			=@asset.title
+		%p
+			URL: 
+			=@download_url
+		%p
+			Expires at
+			=(Time.now + 1.day).to_s(:long)
+		%br
+		%hr
+	%br
+	- form_tag do 
+		%h4 Select item to create limited time (24 hrs) URL for:
+		= select("item","item_id", Asset.all.collect { |a| [a.title, a.id] } )
+		%br
+		%br
+		= submit_tag 'Create URL' 
+		|
+		= link_to 'Cancel', :back
