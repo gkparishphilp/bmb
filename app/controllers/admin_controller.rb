@@ -68,10 +68,10 @@ class AdminController < ApplicationController
 	end
 	
 	def free_download
-		one_day = 24 * 60 * 60
-		@connection = AWS::S3::Base.establish_connection!(:access_key_id => S3_ID, :secret_access_key => S3_SECRET)
-		@download_url = AWS::S3::S3Object.url_for('TheStarter.epub', 'bmb_downloads', :expires_in => one_day )
-
+		if params[:item]
+			@asset = Asset.find params[:item][:item_id]
+			@download_url = @asset.generate_secure_url
+		end
 	end
 
 end

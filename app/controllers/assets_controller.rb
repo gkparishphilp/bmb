@@ -82,7 +82,8 @@ class AssetsController < ApplicationController
 		if owning = Owning.find_by_sku_id_and_user_id( @order.sku.id, @order.user.id )
 			if @current_user.anonymous? and owning.delivered == false
 				if @asset.document.remote?
-					redirect_to @asset.document.location
+					@secure_url = @asset.generate_secure_url
+					redirect_to @secure_url
 				else
 					send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
 							:filename => @asset.book.title + "." + @asset.document.format
@@ -93,7 +94,8 @@ class AssetsController < ApplicationController
 				redirect_to register_path
 			elsif @current_user == @order.user
 				if @asset.document.remote?
-					redirect_to @asset.document.location
+					@secure_url = @asset.generate_secure_url
+					redirect_to @secure_url
 				else
 					send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
 							:filename => @asset.book.title + "." + @asset.document.format
