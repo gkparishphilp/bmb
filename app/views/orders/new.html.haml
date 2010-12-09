@@ -10,6 +10,13 @@
 					Price: 
 					%span#the_price( sku_price="#{@sku.price}" )
 						= number_to_currency @sku.price.to_f / 100
+			-if @sku.international_shipping_price.present? or @sku.domestic_shipping_price.present?			
+				%h4 
+					Free shipping to the United States through December 25, 2010!
+					%br
+					Shipping fee of 
+					=number_to_currency( @sku.international_shipping_price.to_f / 100)  
+					applies to International orders.
 						
 			= form_for @order do |f|
 	
