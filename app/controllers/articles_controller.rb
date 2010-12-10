@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 	before_filter :get_owner
 	
 	def new
-		@article = Article.new
+		@article = Article.new( :comments_allowed => true )
 		render :layout => '3col'
 	end
 	
@@ -23,8 +23,12 @@ class ArticlesController < ApplicationController
 
 		if @owner.articles << @article
 			pop_flash 'Article was successfully created.'
-			@owner.do_activity( "write", @article )
-			redirect_to :back
+			#@owner.do_activity( "write", @article )
+			if @current_author.present?
+				redirect_to author_admin_blog_url
+			else
+				redirect_to site_admin_blog_url
+			end
 		else
 			pop_flash 'Oooops, Article not saved...', :error, @article
 			render :action => :new
@@ -40,7 +44,11 @@ class ArticlesController < ApplicationController
 
 		if @article.update_attributes params[:article]
 			pop_flash 'Article was successfully updated.'
-			redirect_to :back
+			if @current_author.present?
+				redirect_to author_admin_blog_url
+			else
+				redirect_to site_admin_blog_url
+			end
 		else
 			pop_flash 'Oooops, Article not updated...', :error, @article
 			render :action => :edit

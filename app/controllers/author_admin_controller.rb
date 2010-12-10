@@ -1,5 +1,6 @@
 class AuthorAdminController < ApplicationController
-	# for author admin
+	# for author admin to expose functional pieces as they become baked
+	
 	layout '3col'
 	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin
 	before_filter :require_author_or_admin 

@@ -133,6 +133,7 @@ Backmybook::Application.routes.draw do
 	
 	resources :site do
 		resources :links 
+		resources :articles
 	end
 	
 
@@ -185,6 +186,17 @@ Backmybook::Application.routes.draw do
 	match '/admin/store' => 'admin#store', :as => :admin_store
 	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message
 	match '/admin/free_download' => 'admin#free_download', :as => :admin_free_download
+	
+	# New Author Admin -- as features 
+	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
+	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
+	match '/author-admin/reports' => 'author_admin#reports', :as => :author_admin_reports
+	
+	# Site Admin -- blog/podcasts, maybe customer support
+	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
+	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
+	
+	
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

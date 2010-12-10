@@ -39,6 +39,7 @@ class Site < ActiveRecord::Base
 	
 	belongs_to	:author
 	
+	does_activities
 	gets_activities
 	
 	def clean_domain

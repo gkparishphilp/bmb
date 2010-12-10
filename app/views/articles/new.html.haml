@@ -1,5 +1,8 @@
 - content_for :left_column do
-	= render :partial => 'admin/nav'
+	- if @current_author.present?
+		= render 'author_admin/nav'
+	- else
+		= render 'site_admin/nav'
 - content_for :middle_column do
 	.form_group
 		%h1 

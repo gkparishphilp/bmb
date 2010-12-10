@@ -55,6 +55,13 @@ class Article < ActiveRecord::Base
 		order( 'publish_at desc' )
 	}
 	
+	def self.search( term )
+		if term
+			where( 'title like ?', "%#{term}%" )
+		else
+			scoped # returns an ampty scope so that we can chain scopes onto it
+		end
+	end
 	
 	def related_articles
 		return [] if self.keywords.empty?
