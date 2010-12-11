@@ -102,28 +102,21 @@ protected
 	
 	# Controller filters -- todo -- add @current_user.validated? for filter on valid email
 	def require_admin
-		unless @current_user.admin? @current_site
+		unless @current_user.admin?( @current_site )
 			fail "Admins Only"
 			return false
 		end
-		@admin = @current_site
 	end
 	
 	def require_contributor
-		if @current_user.anonymous?
-			fail "Please log in first"
+		unless @current_user.contributor?( @current_site )
+			fail "Contributors Only"
 			return false
-		else
-			unless @current_user.contributor? @current_site
-				fail "Contributors Only"
-				return false
-			end
 		end
 	end
 
 	def require_login
 		if @current_user.anonymous?
-			@dest = request.url
 			fail "Please log in first", :notice
 			return false
 		end
@@ -137,25 +130,35 @@ protected
 	end
 	
 	def require_author_or_admin
-		unless @current_author.present? || @current_user.admin?( @current_site )
-			fail "Must be logged in as an author", :notice
-			return false
+		unless @current_author.present?
+			if not @current_user.admin?( @current_site )
+				fail "Must be logged in as an author", :notice
+				return false
+			end
 		end
 		@admin = @current_author.present? ? @current_author : @current_site
 	end
 	
-	def author_owns( obj )
-		unless ( obj.owner == @current_author ) || @current_user.admin?( @current_site )
-			pop_flash "Not your #{obj.class.name}", :error
+	def verify_author_permissions( obj )
+		return true if @current_user.admin?( @current_site )
+		unless( obj.owner == @current_author )
+			fail "Not your #{obj.class.to_s}", :error
 			return false
-		else
-			return true
 		end
 	end
 	
+	def verify_user_permissions( obj )
+		return true if @current_user.admin?( @current_site )
+		unless( obj.user == @current_user )
+			fail "Not your #{obj.class.to_s}", :error
+			return false
+		end
+	end
+	
+	# legacy -- todo replave with verify_user_permissions
 	def require_user_can_manage( object )
 		unless ( object.user == @current_user ) || ( @current_site.admins.include? @current_user )
-			fail"Not your #{object.class.to_s}", :error
+			fail "Not your #{obj.class.to_s}", :error
 			return false
 		end
 	end

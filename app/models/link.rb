@@ -23,6 +23,14 @@ class Link < ActiveRecord::Base
 	belongs_to	:owner, :polymorphic => :true
 	
 protected
+
+	def self.search( term )
+		if term
+			where( 'title like ?', "%#{term}%" )
+		else
+			scoped # returns an ampty scope so that we can chain scopes onto it
+		end
+	end
 	
 	def clean_url
 		self.url = "http://" + self.url unless self.url =~ /\Ahttp:\/\//

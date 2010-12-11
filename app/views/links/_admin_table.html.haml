@@ -1,0 +1,30 @@
+= form_tag site_admin_blog_path, :method => :get, :id => 'search_form' do
+	= hidden_field_tag :dir, params[:dir]
+	= hidden_field_tag :sort, params[:sort]
+	= text_field_tag :q, params[:q]
+	= submit_tag 'Search', :class => 'buttons'
+	|
+	= link_to 'Clear', :sort => params[:sort], :dir => params[:dir], :q => nil
+
+- if @links.empty?
+	No Links
+- else
+	%table.admin_table
+		%th= sortable Article, 'title'
+		%th= sortable Article, 'url'
+		- for link in @links
+			%tr
+				%td( style = 'width:200px;' )
+					= link.title
+				%td.small= link_to link.url, link.url
+				%td.small
+					= link_to image_tag( 'edit.png', :width => 16 ), edit_link_path( link ) 
+					= link_to 'edit', edit_link_path( link )
+				%td.small
+					= link_to image_tag( 'trash.png', :width => 16 ), ""
+					= link_to 'delete', ""
+	
+	.pagination
+		.page_info
+			= page_entries_info @links
+		= will_paginate @links

@@ -2,9 +2,10 @@
 %li= link_to "My Account", admin_account_url
 %li= link_to "Edit Profile",admin_profile_url
 
-#admin_hd  Your Books
-%li= link_to "Add a Book", new_author_book_url( @current_author )
-%li= link_to "Manage Books", admin_books_url
+- if @current_author.present?
+	#admin_hd  Your Books
+	%li= link_to "Add a Book", new_author_book_url( @current_author )
+	%li= link_to "Manage Books", admin_books_url
 
 #admin_hd  Messaging
 %li= link_to "Newsletters", admin_newsletter_url

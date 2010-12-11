@@ -2,12 +2,10 @@ module AdminHelper
 
 	def sortable( obj_type, column, title=nil )
 		title ||= column.titleize
-		css_class = column == sort_column( obj_type ) ? "current #{sort_dir}" : nil
-		dir = column == sort_column( obj_type ) && sort_dir == 'asc' ? 'desc' : 'asc'
+		css_class = column == sort_column ? "current #{sort_dir}" : nil
+		dir = column == sort_column && sort_dir == 'asc' ? 'desc' : 'asc'
 		link_to title, params.merge( :sort => column, :dir => dir, :page => nil ), :class => css_class
 	end
-
-
 
 
 

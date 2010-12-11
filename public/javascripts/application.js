@@ -41,12 +41,12 @@ $(document).ready(function(){
 	
 	
 	///////////////////// Admins //////////////////////////
-	$('#blog_admin_table th a, #blog_admin_table .pagination a').live('click', function() {
+	$('#admin_table th a, #admin_table .pagination a').live('click', function() {
 		$.getScript(this.href);
 		return false;
 	});
 	
-	$('#blog_admin_table #search_form #q').focus();
+	$('#admin_table #search_form #q').focus();
 	
 	//$('#blog_admin_table #search_form #q').live( 'keyup', function() {
 	//	if ( $(this).attr('value').length > 3 ) {

@@ -1,20 +1,31 @@
 class BlogController < ApplicationController
-	# should just show and index blogs.  Used to display Articles so we can use /blog paths instead of /articles paths
-
+	# owner is to set the display properly -- use author template when author_id
+	# use site template otherwise
 	before_filter	:get_owner, :get_sidebar_data
+	
+	# admin is the person who can administer the blog.  Set to @current_author if there
+	# is one, otherwise site admin
+	before_filter	:get_admin, :only => :admin
+	helper_method	:sort_column, :sort_dir
+	
 	layout			:set_layout
+	
+	def admin
+		@articles = @admin.articles.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '3col'
+	end
 
 	def index
 		if @tag = params[:tag]
-            @articles = @owner.articles.tagged_with( @tag ).published.paginate :order => "publish_at desc", :page => params[:page], :per_page => 10
+            @articles = @owner.articles.tagged_with( @tag ).published.order( "publish_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		elsif @topic = params[:topic]
-			@articles = @owner.articles.tagged_with( @topic ).published.paginate :order => "publish_at desc", :page => params[:page], :per_page => 10
+			@articles = @owner.articles.tagged_with( @topic ).published.order( "publish_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		elsif ( @month = params[:month] ) && ( @year = params[:year] )
-			@articles = @owner.articles.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@articles = @owner.articles.month_year( params[:month], params[:year] ).published.order( "publish_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		elsif @year = params[:year]
-			@articles = @owner.articles.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@articles = @owner.articles.year( params[:year] ).published.order( "publish_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		else
-			@articles = @owner.articles.published.order( 'publish_at desc' ).paginate :page => params[:page], :per_page => 10
+			@articles = @owner.articles.published.order( 'publish_at desc' ).paginate( :page => params[:page], :per_page => 10 )
 		end
 	end
 
@@ -36,6 +47,19 @@ private
 
 	def get_owner
 		@owner = @author ? @author : @current_site
+	end
+	
+	def get_admin
+		@admin = @current_author ? @current_author : @current_site
+		require_contributor if @admin == @current_site
+	end
+	
+	def sort_column
+		Article.column_names.include?( params[:sort] ) ? params[:sort] : 'publish_at'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 
 	def get_sidebar_data

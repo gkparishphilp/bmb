@@ -438,18 +438,24 @@ ul.top_user_menu li a {
   background: transparent url("../images/arrow_rt.jpg") no-repeat 100% 44%;
 }
 /* line 22, ../../app/stylesheets/partials/_header.sass */
+ul.top_user_menu li.admin {
+  margin-top: -3px;
+  position: relative;
+  vertical-align: middle;
+}
+/* line 26, ../../app/stylesheets/partials/_header.sass */
 ul.top_user_menu li.user {
   margin-top: -6px;
   position: relative;
   vertical-align: middle;
 }
-/* line 26, ../../app/stylesheets/partials/_header.sass */
+/* line 30, ../../app/stylesheets/partials/_header.sass */
 ul.top_user_menu li a.avatar {
   background: none;
   margin-right: 5px;
   vertical-align: middle;
 }
-/* line 30, ../../app/stylesheets/partials/_header.sass */
+/* line 34, ../../app/stylesheets/partials/_header.sass */
 ul.top_user_menu li .avatar img {
   position: absolute;
   vertical-align: middle;
@@ -457,7 +463,7 @@ ul.top_user_menu li .avatar img {
   left: -4px;
   float: left;
 }
-/* line 36, ../../app/stylesheets/partials/_header.sass */
+/* line 40, ../../app/stylesheets/partials/_header.sass */
 ul.top_user_menu li a.username {
   vertical-align: middle;
   float: right;

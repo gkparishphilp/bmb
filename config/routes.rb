@@ -54,7 +54,6 @@ Backmybook::Application.routes.draw do
 				resources :posts
 			end
 		end
-		resources :links
 		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 			
 		resources :podcasts do
@@ -79,8 +78,16 @@ Backmybook::Application.routes.draw do
 	end
 	
 	# For direct - url and subdomain access....
-	resources :blog  # for the site blog
+	resources :blog do # for the site blog
+		get 'admin', :on => :collection
+	end
+	
 	resources :books
+	
+	resources :contacts
+	
+	resources :crashes
+	
 	resources :events
 	resources :forums
 	resources :store
@@ -90,12 +97,12 @@ Backmybook::Application.routes.draw do
 			resources :comments
 		end
 	end
-	resources :links
+	
+	resources :links do
+		get 'admin', :on => :collection
+	end
+	
 	resources :merches
-	
-	resources :contacts
-	
-	resources :crashes
 		
 	resources :forums do
 		resources :topics do
@@ -136,7 +143,6 @@ Backmybook::Application.routes.draw do
 		resources :articles
 	end
 	
-
 	resources :static_pages do
 		get 'admin', :on => :collection
 	end
@@ -169,11 +175,9 @@ Backmybook::Application.routes.draw do
 	
 	match '/admin/acount' => 'admin#account', :as  => :admin_account
 	match '/admin/books' => 'admin#books', :as => :admin_books
-	match '/admin/blog' => 'admin#blog', :as => :admin_blog
 	match '/admin/themes' => 'admin#themes', :as => :admin_themes
 	match '/admin/domains' => 'admin#domains', :as => :admin_domains
 	match '/admin/email' => 'admin#email', :as => :admin_email
-	match '/admin/links' => 'admin#links', :as => :admin_links
 	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
 	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast

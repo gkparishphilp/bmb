@@ -1,15 +1,15 @@
 - content_for :left_column do
-	= render 'admin/admin_nav'
+	= render :partial => 'admin/admin_nav'
 - content_for :middle_column do
 	.admin_header
 		.admin_title
 			%h3
 				Admin 
 				= possessize @admin.name
-				Links
+				Blog
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_link_url
-			= link_to "New Link", new_link_url
+			= link_to image_tag( 'add.png', :width => 16 ), new_article_url
+			= link_to "New Article", new_article_url
 		.clear
 	
 	#admin_table= render 'admin_table'

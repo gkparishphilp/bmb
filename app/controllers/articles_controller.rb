@@ -1,34 +1,24 @@
 class ArticlesController < ApplicationController
-	
-	# only things we should do here are create, update, and delete the resource.  Used for form paths from object name
-	
-	before_filter :get_owner
+	# only things we do here are create, update, and delete the resource.  Used for form paths from object name
+	before_filter :get_admin
+	layout '3col'
 	
 	def new
 		@article = Article.new( :comments_allowed => true )
-		render :layout => '3col'
 	end
 	
 	def edit
 		@article = Article.find params[:id]
-		unless author_owns( @article )
-			redirect_to root_path
-			return false
-		end
-		render :layout => '3col'
+		verify_author_permissions( @article )
 	end
 	
 	def create
 		@article = Article.new params[:article]
 
-		if @owner.articles << @article
+		if @admin.articles << @article
+			@admin == @current_author ? ( @admin.do_activity( "write", @article ) ) : ( @current_user.do_activity( "write", @article ) )
 			pop_flash 'Article was successfully created.'
-			#@owner.do_activity( "write", @article )
-			if @current_author.present?
-				redirect_to author_admin_blog_url
-			else
-				redirect_to site_admin_blog_url
-			end
+			redirect_to admin_blog_index_url
 		else
 			pop_flash 'Oooops, Article not saved...', :error, @article
 			render :action => :new
@@ -37,18 +27,11 @@ class ArticlesController < ApplicationController
 
 	def update
 		@article = Article.find  params[:id] 
-		unless author_owns( @article )
-			redirect_to root_path
-			return false
-		end
+		verify_author_permissions( @article )
 
 		if @article.update_attributes params[:article]
 			pop_flash 'Article was successfully updated.'
-			if @current_author.present?
-				redirect_to author_admin_blog_url
-			else
-				redirect_to site_admin_blog_url
-			end
+			redirect_to admin_blog_index_url
 		else
 			pop_flash 'Oooops, Article not updated...', :error, @article
 			render :action => :edit
@@ -59,17 +42,17 @@ class ArticlesController < ApplicationController
 		@article = Article.find params[:id]
 		@article.destroy
 		pop_flash 'Article was successfully deleted.'
-		redirect_to :back
+		redirect_to admin_blog_index_url
 	end
 	
 	private
 	
-	def get_owner
+	def get_admin
 		if @current_author
-			@owner = @current_author
+			@admin = @current_author
 		else
 			require_admin
-			@owner = @current_site
+			@admin = @current_site
 		end
 	end
 
