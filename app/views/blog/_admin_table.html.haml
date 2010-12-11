@@ -1,18 +1,12 @@
-= form_tag site_admin_blog_path, :method => :get, :id => 'search_form' do
-	= hidden_field_tag :dir, params[:dir]
-	= hidden_field_tag :sort, params[:sort]
-	= text_field_tag :q, params[:q]
-	= submit_tag 'Search', :class => 'buttons'
-	|
-	= link_to 'Clear', :sort => params[:sort], :dir => params[:dir], :q => nil
-
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
 - if @articles.empty?
 	No Articles
 - else
 	%table.admin_table
-		%th= sortable Article, 'title'
-		%th= sortable Article, 'publish_at', "Publish Date"
-		%th= sortable Article, 'status'
+		%th= sortable 'title'
+		%th= sortable 'publish_at', "Publish Date"
+		%th= sortable 'status'
 		- for article in @articles
 			%tr
 				%td( style = 'width:200px;' )

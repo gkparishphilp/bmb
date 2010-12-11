@@ -1,7 +1,9 @@
 = form_tag site_admin_blog_path, :method => :get, :id => 'search_form' do
+	= text_field_tag :q, params[:q]
+	
 	= hidden_field_tag :dir, params[:dir]
 	= hidden_field_tag :sort, params[:sort]
-	= text_field_tag :q, params[:q]
+	
 	= submit_tag 'Search', :class => 'buttons'
 	|
 	= link_to 'Clear', :sort => params[:sort], :dir => params[:dir], :q => nil
@@ -10,8 +12,8 @@
 	No Links
 - else
 	%table.admin_table
-		%th= sortable Article, 'title'
-		%th= sortable Article, 'url'
+		%th= sortable 'title'
+		%th= sortable 'url'
 		- for link in @links
 			%tr
 				%td( style = 'width:200px;' )

@@ -48,11 +48,9 @@ $(document).ready(function(){
 	
 	$('#admin_table #search_form #q').focus();
 	
-	//$('#blog_admin_table #search_form #q').live( 'keyup', function() {
-	//	if ( $(this).attr('value').length > 3 ) {
-	//		$.get( $('#search_form').attr('action'), $('#search_form').serialize(), null, 'script' );
-	//	}
-	//	});
+	$('#search_form #q').keyup( function() {
+		$.get( $('#search_form').attr('action'), $('#search_form').serialize(), null, 'script' );
+	});
 	
 	///////////////// Themes ///////////////
 	
