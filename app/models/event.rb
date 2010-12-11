@@ -44,6 +44,13 @@ class Event < ActiveRecord::Base
 		order( 'starts_at desc' )
 	}
 	
+	def self.search( term )
+		if term
+			where( 'title like ? or location like ?', "%#{term}%", "%#{term}%" )
+		else
+			scoped # returns an ampty scope so that we can chain scopes onto it
+		end
+	end
 	
 	def published?
 		self.ends_at <= Time.now && self.status == 'publish'

@@ -1,18 +1,19 @@
 - content_for :left_column do
-	= render 'admin/admin_nav'
+	= render :partial => 'admin/admin_nav'
 - content_for :middle_column do
 	.admin_header
 		.admin_title
 			%h3
 				Admin 
 				= possessize @admin.name
-				Links
+				Events
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_link_url
-			= link_to "New Link", new_link_url
+			= link_to image_tag( 'add.png', :width => 16 ), new_event_url
+			= link_to "New Event", new_event_url
 		.clear
 	
-	= form_tag admin_links_path, :method => :get, :id => 'search_form' do
+	= form_tag admin_events_path, :method => :get, :id => 'search_form' do
+
 		= text_field_tag :q, params[:q]
 		= submit_tag 'Search', :class => 'buttons'
 		|

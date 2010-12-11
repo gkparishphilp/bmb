@@ -1,0 +1,27 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @events.empty?
+	No Events
+- else
+	%table.admin_table
+		%th= sortable 'title'
+		%th= sortable 'starts_at'
+		%th= sortable 'location'
+		- for event in @events
+			%tr
+				%td( style = 'width:200px;' )
+					= link_to image_tag( 'view.png', :width => 20 ), event_path( event )
+					= link_to event.title, event_path( event )
+				%td.small= format_date_only event.starts_at
+				%td.small= event.location
+				%td.small
+					= link_to image_tag( 'edit.png', :width => 16 ), edit_event_path( event ) 
+					= link_to 'edit', edit_event_path( event )
+				%td.small
+					= link_to image_tag( 'trash.png', :width => 16 ), ""
+					= link_to 'delete', ""
+	- unless @events.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @events
+			= will_paginate @events

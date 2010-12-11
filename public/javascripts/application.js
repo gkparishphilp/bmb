@@ -46,10 +46,10 @@ $(document).ready(function(){
 		return false;
 	});
 	
-	$('#admin_table #search_form #q').focus();
-	
 	$('#search_form #q').keyup( function() {
-		$.get( $('#search_form').attr('action'), $('#search_form').serialize(), null, 'script' );
+		//if( $(this).attr('value').length > 2 ){
+			$.get( $('#search_form').attr('action'), $('#search_form').serialize(), null, 'script' );
+		//}
 	});
 	
 	///////////////// Themes ///////////////

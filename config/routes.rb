@@ -88,7 +88,10 @@ Backmybook::Application.routes.draw do
 	
 	resources :crashes
 	
-	resources :events
+	resources :events do
+		get 'admin', :on => :collection
+	end
+	
 	resources :forums
 	resources :store
 	resources :podcasts do
@@ -138,9 +141,11 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+	# really just so the site can create these resources with the scoped form_for [@admin, Resource.new]
 	resources :site do
-		resources :links 
 		resources :articles
+		resources :events
+		resources :links 
 	end
 	
 	resources :static_pages do
@@ -185,7 +190,6 @@ Backmybook::Application.routes.draw do
 	match '/admin/forums' => 'admin#forums', :as => :admin_forums
 	match '/admin/orders'  => 'admin#orders', :as => :admin_orders
 	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/events' => 'admin#events', :as => :admin_events
 	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
 	match '/admin/store' => 'admin#store', :as => :admin_store
 	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message

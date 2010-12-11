@@ -26,7 +26,7 @@ protected
 
 	def self.search( term )
 		if term
-			where( 'title like ?', "%#{term}%" )
+			where( 'title like ? or url like ?', "%#{term}%", "%#{term}%" )
 		else
 			scoped # returns an ampty scope so that we can chain scopes onto it
 		end

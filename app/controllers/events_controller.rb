@@ -1,6 +1,14 @@
 class EventsController < ApplicationController
-	before_filter	:get_owner, :get_sidebar_data
-	layout			:set_layout
+	before_filter	:get_owner, :get_admin, :get_sidebar_data
+	
+	layout			:set_layout, :only => [ :index, :show ]
+	layout			"3col", :only => [ :admin, :edit, :new ]
+	
+	helper_method	:sort_column, :sort_dir
+
+	def admin
+		@events = @admin.events.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+	end
 
 	def index
 		if ( @month = params[:month] ) && ( @year = params[:year] )
@@ -14,32 +22,25 @@ class EventsController < ApplicationController
 	
 	def new
 		@event = Event.new
-		render :layout => '3col'
 	end
 	
 	def edit
 		@event = Event.find params[:id]
-		unless author_owns( @event )
-			redirect_to root_path
-			return false
-		end
-		render :layout => '3col'
+		verify_author_permissions( @event )
 	end
 
 
 	def show
-		@event = Event.find params[:id]
-		
+		@event = Event.find( params[:id] )
 		set_meta @event.title, @event.description
-		
 	end
 	
 	def create
-		@event = Event.new params[:event]
+		@event = Event.new( params[:event] )
 
-		if @owner.events << @event
+		if @admin.events << @event
 			pop_flash 'Event was successfully created.'
-			redirect_to :back
+			redirect_to admin_events_url
 		else
 			pop_flash 'Oooops, Event not saved...', :error, @event
 			render :action => :new
@@ -48,13 +49,10 @@ class EventsController < ApplicationController
 
 	def update
 		@event = Event.find  params[:id] 
-		unless author_owns( @event )
-			redirect_to root_path
-			return false
-		end
-		if @event.update_attributes params[:event]
+		verify_author_permissions( @event )
+		if @event.update_attributes( params[:event] )
 			pop_flash 'Event was successfully updated.'
-			redirect_to :back
+			redirect_to admin_events_url
 		else
 			pop_flash 'Oooops, Event not updated...', :error, @event
 			render :action => :edit
@@ -65,13 +63,18 @@ class EventsController < ApplicationController
 		@event = Event.find params[:id]
 		@event.destroy
 		pop_flash 'Event was successfully deleted.'
-		redirect_to :back
+		redirect_to admin_events_url
 	end
 	
 private
 	
 	def get_owner
 		@owner = @author ? @author : @current_site
+	end
+	
+	def get_admin
+		@admin = @current_author ? @current_author : @current_site
+		require_admin if @admin == @current_site
 	end
 
 	def get_sidebar_data
@@ -80,6 +83,14 @@ private
 	
 	def set_layout
 		@author ? "authors" : "application"
+	end
+	
+	def sort_column
+		Event.column_names.include?( params[:sort] ) ? params[:sort] : 'starts_at'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 	
 end
