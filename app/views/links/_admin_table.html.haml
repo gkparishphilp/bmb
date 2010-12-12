@@ -12,11 +12,11 @@
 					= link.title
 				%td.small= link_to link.url, link.url
 				%td.small
-					= link_to image_tag( 'edit.png', :width => 16 ), edit_link_path( link ) 
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_link_path( link ) 
 					= link_to 'edit', edit_link_path( link )
 				%td.small
-					= link_to image_tag( 'trash.png', :width => 16 ), ""
-					= link_to 'delete', ""
+					= link_to image_tag( 'trash.png', :width => 20 ), link, :method => 'delete', :class => 'confirm'
+					= link_to 'delete', link, :method => 'delete', :class => 'confirm'
 	- unless @links.total_pages < 2
 		.pagination
 			.page_info

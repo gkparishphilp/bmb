@@ -52,6 +52,17 @@ $(document).ready(function(){
 		//}
 	});
 	
+	$('.confirm').click( function() {
+		var confirmed = confirm( "Are you Sure?" );
+		if( confirmed ){
+			// just carry out the action, no need for any JS here
+		}
+		else{
+			// halt the execution chain with a return false
+			return false
+		}
+	});
+	
 	///////////////// Themes ///////////////
 	
 	$('.cpicker').ColorPicker({

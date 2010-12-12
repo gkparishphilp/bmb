@@ -15,11 +15,11 @@
 				%td.small= format_date_only article.publish_at
 				%td.small= article.status
 				%td.small
-					= link_to image_tag( 'edit.png', :width => 16 ), edit_article_path( article ) 
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_article_path( article ) 
 					= link_to 'edit', edit_article_path( article )
 				%td.small
-					= link_to image_tag( 'trash.png', :width => 16 ), ""
-					= link_to 'delete', ""
+					= link_to image_tag( 'trash.png', :width => 20 ), article, :method => 'delete', :class => 'confirm'
+					= link_to 'delete', article, :method => 'delete', :class => 'confirm'
 	- unless @articles.total_pages < 2
 		.pagination
 			.page_info
