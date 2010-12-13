@@ -22,4 +22,27 @@
 #
 
 class GeoAddress < ActiveRecord::Base
+	
+	def full_name
+		name = ""
+		name += self.title + " " unless self.title.blank?
+		name += self.first_name + " " + self.last_name
+		return name
+	end
+	
+	def full_street
+		street = ""
+		street += self.street + " " unless self.street.blank?
+		street +=self.street2 unless self.street2.blank?
+		return street
+	end
+	
+	def city_st_zip
+		city_st_zip = ""
+		city_st_zip +=  self.city + ", " unless self.city.blank?
+		city_st_zip += self.geo_state.abbrev + " " unless self.geo_state.abbrev.blank?
+		city_st_zip += self.zip + " " unless self.zip.blank?
+		city_st_zip += self.country  unless self.country.blank?
+		return city_st_zip
+	end
 end

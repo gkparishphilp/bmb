@@ -14,34 +14,6 @@ class OrdersController < ApplicationController
 	def inspect
 		@order = Order.find( params[:id] )
 		
-		@billing_name = ""
-		@billing_street = ""
-		@billing_city_st_zip = ""
-		@billing_name += @order.billing_address.title + " " unless @order.billing_address.title.blank?
-		@billing_name += @order.billing_address.first_name + " " + @order.billing_address.last_name
-		
-		@billing_street += @order.billing_address.street + " " unless @order.billing_address.street.blank?
-		@billing_street += @order.billing_address.street2 unless @order.billing_address.street2.blank?
-		
-		@billing_city_st_zip += @order.billing_address.city + ", " unless @order.billing_address.city.blank?
-		@billing_city_st_zip += @order.billing_address.geo_state.abbrev + " " unless @order.billing_address.geo_state.abbrev.blank?
-		@billing_city_st_zip += @order.billing_address.country + ", " unless @order.billing_address.country.blank?
-		
-		if @order.shipping_address.present?
-			@shipping_name = ""
-			@shipping_street = ""
-			@shipping_city_st_zip
-			@shipping_name += @order.shipping_address.title + " " unless @order.shipping_address.title.blank?
-			@shipping_name += @order.shipping_address.first_name + " " + @order.shipping_address.last_name
-		
-			@shipping_street += @order.shipping_address.street + " " unless @order.shipping_address.street.blank?
-			@shipping_street += @order.shipping_address.street2 unless @order.shipping_address.street2.blank?
-			
-			@shipping_city_st_zip += @order.shipping_address.city + ", " unless @order.shipping_address.city.blank?
-			@shipping_city_st_zip += @order.shipping_address.geo_state.abbrev + " " unless @order.shipping_address.geo_state.abbrev.blank?
-			@shipping_city_st_zip += @order.shipping_address.country + ", " unless @order.shipping_address.country.blank?
-		end
-		
 		render :layout => '3col'
 	end
 
