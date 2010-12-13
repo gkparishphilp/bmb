@@ -115,6 +115,8 @@ Backmybook::Application.routes.draw do
 
 	resources :orders , :constraints => { :protocol => Rails.env.production? ? "https" : "http"} do
 		get 'paypal_express', :on => :new
+		get 'admin', :on => :collection
+		get 'inspect', :on => :member
 	end
 	
 	resources :order_transactions
@@ -178,23 +180,8 @@ Backmybook::Application.routes.draw do
 	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
 	
-	match '/admin/acount' => 'admin#account', :as  => :admin_account
-	match '/admin/books' => 'admin#books', :as => :admin_books
-	match '/admin/themes' => 'admin#themes', :as => :admin_themes
-	match '/admin/domains' => 'admin#domains', :as => :admin_domains
-	match '/admin/email' => 'admin#email', :as => :admin_email
-	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
-	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
-	match '/admin/reports' => 'admin#reports', :as => :admin_reports
-	match '/admin/forums' => 'admin#forums', :as => :admin_forums
-	match '/admin/orders'  => 'admin#orders', :as => :admin_orders
-	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
-	match '/admin/store' => 'admin#store', :as => :admin_store
-	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message
-	match '/admin/free_download' => 'admin#free_download', :as => :admin_free_download
-	
+
 	# New Author Admin -- as features 
 	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
 	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog

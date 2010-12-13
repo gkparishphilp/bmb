@@ -23,6 +23,8 @@ class Event < ActiveRecord::Base
     
 	has_friendly_id :title, :use_slug => :true
 	
+	searchable_on [ :title, :location ]
+	
 	scope :published, where( "ends_at <= ? and status = 'publish'", Time.now )
 		
 	scope :upcomming, lambda { |*args|
@@ -44,13 +46,6 @@ class Event < ActiveRecord::Base
 		order( 'starts_at desc' )
 	}
 	
-	def self.search( term )
-		if term
-			where( 'title like ? or location like ?', "%#{term}%", "%#{term}%" )
-		else
-			scoped # returns an ampty scope so that we can chain scopes onto it
-		end
-	end
 	
 	def published?
 		self.ends_at <= Time.now && self.status == 'publish'

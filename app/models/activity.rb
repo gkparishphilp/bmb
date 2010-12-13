@@ -29,7 +29,6 @@ class Activity < ActiveRecord::Base
 	scope :for_target_type, lambda { |target_type| where( "target_type = ?", target_type ) }
 	scope :active, where( "status = 'active'" )
 	
-	
 	# Class methods
 	def self.recent( since = 1.week.ago )
 		where( "created_at > ?", since )

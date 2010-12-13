@@ -1,0 +1,121 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				Inspecting Order:
+				= link_to "[[Back]]", admin_orders_path
+		.clear
+		.form_group
+			%h3 Order Details:
+			.label Placed At:
+			.data= format_date @order.created_at
+			.clear
+			.label Price:
+			.data= number_to_currency @order.price.to_f / 100
+			.clear
+			.label Status:
+			.data= @order.status
+			.clear
+			.label Email for Order:
+			.data= @order.email
+			.clear
+			
+			%h4 Billing Address
+			.label Name:
+			.data= @billing_name
+			.clear
+			.label Street:
+			.data= @billing_street
+			.clear
+			.label City, ST Zip:
+			.data= @billing_city_st_zip
+			.clear
+			
+			- if @order.shipping_address.present?
+				%h4 Shipping Address
+				.label Name:
+				.data= @shipping_name
+				.clear
+				.label Street:
+				.data= @shipping_street
+				.clear
+				.label City, ST Zip:
+				.data= @shipping_city_st_zip
+				.clear
+
+		%br
+		%br
+		
+		.form_group
+			%h3 Transaction Details:
+			.label Reference ID:
+			.data= @order.order_transaction.reference
+			.clear
+			.label Price:
+			.data= number_to_currency @order.order_transaction.price.to_f / 100
+			.clear
+			.label Success:
+			.data= @order.order_transaction.success
+			.clear
+			.label Message:
+			.data= @order.order_transaction.message
+			.clear
+			.label PayPal Token:
+			.data= @order.paypal_express_token
+			.clear
+			.label PayPal Buyer:
+			.data= @order.paypal_express_payer_id
+			.clear
+		%br
+		%br
+		.form_group
+			%h3 Buyer Details:
+			.label Name:
+			.data= @order.user.name
+			.clear
+			.label Email:
+			.data= @order.user.email
+			.clear
+			.label Anonymous Buyer?:
+			.data= @order.user.password_present?
+			.clear
+			.label Last IP:
+			.data= @order.user.last_ip
+			.clear
+		
+		%br
+		%br
+		.form_group
+			%h3 SKU Details:
+			.label Name:
+			.data= @order.sku.title
+			.clear
+			.label SKU Type:
+			.data= @order.sku.sku_type
+			.clear
+			.label Book:
+			.data= @order.sku.book.title
+			.clear
+			.label Delivered:
+			.data= @order.sku.ownings.find_by_user_id( @order.user.id ).delivered?
+			.clear
+			%h4 Contains
+			%ul
+				- for item in @order.sku.items
+					- if item.respond_to? 'document'
+						%li
+							= link_to "#{item.title} #{item.document.format} File", "", :class => 'main'
+							%em= link_to number_to_human_size( item.document.filesize ), ""
+							
+					- else
+						%li
+							= link_to item.title, "", :class => 'main' 
+							%em= link_to item.type, "" if item.respond_to? 'type'
+			
+		
+		
+		
+- content_for :right_column do
+	&nbsp;

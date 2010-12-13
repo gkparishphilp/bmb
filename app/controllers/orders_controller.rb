@@ -1,12 +1,48 @@
 class OrdersController < ApplicationController
 	
-	before_filter :require_admin, :only => [:admin]
+	before_filter :require_admin, :only => [ :admin, :inspect ]
 	before_filter :get_form_data, :only => :new
 	before_filter :get_sku, :only => [:new, :paypal_express]
 	layout	:set_layout
+	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+		@orders = Order.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
+		render :layout => '3col'
+	end
+	
+	def inspect
+		@order = Order.find( params[:id] )
+		
+		@billing_name = ""
+		@billing_street = ""
+		@billing_city_st_zip = ""
+		@billing_name += @order.billing_address.title + " " unless @order.billing_address.title.blank?
+		@billing_name += @order.billing_address.first_name + " " + @order.billing_address.last_name
+		
+		@billing_street += @order.billing_address.street + " " unless @order.billing_address.street.blank?
+		@billing_street += @order.billing_address.street2 unless @order.billing_address.street2.blank?
+		
+		@billing_city_st_zip += @order.billing_address.city + ", " unless @order.billing_address.city.blank?
+		@billing_city_st_zip += @order.billing_address.geo_state.abbrev + " " unless @order.billing_address.geo_state.abbrev.blank?
+		@billing_city_st_zip += @order.billing_address.country + ", " unless @order.billing_address.country.blank?
+		
+		if @order.shipping_address.present?
+			@shipping_name = ""
+			@shipping_street = ""
+			@shipping_city_st_zip
+			@shipping_name += @order.shipping_address.title + " " unless @order.shipping_address.title.blank?
+			@shipping_name += @order.shipping_address.first_name + " " + @order.shipping_address.last_name
+		
+			@shipping_street += @order.shipping_address.street + " " unless @order.shipping_address.street.blank?
+			@shipping_street += @order.shipping_address.street2 unless @order.shipping_address.street2.blank?
+			
+			@shipping_city_st_zip += @order.shipping_address.city + ", " unless @order.shipping_address.city.blank?
+			@shipping_city_st_zip += @order.shipping_address.geo_state.abbrev + " " unless @order.shipping_address.geo_state.abbrev.blank?
+			@shipping_city_st_zip += @order.shipping_address.country + ", " unless @order.shipping_address.country.blank?
+		end
+		
+		render :layout => '3col'
 	end
 
 	def index
@@ -198,6 +234,14 @@ private
 	
 	def set_layout
 		@author ? "authors" : "application"
+	end
+	
+	def sort_column
+		[ 'created_at' ].include?( params[:sort] ) ? params[:sort] : 'created_at'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'asc'
 	end
 	
 end #End Orders controller

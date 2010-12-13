@@ -7,16 +7,27 @@ module GhettoSearchable #:nodoc:
 
 		module ClassMethods
 			
-			def searchable_on( field )
-				self.class_eval do
+			def searchable_on( cols=[] )
+				# build a where_clause
+				where_clause = String.new
+				if cols.empty?
+					raise "Must set field to search in searchable_on declaration"
+				else
+					for col in cols do
+						col == cols.last ? ( where_clause += "#{col} like :term " ) : ( where_clause += "#{col} like :term or " )
+					end
+				end
+						
+				self.class_eval <<-END
 					def self.search( term )
 						if term.present?
-							where( "name like ? ", "%#{term}%" )
+							term = "%" + term.to_s + "%"
+							where( "#{where_clause}", :term => term )
 						else
 							return scoped
 						end
 					end
-				end	
+				END
 			end
 			
 		end

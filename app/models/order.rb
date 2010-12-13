@@ -56,6 +56,15 @@ class Order < ActiveRecord::Base
 		return self.sku.contains_etext? || self.sku.contains_audio?
 	end
 
+	def self.search( term )
+		if term
+			term = "%" + term + "%"
+			self.joins( :order_transaction ).where( "order_transactions.reference like :term ", :term => term )
+		else
+			return scoped
+		end
+	end
+
 #---------------------------------------------------------------
 # Apply coupon to order
 #---------------------------------------------------------------

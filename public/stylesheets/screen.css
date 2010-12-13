@@ -1992,23 +1992,38 @@ textarea {
 }
 
 /* line 77, ../../app/stylesheets/partials/_admin.sass */
+.label {
+  float: left;
+  width: 200px;
+  font-weight: bold;
+  margin: 5px 0px;
+}
+
+/* line 82, ../../app/stylesheets/partials/_admin.sass */
+.data {
+  margin: 5px 0px;
+  float: left;
+  width: 300px;
+}
+
+/* line 87, ../../app/stylesheets/partials/_admin.sass */
 .current {
   padding-right: 24px;
   background-repeat: no-repeat;
   background-position: right center;
 }
 
-/* line 81, ../../app/stylesheets/partials/_admin.sass */
+/* line 91, ../../app/stylesheets/partials/_admin.sass */
 .asc {
   background-image: url("../images/arrow_up.png");
 }
 
-/* line 83, ../../app/stylesheets/partials/_admin.sass */
+/* line 93, ../../app/stylesheets/partials/_admin.sass */
 .desc {
   background-image: url("../images/arrow_down.png");
 }
 
-/* line 87, ../../app/stylesheets/partials/_admin.sass */
+/* line 97, ../../app/stylesheets/partials/_admin.sass */
 #admin_hd {
   margin-top: 10px;
   font-size: 90%;

@@ -22,15 +22,9 @@ class Link < ActiveRecord::Base
 
 	belongs_to	:owner, :polymorphic => :true
 	
+	searchable_on [ :title, :url ]
+	
 protected
-
-	def self.search( term )
-		if term
-			where( 'title like ? or url like ?', "%#{term}%", "%#{term}%" )
-		else
-			scoped # returns an ampty scope so that we can chain scopes onto it
-		end
-	end
 	
 	def clean_url
 		self.url = "http://" + self.url unless self.url =~ /\Ahttp:\/\//
