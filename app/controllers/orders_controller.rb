@@ -33,7 +33,8 @@ class OrdersController < ApplicationController
 			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
-			if @sku.contains_merch?
+			# todo fix this to be @sku.contains_merch? by fixing the bad Sigler Flash drive package!!!
+			if @sku.international_shipping_price.present? or @sku.domestic_shipping_price.present?
 				paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
 				@country = paypal_express_details.params["country"] 
 				if @country == @sku.owner.user.billing_addresses.first.country
