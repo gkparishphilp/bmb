@@ -162,7 +162,7 @@ class Order < ActiveRecord::Base
 		
 		# Calculate shipping
 		# Author should have at least one billing address, but default to US if he doesn't
-		self.sku.owner.billing_addresses.first.country.nil? ? author_country = 'US' : author_country=self.sku.owner.billing_addresses.first.country
+		author_country = self.sku.owner.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.billing_addresses.first.country
 		
 		# Determine country of order
 		if self.paypal_express_token.present?
