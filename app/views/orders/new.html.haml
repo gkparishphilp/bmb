@@ -288,8 +288,7 @@
 				= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
 				= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 				= f.hidden_field :user_id, :value => @current_user.id
-				- @shipping_price.present? ? total_price = @sku.price + @shipping_price : total_price = @sku.price
-				= f.hidden_field :price, :value => total_price
+				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)

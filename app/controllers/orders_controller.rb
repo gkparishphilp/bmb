@@ -27,24 +27,11 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
-		if params[:token]
-			# Store Paypal info and get shipping price.  
-			# todo - this whole paypal_express order path should be moved out of the order/new view now that it has gotten more complex.
-			
+		if params[:token]			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
-			# todo fix this to be @sku.contains_merch? by fixing the bad Sigler Flash drive package!!!
-			if @sku.international_shipping_price.present? or @sku.domestic_shipping_price.present?
-				paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
-				@country = paypal_express_details.params["country"] 
-				if @country == @sku.owner.user.billing_addresses.first.country
-					@shipping_price = @sku.domestic_shipping_price
-				else
-					@shipping_price = @sku.international_shipping_price
-				end
-			end
-			
 		end
+		
 		unless @current_user.anonymous?
 			@billing_addresses = @current_user.billing_addresses
 			@shipping_addresses = @current_user.shipping_addresses
@@ -158,7 +145,8 @@ class OrdersController < ApplicationController
 			end
 		end
 
-
+		# Pre-purchase actions such as taxes and shipping calculations
+		@order.pre_purchase_actions
 
 		# Process the order
 		if @order.save && @order.purchase

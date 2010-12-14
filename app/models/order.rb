@@ -153,6 +153,32 @@ class Order < ActiveRecord::Base
 		return response.success?	
 	end
 	
+#------------------------------------------------------------------
+# Actions taken before sending order to merchant processing gateway
+# For example, calculating tax, calculating shipping, etc.
+#------------------------------------------------------------------
+	def pre_purchase_action
+		# todo Calculate taxes
+		
+		# Calculate shipping
+		# Author should have at least one billing address, but default to US if he doesn't
+		self.sku.owner.billing_addresses.first.country.nil? ? author_country = 'US' : author_country=self.sku.owner.billing_addresses.first.country
+		
+		# Determine country of order
+		if self.paypal_express_token.present?
+			paypal_express_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token )
+			order_country = paypal_express_details.params["country"]
+		else
+			order_country = self.shipping_address.country
+		end
+		
+		order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
+		
+		shipping_price = 0 if shipping_price.nil?
+		
+		self.price = self.price + shipping_price
+	end
+
 
 #---------------------------------------------------------------
 # Actions after a successful order transaction
