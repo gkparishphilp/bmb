@@ -39,6 +39,30 @@ $(document).ready(function(){
 		}
 	});
 	
+	
+	///////////////////// Admins //////////////////////////
+	$('#admin_table th a, #admin_table .pagination a').live('click', function() {
+		$.getScript(this.href);
+		return false;
+	});
+	
+	$('#search_form #q').keyup( function() {
+		//if( $(this).attr('value').length > 2 ){
+			$.get( $('#search_form').attr('action'), $('#search_form').serialize(), null, 'script' );
+		//}
+	});
+	
+	$('.confirm').click( function() {
+		var confirmed = confirm( "Are you Sure?" );
+		if( confirmed ){
+			// just carry out the action, no need for any JS here
+		}
+		else{
+			// halt the execution chain with a return false
+			return false
+		}
+	});
+	
 	///////////////// Themes ///////////////
 	
 	$('.cpicker').ColorPicker({

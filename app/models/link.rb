@@ -22,6 +22,8 @@ class Link < ActiveRecord::Base
 
 	belongs_to	:owner, :polymorphic => :true
 	
+	searchable_on [ :title, :url ]
+	
 protected
 	
 	def clean_url

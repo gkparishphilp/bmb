@@ -1,43 +1,43 @@
 class LinksController < ApplicationController
-	before_filter	:get_owner
+	
+	before_filter	:get_admin
+	helper_method	:sort_column, :sort_dir
+	
+	layout '3col'
+
+	def admin
+		@links = @admin.links.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+	end
+
 	
 	def new
 		@link = Link.new
-		render :layout => '3col'
 	end
 
 	def edit
-		@link = @owner.links.find  params[:id]
-		unless author_owns( @link )
-			redirect_to root_path
-			return false
-		end
-		render :layout => '3col'
+		@link = Link.find( params[:id] )
+		verify_author_permissions( @link )
 	end
 
 	def create
-		@link = Link.new params[:link]
+		@link = Link.new( params[:link] )
 
-		if @owner.links << @link
+		if @admin.links << @link
 			pop_flash 'Link was successfully created.'
-			redirect_to :back
+			redirect_to admin_links_url
 		else
 			pop_flash 'Oooops, Link not saved...', :error, @link
 			redirect_to :back
 		end
 	end
 
-	def update
-		@link = Link.find  params[:id] 
-		
-		unless author_owns( @link )
-			redirect_to root_path
-			return false
-		end
+	def update 
+		@link = Link.find( params[:id] )
+		verify_author_permissions( @link )
 		
 		if @link.update_attributes params[:link]
 			pop_flash 'Link was successfully updated.'
-			redirect_to  :back
+			redirect_to  admin_links_url
 		else
 			pop_flash 'Oooops, Link not updated...', :error, @link
 			redirect_to :back
@@ -45,33 +45,26 @@ class LinksController < ApplicationController
 	end
 
 	def destroy
-		@link = Link.find  params[:id]
+		@link = Link.find( params[:id] )
 		@link.destroy
 		pop_flash 'Link was successfully deleted.'
-		redirect_to :back
+		redirect_to admin_links_url
 	end
 	
 private
-	
-	def get_owner
-		if params[:author_id]
-			@owner = Author.find params[:author_id] 
-		elsif params[:book_id]
-			@owner = Book.find params[:book_id]
-		else
-			@owner = @current_site
-		end
-			 
+
+	def get_admin
+		@admin = @current_author ? @current_author : @current_site
+		require_admin if @admin == @current_site
 	end
 	
-	def check_link_permissions
-		if @link.owner_type == 'Site'
-			unless @current_user.admin? @current_site
-				pop_flash "Must be Admin", 'error'
-				redirect_to root_path
-				return false
-			end
-		end
+	def sort_column
+		Link.column_names.include?( params[:sort] ) ? params[:sort] : 'title'
 	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'asc'
+	end
+	
 	
 end

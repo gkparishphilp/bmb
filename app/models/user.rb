@@ -85,7 +85,6 @@ class User < ActiveRecord::Base
 	acts_as_follower
 	does_activities
 
-
 	# Attribute accessors		------------------------------------
 	attr_accessor	:password_confirmation
 

@@ -24,8 +24,8 @@ class Order < ActiveRecord::Base
 	
 	belongs_to :sku
 	has_many	:royalties
-	has_many :redemption
-	has_many :coupon, :through => :redemption
+	has_one :redemption
+	has_one :coupon, :through => :redemption
 	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
 	has_one	:subscribing
@@ -56,6 +56,15 @@ class Order < ActiveRecord::Base
 		return self.sku.contains_etext? || self.sku.contains_audio?
 	end
 
+	def self.search( term )
+		if term
+			term = "%" + term + "%"
+			self.joins( :order_transaction, :user ).where( "order_transactions.reference like :term OR users.email like :term OR orders.email like :term ", :term => term )
+		else
+			return scoped
+		end
+	end
+
 #---------------------------------------------------------------
 # Apply coupon to order
 #---------------------------------------------------------------
@@ -74,6 +83,9 @@ class Order < ActiveRecord::Base
 		self.redemption.create :user => self.user, :coupon => coupon, :status => 'redeemed'
 	end
 
+	def paypal_express?
+		return self.paypal_express_token.present?
+	end
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases  (regular,express, and subscription)
 #-------------------------------------------------------------------------

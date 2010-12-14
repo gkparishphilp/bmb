@@ -6,7 +6,7 @@
 
 			%span.article_meta
 				- if @article.comments_allowed?
-					= link_to pluralize( @article.comments.count, "Comment" ), author_blog_url( @author, @article ) + "#comment"
+					= link_to pluralize( @article.comments.count, "Comment" ), blog_link( @article ) + "#comment"
 				%br
 				- unless @article.topics.empty?
 					#article_topics

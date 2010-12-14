@@ -54,7 +54,6 @@ Backmybook::Application.routes.draw do
 				resources :posts
 			end
 		end
-		resources :links
 		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 			
 		resources :podcasts do
@@ -79,9 +78,20 @@ Backmybook::Application.routes.draw do
 	end
 	
 	# For direct - url and subdomain access....
-	resources :blog  # for the site blog
+	resources :blog do # for the site blog
+		get 'admin', :on => :collection
+	end
+	
 	resources :books
-	resources :events
+	
+	resources :contacts
+	
+	resources :crashes
+	
+	resources :events do
+		get 'admin', :on => :collection
+	end
+	
 	resources :forums
 	resources :store
 	resources :podcasts do
@@ -90,12 +100,12 @@ Backmybook::Application.routes.draw do
 			resources :comments
 		end
 	end
-	resources :links
+	
+	resources :links do
+		get 'admin', :on => :collection
+	end
+	
 	resources :merches
-	
-	resources :contacts
-	
-	resources :crashes
 		
 	resources :forums do
 		resources :topics do
@@ -105,6 +115,8 @@ Backmybook::Application.routes.draw do
 
 	resources :orders , :constraints => { :protocol => Rails.env.production? ? "https" : "http"} do
 		get 'paypal_express', :on => :new
+		get 'admin', :on => :collection
+		get 'inspect', :on => :member
 	end
 	
 	resources :order_transactions
@@ -131,11 +143,13 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
+	# really just so the site can create these resources with the scoped form_for [@admin, Resource.new]
 	resources :site do
+		resources :articles
+		resources :events
 		resources :links 
 	end
 	
-
 	resources :static_pages do
 		get 'admin', :on => :collection
 	end
@@ -166,25 +180,18 @@ Backmybook::Application.routes.draw do
 	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
 	
-	match '/admin/acount' => 'admin#account', :as  => :admin_account
-	match '/admin/books' => 'admin#books', :as => :admin_books
-	match '/admin/blog' => 'admin#blog', :as => :admin_blog
-	match '/admin/themes' => 'admin#themes', :as => :admin_themes
-	match '/admin/domains' => 'admin#domains', :as => :admin_domains
-	match '/admin/email' => 'admin#email', :as => :admin_email
-	match '/admin/links' => 'admin#links', :as => :admin_links
-	match '/admin/newsletter' => 'admin#newsletter', :as => :admin_newsletter
 	match '/admin/' => 'admin#index', :as => :admin_index
-	match '/admin/podcast' => 'admin#podcast', :as => :admin_podcast
-	match '/admin/reports' => 'admin#reports', :as => :admin_reports
-	match '/admin/forums' => 'admin#forums', :as => :admin_forums
-	match '/admin/orders'  => 'admin#orders', :as => :admin_orders
-	match '/admin/profile' => 'admin#profile', :as => :admin_profile
-	match '/admin/events' => 'admin#events', :as => :admin_events
-	match '/admin/social_media' => 'admin#social_media', :as => :admin_social_media
-	match '/admin/store' => 'admin#store', :as => :admin_store
-	match '/admin/send_social_message' => 'admin#send_social_message', :as => :admin_send_social_message
-	match '/admin/free_download' => 'admin#free_download', :as => :admin_free_download
+
+	# New Author Admin -- as features 
+	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
+	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
+	match '/author-admin/reports' => 'author_admin#reports', :as => :author_admin_reports
+	
+	# Site Admin -- blog/podcasts, maybe customer support
+	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
+	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
+	
+	
 	
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

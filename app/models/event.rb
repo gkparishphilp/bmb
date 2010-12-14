@@ -23,6 +23,8 @@ class Event < ActiveRecord::Base
     
 	has_friendly_id :title, :use_slug => :true
 	
+	searchable_on [ :title, :location ]
+	
 	scope :published, where( "ends_at <= ? and status = 'publish'", Time.now )
 		
 	scope :upcomming, lambda { |*args|

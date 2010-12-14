@@ -1,0 +1,30 @@
+#admin_hd Account Stuff
+%li= link_to "My Account", admin_account_url
+%li= link_to "Edit Profile",admin_profile_url
+
+- if @current_author.present?
+	#admin_hd  Your Books
+	%li= link_to "Add a Book", new_author_book_url( @current_author )
+	%li= link_to "Manage Books", admin_books_url
+
+#admin_hd  Messaging
+%li= link_to "Newsletters", admin_newsletter_url
+%li= link_to "Email Lists", admin_email_url
+%li= link_to "Social Media", admin_social_media_url
+
+#admin_hd  Your Website
+%li= link_to "Domains", admin_domains_url
+%li= link_to "Forums", admin_forums_url
+%li= link_to "Blog", admin_blog_url
+%li= link_to "Store", admin_store_url
+%li= link_to "Orders", admin_orders_url
+%li= link_to "Podcast", admin_podcast_url
+%li= link_to "Themes", admin_themes_url
+%li= link_to "Links", admin_links_url
+%li= link_to "Events", admin_events_url
+%li= link_to "Giveaways", admin_free_download_url
+
+
+%li= link_to "Reports", admin_reports_url
+
+

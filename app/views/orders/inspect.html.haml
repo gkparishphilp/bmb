@@ -1,0 +1,156 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				Inspecting Order:
+				= link_to "[[Back]]", admin_orders_path
+		.clear
+		.form_group
+			%h3 Order Details:
+			.label Placed At:
+			.data= format_date @order.created_at
+			.clear
+			.label SKU Price
+			.data= format_price @order.sku.price
+			.clear
+			.label Shipping
+			.data TODO -- SHipping
+			.clear
+			.label Tax
+			.data TODO Tax
+			.clear
+			-if @order.coupon.present?
+				.label Coupon Code
+				.data= @order.coupon.code
+				.clear
+				.label Coupon Applied
+				.data= @order.coupon.description
+				.clear
+				.label Coupon Amount
+				.data
+					(
+					= @order.coupon.discount_type == 'cents' ? format_price( @order.coupon.discount ) : ( format_price( @order.coupon.discount.to_f / 100 * @order.sku.price ) )
+					)
+			.clear
+			
+			.label Order Total Price:
+			.data
+				%b= format_price( @order.price )
+			.clear
+			.label Status:
+			.data= @order.status
+			.clear
+			.label Email for Order:
+			.data= @order.email
+			.clear
+			
+			-unless @order.paypal_express?
+				%h4 Billing Address
+				.label Name:
+				.data= @order.billing_address.full_name
+				.clear
+				.label Street:
+				.data= @order.billing_address.full_street
+				.clear
+				.label City, ST Zip:
+				.data= @order.billing_address.city_st_zip
+				.clear
+			
+			- if @order.shipping_address.present?
+				%h4 Shipping Address
+				.label Name:
+				.data= @order.shipping_address.full_name
+				.clear
+				.label Street:
+				.data= @order.shipping_address.full_street
+				.clear
+				.label City, ST Zip:
+				.data= @order.shipping_address.city_st_zip
+				.clear
+
+		%br
+		%br
+		
+		.form_group
+			%h3 Transaction Details:
+			.label Reference ID:
+			.data= @order.order_transaction.reference
+			.clear
+			.label Transaction Type:
+			.data= @order.paypal_express? ? 'PayPal' : 'Credit Card'
+			.clear
+			.label Price:
+			.data= number_to_currency @order.order_transaction.price.to_f / 100
+			.clear
+			.label Success:
+			.data= @order.order_transaction.success
+			.clear
+			.label Message:
+			.data= @order.order_transaction.message
+			.clear
+			-if @order.paypal_express?			
+				.label PayPal Token:
+				.data= @order.paypal_express_token
+				.clear
+				.label PayPal Buyer:
+				.data= @order.paypal_express_payer_id
+			.clear
+		%br
+		%br
+		.form_group
+			%h3 Buyer Details:
+			.label Name:
+			.data= @order.user.name
+			.clear
+			.label Email:
+			.data= @order.user.email
+			.clear
+			.label Registered User?:
+			.data= @order.user.password_present?
+			.clear
+			.label Last IP:
+			.data= @order.user.last_ip
+			.clear
+		
+		%br
+		%br
+		.form_group
+			%h3 SKU Details:
+			.label Name:
+			.data= @order.sku.title
+			.clear
+			.label SKU Type:
+			.data= @order.sku.sku_type
+			.clear
+			.label Book:
+			.data= @order.sku.book.title
+			.clear
+			.label Delivered:
+			.data= @order.sku.ownings.find_by_user_id( @order.user.id ).delivered?
+			.label SKU Price:
+			.data= format_price( @order.sku.price )
+			.clear
+			%h4 Contains
+			%ul
+				- for item in @order.sku.items
+					- if item.respond_to? 'document'
+						%li
+							= link_to "#{item.title} #{item.document.format} File", "", :class => 'main'
+							%em= link_to number_to_human_size( item.document.filesize ), ""
+							
+					- else
+						%li
+							= link_to item.title, "", :class => 'main' 
+							%em= link_to item.type, "" if item.respond_to? 'type'
+							
+		
+				
+				
+			
+		
+		
+		
+- content_for :right_column do
+	&nbsp;

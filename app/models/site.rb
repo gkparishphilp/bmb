@@ -39,7 +39,7 @@ class Site < ActiveRecord::Base
 	
 	belongs_to	:author
 	
-	gets_activities
+	does_activities
 	
 	def clean_domain
 		self.domain.gsub!( /\Ahttp:\/\//, "" )

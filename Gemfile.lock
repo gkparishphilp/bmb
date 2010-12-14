@@ -108,7 +108,7 @@ GEM
       multi_json (~> 0.0.4)
       oauth (~> 0.4.3)
     tzinfo (0.3.23)
-    will_paginate (2.3.15)
+    will_paginate (3.0.pre2)
     xml-simple (1.0.12)
 
 PLATFORMS
@@ -130,4 +130,4 @@ DEPENDENCIES
   rails (= 3.0.1)
   tiny_mce
   twitter
-  will_paginate
+  will_paginate (= 3.0.pre2)

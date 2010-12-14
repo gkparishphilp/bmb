@@ -1,5 +1,16 @@
 module AdminHelper
 
+	def sortable( column, title=nil )
+		title ||= column.titleize
+		css_class = column == sort_column ? "current #{sort_dir}" : nil
+		dir = column == sort_column && sort_dir == 'asc' ? 'desc' : 'asc'
+		link_to title, params.merge( :sort => column, :dir => dir, :page => nil ), :class => css_class
+	end
+
+
+
+
+	# deprecate these.....
 	def draw_admin_header( type )
 			type = type.to_s
 			str = "<div class='admin_title'><h3>Admin #{type.pluralize.capitalize} </h3></div>"

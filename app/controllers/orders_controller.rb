@@ -1,12 +1,20 @@
 class OrdersController < ApplicationController
 	
-	before_filter :require_admin, :only => [:admin]
+	before_filter :require_admin, :only => [ :admin, :inspect ]
 	before_filter :get_form_data, :only => :new
 	before_filter :get_sku, :only => [:new, :paypal_express]
 	layout	:set_layout
+	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.all.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+		@orders = Order.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
+		render :layout => '3col'
+	end
+	
+	def inspect
+		@order = Order.find( params[:id] )
+		
+		render :layout => '3col'
 	end
 
 	def index
@@ -187,6 +195,14 @@ private
 	
 	def set_layout
 		@author ? "authors" : "application"
+	end
+	
+	def sort_column
+		[ 'created_at' ].include?( params[:sort] ) ? params[:sort] : 'created_at'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'asc'
 	end
 	
 end #End Orders controller

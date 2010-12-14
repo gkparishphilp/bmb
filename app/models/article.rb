@@ -34,6 +34,8 @@ class Article < ActiveRecord::Base
 	acts_as_followed
 	gets_activities
 	
+	searchable_on [ :title ]
+	
 	scope :published, where( "publish_at <= ? and status = 'publish'", Time.now )
 		
 	scope :recent, lambda { |*args|
@@ -54,7 +56,6 @@ class Article < ActiveRecord::Base
 		where( " year(publish_at) = ?", (args.first || Time.now.year) )
 		order( 'publish_at desc' )
 	}
-	
 	
 	def related_articles
 		return [] if self.keywords.empty?
