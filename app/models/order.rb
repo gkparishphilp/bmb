@@ -80,7 +80,12 @@ class Order < ActiveRecord::Base
 
 	def redeem_coupon( coupon )
 		# Mark a coupon as redeemed in the redemptions table
-		self.redemption.create :user => self.user, :coupon => coupon, :status => 'redeemed'
+		redemption = Redemption.new
+		redemption.user = self.user
+		redemption.order = self
+		redemption.coupon = coupon
+		redemption.status = 'redeemed'
+		redemption.save
 	end
 
 	def paypal_express?
