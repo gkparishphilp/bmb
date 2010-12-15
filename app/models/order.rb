@@ -169,12 +169,12 @@ class Order < ActiveRecord::Base
 # Actions taken before sending order to merchant processing gateway
 # For example, calculating tax, calculating shipping, etc.
 #------------------------------------------------------------------
-	def pre_purchase_action
+	def pre_purchase_actions
 		# todo Calculate taxes
 		
 		# Calculate shipping
 		# Author should have at least one billing address, but default to US if he doesn't
-		author_country = self.sku.owner.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.billing_addresses.first.country
+		author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
 		
 		# Determine country of order
 		if self.paypal_express_token.present?
