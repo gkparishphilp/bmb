@@ -186,7 +186,7 @@ class Order < ActiveRecord::Base
 			paypal_express_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token )
 			order_country = paypal_express_details.params["country"]
 		else
-			order_country = self.shipping_address.country
+			order_country = self.billing_address.country.nil? ? 'US' : self.billing_address.country
 		end
 		
 		order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
