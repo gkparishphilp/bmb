@@ -40,8 +40,6 @@ class OrdersController < ApplicationController
 			@order.paypal_express_payer_id = params[:PayerID] 
 			paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
 			order_country = paypal_express_details.params["country"]
-			sku = Sku.find params[:sku]
-			@shipping_price = order_country == sku.owner.user.billing_addresses.first.country ? sku.domestic_shipping_price : sku.international_shipping_price		
 		end
 		
 		unless @current_user.anonymous?
