@@ -34,14 +34,8 @@
 		&:hover, &:focus
 			:color #003
 			:border-color #003
-
-/* self-clearing method: */
-	&:after
-		:content "."
-		:display block
-		:height 0
-		:clear both
-		:visibility hidden
+	&:after /* self-clearing method: */
+		+clearfix()
 	* html &
 		:height 1%
 	*:first-child+html &
