@@ -68,6 +68,7 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 # Apply coupon to order
 #---------------------------------------------------------------
+
 	def apply_coupon( coupon )
 		case discount_type=coupon.discount_type
 			when 'percent'
@@ -174,10 +175,13 @@ class Order < ActiveRecord::Base
 # Actions taken before sending order to merchant processing gateway
 # For example, calculating tax, calculating shipping, etc.
 #------------------------------------------------------------------
-	def pre_purchase_actions
-		# todo Calculate taxes
-		
-		# Calculate shipping
+
+	def calculate_taxes
+		tax = 0
+		self.price = self.price + tax
+	end
+
+	def calculate_shipping
 		# Author should have at least one billing address, but default to US if he doesn't
 		author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
 		
@@ -196,31 +200,28 @@ class Order < ActiveRecord::Base
 		self.price = self.price + shipping_price
 	end
 
-
 #---------------------------------------------------------------
 # Actions after a successful order transaction
 #---------------------------------------------------------------
-	def post_purchase_actions(current_user)
-		
-		# add sku_items to ownings
-		self.sku.ownings.create :user => self.user, :status => 'active'
-		
-		# send emails
-		# todo - Automatically get shipping address from paypal express so we can use it to send out fulfillment email
+
+	def send_author_emails
 		self.paypal_express_token.present? ? paypal_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token ).params : paypal_details = nil
-		
-		UserMailer.bought_sku( self, self.user ).deliver 
 		UserMailer.fulfill_order( self, self.user, paypal_details).deliver if (self.sku.contains_merch? || @sku.international_shipping_price.present? || @sku.domestic_shipping_price.present? )
-		
-		# add royalty entry
-		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
-		
-		# todo - decrement subscription redemptions
-		# TODO Update backing events
-		# TODO Update any author sales events/points
-		
 	end
 
+	def send_customer_emails
+		UserMailer.bought_sku( self, self.user ).deliver 
+	end
+
+	def calculate_royalties
+		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+	end
+
+	def update_backings
+	end
+
+	def update_author_points
+	end
 
   private
 
