@@ -24,6 +24,10 @@ module ApplicationHelper
 		return number_to_currency( price.to_f / 100 )
 	end
 	
+	def dollars_to_cents( amount )
+		return (amount * 100).round
+	end
+	
 	def get_title
 		if @title
 			title = "BackMyBook | " + @title

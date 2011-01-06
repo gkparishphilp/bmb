@@ -23,6 +23,8 @@ class OrdersController < ApplicationController
 
 	def show
 		@order = Order.find params[:id] 
+		@tax = @order.calculate_taxes if @order.sku.contains_merch?
+		@shipping = @order.calculate_shipping if @order.sku.contains_merch?
 		
 		if ( @order.user != @current_user && @order.paypal_express_token.blank? && @order.ip != request.ip )  
 			pop_flash 'Not your order', :error
@@ -71,7 +73,8 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
-		
+		@order.total = Sku.find(params[:order][:sku_id]).price
+				
 		if @current_user.anonymous? 
 			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
 			@order.user.save( false )
@@ -150,8 +153,9 @@ class OrdersController < ApplicationController
 		end
 
 		# Pre-purchase actions such as taxes and shipping calculations		
-		@order.calculate_taxes
-		@order.calculate_shipping
+		tax = @order.calculate_taxes if @order.sku.contains_merch?
+		shipping = @order.calculate_shipping if @order.sku.contains_merch?
+		@order.total = @order.total + tax + shipping
 
 		# Process the order
 		if @order.save && @order.purchase

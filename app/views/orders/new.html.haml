@@ -9,8 +9,7 @@
 				Price: 
 				%span#the_price( sku_price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
-		-# todo - Need to change this back after we are able to fix sku's if @sku.contains_merch?
-		-if @sku.international_shipping_price.present? or @sku.domestic_shipping_price.present?			
+		-if @sku.contains_merch?		
 			%h4 
 				Shipping fee of 
 				=number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
@@ -25,7 +24,6 @@
 			= form_for @order do |f|
 	
 				%table
-					= f.hidden_field :price, :value => @sku.price
 					= f.hidden_field :sku_id, :value => @sku.id
 					= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 					%tr
@@ -176,8 +174,7 @@
 										=bb.text_field :zip, :size => 10
 		
 					%br
-					-# todo - Need to change this back after we are able to fix sku's if @sku.contains_merch?
-					- if @sku.domestic_shipping_price.present? or @sku.international_shipping_price.present?
+					- if @sku.contains_merch?
 						- if @current_user.shipping_addresses.empty?
 							= fields_for :shipping_address, @order.shipping_address do |ff|
 
@@ -291,7 +288,6 @@
 				= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
 				= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 				= f.hidden_field :user_id, :value => @current_user.id
-				= f.hidden_field :price, :value => @sku.price
 				= f.hidden_field :sku_id, :value => @sku.id
 				- if @current_user.anonymous?
 					%b E-mail (REQUIRED)

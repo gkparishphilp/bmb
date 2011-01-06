@@ -20,8 +20,6 @@
 			%p
 				If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
 			%p
-				Please use the link to download your items.  
-			%p
 				If you purchased a physical book or merchandise, the author will ship it to you.
 			%p 
 				= link_to "Please contact us ", new_contact_url
@@ -65,8 +63,6 @@
 									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
 
 					.clear
-					
-					%br
 					%br
 					-if @order.sku.contains_merch?
 						- if @order.sku.owner.is_a? Author
@@ -78,16 +74,34 @@
 								= sku_item.item.title if sku_item.item_type == 'Merch'
 								%br
 			
+				%p
+					Order ID:
+					= @order.id
+				%p
+					Order Confirmation Number:
+					=  @order.order_transaction.reference
 				%table.admin_table
 					%tr
-						%td Order ID
-						%td Confirmation #
-						%td Price
+						%td 
+							%b Item
+						%td 
+							%b Amount
 
 					%tr
-						%td= @order.id
-						%td= @order.order_transaction.reference
-						%td= number_to_currency(@order.price.to_f / 100)
+						%td= @order.sku.title
+						%td= format_price( @order.sku.price )
+					-if @tax.present?
+						%tr
+							%td Tax
+							%td= format_price( @tax )
+					-if @shipping.present?
+						%tr
+							%td Shipping
+							%td= format_price( @shipping )
+					%tr
+						%td Total
+						%td= format_price( @order.total )
+
 				%p
 					If you have any questions, 
 					= link_to "please contact us", new_contact_url 
@@ -113,7 +127,7 @@
 					%tr
 						%td= @order.id
 						%td= @order.order_transaction.params["profile_id"]
-						%td= number_to_currency(@order.price.to_f / 100)
+						%td= number_to_currency(@order.total.to_f / 100)
 
 				%br
 				If you have any questions, 

@@ -1,57 +1,74 @@
 Hi
 = @user.name
 , 
-%br
-%br
-This email confirms your purchase of 
-= @order.sku.title
-%br
-%br
+%p
+	This email confirms your purchase of 
+	= @order.sku.title
+
+%table.admin_table
+	%tr
+		%td 
+			%b Item
+		%td 
+			%b Amount
+
+	%tr
+		%td= @order.sku.title
+		%td= number_to_currency( @order.sku.price.to_f / 100 )
+	-if @tax.present?
+		%tr
+			%td Tax
+			%td= number_to_currency( @tax.to_f / 100)
+	-if @shipping.present?
+		%tr
+			%td Shipping
+			%td= number_to_currency( @shipping.to_f / 100)
+	%tr
+		%td Total
+		%td= number_to_currency( @order.total.to_f / 100 )
+
+%p
+	Your confirmation number is:
+	= @order.order_transaction.reference
+	%br
+	Please use it in all correspondence regarding this order.
+	
+
 - if not( @order.sku.merch_sku? ) 
 	You can download digital items using the links below. After downloading one of the items, you may be prompted to register or login to BackMyBook.com to download the remaining items.  This is to protect the author from digital piracy.  Your email address will not be shared with any other parties.
-	%br
-	%br
-	- for item in @order.sku.items
-		- if item.respond_to? 'document'
-			= link_to item.title, deliver_asset_url( item, :order_id => @order.id )
-			%br
+	%p
+		- for item in @order.sku.items
+			- if item.respond_to? 'document'
+				= link_to item.title, deliver_asset_url( item, :order_id => @order.id )
+				%br
 
 - if @order.sku.contains_merch?
-	%br
 	- if @order.sku.owner.is_a? Author
 		The following items will be delivered by the author:
 		= @order.sku.owner.pen_name
-		%br
 		%br
 		- for item in @order.sku.items
 			= item.title if item.is_a? Merch
 			%br
 
-%br
-Your confirmation number is:
-= @order.order_transaction.reference
+ 
 
-%br
-Please use it in all correspondence regarding this order.  
-%br
-%br
-- if @order.sku.items.first.owner.contact_email.present?
-	For questions about the item or shipping, you can contact the author at:  
-	= @order.sku.items.first.owner.contact_email
-	%br
+%p
+	- if @order.sku.items.first.owner.contact_email.present?
+		For questions about the item or shipping, you can contact the author at:  
+		= @order.sku.items.first.owner.contact_email
+		%br
 
-- if @order.sku.items.first.owner.contact_phone.present? 
-	or you can call the author at:
-	= @order.sku.items.first.owner.contact_phone
-	%br
-%br
-If you have any other questions or issues, you can contact us at: http://backmybook.com/contacts/new.
-%br
-Please let us know if there is anything we can do for you.
-%br
-%br
-Best Regards,
-%br
+	- if @order.sku.items.first.owner.contact_phone.present? 
+		or you can call the author at:
+		= @order.sku.items.first.owner.contact_phone
+		%br
+
+If you have further questions or issues, please contact us at: http://backmybook.com/contacts/new.
+
+%p
+	Best Regards,
+	
 - if @order.sku.owner.is_a? Author
 	=@order.sku.owner.pen_name
 	and the BackMyBook team
