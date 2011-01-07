@@ -64,18 +64,27 @@ class Order < ActiveRecord::Base
 			return scoped
 		end
 	end
+	
+	def paypal_express?
+		return self.paypal_express_token.present?
+	end
+	
+	def get_paypal_express_details
+		paypal_express_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token )
+	end
 
 #---------------------------------------------------------------
 # Apply coupon to order
 #---------------------------------------------------------------
+
 	def apply_coupon( coupon )
 		case discount_type=coupon.discount_type
 			when 'percent'
-				self.price = (self.price - (coupon.discount/100.0 * self.price)).round 
+				self.total = (self.total - (coupon.discount/100.0 * self.total)).round 
 			when 'cents'
-				self.price = self.price - coupon.discount
+				self.total = self.total - coupon.discount
 		end	
-		self.price = 0 if self.price < 0
+		self.total = 0 if self.total < 0
 	end
 
 	def redeem_coupon( coupon )
@@ -88,9 +97,7 @@ class Order < ActiveRecord::Base
 		redemption.save
 	end
 
-	def paypal_express?
-		return self.paypal_express_token.present?
-	end
+
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases  (regular,express, and subscription)
 #-------------------------------------------------------------------------
@@ -99,11 +106,11 @@ class Order < ActiveRecord::Base
 		if self.sku.sku_type == 'subscription'
 			purchase_subscription
 		else
-			if price > 0
+			if self.total > 0
 				response = process_purchase
 				OrderTransaction.create!(	:action => "purchase",
 											:order_id => self.id,
-											:price => price, 
+											:price => self.total, 
 											:success => response.success?, 
 											:reference => response.authorization,
 											:message => response.message,
@@ -111,10 +118,10 @@ class Order < ActiveRecord::Base
 											:test => response.test? 
 											)
 				response.success?
-			elsif price == 0
+			elsif self.total == 0
 				OrderTransaction.create!( 	:action => "purchase",
 											:order_id => self.id,
-											:price => price, 
+											:price => self.total, 
 											:success => true, 
 											:reference => 'BackMyBook coupon purchase',
 											:message => 'zero price purchase'
@@ -134,11 +141,11 @@ class Order < ActiveRecord::Base
 # Comped subscriptions should have the subscription_length_in_days value set, paid subscriptions should not have this set since Paypal uses periodicity	
 
 	def purchase_subscription
-		if price > 0
+		if self.total > 0
 			response = GATEWAY.recurring(price, credit_card, options_recurring)
 			OrderTransaction.create!(	:action => "subscription",
 			 							:order_id => self.id,
-										:price => price, 
+										:price => self.total, 
 										:success => response.success?, 
 										:reference => response.authorization,
 										:message => response.message,
@@ -174,17 +181,30 @@ class Order < ActiveRecord::Base
 # Actions taken before sending order to merchant processing gateway
 # For example, calculating tax, calculating shipping, etc.
 #------------------------------------------------------------------
-	def pre_purchase_actions
-		# todo Calculate taxes
+
+	def calculate_taxes
+		tax = 0
+		author_state = self.sku.owner.user.billing_addresses.first.geo_state.abbrev.nil? ? nil : self.sku.owner.user.billing_addresses.first.geo_state
 		
-		# Calculate shipping
+		if self.paypal_express?
+			tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
+		else
+			tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
+		end
+		
+		tax = (tax * 100).round
+		return tax.to_i
+		
+	end
+
+	def calculate_shipping
+		shipping_price = 0
 		# Author should have at least one billing address, but default to US if he doesn't
 		author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
 		
 		# Determine country of order
-		if self.paypal_express_token.present?
-			paypal_express_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token )
-			order_country = paypal_express_details.params["country"]
+		if self.paypal_express?
+			order_country = self.get_paypal_express_details.params["country"]
 		else
 			order_country = self.billing_address.country.nil? ? 'US' : self.billing_address.country
 		end
@@ -193,34 +213,31 @@ class Order < ActiveRecord::Base
 		
 		shipping_price = 0 if shipping_price.nil?
 		
-		self.price = self.price + shipping_price
+		return shipping_price.to_i
 	end
-
 
 #---------------------------------------------------------------
 # Actions after a successful order transaction
 #---------------------------------------------------------------
-	def post_purchase_actions(current_user)
-		
-		# add sku_items to ownings
-		self.sku.ownings.create :user => self.user, :status => 'active'
-		
-		# send emails
-		# todo - Automatically get shipping address from paypal express so we can use it to send out fulfillment email
+
+	def send_author_emails
 		self.paypal_express_token.present? ? paypal_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token ).params : paypal_details = nil
-		
-		UserMailer.bought_sku( self, self.user ).deliver 
-		UserMailer.fulfill_order( self, self.user, paypal_details).deliver if (self.sku.contains_merch? || @sku.international_shipping_price.present? || @sku.domestic_shipping_price.present? )
-		
-		# add royalty entry
-		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.price * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
-		
-		# todo - decrement subscription redemptions
-		# TODO Update backing events
-		# TODO Update any author sales events/points
-		
+		UserMailer.fulfill_order( self, self.user, paypal_details).deliver if self.sku.contains_merch?
 	end
 
+	def send_customer_emails
+		UserMailer.bought_sku( self, self.user ).deliver 
+	end
+
+	def calculate_royalties
+		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.total * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+	end
+
+	def update_backings
+	end
+
+	def update_author_points
+	end
 
   private
 
@@ -250,9 +267,9 @@ class Order < ActiveRecord::Base
 	# Use regular gateway or Paypal express gateway based on token
 	def process_purchase
 		if paypal_express_token.blank?
-			GATEWAY.purchase(price, credit_card, options)
+			GATEWAY.purchase(self.total, credit_card, options)
 		else
-			EXPRESS_GATEWAY.purchase(price, options_express)
+			EXPRESS_GATEWAY.purchase(self.total, options_express)
 		end
 	end
 

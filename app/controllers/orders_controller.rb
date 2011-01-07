@@ -32,7 +32,6 @@ class OrdersController < ApplicationController
 		
 	end
 
-
 	def new
 		@order = Order.new
 		if params[:token]			
@@ -72,7 +71,8 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
-		
+		@order.total = Sku.find(params[:order][:sku_id]).price
+				
 		if @current_user.anonymous? 
 			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
 			@order.user.save( false )
@@ -81,19 +81,14 @@ class OrdersController < ApplicationController
 			@order.user = @current_user
 		end
 		
-		# Grab Paypal Express tokens if they exist
+		# Grab Paypal Express tokens from form
 		unless params[:order][:paypal_express_token].blank?
 			@order.paypal_express_token = params[:order][:paypal_express_token] 
 			@order.paypal_express_payer_id = params[:order][:paypal_express_payer_id] 
 		end
 		
-		# Process coupons
-		if !params[:coupon_code].blank? and params[:ordered_type] != 'Subscription'
-			if @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] )
-				@order.apply_coupon( @coupon ) if @coupon.is_valid?( @order.sku )
-			end
-		end
-
+		@order.apply_coupon( @coupon ) if params[:coupon_code].present? and @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] ) and @coupon.is_valid?( @order.sku )
+			
 		#-----------------------------------------------------------
 		# Heinous code for processing shipping and billing addresses
 		# todo Refactor if time permits
@@ -155,20 +150,30 @@ class OrdersController < ApplicationController
 			end
 		end
 
-		# Pre-purchase actions such as taxes and shipping calculations
-		@order.pre_purchase_actions
+		# Pre-purchase actions such as taxes and shipping calculations		
+		@order.tax_amount = @order.calculate_taxes if @order.sku.contains_merch?
+		@order.shipping_amount = @order.calculate_shipping if @order.sku.contains_merch?
+		@order.total = @order.total + @order.tax_amount + @order.shipping_amount
 
 		# Process the order
 		if @order.save && @order.purchase
 			pop_flash 'Order was successfully processed.'
-			@order.update_attributes :status => 'success'
-			@order.post_purchase_actions( @current_user )
+			@order.update_attributes :status => 'success'			
+			@order.sku.ownings.create :user => @order.user, :status => 'active'
+			@order.send_author_emails
+			@order.send_customer_emails
+			@order.calculate_royalties
+			# todo
+			#@order.update_backings  
+			#@order.update_author_points 
 			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
+
 			if @author.present?
 				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )
 			else
 				redirect_to @order
 			end
+
 		else
 			pop_flash 'Oooops, order could not be processed.', :error, @order
 			if @author.present?
@@ -207,5 +212,5 @@ private
 		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'asc'
 	end
 	
-end #End Orders controller
+end 
 
