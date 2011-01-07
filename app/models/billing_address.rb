@@ -21,6 +21,10 @@
 #  updated_at   :datetime
 #
 
+
+# TODO - delete this
+
+
 class BillingAddress < GeoAddress
 	belongs_to :user
 	has_many :orders

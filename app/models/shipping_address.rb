@@ -21,6 +21,8 @@
 #  updated_at   :datetime
 #
 
+
+# TODO - delete this
 class ShippingAddress < GeoAddress
 	belongs_to :user
 	has_many :orders

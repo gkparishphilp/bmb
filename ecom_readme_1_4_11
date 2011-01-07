@@ -1,0 +1,11 @@
+
+Addressings table
+	owner_id
+	address_id
+	address_type
+	preferred (bool)
+	
+Stuff (order, user, author, etc.)
+	has_many addressings
+	has_many addresses, :through => addressings
+	has_many shipping_addresses blah blah blah :conditions => 'address_type = shipping'

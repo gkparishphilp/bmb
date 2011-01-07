@@ -55,8 +55,11 @@ class User < ActiveRecord::Base
 	has_many	:comments
 	has_many	:twitter_accounts, 	:as => :owner
 	has_many	:facebook_accounts,	:as => :owner
-	has_many 	:shipping_addresses
-	has_many	:billing_addresses
+	
+	has_many	:addressings, :as => :owner
+	has_many	:geo_addresses, :through => :addressings
+	
+	
 	has_one		:author
 	has_many	:orders
 	has_many	:reviews
