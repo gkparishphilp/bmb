@@ -17,8 +17,6 @@ class UserMailer < ActionMailer::Base
 	def bought_sku( order, user )
 		@order = order
 		@user = user
-		@tax = @order.calculate_taxes if @order.sku.contains_merch?
-		@shipping = @order.calculate_shipping if @order.sku.contains_merch?
 		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
 	

@@ -30,7 +30,7 @@ class Order < ActiveRecord::Base
 	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
 	has_one	:subscribing
 	
-	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity, :tax, :shipping
+	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
 	# adding for 12/4 fixpass....
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )

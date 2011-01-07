@@ -90,14 +90,14 @@
 					%tr
 						%td= @order.sku.title
 						%td= format_price( @order.sku.price )
-					-if @tax.present?
+					-if @order.tax_amount.present?
 						%tr
 							%td Tax
-							%td= format_price( @tax )
-					-if @shipping.present?
+							%td= format_price( @order.tax_amount )
+					-if @order.shipping_amount.present?
 						%tr
 							%td Shipping
-							%td= format_price( @shipping )
+							%td= format_price( @order.shipping_amount )
 					%tr
 						%td Total
 						%td= format_price( @order.total )

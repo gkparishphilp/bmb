@@ -15,14 +15,14 @@ Hi
 	%tr
 		%td= @order.sku.title
 		%td= number_to_currency( @order.sku.price.to_f / 100 )
-	-if @tax.present?
+	-if @order.tax_amount.present?
 		%tr
 			%td Tax
-			%td= number_to_currency( @tax.to_f / 100)
-	-if @shipping.present?
+			%td= number_to_currency( @order.tax_amount.to_f / 100)
+	-if @order.shipping_amount.present?
 		%tr
 			%td Shipping
-			%td= number_to_currency( @shipping.to_f / 100)
+			%td= number_to_currency( @order.shipping_amount.to_f / 100)
 	%tr
 		%td Total
 		%td= number_to_currency( @order.total.to_f / 100 )
