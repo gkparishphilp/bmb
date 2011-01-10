@@ -19,18 +19,21 @@
 #
 
 class Order < ActiveRecord::Base
-	belongs_to :user
-	has_one :order_transaction, :dependent => :destroy
+	belongs_to	:user
+	belongs_to	:sku
+	has_one		:order_transaction, :dependent => :destroy
+	has_one		:redemption
+	has_one		:coupon, :through => :redemption
+	has_one		:subscribing
 	
-	belongs_to :sku
 	has_many	:royalties
-	has_one :redemption
-	has_one :coupon, :through => :redemption
-	belongs_to :shipping_address, :class_name => "ShippingAddress", :foreign_key => :shipping_address_id
-	belongs_to :billing_address, :class_name => "BillingAddress", :foreign_key => :billing_address_id
-	has_one	:subscribing
+
+	has_many	:addressings, :as => :owner
+	has_many	:geo_addresses, :through => :addressings
+	has_one		:shipping_addresses, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
+	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
 	
-	attr_accessor :payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
+	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
 	# adding for 12/4 fixpass....
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )

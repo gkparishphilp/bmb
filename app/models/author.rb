@@ -49,6 +49,10 @@ class Author < ActiveRecord::Base
 	
 	has_many	:sites
 	
+	has_many	:addressings, :as => :owner
+	has_many	:geo_addresses, :through => :addressings
+	has_one		:nexus_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='nexus'"
+	
 	does_activities
 	
 	has_friendly_id	:pen_name, :use_slug => true
