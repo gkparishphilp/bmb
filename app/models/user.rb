@@ -58,7 +58,8 @@ class User < ActiveRecord::Base
 	
 	has_many	:addressings, :as => :owner
 	has_many	:geo_addresses, :through => :addressings
-	
+	has_many	:shipping_addresses, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
+	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
 	
 	has_one		:author
 	has_many	:orders
@@ -120,7 +121,7 @@ class User < ActiveRecord::Base
 		create_new_salt
 		self.hashed_password = User.encrypted_password(self.password, self.salt)
 	end
-
+	
 	def anonymous?
 		self.id == ANONYMOUS_ID
 	end

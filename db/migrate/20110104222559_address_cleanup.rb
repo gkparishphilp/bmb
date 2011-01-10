@@ -12,6 +12,7 @@ class AddressCleanup < ActiveRecord::Migration
 		remove_column	:geo_addresses, :user_id
 		
 		
+		
 	end
 
 	def self.down
