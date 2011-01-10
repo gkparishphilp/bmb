@@ -1,0 +1,20 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	%h1 Orders
+	%table.admin_table
+		%tr
+			%td 
+				%b Date
+			%td 
+				%b Confirmation #
+			%td 
+				%b Item
+			%td 
+				%b Amount
+		-for order in @orders
+			%tr
+				%td= order.created_at.to_date
+				%td= order.order_transaction.reference
+				%td= order.sku.title
+				%td= format_price( order.total ) 

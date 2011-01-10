@@ -21,7 +21,9 @@ class AuthorAdminController < ApplicationController
 		@forums = @admin.forums
 	end
 	
-
+	def reports
+		@orders = @current_author.orders.sort!{ |a,b| b.created_at <=> a.created_at}
+	end
 
 end
 

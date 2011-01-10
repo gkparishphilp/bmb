@@ -99,6 +99,13 @@ class Author < ActiveRecord::Base
 		end
 	end
 	
+	def orders
+		orders = Array.new
+		for order in Order.all
+			orders << order if order.sku.owner == self
+		end
+	end
+	
 	private
 	
 	def book_promo
