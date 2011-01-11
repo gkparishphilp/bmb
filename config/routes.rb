@@ -186,6 +186,7 @@ Backmybook::Application.routes.draw do
 	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
 	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
 	match '/author-admin/reports' => 'author_admin#reports', :as => :author_admin_reports
+	match '/author-admin/order_detail' => 'author_admin#order_detail', :as => :author_admin_order_detail
 	
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface

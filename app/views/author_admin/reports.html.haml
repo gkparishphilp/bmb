@@ -37,6 +37,6 @@
 		-for order in @orders_past_week
 			%tr
 				%td= order.created_at.to_date
-				%td= order.order_transaction.reference
+				%td= link_to order.order_transaction.reference, author_admin_order_detail_path( :id => order.id ) 
 				%td= order.sku.title
 				%td= format_price( order.total ) 

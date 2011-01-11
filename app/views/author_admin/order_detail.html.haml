@@ -1,0 +1,39 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	%h1 Order Detail
+	%br
+	%h3 Order Information
+	%table.admin_table 
+		%tr
+			%td Confirmation Number:  
+			%td= @order.order_transaction.reference
+		%tr
+			%td Item Purchased: 
+			%td= @order.sku.title
+		%tr
+			%td Total Amount: 
+			%td= format_price( @order.total )
+		%tr
+			%td Date
+			%td= format_date( @order.created_at )
+	%br
+	
+	%h3 Customer Information
+	%table.admin_table
+		%tr
+			%td Name: 
+			%td= @order.user.name
+		%tr
+			%td Email: 
+			%td= @order.email
+		%tr
+			%td Shipping Address
+			%td 
+		%tr
+			%td
+			%td Some Street
+	%br
+	
+	=link_to '<< Back To Orders', :back
+	
