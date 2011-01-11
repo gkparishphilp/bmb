@@ -23,6 +23,8 @@ class AuthorAdminController < ApplicationController
 	
 	def reports
 		@orders = @current_author.orders.sort!{ |a,b| b.created_at <=> a.created_at}
+		@orders_past_day = @orders.select{ |c| c.created_at > 1.day.ago}
+		@orders_past_week = @orders.select{ |d| d.created_at > 1.week.ago}
 	end
 
 end

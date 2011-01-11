@@ -2,6 +2,9 @@
 	= render :partial => 'nav'
 - content_for :middle_column do
 	%h1 Orders
+	%br
+	
+	%h3 Orders Last 24 hours
 	%table.admin_table
 		%tr
 			%td 
@@ -11,8 +14,27 @@
 			%td 
 				%b Item
 			%td 
-				%b Amount
-		-for order in @orders
+				%b Amount				
+		-for order in @orders_past_day
+			%tr
+				%td= order.created_at.to_date
+				%td= order.order_transaction.reference
+				%td= order.sku.title
+				%td= format_price( order.total )
+	%br
+				
+	%h3 Orders Last Week			
+	%table.admin_table
+		%tr
+			%td 
+				%b Date
+			%td 
+				%b Confirmation #
+			%td 
+				%b Item
+			%td 
+				%b Amount				
+		-for order in @orders_past_week
 			%tr
 				%td= order.created_at.to_date
 				%td= order.order_transaction.reference
