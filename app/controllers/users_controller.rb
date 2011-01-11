@@ -43,13 +43,14 @@ class UsersController < ApplicationController
 			return false
 		end
 
-		if @user != @current_user || !@current_user.admin?
+		if @user != @current_user || !@current_user.admin?( @current_site )
 			flash[:notice] = "Can't edit this user"
 			redirect_to root_path
 			return false
 		end
+		
+		@user.shipping_addresses.build
     
-		@roles = Role.all
 	end
 
 	def create
