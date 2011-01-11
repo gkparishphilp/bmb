@@ -46,6 +46,7 @@ class User < ActiveRecord::Base
 						:email => true,
 						:if => :has_email?
 
+
 	# Relations   	--------------------------------------
 	has_many	:openids
 	has_many	:roles
@@ -76,6 +77,8 @@ class User < ActiveRecord::Base
 	belongs_to :site
 	
 	# Plugins	--------------------------------------
+	
+	accepts_nested_attributes_for :shipping_addresses
 	
 	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true
