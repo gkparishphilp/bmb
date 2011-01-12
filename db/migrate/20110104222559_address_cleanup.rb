@@ -7,14 +7,24 @@ class AddressCleanup < ActiveRecord::Migration
 			t.boolean		:preferred
 		end
 		
-		execute 'create table geo_addresses_tmp select * from geo_addresses'
+		create_table :tmp_geo_addresses, :force => true do |t|
+			t.string		:title
+			t.string		:first_name
+			t.string		:last_name
+			t.string		:street
+			t.string		:street2
+			t.string		:city
+			t.references	:geo_state
+			t.string		:zip
+			t.string		:country
+			t.string		:phone
+			t.timestamps
+		end
 
 		# Need these columns to be available for data migration.  Delete AFTER data migration has occurred.
 		#remove_column	:geo_addresses, :type
 		#remove_column	:geo_addresses, :preferred
 		#remove_column	:geo_addresses, :user_id
-		
-		
 		
 	end
 
