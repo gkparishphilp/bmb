@@ -85,7 +85,7 @@ class AddressCleanup < ActiveRecord::Migration
 		
 		execute 'delete from geo_addresses'
 		execute 'insert into geo_addresses (id, title, first_name, last_name, street, street2, city, geo_state_id, zip, country, phone) select id, title, first_name, last_name, street, street2, city, geo_state_id, zip, country, phone from tmp_geo_addresses'
-		execute 'drop tmp_geo_addresses'
+		execute 'drop table tmp_geo_addresses'
 
 		# Need these columns to be available for data migration.  Delete AFTER data migration has occurred.
 		remove_column	:geo_addresses, :type
