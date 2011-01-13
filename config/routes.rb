@@ -185,7 +185,9 @@ Backmybook::Application.routes.draw do
 	# New Author Admin -- as features 
 	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
 	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
-	match '/author-admin/reports' => 'author_admin#reports', :as => :author_admin_reports
+	match '/author-admin/orders' => 'author_admin#orders', :as => :author_admin_orders
+	match '/author-admin/redemptions' => 'author_admin#redemptions', :as => :author_admin_redemptions
+
 	match '/author-admin/order_detail' => 'author_admin#order_detail', :as => :author_admin_order_detail
 	
 	# Site Admin -- blog/podcasts, maybe customer support

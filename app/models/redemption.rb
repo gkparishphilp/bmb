@@ -16,4 +16,11 @@ class Redemption < ActiveRecord::Base
 	belongs_to 	:coupon
 	belongs_to 	:order
 	belongs_to :user
+	
+	scope :dated_between, lambda { |*args| 
+		where( "created_at between ? and ?", (args.first.to_date || 7.days.ago), (args.second.to_date || Time.now) ) 
+	}
+	
+	scope :redeemed, where( "status = 'redeemed'" )
+		
 end
