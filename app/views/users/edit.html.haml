@@ -14,9 +14,16 @@
 		=f.label :name
 		=f.text_field :name
 		
-		= f.fields_for :shipping_addresses do |builder|
-			= builder.label :street
-			= builder.text_field :street
+		%hr
+		
+		%h2 Address Testing
+		
+		%h3 Addresses:
+		= f.fields_for :addressings do |addr_form|
+			= render 'geo_addresses/address_form', :addr_form => addr_form
+
+			
+			
 			
 
 		%br

@@ -43,13 +43,15 @@ class UsersController < ApplicationController
 			return false
 		end
 
-		if @user != @current_user || !@current_user.admin?( @current_site )
-			flash[:notice] = "Can't edit this user"
-			redirect_to root_path
-			return false
-		end
+		#if @user != @current_user || !@current_user.admin?( @current_site )
+		#	flash[:notice] = "Can't edit this user"
+		#	redirect_to root_path
+		#	return false
+		#end
+		@states = GeoState.where("country ='US'")
+		@user.addressings.build
 		
-		@user.shipping_addresses.build
+		#@user.billing_address = GeoAddress.new unless @user.billing_address.present?
     
 	end
 
