@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
 	
 	# Plugins	--------------------------------------
 	
-	accepts_nested_attributes_for :shipping_addresses
+	accepts_nested_attributes_for :addressings
 	
 	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true

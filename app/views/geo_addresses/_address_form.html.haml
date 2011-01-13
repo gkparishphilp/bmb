@@ -1,0 +1,20 @@
+
+= addr_form.fields_for :geo_address do |geo_form|
+
+	= geo_form.label 'First Name'
+	= geo_form.text_field :first_name
+
+	= geo_form.label 'Last Name'
+	= geo_form.text_field :last_name
+
+	= geo_form.label :street
+	= geo_form.text_field :street
+
+	= geo_form.label :city
+	= geo_form.text_field :city
+
+	= geo_form.label :state
+	= geo_form.collection_select :geo_state_id, @states, :id, :name
+
+	= geo_form.label :zip
+	= geo_form.text_field :zip, :size => 10
