@@ -26,9 +26,14 @@
 	%br
 
 	#chartdiv
-	= javascript_tag
-		=update_page do |page|
-			-page << plot('chartdiv', [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]], :seriesDefaults => { :color => "#a55" })
+	
+	%script( type="text/javascript" )	
+		= update_page do |page|
+			- page << plot( 'chartdiv', @chart_data, :seriesDefaults => { :color => "#3d3" }, :title => "Orders!!!", :axes => { :xaxis => { :renderer => plot_renderer(:date_axis), :tick_options => { :format_string => '%b %#d, %Y' } }, :yaxis => { :tick_options => { :format_string => '$%.2f' }, :min => 0 } } )
+	
+	%br
+	%br
+	
 	
 
 	= render :partial => 'date_picker'

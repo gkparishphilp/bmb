@@ -20,12 +20,16 @@ class AuthorAdminController < ApplicationController
 	end
 	
 	def orders
-		@start_date = params[:start_date] || 7.days.ago
+		@start_date = params[:start_date] || 3.months.ago
 		@end_date = params[:end_date] || Time.now
 		
 		@orders = Order.for_author( @current_author )
 		@orders_past_day = @orders.dated_between( Time.now, 1.day.ago ).for_author( @current_author )
 		@orders_for_period = @orders.dated_between( @start_date, @end_date ).for_author( @current_author )
+		
+		@stub_data = [[ ['2010-1-1' , 34], ['2010-2-1', 21], ['2010-3-1', 24], ['2010-4-1', 2344]  ]]
+		@chart_data = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.total) as total" ).map { |o| [o.created_at.to_s, o.total.to_f / 100] } ]
+		
 		render :layout  => 'reports'
 	end
 	
