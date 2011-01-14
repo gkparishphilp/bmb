@@ -19,7 +19,4 @@ gem 'aws-s3', :require=>'aws/s3'
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"
 
-
-
-
 # end

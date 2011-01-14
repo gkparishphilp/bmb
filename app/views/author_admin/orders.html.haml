@@ -1,9 +1,10 @@
 - content_for :left_column do
 	= render :partial => 'nav'
+		
 - content_for :middle_column do
 	%h1 Orders
 	%br
-	
+		
 	%h3 Orders Last 24 hours
 	%table.admin_table
 		%tr
@@ -22,8 +23,20 @@
 				%td= order.sku.title
 				%td= format_price( order.total )
 	%br
+	%br
+
+	#chartdiv( style="height:400px;width:300px;border:solid #555 1px;")
+		
+	
+
+	= render :partial => 'date_picker'
 				
-	%h3 Orders Last Week			
+	%h3 
+		Orders from 
+		= format_date_only( @start_date.to_date )
+		to
+		= format_date_only( @end_date.to_date )	
+			
 	%table.admin_table
 		%tr
 			%td 
@@ -34,7 +47,7 @@
 				%b Item
 			%td 
 				%b Amount				
-		-for order in @orders_past_week
+		-for order in @orders_for_period
 			%tr
 				%td= order.created_at.to_date
 				%td= link_to order.order_transaction.reference, author_admin_order_detail_path( :id => order.id ) 
@@ -42,5 +55,7 @@
 				%td= format_price( order.total ) 
 	%br
 	
-	
-	
+	%script( type='text/javascript' charset='utf-8' )
+		$.jqplot.config.enablePlugins = true;
+		$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]],{ title:'Exponential Line', axes:{yaxis:{min:-10, max:240}}, series:[{color:'#5FAB78'}], highlighter: {sizeAdjust: 17.5}, cursor: {show: false} });
+

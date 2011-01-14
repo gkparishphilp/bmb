@@ -3,16 +3,7 @@
 - content_for :middle_column do
 	%h1 Coupon Redemptions
 	%br
-	
-	=form_tag do 
-		Enter Start Date:
-		= text_field_tag :start_date, @start_date, :class => 'datepicker'
-		%br
-		Enter End Date:
-		= text_field_tag :end_date, @end_date, :class => 'datepicker'
-		= submit_tag 'Search' 
-		|
-		= link_to 'Cancel', :back
+	= render :partial => 'date_picker'
 	
 	%br
 	%h3 Coupon Overview 

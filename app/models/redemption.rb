@@ -18,9 +18,16 @@ class Redemption < ActiveRecord::Base
 	belongs_to :user
 	
 	scope :dated_between, lambda { |*args| 
-		where( "created_at between ? and ?", (args.first.to_date || 7.days.ago), (args.second.to_date || Time.now) ) 
+		where( "redemptions.created_at between ? and ?", (args.first.to_date || 7.days.ago), (args.second.to_date || Time.now) ) 
 	}
 	
+	scope :for_author, lambda { |args|
+		joins( "join coupons on coupons.id = coupon_id " ).where( "coupons.owner_type='Author' and coupons.owner_id = ?", args )
+	}
+
 	scope :redeemed, where( "status = 'redeemed'" )
+
+	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
+
 		
 end
