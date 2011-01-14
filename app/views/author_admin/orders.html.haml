@@ -25,8 +25,10 @@
 	%br
 	%br
 
-	#chartdiv( style="height:400px;width:300px;border:solid #555 1px;")
-		
+	#chartdiv
+	= javascript_tag
+		=update_page do |page|
+			-page << plot('chartdiv', [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]], :seriesDefaults => { :color => "#a55" })
 	
 
 	= render :partial => 'date_picker'
@@ -55,7 +57,5 @@
 				%td= format_price( order.total ) 
 	%br
 	
-	%script( type='text/javascript' charset='utf-8' )
-		$.jqplot.config.enablePlugins = true;
-		$.jqplot('chartdiv',  [[[1, 2],[3,5.12],[5,13.1],[7,33.6],[9,85.9],[11,219.9]]],{ title:'Exponential Line', axes:{yaxis:{min:-10, max:240}}, series:[{color:'#5FAB78'}], highlighter: {sizeAdjust: 17.5}, cursor: {show: false} });
 
+		
