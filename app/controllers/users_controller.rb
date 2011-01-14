@@ -49,8 +49,6 @@ class UsersController < ApplicationController
 		#	return false
 		#end
 		@states = GeoState.where("country ='US'")
-		
-		@user.shipping_addresses.build
     
 	end
 

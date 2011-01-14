@@ -20,9 +20,7 @@
 		
 		%h3 Addresses:
 		= f.fields_for :addressings do |addr_form|
-			= render 'geo_addresses/address_form', :addr_form => addr_form, :addr_type => 'billing'
-
-			
+			= render 'geo_addresses/address_form', :addr_form => addr_form, :addr_type => 'select'
 
 		%br
 		=f.submit "Update", :class => :button
