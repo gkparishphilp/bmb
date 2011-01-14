@@ -49,9 +49,8 @@ class UsersController < ApplicationController
 		#	return false
 		#end
 		@states = GeoState.where("country ='US'")
-		@user.addressings.build
 		
-		#@user.billing_address = GeoAddress.new unless @user.billing_address.present?
+		@user.shipping_addresses.build
     
 	end
 

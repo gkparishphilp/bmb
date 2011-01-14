@@ -27,7 +27,6 @@ class GeoAddress < ActiveRecord::Base
 	
 	has_many 	:addressings
 	
-	
 	# todo - clean these up and buff them out
 #	validates :first_name, :presence => true
 #	validates :last_name, :presence => true

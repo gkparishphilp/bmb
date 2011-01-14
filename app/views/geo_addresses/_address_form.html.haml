@@ -1,20 +1,25 @@
-
+- if addr_type == 'select'
+	= addr_form.select :address_type, [ ['Shipping', 'shipping'], ['Billing', 'billing'] ]
+- else
+	= addr_form.hidden_field :address_type, :value => addr_type
+%br
 = addr_form.fields_for :geo_address do |geo_form|
-
-	= geo_form.label 'First Name'
+	%b First Name:
 	= geo_form.text_field :first_name
 
-	= geo_form.label 'Last Name'
+	%b Last Name:
 	= geo_form.text_field :last_name
 
-	= geo_form.label :street
+	%br
+	%b Street
 	= geo_form.text_field :street
+	%br
+	%b Street 2
+	= geo_form.text_field :street2
 
-	= geo_form.label :city
+	%br
+	%b City, ST, Zip
 	= geo_form.text_field :city
-
-	= geo_form.label :state
 	= geo_form.collection_select :geo_state_id, @states, :id, :name
-
-	= geo_form.label :zip
 	= geo_form.text_field :zip, :size => 10
+%br
