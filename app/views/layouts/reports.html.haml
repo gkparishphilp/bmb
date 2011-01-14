@@ -1,0 +1,25 @@
+!!!strict
+%html
+	%head
+		= stylesheet_link_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/smoothness/jquery-ui.css'
+		= render :partial => 'layouts/meta'
+		= javascript_include_tag 'jquery.jqplot.min'
+		= javascript_include_tag 'jqplot_plugins/jqplot.highlighter.js'
+	%body
+		#container
+			= render :partial => 'shared/header'
+			#bd
+				.left_col
+					.pad_content
+						= yield :left_column
+				.middle_col
+					.pad_content
+						= render 'shared/flash', :flash => flash
+						= yield :middle_column
+				.right_col
+					.pad_content
+						= yield :right_column
+			= render :partial => 'shared/footer'
+		= render :partial => 'shared/analytics'
+		= render :partial => 'shared/scripts'
+		

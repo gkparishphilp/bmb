@@ -1,0 +1,49 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	%h1 Coupon Redemptions
+	%br
+	= render :partial => 'date_picker'
+	
+	%br
+	%h3 Coupon Overview 
+	%table.admin_table
+		%tr
+			%td
+				%b Code
+			%td
+				%b SKU
+			%td
+				%b Redemptions
+				
+		- for item in @redemption_count
+			%tr
+				%td
+					%b= item[1]
+				%td
+					= item[2]
+				%td
+					= item[3]
+	%br
+	%h3 Coupon Details 
+	
+	%table.admin_table
+		%tr
+			%td
+				%b Coupon Code
+			%td
+				%b Item
+			%td
+				%b Order Confirmation Number
+			%td
+				%b Date
+		- for redemption in @redemptions
+			%tr
+				%td
+					= redemption.coupon.code
+				%td
+					= redemption.order.sku.title
+				%td
+					= link_to redemption.order.order_transaction.reference, author_admin_order_detail_path( :id => redemption.order.id )
+				%td
+					= format_date_only( redemption.order.created_at )

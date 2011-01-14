@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
 		end
 		
 		unless @current_user.anonymous?
-			@billing_addresses = @current_user.billing_addresses
+			@billing_address = @current_user.billing_address
 			@shipping_addresses = @current_user.shipping_addresses
 		end
 
