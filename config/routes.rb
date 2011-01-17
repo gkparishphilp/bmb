@@ -192,13 +192,12 @@ Backmybook::Application.routes.draw do
 
 	match '/author-admin/order_detail' => 'author_admin#order_detail', :as => :author_admin_order_detail
 	match '/author-admin/send_to_self' => 'author_admin#send_to_self', :as => :author_admin_send_to_self
+	match '/author-admin/send_to_all' => 'author_admin#send_to_all', :as => :author_admin_send_to_all
 	
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
 	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
-	
-	
-	
+		
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'
 	

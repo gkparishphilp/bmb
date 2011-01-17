@@ -8,5 +8,12 @@ class MarketingMailer < ActionMailer::Base
 		mail :to => "#{@author.user.email}", :from => "#{@author.user.email}", :subject => "Self Test #{message.subject}"
 	end
 
+	def send_to_all( message, author, subscription )
+		# setup instance variables for the view
+		@author = author
+		@message = message
+		@subscription = subscription
+		mail :to => "#{@subscription.subscriber.email}", :from => "#{@author.user.email}", :subject => "#{message.subject}"
+	end
 	
 end

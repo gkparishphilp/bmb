@@ -24,6 +24,11 @@ class EmailSubscribing < ActiveRecord::Base
 	
 	validates :unsubscribe_code, :uniqueness => true
 	
+	scope :subscribed, where(:status => 'subscribed')
+	scope :for_author, lambda { |args| 
+		where("subscribed_to_type='Author' and subscribed_to_id = ? ", args)
+	}
+	
 	def generate_unsubscribe_code
 		random_string = rand(1000000000).to_s + Time.now.to_s
 		if self.unsubscribe_code == nil
@@ -31,4 +36,5 @@ class EmailSubscribing < ActiveRecord::Base
 		end
 		
 	end
+	
 end

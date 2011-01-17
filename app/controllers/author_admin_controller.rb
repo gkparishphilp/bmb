@@ -70,12 +70,18 @@ class AuthorAdminController < ApplicationController
 	
 	def send_to_self
 		@message = EmailMessage.find( params[:email_message] )
-		if email = MarketingMailer.send_to_self( @message, @current_author ).deliver
-			pop_flash 'Email sent'
-		else
-			pop_flash 'Email Errored Out', :error
+		MarketingMailer.send_to_self( @message, @current_author ).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Email Errored Out' , :error )
+		redirect_to author_admin_newsletters_url
+	end
+	
+	def send_to_all
+		@message = EmailMessage.find( params[:email_message] )
+		@subscriptions = @current_author.email_subscribings.subscribed
+		for @subscription in @subscriptions
+			MarketingMailer.send_to_all( @message, @current_author, @subscription).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Error sending email', :error )
 		end
 		redirect_to author_admin_newsletters_url
+		
 	end
 
 end

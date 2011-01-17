@@ -57,7 +57,7 @@ class Author < ActiveRecord::Base
 	
 	has_friendly_id	:pen_name, :use_slug => true
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
-	
+		
 	# todo return effective royalty rate depending on author's subscriptions
 	def current_royalty_rate
 		# todo fix this ghetto shit!!!!!!
