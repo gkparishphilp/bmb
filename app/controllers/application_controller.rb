@@ -9,7 +9,6 @@ class ApplicationController < ActionController::Base
 	# @theme the theme the author is using, if any
 
 protected
-
 	def http_auth
 		authenticate_or_request_with_http_basic do |name, pass|
 			name == 'admin' && pass == 'gr0undsw3ll'
