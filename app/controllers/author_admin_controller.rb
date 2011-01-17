@@ -27,6 +27,7 @@ class AuthorAdminController < ApplicationController
 		@orders_past_day = @orders.dated_between( Time.now, 1.day.ago )
 		@orders_for_period = @orders.dated_between( @start_date, @end_date )
 		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total")
+
 		
 		@stub_data = [[ ['2010-1-1' , 34], ['2010-2-1', 21], ['2010-3-1', 24], ['2010-4-1', 24], ['2010-5-1', 8]  ]]
 		@daily_sales = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.total) as total" ).map { |o| [o.created_at.to_s, o.total.to_f / 100] } ]
@@ -64,4 +65,3 @@ class AuthorAdminController < ApplicationController
 
 end
 
-# o

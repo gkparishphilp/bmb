@@ -29,6 +29,7 @@
 	
 	%br
 	%br
+	= render :partial => 'date_picker'
 	
 
 	#daily_sales_div
@@ -78,6 +79,10 @@
 	%br
 	%br
 	= render :partial => 'date_picker'
+			- page << plot( 'chartdiv', @chart_data, :seriesDefaults => { :color => "#3d3" }, :title => "Gross Sales", :axes => { :xaxis => { :renderer => plot_renderer(:date_axis), :renderer_options => { :tick_renderer => plot_renderer(:canvas_axis_tick) }, :tick_options => { :angle => -30, :format_string => '%b %#d, %Y' } }, :yaxis => { :tick_options => { :format_string => '$%.2f' }, :min => 0 } } )
+	
+	%br
+	%br
 				
 	%h3 
 		Orders from 
