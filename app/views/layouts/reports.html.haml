@@ -1,14 +1,15 @@
 !!!strict
 %html
 	%head
-		= stylesheet_link_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/smoothness/jquery-ui.css'
 		= render :partial => 'layouts/meta'
+		= stylesheet_link_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/smoothness/jquery-ui.css'
 		/[if IE]
 			= javascript_include_tag "excanvas.min.js"
 		= javascript_include_tag "jquery-1.3.2.min"
 		= javascript_include_tag "jqplot/jquery.jqplot.min"
 		= javascript_include_tag "jqplot/plugins/jqplot.highlighter.min"
 		= javascript_include_tag "jqplot/plugins/jqplot.barRenderer.min"
+		= javascript_include_tag "jqplot/plugins/jqplot.pieRenderer.min"
 		= javascript_include_tag "jqplot/plugins/jqplot.dateAxisRenderer.min"
 		= stylesheet_link_tag "jqplot/jquery.jqplot.min"
 
