@@ -62,6 +62,21 @@ class AuthorAdminController < ApplicationController
 	def order_detail
 		@order = Order.find params[:id]
 	end
+	
+	def newsletters
+		@campaign = EmailCampaign.find_by_owner_id_and_owner_type_and_title(@current_author.id, 'Author', 'Default')
+		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
+	end
+	
+	def send_to_self
+		@message = EmailMessage.find( params[:email_message] )
+		if email = MarketingMailer.send_to_self( @message, @current_author ).deliver
+			pop_flash 'Email sent'
+		else
+			pop_flash 'Email Errored Out', :error
+		end
+		redirect_to author_admin_newsletters_url
+	end
 
 end
 

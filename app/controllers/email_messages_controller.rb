@@ -14,7 +14,7 @@ class EmailMessagesController < ApplicationController
 		@email_message.email_campaign = @campaign
 		
 		if @email_message.save
-			redirect_to admin_newsletter_path
+			redirect_to author_admin_newsletters_path
 		else
 			pop_flash 'Oooops, Email Message not saved...', 'error', @email_message
 			render :action => :new
@@ -27,7 +27,7 @@ class EmailMessagesController < ApplicationController
 
 		if @email_message.update_attributes(params[:email_message])
 			pop_flash 'Email Message was successfully updated.', 'success'
-			redirect_to admin_newsletter_path
+			redirect_to author_admin_newsletters_path
 		else
 			pop_flash 'Oooops, EmailMessage not updated...', 'error', @email_message
 			render :action => :edit
@@ -38,7 +38,7 @@ class EmailMessagesController < ApplicationController
 		@email_message = EmailMessage.find params[:id] 
 		@email_message.destroy
 		pop_flash 'Email message was successfully deleted', 'success'
-		redirect_to admin_newsletter_path
+		redirect_to author_admin_newsletters_path
 	end
 	
 	private 
