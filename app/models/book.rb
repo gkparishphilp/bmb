@@ -53,7 +53,7 @@ class Book < ActiveRecord::Base
 	attr_accessor :asin
 	
 	scope :published, where( "status = 'publish'" )
-	
+		
 	# class_methods
 	def self.find_on_amazon( title )
 		Amazon::Ecs.item_search( title, :response_group => 'Medium', :search_index => 'Books' ).items
@@ -113,4 +113,13 @@ class Book < ActiveRecord::Base
 		ass.save
 		return ass
 	end
+	
+	def download_count
+		count = 0
+		for asset in self.assets
+			count += asset.download_count
+		end
+		return count
+	end
+	
 end
