@@ -39,6 +39,7 @@ Tay
 	- Need link to download etexts, what about anonymous users downloading etexts?
 - Fix raw stats that are being commented out
 	- Add raw_stat call to @article and @post show actions, ie: @post.raw_stats.create :name =>'view', :ip => request.ip
+	- raw_stat.name can be either "view" or "download"
 - Admin subscriptions - Need order page
 - Check coupon code functionality for Paypal express
 - Don't allow subscriptions to be ordered with Paypal express
@@ -67,6 +68,8 @@ DONE
 - Patch theme picker so it doesn't duplicate theme items when you pick a default theme.
 - Delayed job installed...  Just call from code like before
 - Raw stats model - cleaned up from old version.  Just create a raw stat and it will automatically rate_limit and update the real stat through delayed_job
+    - to test, run rake:jobs work on the console and that will start delayed_job
+	
 - Change ecom to use sku instead of ordered
 - User profile page
 	- low priority

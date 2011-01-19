@@ -70,7 +70,7 @@ class AssetsController < ApplicationController
 		@asset = Asset.find params[:id]
 		send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
 						:filename => @asset.book.title + "." + @asset.document.format
-		#@asset.raw_stats.create :name =>'download', :ip => request.ip
+		@asset.raw_stats.create :name =>'download', :ip => request.ip
 		@asset.save
 		@current_user.did_download @asset.book unless @current_user.anonymous?
 		
@@ -89,6 +89,7 @@ class AssetsController < ApplicationController
 							:filename => @asset.book.title + "." + @asset.document.format
 				end
 				owning.update_attributes :delivered => true
+				@asset.raw_stats.create :name =>'download', :ip => request.ip				
 			elsif @current_user.anonymous? and owning.delivered == true
 				pop_flash "This item has already been delivered.  Please register or login as #{@order.email} to redownload this item.", :error
 				redirect_to register_path
@@ -98,9 +99,10 @@ class AssetsController < ApplicationController
 					redirect_to @secure_url
 				else
 					send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
-							:filename => @asset.book.title + "." + @asset.document.format
+							:filename => @asset.book.title + "." + @asset.document.format					
 				end
 				owning.update_attributes :delivered => true if owning.delivered == false
+				@asset.raw_stats.create :name =>'download', :ip => request.ip
 			else
 				pop_flash "Sorry, you do not own this item", :error
 				redirect_to root_path
