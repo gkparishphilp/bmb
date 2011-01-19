@@ -1,19 +1,21 @@
 # == Schema Information
-# Schema version: 20101120000321
+# Schema version: 20110105172220
 #
 # Table name: skus
 #
-#  id          :integer(4)      not null, primary key
-#  owner_id    :integer(4)
-#  owner_type  :string(255)
-#  book_id     :integer(4)
-#  title       :string(255)
-#  description :text
-#  price       :integer(4)
-#  sku_type    :string(255)
-#  status      :string(255)     default("publish")
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id                           :integer(4)      not null, primary key
+#  owner_id                     :integer(4)
+#  owner_type                   :string(255)
+#  book_id                      :integer(4)
+#  title                        :string(255)
+#  description                  :text
+#  price                        :integer(4)
+#  sku_type                     :string(255)
+#  status                       :string(255)     default("publish")
+#  created_at                   :datetime
+#  updated_at                   :datetime
+#  domestic_shipping_price      :integer(4)      default(0)
+#  international_shipping_price :integer(4)      default(0)
 #
 
 class Sku < ActiveRecord::Base

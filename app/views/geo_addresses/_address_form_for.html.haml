@@ -1,0 +1,46 @@
+%table
+	- if addr_type == 'select'
+		%tr
+			%td
+				%b Address Type:
+			%td
+				= addr_form.select_tag :address_type, [ ['Shipping', 'shipping'], ['Billing', 'billing'] ]
+	- else
+		= addr_form.hidden_field :address_type, :value => addr_type
+	= addr_form.fields_for :geo_address do |geo_form|
+		%tr
+			%td
+				%b First Name:
+			%td
+				= geo_form.text_field :first_name
+		%tr
+			%td
+				%b Last Name:
+			%td
+				= geo_form.text_field :last_name
+		%tr
+			%td
+				%b Street:
+			%td
+				= geo_form.text_field :street
+		%tr
+			%td
+				%b Street2:
+			%td
+				= geo_form.text_field :street2
+		%tr
+			%td
+				%b City:
+			%td
+				= geo_form.text_field :city
+		%tr
+			%td
+				%b State:
+			%td
+				= geo_form.collection_select :geo_state_id, @states, :id, :name
+		%tr
+			%td
+				%b Zip
+			%td
+				= geo_form.text_field :zip, :size => 10
+%br

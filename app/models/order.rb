@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101120000321
+# Schema version: 20110105172220
 #
 # Table name: orders
 #
@@ -10,12 +10,14 @@
 #  sku_id                  :integer(4)
 #  email                   :string(255)
 #  ip                      :string(255)
-#  price                   :integer(4)
 #  status                  :string(255)
 #  paypal_express_token    :string(255)
 #  paypal_express_payer_id :string(255)
 #  created_at              :datetime
 #  updated_at              :datetime
+#  tax_amount              :integer(4)
+#  shipping_amount         :integer(4)
+#  total                   :integer(4)
 #
 
 class Order < ActiveRecord::Base
@@ -30,8 +32,9 @@ class Order < ActiveRecord::Base
 
 	has_many	:addressings, :as => :owner
 	has_many	:geo_addresses, :through => :addressings
-	has_one		:shipping_addresses, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
+	has_one		:shipping_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
 	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
+	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	

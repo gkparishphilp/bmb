@@ -1,3 +1,16 @@
+# == Schema Information
+# Schema version: 20110105172220
+#
+# Table name: addressings
+#
+#  id             :integer(4)      not null, primary key
+#  owner_id       :integer(4)
+#  owner_type     :string(255)
+#  geo_address_id :integer(4)
+#  address_type   :string(255)
+#  preferred      :boolean(1)
+#
+
 class Addressing < ActiveRecord::Base
 	# a join table between address owners and addresses
 	

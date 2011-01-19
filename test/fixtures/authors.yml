@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101120000321
+# Schema version: 20110105172220
 #
 # Table name: authors
 #
@@ -14,6 +14,8 @@
 #  cached_slug      :string(255)
 #  created_at       :datetime
 #  updated_at       :datetime
+#  contact_email    :string(255)
+#  contact_phone    :string(255)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

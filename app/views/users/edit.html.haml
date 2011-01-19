@@ -18,9 +18,13 @@
 		
 		%h2 Address Testing
 		
-		%h3 Addresses:
-		= f.fields_for :addressings do |addr_form|
-			= render 'geo_addresses/address_form', :addr_form => addr_form, :addr_type => 'select'
+		%h3 Billing Address:
+		= f.fields_for :billing_address do |addr_form|
+			= render 'geo_addresses/address_form', :addr_form => addr_form
+		
+		%h3 Shipping Addresses:
+		= f.fields_for :shipping_address do |addr_form|
+			= render 'geo_addresses/address_form', :addr_form => addr_form
 
 		%br
 		=f.submit "Update", :class => :button

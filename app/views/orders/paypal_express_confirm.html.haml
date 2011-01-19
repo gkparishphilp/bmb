@@ -1,0 +1,45 @@
+- content_for :left_column do
+	%h1 
+		Purchase
+		= @sku.title
+
+	#checkout
+		#price_div( style="width:150px;" )
+			%h3
+				Price: 
+				%span#the_price( sku_price="#{@sku.price}" )
+					= number_to_currency @sku.price.to_f / 100
+		-if @sku.contains_merch?		
+			%h4 
+				Shipping fee of 
+				=number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
+				applies to US orders.
+				%br
+				Shipping fee of 
+				=number_to_currency( @sku.international_shipping_price.to_f / 100)  
+				applies to International orders.
+			%br
+= form_for @order do |f|
+	= f.hidden_field :paypal_express_token, :value => @order.paypal_express_token
+	= f.hidden_field :paypal_express_payer_id, :value => @order.paypal_express_payer_id
+	= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
+	= f.hidden_field :user_id, :value => @current_user.id
+	= f.hidden_field :sku_id, :value => @sku.id
+	- if @current_user.anonymous?
+		%b E-mail (REQUIRED)
+		= f.text_field :email, :class => 'required_email'
+		%br
+		Please provide an email address for your order confirmation and receipt.
+		%br
+	- else
+		= f.hidden_field :email, :value => @current_user.email
+	%br
+	%b Enter Coupon Code (if applicable)
+	= text_field_tag :coupon_code, "", :class => :coupon
+	#valid_coupon_div( style = "margin:10px 0px;")
+		#valid_coupon
+	%p Please confirm your Paypal order by clicking the button below.
+					
+	%p Note: Your Paypal Account will be billed by "Groundswell Enterprises".
+	%p
+	= f.submit "Confirm Your Paypal Order", :class => :buttons

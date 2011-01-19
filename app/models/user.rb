@@ -58,9 +58,24 @@ class User < ActiveRecord::Base
 	has_many	:facebook_accounts,	:as => :owner
 	
 	has_many	:addressings, :as => :owner
+	
 	has_many	:geo_addresses, :through => :addressings
 	has_many	:shipping_addresses, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
 	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
+	
+	def billing_address=( attributes )
+		addr = GeoAddress.create( attributes )
+		addressing = addr.addressings.create :address_type => 'billing'
+		addressing.owner = self
+		addressing.save
+	end
+	
+	def shipping_address=( attributes )
+		addr = GeoAddress.create( attributes )
+		addressing = addr.addressings.create :address_type => 'shipping'
+		addressing.owner = self
+		addressing.save
+	end
 	
 	has_one		:author
 	has_many	:orders
@@ -77,8 +92,6 @@ class User < ActiveRecord::Base
 	belongs_to :site
 	
 	# Plugins	--------------------------------------
-	
-	accepts_nested_attributes_for :addressings
 	
 	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true

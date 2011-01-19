@@ -1,11 +1,9 @@
 # == Schema Information
-# Schema version: 20101120000321
+# Schema version: 20110105172220
 #
 # Table name: geo_addresses
 #
 #  id           :integer(4)      not null, primary key
-#  type         :string(255)
-#  user_id      :integer(4)
 #  title        :string(255)
 #  first_name   :string(255)
 #  last_name    :string(255)
@@ -16,7 +14,6 @@
 #  zip          :string(255)
 #  country      :string(255)
 #  phone        :string(255)
-#  preferred    :boolean(1)
 #  created_at   :datetime
 #  updated_at   :datetime
 #

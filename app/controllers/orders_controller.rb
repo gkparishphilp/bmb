@@ -34,20 +34,28 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
+		
+		# set order fields if returning from PayPal
 		if params[:token]			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
 			paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
 			order_country = paypal_express_details.params["country"]
+			render :paypal_express_confirm
+			return false
 		end
 		
-		unless @current_user.anonymous?
-			@billing_address = @current_user.billing_address
-			@shipping_addresses = @current_user.shipping_addresses
+		# set order fields if in Dev environment
+		if Rails.env.development?
+			@order.card_number = '4411037113154626'
+			@order.card_cvv = '123'
+			@order.card_exp_year = '2013'
 		end
-
-		#todo need to redirect this to some proper error message
-		redirect_to root_path if @ordered.is_a? Subscription and @ordered.redemptions_remaining == 0
+		
+	#	unless @current_user.anonymous?
+	#		@billing_address = @current_user.billing_address
+	#		@shipping_addresses = @current_user.shipping_addresses
+	#	end
 			
 	end
 

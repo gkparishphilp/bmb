@@ -48,6 +48,7 @@ class UsersController < ApplicationController
 		#	redirect_to root_path
 		#	return false
 		#end
+		
 		@states = GeoState.where("country ='US'")
     
 	end
