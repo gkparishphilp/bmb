@@ -16,29 +16,13 @@ class ProcessStatJob  < Struct.new(:now, :stat)
 		count = RawStat.where("created_at BETWEEN ? and ? and ip = ? and name = ?", past, now, stat.ip, stat.name).count
 		
 		if count < max_rate_per_minute * interval_in_minute
-			case stat.statable_type
-			when 'Book'
-				book = Book.find stat.statable_id
-				if stat.name == 'view'
-					book.view_count += 1
-					book.save
-				end
-			when 'Asset'
-				asset = Asset.find stat_statable_id
-				book = asset.book
-				if stat.name == 'download'
-					book.view_count += 1
-					book.save
-				end
-			when 'Post'
-				post = Post.find stat.statable_id
-				post.view_count += 1
-				post.save
-			when 'Article'
-				article = Article.find stat.statable_id
-				article.view_count += 1
-				article.save
-			end
+			stat_event = StatEvent.create(	:statable_id => stat.statable_id,
+			 								:statable_type => stat.statable_type,
+											:name => stat.name,
+											:ip => stat.ip,
+											:count => stat.count,
+											:extra_data => stat.extra_data
+										)
 		end	
 		
 	end
