@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20101120000321
+# Schema version: 20110105172220
 #
 # Table name: users
 #
@@ -57,25 +57,11 @@ class User < ActiveRecord::Base
 	has_many	:twitter_accounts, 	:as => :owner
 	has_many	:facebook_accounts,	:as => :owner
 	
-	has_many	:addressings, :as => :owner
+	has_many	:geo_addresses
+	has_many	:shipping_addresses, :class_name => 'GeoAddress', :conditions => "address_type='shipping'"
+	has_one		:billing_address, :class_name => 'GeoAddress', :conditions => "address_type='billing'"
 	
-	has_many	:geo_addresses, :through => :addressings
-	has_many	:shipping_addresses, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
-	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
-	
-	def billing_address=( attributes )
-		addr = GeoAddress.create( attributes )
-		addressing = addr.addressings.create :address_type => 'billing'
-		addressing.owner = self
-		addressing.save
-	end
-	
-	def shipping_address=( attributes )
-		addr = GeoAddress.create( attributes )
-		addressing = addr.addressings.create :address_type => 'shipping'
-		addressing.owner = self
-		addressing.save
-	end
+	accepts_nested_attributes_for	:billing_address, :shipping_addresses
 	
 	has_one		:author
 	has_many	:orders

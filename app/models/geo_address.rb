@@ -21,16 +21,16 @@
 class GeoAddress < ActiveRecord::Base
 	
 	belongs_to	:geo_state
-	has_many 	:addressings
+	belongs_to	:user
 	
 	# todo - clean these up and buff them out
-#	validates :first_name, :presence => true
-#	validates :last_name, :presence => true
-#	validates :street, :presence => true
-#	validates :city, :presence => true
-#	validates :geo_state_id, :presence => true
-#	validates :zip, :presence => true
-#	validates :country, :presence => true
+	validates :first_name, :presence => true
+	validates :last_name, :presence => true
+	validates :street, :presence => true
+	validates :city, :presence => true
+	validates :geo_state_id, :presence => true
+	validates :zip, :presence => true
+	validates :country, :presence => true
 	
 	# some cosmetic methods to display stuff
 	def full_name

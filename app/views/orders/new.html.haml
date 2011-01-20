@@ -10,76 +10,29 @@
 				%span#the_price( sku_price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
 			%br
-		-if @sku.contains_merch?		
-			%h4 
-				Shipping fee of 
-				=number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
-				applies to US orders.
-				%br
-				Shipping fee of 
-				=number_to_currency( @sku.international_shipping_price.to_f / 100)  
-				applies to International orders.
-			%br
-		-if @order.paypal_express_token.blank?	
 
-			= form_for @order do |f|
-				= f.hidden_field :sku_id, :value => @sku.id
-				= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
-				%h3 Payment Information
-				(US Credit Cards or PayPal Only)
-				%table
+		= form_for @order do |f|
+			= f.hidden_field :sku_id, :value => @sku.id
+			= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
+			%h3 Payment Information
+			(US Credit Cards or PayPal Only)
+			= render 'payinfo', :f => f
+			
+			%h3 
+				Buyer Information
+			%table
+				- if @current_user.anonymous?
 					%tr
 						%td
-							%b Payment Method
-						%td#pay_select
-							= f.radio_button :payment_type, "credit_card", :id => "credit_radio", :checked => true
-							Credit Card:
-							= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
-							&nbsp &nbsp &nbsp
-							-unless @sku.sku_type == 'subscription'
-								%br
-								=f.radio_button :payment_type, "paypal", :id => 'paypal_radio'
-								PayPal:
-								<!-- PayPal Logo --><a href="#" onclick="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img  src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" border="0" alt="Acceptance Mark" align="center"></a><!-- PayPal Logo -->
-				%br
-				%br
-				#cc_info
-					%table
-						- if @current_user.anonymous?
-							%tr
-								%td
-									%b E-mail
-								%td= f.text_field :email, :class => 'required_email'
-						-else
-							= f.hidden_field :email, :value => @current_user.email
-							
-						%tr
-							%td
-								%b Enter Coupon Code
-							%td
-								=text_field_tag :coupon_code, "", :class => :coupon
-								#valid_coupon_div( style = "margin:10px 0px;")
-									#valid_coupon
-						%tr
-							%td
-								%b Card Number
-							%td= f.text_field :card_number
-
-						%tr
-							%td
-								%b Card Security Code (CVV)
-							%td
-								= f.text_field :card_cvv
-								&nbsp;&nbsp;
-								= image_tag 'card_images/cvv.png', :align => 'center'
-						%tr
-							%td 
-								%b Card Expiration
-							%td
-								= f.select :card_exp_month, @months
-								&nbsp;/&nbsp;
-								= f.select :card_exp_year, @years
-					%h3
-						Billing Information
-					= fields_for :addressings do |addr_form|
-						= render 'geo_addresses/address_form', :addr_form => addr_form, :addr_type => 'billing'
+							%b E-mail
+						%td= f.text_field :email, :class => 'required_email'
+				-else
+					= f.hidden_field :email, :value => @current_user.email
+			
+			%h3
+				Billing Information
+			= fields_for :billing_address do |addr_form|
+				= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr_type => 'billing'
+					
+					
+			= f.submit

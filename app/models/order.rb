@@ -30,10 +30,8 @@ class Order < ActiveRecord::Base
 	
 	has_many	:royalties
 
-	has_many	:addressings, :as => :owner
-	has_many	:geo_addresses, :through => :addressings
-	has_one		:shipping_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='shipping'"
-	has_one		:billing_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='billing'"
+	has_one		:shipping_address, :class_name => 'GeoAddress', :foreign_key => :shipping_address_id, :conditions => "address_type='shipping'"
+	has_one		:billing_address, :class_name => 'GeoAddress', :foreign_key => :billing_address_id, :conditions => "address_type='billing'"
 	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
@@ -197,36 +195,43 @@ class Order < ActiveRecord::Base
 
 	def calculate_taxes
 		tax = 0
-		author_state = self.sku.owner.user.billing_addresses.first.geo_state.abbrev.nil? ? nil : self.sku.owner.user.billing_addresses.first.geo_state
 		
-		if self.paypal_express?
-			tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
-		else
-			tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
+		if self.sku.contains_merch?
+			author_state = self.sku.owner.user.billing_addresses.first.geo_state.abbrev.nil? ? nil : self.sku.owner.user.billing_addresses.first.geo_state
+		
+			if self.paypal_express?
+				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
+			else
+				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
+			end
+		
+			tax = (tax * 100).round
 		end
 		
-		tax = (tax * 100).round
-		return tax.to_i
+		self.tax_amount = tax.to_i
 		
 	end
 
 	def calculate_shipping
 		shipping_price = 0
-		# Author should have at least one billing address, but default to US if he doesn't
-		author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
 		
-		# Determine country of order
-		if self.paypal_express?
-			order_country = self.get_paypal_express_details.params["country"]
-		else
-			order_country = self.billing_address.country.nil? ? 'US' : self.billing_address.country
+		if self.sku.contains_merch?
+			# Author should have at least one billing address, but default to US if he doesn't
+			author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
+		
+			# Determine country of order
+			if self.paypal_express?
+				order_country = self.get_paypal_express_details.params["country"]
+			else
+				order_country = self.billing_address.country.nil? ? 'US' : self.billing_address.country
+			end
+		
+			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
+		
+			shipping_price = 0 if shipping_price.nil?
 		end
 		
-		order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
-		
-		shipping_price = 0 if shipping_price.nil?
-		
-		return shipping_price.to_i
+		self.shipping_amount = shipping_price.to_i
 	end
 
 #---------------------------------------------------------------

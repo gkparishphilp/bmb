@@ -1,0 +1,43 @@
+%table( border=1 )
+	%tr
+		%td
+			%b Enter Coupon Code: 
+		%td
+			=text_field_tag :coupon_code, "", :class => :coupon
+			#valid_coupon_div( style = "margin:10px 0px;")
+				#valid_coupon
+	%tr
+		%td
+			%b Payment Method
+		%td#pay_select
+			= f.radio_button :payment_type, "credit_card", :id => "credit_radio", :checked => true
+			Credit Card:
+			= image_tag 'card_images/ccards_all.png', :id => 'card_images', :align => 'center', :alt => 'Credit Card'
+			&nbsp &nbsp &nbsp
+			%br
+			=f.radio_button :payment_type, "paypal", :id => 'paypal_radio'
+			PayPal:
+			<!-- PayPal Logo --><a href="#" onclick="javascript:window.open('https://www.paypal.com/cgi-bin/webscr?cmd=xpt/Marketing/popup/OLCWhatIsPayPal-outside','olcwhatispaypal','toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, width=400, height=350');"><img  src="https://www.paypal.com/en_US/i/logo/PayPal_mark_37x23.gif" border="0" alt="Acceptance Mark" align="center"></a><!-- PayPal Logo -->
+%br
+%br
+#cc_info
+	%table
+	
+		%tr
+			%td
+				%b Card Number
+			%td= f.text_field :card_number
+		%tr
+			%td
+				%b Card Security Code (CVV)
+			%td
+				= f.text_field :card_cvv
+				&nbsp;&nbsp;
+				= image_tag 'card_images/cvv.png', :align => 'center'
+		%tr
+			%td 
+				%b Card Expiration
+			%td
+				= f.select :card_exp_month, @months
+				&nbsp;/&nbsp;
+				= f.select :card_exp_year, @years
