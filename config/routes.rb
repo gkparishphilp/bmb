@@ -191,21 +191,10 @@ Backmybook::Application.routes.draw do
 	
 	match '/admin/' => 'admin#index', :as => :admin_index
 
-	# New Author Admin -- as features 
+	# todo Clean up routes for reporting when I've figured out how to post and get the same resourced route
 	match '/reports/sales' => 'reports#sales', :as => :reports_sales
 	match '/reports/redemptions' => 'reports#redemptions', :as => :reports_redemptions
-	
-	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
-	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
-	match '/author-admin/orders' => 'author_admin#orders', :as => :author_admin_orders
-	match '/author-admin/redemptions' => 'author_admin#redemptions', :as => :author_admin_redemptions
-	match '/author-admin/newsletters' => 'author_admin#newsletters', :as => :author_admin_newsletters
-	match '/author-admin/email' => 'author_admin#email', :as => :author_admin_email
-
-	match '/author-admin/order_detail' => 'author_admin#order_detail', :as => :author_admin_order_detail
-	match '/author-admin/send_to_self' => 'author_admin#send_to_self', :as => :author_admin_send_to_self
-	match '/author-admin/send_to_all' => 'author_admin#send_to_all', :as => :author_admin_send_to_all
-	
+		
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
 	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog

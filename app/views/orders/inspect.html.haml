@@ -58,7 +58,7 @@
 				.data= @order.billing_address.city_st_zip
 				.clear
 			
-			- if @order.shipping_address.present?
+			- if false #@order.shipping_address.present?
 				%h4 Shipping Address
 				.label Name:
 				.data= @order.shipping_address.full_name
