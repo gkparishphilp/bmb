@@ -55,6 +55,8 @@ class OrdersController < ApplicationController
 			@order.card_cvv = '123'
 			@order.card_exp_year = '2013'
 		end
+		
+		@billing_address = @current_user.billing_address.present? ? @current_user.billing_address : GeoAddress.new( :address_type => 'billing' )
 			
 	end
 	
@@ -96,6 +98,7 @@ class OrdersController < ApplicationController
 			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
 			@order.user.save( false )
 			# todo = some validations here and/or punting errors on user up to controller flash
+			
 		else
 			@order.user = @current_user
 		end
@@ -109,17 +112,20 @@ class OrdersController < ApplicationController
 		# Apply Coupon if present -- actual redemption occurs if order processes successfully
 		@order.apply_coupon( @coupon ) if params[:coupon_code].present? and @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] ) and @coupon.is_valid?( @order.sku )
 		
-		# Pre-purchase actions such as taxes and shipping calculations		
+		# Pre-purchase actions such as taxes and shipping calculations
 		@order.calculate_taxes
 		@order.calculate_shipping
 		@order.total = @order.total + @order.tax_amount + @order.shipping_amount
 		
 		# setup addresses
-		bill_addr = GeoAddress.new params[:billing_address]
-		bill_addr.user = @order.user
-		bill_addr.save
-		@order.billing_address = bill_addr
-		@order.billing_address_id = bill_addr.id
+		if @order.user.billing_address.present?
+			@order.user.billing_address.update_attributes params[:billing_address]
+		else
+			@order.user.billing_address = GeoAddress.new params[:billing_address]
+			@order.user.billing_address.save
+		end
+		@order.billing_address = @order.user.billing_address
+		@order.billing_address_id = @order.user.billing_address.id
 		
 		
 		if @order.save

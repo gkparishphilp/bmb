@@ -49,7 +49,7 @@ class UsersController < ApplicationController
 		#	return false
 		#end
 		
-		@user.billing_address = GeoAddress.new( :address_type => 'billing' ) unless @user.billing_address.present?
+		@billing_address =  @user.billing_address.present? ?  @user.billing_address : GeoAddress.new( :address_type => 'billing' )
 		@user.shipping_addresses.build
 		
 		@states = GeoState.where("country ='US'")
