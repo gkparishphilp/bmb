@@ -71,9 +71,7 @@ class AssetsController < ApplicationController
 		send_file @asset.document.location( nil, :full => true ), :disposition  => 'attachment', 
 						:filename => @asset.book.title + "." + @asset.document.format
 		@asset.raw_stats.create :name =>'download', :ip => request.ip
-		@asset.save
 		@current_user.did_download @asset.book unless @current_user.anonymous?
-		
 	end
 	
 	def deliver

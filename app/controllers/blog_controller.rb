@@ -39,6 +39,8 @@ class BlogController < ApplicationController
 		@commentable = @article
 		
 		@current_user.did_read @article unless @current_user.anonymous?
+		@article.raw_stats.create :name =>'view', :ip => request.ip 
+		
 		
 	end
 
