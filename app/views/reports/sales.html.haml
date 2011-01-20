@@ -1,0 +1,83 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+		
+- content_for :middle_column do
+	%h1 Sales
+	%br
+		
+	%h3 Sales Last 24 hours
+	%table.admin_table
+		%tr
+			%td 
+				%b Date
+			%td 
+				%b Confirmation #
+			%td 
+				%b Item
+			%td 
+				%b Amount				
+		-for order in @orders_past_day
+			%tr
+				%td= order.created_at.to_date
+				%td= order.order_transaction.reference
+				%td= order.sku.title
+				%td= format_price( order.total )
+	%br
+	%br
+	%h3 Average Daily Sales
+	= @avg_daily_sales
+	
+	%br
+	%br
+	= render :partial => 'shared/date_picker'
+	
+
+	#daily_sales_div
+	
+	%script( type="text/javascript" )	
+		= update_page do |page|
+			- page << plot( 'daily_sales_div', @daily_sales, :seriesDefaults => { :color => "#3d3" }, :title => "Daily Sales Amounts", :axes => { :xaxis => { :renderer => plot_renderer(:date_axis), :tick_options => { :format_string => '%b %#d, %Y' } }, :yaxis => { :tick_options => { :format_string => '$%.2f' }, :min => 0 } } )
+	
+	%br
+	%br
+	
+	#daily_orders_div
+	
+	%script( type="text/javascript" )	
+		= update_page do |page|
+			- page << plot( 'daily_orders_div', @daily_orders, :seriesDefaults => { :color => "#3d3" }, :title => "Number of Sales Daily", :axes => { :xaxis => { :renderer => plot_renderer(:date_axis), :tick_options => { :format_string => '%b %#d, %Y' } }, :yaxis => { :tick_options => { :format_string => '%.0f' }, :min => 0 } } )
+
+	%br
+	%br
+
+	#orders_by_sku_div
+	
+	%script( type="text/javascript" )	
+		= update_page do |page|
+			- page << plot( 'orders_by_sku_div', @orders_by_sku, :series_defaults => { :renderer => plot_renderer(:bar), :color => "#3d3", :rendererOptions => { :barPadding => "5", :barWidth => "35"} }, :title => "Sales by SKU", :axes => { :xaxis => {:renderer => plot_renderer(:category_axis)  ,:ticks => @orders_by_sku_xaxis} , :yaxis => { :tick_options => { :format_string => '%.0f' }, :min => 0 } }, :highlighter => {:sizeAdjust => 10} )
+
+	%br
+	%br
+
+	#pie_orders_by_sku_div
+
+	%script( type="text/javascript" )	
+		= update_page do |page|
+			- page << plot( 'pie_orders_by_sku_div', @orders_by_sku, :series_defaults => { :renderer => plot_renderer(:pie), :title => "Pie" }, :title => "Orders by SKU", :legend => {:show => true, :location => 'w'}, :highlighter => {:sizeAdjust => 10} )
+
+
+	%br
+	%br	
+
+	.form_group
+		%h4 Legend
+		- @legend.each do |label, value|
+			.label= label
+			.data= value
+			.clear
+		
+
+- content_for :right_column do
+	= render 'shared/help'
+
+		

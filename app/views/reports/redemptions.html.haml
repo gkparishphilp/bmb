@@ -1,0 +1,14 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				Coupon Redemptions
+		.clear
+		%br
+		= render :partial => 'shared/date_picker'
+	
+		%br
+		#admin_table= render 'coupon_table'
+	

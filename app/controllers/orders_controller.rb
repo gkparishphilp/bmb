@@ -1,13 +1,13 @@
 class OrdersController < ApplicationController
 	
-	before_filter :require_admin, :only => [ :admin, :inspect ]
+	before_filter :require_author, :only => [ :admin, :inspect ]
 	before_filter :get_form_data, :only => :new
 	before_filter :get_sku, :only => [:new, :paypal_express]
 	layout	:set_layout
 	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
+		@orders = Order.for_author( @current_author ).search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
 		render :layout => '3col'
 	end
 	

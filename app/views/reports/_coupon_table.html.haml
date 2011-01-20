@@ -1,0 +1,14 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @redemptions.empty?
+	No Coupon redemptions
+- else
+	%table.admin_table( style = 'width:800px;' )
+		%th Code
+		%th SKU
+		%th Redemptions
+		- for coupon in @redemption_count
+			%tr
+				%td.small= coupon[1]
+				%td.small= coupon[2]
+				%td.small= coupon[3]				

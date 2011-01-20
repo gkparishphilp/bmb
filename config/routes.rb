@@ -46,7 +46,7 @@ Backmybook::Application.routes.draw do
 			resources :reviews
 		end
 		resources :email_campaigns do
-			resources :email_messages
+			resources :email_messages 
 		end
 		resources :events
 		resources :forums do
@@ -87,6 +87,14 @@ Backmybook::Application.routes.draw do
 	resources :contacts
 	
 	resources :crashes
+
+	resources :email_messages do
+		get 'admin', :on => :collection
+		get 'admin_list', :on => :collection
+		get 'send_to_self', :on => :collection
+		get 'send_to_all', :on => :collection
+	end
+	
 	
 	resources :events do
 		get 'admin', :on => :collection
@@ -117,6 +125,7 @@ Backmybook::Application.routes.draw do
 		get 'paypal_express', :on => :new
 		get 'admin', :on => :collection
 		get 'inspect', :on => :member
+		get 'admin', :on => :collection
 	end
 	
 	resources :order_transactions
@@ -183,6 +192,9 @@ Backmybook::Application.routes.draw do
 	match '/admin/' => 'admin#index', :as => :admin_index
 
 	# New Author Admin -- as features 
+	match '/reports/sales' => 'reports#sales', :as => :reports_sales
+	match '/reports/redemptions' => 'reports#redemptions', :as => :reports_redemptions
+	
 	match '/author-admin/' => 'author_admin#index', :as => :author_admin_index
 	match '/author-admin/blog' => 'author_admin#blog', :as => :author_admin_blog
 	match '/author-admin/orders' => 'author_admin#orders', :as => :author_admin_orders

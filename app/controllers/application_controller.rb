@@ -107,6 +107,13 @@ protected
 		end
 	end
 	
+	def require_author
+		unless @current_author
+			fail "Authors Only"
+			return false
+		end
+	end
+	
 	def require_contributor
 		unless @current_user.contributor?( @current_site )
 			fail "Contributors Only"

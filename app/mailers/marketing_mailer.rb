@@ -5,7 +5,7 @@ class MarketingMailer < ActionMailer::Base
 		@author = author
 		@message = message
 		
-		mail :to => "#{@author.user.email}", :from => "#{@author.user.email}", :subject => "Self Test #{message.subject}"
+		mail :to => "#{@author.user.email}", :from => "#{@author.user.email}", :subject => "#{message.subject} (Test Message)"
 	end
 
 	def send_to_all( message, author, subscription )

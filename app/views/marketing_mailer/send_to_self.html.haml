@@ -1,7 +1,3 @@
 %p (Mail test to self)
-%p 
-	%b= @message.subject
-%p= @message.content
 
-%p
-	= render :partial => 'unsubscribe'
+%p= @message.content

@@ -16,7 +16,7 @@
 					= link_to image_tag( 'view.png', :width => 20 ), inspect_order_path( order )
 					= link_to order.order_transaction.reference, inspect_order_path( order )
 				%td.small
-					= number_to_currency order.price.to_f / 100 
+					= number_to_currency order.total.to_f / 100 
 				%td.small
 					= link_to order.user.email, order_path( order )
 				%td.small

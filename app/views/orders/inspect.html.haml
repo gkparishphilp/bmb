@@ -16,7 +16,7 @@
 			.data= format_price @order.sku.price
 			.clear
 			.label Shipping
-			.data TODO -- SHipping
+			.data TODO -- Shipping
 			.clear
 			.label Tax
 			.data TODO Tax
@@ -37,7 +37,7 @@
 			
 			.label Order Total Price:
 			.data
-				%b= format_price( @order.price )
+				%b= format_price( @order.total )
 			.clear
 			.label Status:
 			.data= @order.status
