@@ -1,8 +1,8 @@
 class OrdersController < ApplicationController
 	
 	before_filter :require_admin, :only => [ :admin, :inspect ]
-	before_filter :get_form_data, :only => :new
-	before_filter :get_sku, :only => [:new, :paypal_express]
+	before_filter :get_form_data, :only => [ :new, :test ]
+	before_filter :get_sku, :only => [ :new, :paypal_express ]
 	layout	:set_layout
 	helper_method :sort_column, :sort_dir
 	
@@ -51,12 +51,19 @@ class OrdersController < ApplicationController
 			@order.card_cvv = '123'
 			@order.card_exp_year = '2013'
 		end
-		
-	#	unless @current_user.anonymous?
-	#		@billing_address = @current_user.billing_address
-	#		@shipping_addresses = @current_user.shipping_addresses
-	#	end
 			
+	end
+	
+	def test
+		@order = Order.new
+		@order.billing_address = GeoAddress.new :address_type => 'shipping'
+		
+		
+		if Rails.env.development?
+			@order.card_number = '4411037113154626'
+			@order.card_cvv = '123'
+			@order.card_exp_year = '2013'
+		end
 	end
 
 	def check_order
@@ -74,9 +81,53 @@ class OrdersController < ApplicationController
 		redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
 		
 	end
-
-
+	
 	def create
+		@order = Order.new params[:order]
+		@order.ip = request.remote_ip
+		@order.total = Sku.find(params[:order][:sku_id]).price
+		
+		# setup the order user -- current_user or initialize from email
+		if @current_user.anonymous? 
+			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
+			@order.user.save( false )
+			# todo = some validations here and/or punting errors on user up to controller flash
+		else
+			@order.user = @current_user
+		end
+		
+		# Grab Paypal Express tokens from form
+		unless params[:order][:paypal_express_token].blank?
+			@order.paypal_express_token = params[:order][:paypal_express_token] 
+			@order.paypal_express_payer_id = params[:order][:paypal_express_payer_id] 
+		end
+		
+		# Apply Coupon if present -- actual redemption occurs if order processes successfully
+		@order.apply_coupon( @coupon ) if params[:coupon_code].present? and @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] ) and @coupon.is_valid?( @order.sku )
+		
+		# Pre-purchase actions such as taxes and shipping calculations		
+		@order.calculate_taxes
+		@order.calculate_shipping
+		@order.total = @order.total + @order.tax_amount + @order.shipping_amount
+		
+		# setup addresses
+		bill_addr = GeoAddress.new params[:billing_address]
+		bill_addr.user = @order.user
+		bill_addr.save
+		@order.billing_address = bill_addr
+		@order.billing_address_id = bill_addr.id
+		
+		
+		if @order.save
+			pop_flash "Yay, Order saved!", :success
+		else
+			pop_flash "Bummer, duude", :error, @order
+		end
+		redirect_to :back
+	end
+
+
+	def old_create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
 		@order.total = Sku.find(params[:order][:sku_id]).price

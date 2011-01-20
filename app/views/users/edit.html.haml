@@ -20,11 +20,12 @@
 		
 		%h3 Billing Address:
 		= f.fields_for :billing_address do |addr_form|
-			= render 'geo_addresses/address_form', :addr_form => addr_form
+			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr_type => 'billing'
 		
 		%h3 Shipping Addresses:
-		= f.fields_for :shipping_address do |addr_form|
-			= render 'geo_addresses/address_form', :addr_form => addr_form
+		= f.fields_for :shipping_addresses do |addr_form|
+			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr_type => 'shipping'
+
 
 		%br
 		=f.submit "Update", :class => :button
