@@ -1,33 +1,33 @@
 -# Fields for an address form.  Takes a GeoAddress object instance (addr) passed in to setup defaults (e.g. to edit an address)
 
-- if addr.address_type == 'select'
+- if addr_type == 'select'
 	.order_label
 		Address Type:
 	.order_field
 		= addr_form.select :address_type, [ ['Shipping', 'shipping'], ['Billing', 'billing'] ]
 - else
-	= addr_form.hidden_field :address_type, :value => addr.address_type
+	= addr_form.hidden_field :address_type, :value => addr_type
 .order_label
 	First Name:
 .order_field
-	= addr_form.text_field :first_name, :value => addr.first_name
+	= addr_form.text_field :first_name
 	= addr_form.hidden_field :country, :value => 'US'
 .order_label
 	Last Name:
 .order_field
-	= addr_form.text_field :last_name, :value => addr.last_name
+	= addr_form.text_field :last_name
 .order_label
 	Street:
 .order_field
-	= addr_form.text_field :street, :value => addr.street
+	= addr_form.text_field :street
 .order_label
 	Street2:
 .order_field
-	= addr_form.text_field :street2, :value => addr.street2
+	= addr_form.text_field :street2
 .order_label
 	City:
 .order_field
-	= addr_form.text_field :city, :value => addr.city
+	= addr_form.text_field :city
 .order_label
 	State:
 .order_field
@@ -35,5 +35,5 @@
 .order_label
 	Zip:
 .order_field
-	= addr_form.text_field :zip, :value => addr.zip, :size => 10
+	= addr_form.text_field :zip, :size => 10
 %br.clear

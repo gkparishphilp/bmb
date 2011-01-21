@@ -1,0 +1,23 @@
+%h3
+	Shipping Information
+.order_label
+	= check_box_tag :ship_to_bill, 1,  true
+	Ship to Billing Address
+.order_field
+	&nbsp;
+%br
+%br.clear
+#shipping_form
+	- if @current_user.shipping_addresses.empty?
+		= fields_for :shipping_address do |addr_form|
+			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @shipping_address
+	- else
+		#shipping_select
+			.order_label
+				Select an Address:
+			.order_field
+				= f.select :shipping_address_id, @shipping_addresses_for_select, :prompt => true
+			%br.clear
+		#shipping_new	
+			= fields_for :shipping_address do |addr_form|
+				= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @shipping_address

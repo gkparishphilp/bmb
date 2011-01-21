@@ -11,6 +11,7 @@ $(document).ready(function(){
 		$('#contact_form').toggle("slow");
 	});
 	
+	
 	///////////////////////  Stuff For Edit Book Page  //////////////////////
 	
 	$('.show_edit_title').click( function() {
@@ -79,22 +80,30 @@ $(document).ready(function(){
 	////////////////// Stuff for the checkout page ////////////////////////
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){
-			$('#cc_info').slideUp("slow");
+			$('#cc_info').hide();
 		}
-		$('#paypal_x_checkout').show("slow");
+		$('#paypal_x_checkout').show();
 	});
 	$('#credit_radio').click(function (){
 		if( $(this).attr('checked') && !$('#cc_info').is(':visible') ){
-			$('#cc_info').slideDown("slow");
+			$('#cc_info').show();
 		}
 		$('#paypal_x_checkout').hide();
 	});
-	$("#use_new_billing_address").click(function () {
-		$("#new_billing_address").toggle("slow");
-	});	
-	$("#use_new_shipping_address").click(function () {
-		$("#new_shipping_address").toggle("slow");
+	
+	$("#ship_to_bill").click( function() {
+		$('#shipping_form').toggle("slow");
 	});
+	
+	$("#order_shipping_address_id").change( function() {
+		if( $(this).attr('value').match("New Address") != null ){
+			$('#shipping_new').show('slow');
+		}
+		else{
+			$('#shipping_new').hide('slow');
+		}
+	});
+	
 	var visa_pat = new RegExp("^4"), // Visa
 		mast_pat = new RegExp("^5[1-5]"), // Mastercard
 		amex_pat = new RegExp("^3[47]"), // Amex

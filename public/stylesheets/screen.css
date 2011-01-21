@@ -2055,10 +2055,10 @@ textarea {
   margin: 0 auto;
   padding: 20px;
 }
-
-/* line 7, ../../app/stylesheets/partials/_order.sass */
-#pay_select {
-  padding-left: 65px;
+/* line 6, ../../app/stylesheets/partials/_order.sass */
+#checkout h3 {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* line 10, ../../app/stylesheets/partials/_order.sass */
@@ -2077,13 +2077,43 @@ input#order_card_cvv {
 }
 
 /* line 19, ../../app/stylesheets/partials/_order.sass */
-#new_billing_address {
+#shipping_form {
   display: none;
 }
 
-/* line 22, ../../app/stylesheets/partials/_order.sass */
-#new_shipping_address {
+/* line 21, ../../app/stylesheets/partials/_order.sass */
+#shipping_new {
   display: none;
+}
+
+/* line 24, ../../app/stylesheets/partials/_order.sass */
+.order_label {
+  margin-left: 20px;
+  font-weight: bold;
+  width: 200px;
+  float: left;
+}
+
+/* line 29, ../../app/stylesheets/partials/_order.sass */
+.order_field {
+  width: 300px;
+  float: left;
+  clear: right;
+  margin-bottom: 5px;
+}
+/* line 34, ../../app/stylesheets/partials/_order.sass */
+.order_field img {
+  vertical-align: middle;
+}
+
+/* line 36, ../../app/stylesheets/partials/_order.sass */
+.coupon {
+  width: 250px;
+}
+
+/* line 39, ../../app/stylesheets/partials/_order.sass */
+#pay_method {
+  margin-bottom: 1em;
 }
 
 /* line 1, ../../app/stylesheets/partials/_home.sass */

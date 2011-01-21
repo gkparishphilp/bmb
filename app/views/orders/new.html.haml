@@ -16,23 +16,45 @@
 			= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 			%h3 Payment Information
 			(US Credit Cards or PayPal Only)
-			= render 'payinfo', :f => f
+			%br
+			%br.clear
+			.order_label
+				Enter Coupon Code: 
+			.order_field
+				= text_field_tag :coupon_code, "", :class => :coupon
+				#valid_coupon_div( style = "margin:10px 0px;")
+					#valid_coupon
+			= render 'pay_method', :f => f
 			
-			%h3 
-				Buyer Information
-			%table
+			#cc_info
+				= render 'cc_info', :f => f
+				%br.clear
+				%h3
+					Billing Information
 				- if @current_user.anonymous?
-					%tr
-						%td
-							%b E-mail
-						%td= f.text_field :email, :class => 'required_email'
-				-else
+					.order_label
+						E-mail:
+					.order_field
+						= f.text_field :email, :class => 'required_email'
+				- else
 					= f.hidden_field :email, :value => @current_user.email
+				= fields_for :billing_address do |addr_form|
+					= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @billing_address
 			
-			%h3
-				Billing Information
-			= fields_for :billing_address do |addr_form|
-				= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr_type => 'billing'
+				- if @sku.contains_merch?
+					= render 'shipping_form', :f => f
 					
 					
-			= f.submit
+				= f.submit 'Place Order', :class => 'buttons'
+				%br
+				%br
+				Note: Your credit card will be billed by "Groundswell Enterprises".
+		%br.clear
+		#paypal_x_checkout
+			Click the PayPal logo below to sign into your PayPal account.  Please be sure to enter the correct shipping address at Paypal. You will be returned here to complete your order.
+			%br
+			%br
+			-if params[:author_id]
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+			-else
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
