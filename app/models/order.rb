@@ -29,14 +29,10 @@ class Order < ActiveRecord::Base
 	has_one		:subscribing
 	
 	has_many	:royalties
-
-	def shipping_address
-		GeoAddress.find self.shipping_address_id
-	end
 	
-	def billing_address
-		GeoAddress.find self.billing_address_id
-	end	
+	belongs_to		:shipping_address, :class_name => 'GeoAddress', :foreign_key => :shipping_address_id
+	belongs_to		:billing_address, :class_name => 'GeoAddress', :foreign_key => :billing_address_id
+	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
@@ -227,12 +223,12 @@ class Order < ActiveRecord::Base
 			if self.paypal_express?
 				order_country = self.get_paypal_express_details.params["country"]
 			else
-				order_country = self.billing_address.country.nil? ? 'US' : self.billing_address.country
+				order_country = self.shipping_address.country.nil? ? 'US' : self.shipping_address.country
 			end
 		
 			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
 		
-			shipping_price = 0 if shipping_price.nil?
+			shipping_price ||= 0 
 		end
 		
 		self.shipping_amount = shipping_price.to_i
