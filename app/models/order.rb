@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110105172220
+# Schema version: 20110121210536
 #
 # Table name: orders
 #
@@ -217,13 +217,13 @@ class Order < ActiveRecord::Base
 		
 		if self.sku.contains_merch?
 			# Author should have at least one billing address, but default to US if he doesn't
-			author_country = self.sku.owner.user.billing_address.country.nil? ? 'US' : self.sku.owner.user.billing_address.country
+			author_country = self.sku.owner.user.billing_address.geo_country.abbrev
 		
 			# Determine country of order
 			if self.paypal_express?
 				order_country = self.get_paypal_express_details.params["country"]
 			else
-				order_country = self.shipping_address.country.nil? ? 'US' : self.shipping_address.country
+				order_country = self.shipping_address.geo_country.abbrev
 			end
 		
 			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price

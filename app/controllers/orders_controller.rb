@@ -93,7 +93,11 @@ class OrdersController < ApplicationController
 				@order.user = user
 			else
 				pop_flash "There was a problem with the Order", :error, user
-				redirect_to :back
+				if @author.present?
+					redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				else
+					redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				end
 				return false
 			end
 		else
@@ -121,7 +125,11 @@ class OrdersController < ApplicationController
 			@order.billing_address_id = @order.user.billing_address.id
 		else
 			pop_flash "There was a problem with the Billing Address", :error, @order.user.billing_address
-			redirect_to :back
+			if @author.present?
+				redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			else
+				redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			end
 			return false
 		end
 		
@@ -134,7 +142,11 @@ class OrdersController < ApplicationController
 				@order.shipping_address_id = ship_addr.id
 			else
 				pop_flash "There was a problem with the Shipping Address", :error, ship_addr
-				redirect_to :back
+				if @author.present?
+					redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				else
+					redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				end
 				return false
 			end
 		end
@@ -299,7 +311,7 @@ private
 	def get_form_data
 		@months = {'01' => 1, '02' => 2, '03' => 3, '04' => 4, '05' => 5, '06' => 6, '07' => 7, '08' => 8, '09' => 9, '10' => 10, '11' => 11, '12' => 12 }.sort
 		@years = {'2010' => 2010, '2011' => 2011, '2012' => 2012, '2013' => 2013, '2014' => 2014, '2015' => 2015, '2016' => 2016,  '2017' => 2017,  '2018' => 2018,  '2019' => 2019,  '2020' => 2020 }.sort
-		@states = GeoState.where("country ='US'")
+		@countries = GeoCountry.where( "id < 4").all + [ GeoCountry.new( :id => nil, :name => "-----------") ] + GeoCountry.order("name asc" ).all
 	end
 
 	def get_sku

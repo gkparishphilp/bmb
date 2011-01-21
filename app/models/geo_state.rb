@@ -1,14 +1,15 @@
 # == Schema Information
-# Schema version: 20110105172220
+# Schema version: 20110121210536
 #
 # Table name: geo_states
 #
-#  id         :integer(4)      not null, primary key
-#  name       :string(255)
-#  abbrev     :string(255)
-#  country    :string(255)
-#  created_at :datetime
-#  updated_at :datetime
+#  id             :integer(4)      not null, primary key
+#  name           :string(255)
+#  abbrev         :string(255)
+#  country        :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  geo_country_id :integer(4)
 #
 
 class GeoState < ActiveRecord::Base

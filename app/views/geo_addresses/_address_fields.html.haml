@@ -11,7 +11,6 @@
 	First Name:
 .order_field
 	= addr_form.text_field :first_name, :value => addr.first_name
-	= addr_form.hidden_field :country, :value => 'US'
 .order_label
 	Last Name:
 .order_field
@@ -29,9 +28,14 @@
 .order_field
 	= addr_form.text_field :city, :value => addr.city
 .order_label
-	State:
+	State/Province/Region:
 .order_field
-	= addr_form.collection_select :geo_state_id, @states, :id, :name
+	= addr_form.text_field :state, :value => addr.state
+
+.order_label
+	Country:
+.order_field
+	= addr_form.collection_select :geo_country_id, @countries, :id, :name
 .order_label
 	Zip:
 .order_field

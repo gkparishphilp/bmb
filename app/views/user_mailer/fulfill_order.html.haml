@@ -29,16 +29,16 @@ Customer Email:
 Shipping Address:
 %br	
 - if @paypal_details.nil?
-	="#{@order.shipping_address.first_name} #{@order.shipping_address.last_name}"
+	= "#{@order.shipping_address.first_name} #{@order.shipping_address.last_name}"
 	%br
-	=@order.shipping_address.street
+	= @order.shipping_address.street
 	%br
 	- if @order.shipping_address.street2.present?
 		=@order.shipping_address.street2 
 		%br
-	=@order.shipping_address.city 
-	=@order.shipping_address.geo_state.name 
-	=@order.shipping_address.zip 
+	= @order.shipping_address.city 
+	= @order.shipping_address.state
+	= @order.shipping_address.zip 
 	%br
 -elsif @paypal_details.present?
 	= @paypal_details["name"]
