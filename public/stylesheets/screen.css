@@ -229,8 +229,18 @@ label {
   padding: 1em;
 }
 
+/* line 172, ../../app/stylesheets/partials/_sitewide.sass */
+#pie_orders_by_sku_div {
+  width: 700px;
+  height: 450px;
+}
+/* line 175, ../../app/stylesheets/partials/_sitewide.sass */
+#pie_orders_by_sku_div .jqplot-table-legend {
+  padding: 5px;
+}
+
 /* =Layout */
-/* line 176, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 180, ../../app/stylesheets/partials/_sitewide.sass */
 .search_form input[type="text"] {
   float: right;
   border: 1px solid #dddddd;
@@ -242,26 +252,26 @@ label {
   background-color: white;
 }
 
-/* line 186, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 190, ../../app/stylesheets/partials/_sitewide.sass */
 .static_content {
   padding: 10px;
 }
 
-/* line 188, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 192, ../../app/stylesheets/partials/_sitewide.sass */
 .text, .article_body {
   line-height: 1.3em;
   padding: 5px;
 }
 
 /* =Star Ratings */
-/* line 193, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 197, ../../app/stylesheets/partials/_sitewide.sass */
 .star-rating,
 .current-rating {
   background-image: url(../images/star2.png);
   background-repeat: repeat-x;
 }
 
-/* line 198, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 202, ../../app/stylesheets/partials/_sitewide.sass */
 .star-rating {
   position: relative;
   width: 125px;
@@ -273,12 +283,12 @@ label {
   background-position: 0 -29px;
 }
 
-/* line 208, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 212, ../../app/stylesheets/partials/_sitewide.sass */
 .star-rating li {
   display: inline;
 }
 
-/* line 211, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 215, ../../app/stylesheets/partials/_sitewide.sass */
 .star-rating .current-rating {
   position: absolute;
   top: 0;
@@ -291,31 +301,31 @@ label {
   border: none;
 }
 
-/* line 222, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 226, ../../app/stylesheets/partials/_sitewide.sass */
 .star-rating .current-rating {
   z-index: 1;
   background-position: 0 -2px;
 }
 
-/* line 228, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 232, ../../app/stylesheets/partials/_sitewide.sass */
 #comment .header img {
   width: 18px;
   padding-right: 4px;
 }
-/* line 231, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 235, ../../app/stylesheets/partials/_sitewide.sass */
 #comment .header .userinfo {
   padding-top: 6px;
 }
-/* line 233, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 237, ../../app/stylesheets/partials/_sitewide.sass */
 #comment .header .userinfo a, #comment .header .userinfo span {
   vertical-align: text-bottom;
 }
-/* line 235, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 239, ../../app/stylesheets/partials/_sitewide.sass */
 #comment .header .userinfo img {
   vertical-align: text-top;
 }
 
-/* line 238, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 242, ../../app/stylesheets/partials/_sitewide.sass */
 .buttons {
   background-color: #f2f2f2;
   border: 1px solid #0085ae;
@@ -330,24 +340,24 @@ label {
   border-radius: 4px;
   cursor: pointer;
 }
-/* line 248, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 252, ../../app/stylesheets/partials/_sitewide.sass */
 .buttons:hover {
   background-color: white;
   color: #33b8e1;
   border: 1px solid #33b8e1;
 }
 
-/* line 253, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 257, ../../app/stylesheets/partials/_sitewide.sass */
 .new_order #cc_info td {
   padding: 3px 4px;
 }
 
-/* line 257, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 261, ../../app/stylesheets/partials/_sitewide.sass */
 #flash {
   width: 96%;
   margin: 20px auto;
 }
-/* line 260, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 264, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .error {
   background: #ffd1d6 url(../images/close_error.png) 99.5% 19% no-repeat;
   border: 2px solid #ff3333;
@@ -358,7 +368,7 @@ label {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 263, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 267, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .success {
   background: #e6efc2 url(../images/close_success.png) 99.5% 19% no-repeat;
   border: 2px solid #c6d880;
@@ -369,7 +379,7 @@ label {
   -webkit-border-radius: 4px;
   border-radius: 4px;
 }
-/* line 266, ../../app/stylesheets/partials/_sitewide.sass */
+/* line 270, ../../app/stylesheets/partials/_sitewide.sass */
 #flash .notice {
   background: #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat;
   border: 2px solid #ffd324;
