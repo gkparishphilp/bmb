@@ -21,12 +21,15 @@
 		%h3 Billing Address:
 		= f.fields_for :billing_address do |addr_form|
 			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @billing_address
+		%br
+		=f.submit "Update", :class => :button
+		| 
+		=link_to 'Cancel', user_url(@user)
 		
-		%h3 Shipping Addresses:
+	%h3 Shipping Addresses:
+	= form_for @user, :html => { :multipart => true } do |f|
 		= f.fields_for :shipping_addresses do |addr_form|
-			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => GeoAddress.new( :address_type => 'shipping' )
-
-
+			= render 'geo_addresses/nested_address_fields', :addr_form => addr_form, :addr_type => 'shipping'
 		%br
 		=f.submit "Update", :class => :button
 		| 

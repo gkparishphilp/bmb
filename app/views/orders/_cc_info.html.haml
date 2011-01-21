@@ -1,0 +1,16 @@
+.order_label
+	Card Number:
+.order_field
+	= f.text_field :card_number
+.order_label
+	Card Security Code (CVV):
+.order_field
+	= f.text_field :card_cvv
+	&nbsp;&nbsp;
+	= image_tag 'card_images/cvv.png', :align => 'center'
+.order_label
+	Card Expiration:
+.order_field
+	= f.select :card_exp_month, @months
+	&nbsp;/&nbsp;
+	= f.select :card_exp_year, @years

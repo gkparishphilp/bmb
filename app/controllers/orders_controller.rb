@@ -56,20 +56,13 @@ class OrdersController < ApplicationController
 			@order.card_exp_year = '2013'
 		end
 		
+		#initialize a billing address if the user doesn't have one
 		@billing_address = @current_user.billing_address.present? ? @current_user.billing_address : GeoAddress.new( :address_type => 'billing' )
+		#setup array of shipping addresses with appended option for new address
+		@shipping_addresses_for_select = @current_user.shipping_addresses.map{ |a| [ a.street, a.id ] } + ['New Address']
+		# create an empty shipping address in case user wants to enter a new one right on the checkout form
+		@shipping_address = GeoAddress.new( :address_type => 'shipping' ) if @sku.contains_merch?
 			
-	end
-	
-	def test
-		@order = Order.new
-		@order.billing_address = GeoAddress.new :address_type => 'shipping'
-		
-		
-		if Rails.env.development?
-			@order.card_number = '4411037113154626'
-			@order.card_cvv = '123'
-			@order.card_exp_year = '2013'
-		end
 	end
 
 	def check_order
@@ -95,10 +88,14 @@ class OrdersController < ApplicationController
 		
 		# setup the order user -- current_user or initialize from email
 		if @current_user.anonymous? 
-			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
-			@order.user.save( false )
-			# todo = some validations here and/or punting errors on user up to controller flash
-			
+			user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
+			if user.save
+				@order.user = user
+			else
+				pop_flash "There was a problem with the Order", :error, user
+				redirect_to :back
+				return false
+			end
 		else
 			@order.user = @current_user
 		end
@@ -112,28 +109,70 @@ class OrdersController < ApplicationController
 		# Apply Coupon if present -- actual redemption occurs if order processes successfully
 		@order.apply_coupon( @coupon ) if params[:coupon_code].present? and @coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:order][:sku_id] ) and @coupon.is_valid?( @order.sku )
 		
+		# setup addresses
+		# ...first billing
+		if @order.user.billing_address.present?
+			@order.user.billing_address.attributes = params[:billing_address]
+		else
+			@order.user.billing_address = GeoAddress.new params[:billing_address]
+		end
+		if @order.user.billing_address.save
+			@order.billing_address = @order.user.billing_address
+			@order.billing_address_id = @order.user.billing_address.id
+		else
+			pop_flash "There was a problem with the Billing Address", :error, @order.user.billing_address
+			redirect_to :back
+			return false
+		end
+		
+		# ...ok, now shipping
+		if params[:ship_to_bill]
+			@order.shipping_address_id = @order.billing_address_id
+		elsif @order.shipping_address.nil? # because the shipping_address_id selector should just set this in the order attributes otherwise
+			ship_addr = @order.user.shipping_addresses.new( params[:shipping_address] )
+			if ship_addr.save
+				@order.shipping_address_id = ship_addr.id
+			else
+				pop_flash "There was a problem with the Shipping Address", :error, ship_addr
+				redirect_to :back
+				return false
+			end
+		end
+		
 		# Pre-purchase actions such as taxes and shipping calculations
 		@order.calculate_taxes
 		@order.calculate_shipping
 		@order.total = @order.total + @order.tax_amount + @order.shipping_amount
 		
-		# setup addresses
-		if @order.user.billing_address.present?
-			@order.user.billing_address.update_attributes params[:billing_address]
+		# Process the order
+		if @order.save && @order.purchase
+			pop_flash 'Order was successfully processed.'
+			@order.update_attributes :status => 'success'			
+			@order.sku.ownings.create :user => @order.user, :status => 'active'
+			@order.send_author_emails
+			@order.send_customer_emails
+			@order.calculate_royalties
+			# todo
+			#@order.update_backings  
+			#@order.update_author_points 
+			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
+
+			if @author.present?
+				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )
+			else
+				redirect_to @order
+			end
+
 		else
-			@order.user.billing_address = GeoAddress.new params[:billing_address]
-			@order.user.billing_address.save
+			pop_flash 'Oooops, order could not be processed.', :error, @order
+			if @author.present?
+				redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			else
+				redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+			end
+			#TODO send back errors from Paypal here also
 		end
-		@order.billing_address = @order.user.billing_address
-		@order.billing_address_id = @order.user.billing_address.id
 		
-		
-		if @order.save
-			pop_flash "Yay, Order saved!", :success
-		else
-			pop_flash "Bummer, duude", :error, @order
-		end
-		redirect_to :back
 	end
 
 

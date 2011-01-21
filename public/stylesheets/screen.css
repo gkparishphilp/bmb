@@ -2058,7 +2058,7 @@ textarea {
 /* line 6, ../../app/stylesheets/partials/_order.sass */
 #checkout h3 {
   margin-top: 10px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
 }
 
 /* line 10, ../../app/stylesheets/partials/_order.sass */
@@ -2077,17 +2077,18 @@ input#order_card_cvv {
 }
 
 /* line 19, ../../app/stylesheets/partials/_order.sass */
-#new_billing_address {
+#shipping_form {
   display: none;
 }
 
-/* line 22, ../../app/stylesheets/partials/_order.sass */
-#new_shipping_address {
+/* line 21, ../../app/stylesheets/partials/_order.sass */
+#shipping_new {
   display: none;
 }
 
-/* line 25, ../../app/stylesheets/partials/_order.sass */
+/* line 24, ../../app/stylesheets/partials/_order.sass */
 .order_label {
+  margin-left: 20px;
   font-weight: bold;
   width: 200px;
   float: left;

@@ -197,12 +197,12 @@ class Order < ActiveRecord::Base
 		tax = 0
 		
 		if self.sku.contains_merch?
-			author_state = self.sku.owner.user.billing_addresses.first.geo_state.abbrev.nil? ? nil : self.sku.owner.user.billing_addresses.first.geo_state
+			author_state = self.sku.owner.user.billing_address.geo_state
 		
 			if self.paypal_express?
-				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
+				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
 			else
-				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state.id ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
+				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
 			end
 		
 			tax = (tax * 100).round
@@ -217,7 +217,7 @@ class Order < ActiveRecord::Base
 		
 		if self.sku.contains_merch?
 			# Author should have at least one billing address, but default to US if he doesn't
-			author_country = self.sku.owner.user.billing_addresses.first.country.nil? ? 'US' : self.sku.owner.user.billing_addresses.first.country
+			author_country = self.sku.owner.user.billing_address.country.nil? ? 'US' : self.sku.owner.user.billing_address.country
 		
 			# Determine country of order
 			if self.paypal_express?
