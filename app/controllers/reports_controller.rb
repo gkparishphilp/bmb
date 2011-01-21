@@ -17,13 +17,11 @@ class ReportsController < ApplicationController
 		@orders_by_sku = [ @orders_for_period.group( "orders.sku_id" ).select( "orders.sku_id, count(orders.id) as count").map {|o| [o.sku_id, o.count]} ]
 		@orders_by_sku_xaxis =  @orders_for_period.group( "orders.sku_id" ).select( "orders.sku_id, count(orders.id) as count").map {|o| o.sku_id.to_s} 
 
-		# Tried creating a data array formatted like [[["The Starter",10], ["The Rookie", 13], ...]] and having that print out as the x-axis on a bar chart, but that never worked
-		# So creating a legend instead
-		@legend = Hash.new
-		
+
+		# Creating a data array with the title in it, like [[["The Starter",10], ["The Rookie", 13], ...]] for pie chart
 		for a in @orders_by_sku
 			for b in a
-				@legend[b[0]] = Sku.find( b[0].to_i).title
+				b[0] = '(' + b[1].to_s + ')' + ' ' + Sku.find( b[0].to_i).title[0,30]
 			end
 		end
 				

@@ -1,6 +1,6 @@
 class EmailMessagesController < ApplicationController
 	before_filter :get_parent
-	uses_tiny_mce
+	#uses_tiny_mce  #Need to get html_safe/raw all sorted out to send HTML formatted emails 
 	
 	def admin
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
@@ -48,6 +48,22 @@ class EmailMessagesController < ApplicationController
 		@email_message.destroy
 		pop_flash 'Email message was successfully deleted', 'success'
 		redirect_to admin_email_messages_path
+	end
+	
+	def send_to_self
+		@message = EmailMessage.find( params[:email_message] )
+		MarketingMailer.send_to_self( @message, @current_author ).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Email Errored Out' , :error )
+		redirect_to admin_email_messages_path
+	end
+	
+	def send_to_all
+		@message = EmailMessage.find( params[:email_message] )
+		@subscriptions = @current_author.email_subscribings.subscribed
+		for @subscription in @subscriptions
+			MarketingMailer.send_to_all( @message, @current_author, @subscription).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Error sending email', :error )
+		end
+		redirect_to admin_email_messages_path
+		
 	end
 	
 	private 
