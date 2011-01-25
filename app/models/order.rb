@@ -268,8 +268,8 @@ class Order < ActiveRecord::Base
 			:verification_value => card_cvv,
 			:month => card_exp_month,
 			:year => card_exp_year,
-			:first_name => self.billing_address.first_name,
-			:last_name => self.billing_address.last_name
+			:first_name => self.billing_address.name.split(' ').first,
+			:last_name => self.billing_address.name.split(' ').last
 			)
 	end
 
@@ -292,7 +292,7 @@ class Order < ActiveRecord::Base
 			:email => self.email,
 			:description => "Author: #{self.sku.items.first.owner.id} #{self.sku.items.first.owner.pen_name}  SKU: #{self.sku.id} #{self.sku.title}",
 			:billing_address => {
-				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
+				:name => self.billing_address.name,
 				:address1 => self.billing_address.street,
 				:address2 => self.billing_address.street2,
 				:city => self.billing_address.city,
@@ -336,7 +336,7 @@ class Order < ActiveRecord::Base
 			:comment => self.sku.description,
 			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
-				:name => self.billing_address.first_name + ' ' + self.billing_address.last_name,
+				:name => self.billing_address.name,
 				:address1 => self.billing_address.street,
 				:address2 => self.billing_address.street2,
 				:city => self.billing_address.city,

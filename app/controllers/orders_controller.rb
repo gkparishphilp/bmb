@@ -92,7 +92,7 @@ class OrdersController < ApplicationController
 		
 		# setup the order user -- current_user or initialize from email
 		if @current_user.anonymous? 
-			user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
+			user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:name]}" )
 			if user.save
 				@order.user = user
 			else
@@ -203,7 +203,7 @@ class OrdersController < ApplicationController
 		@order.total = Sku.find(params[:order][:sku_id]).price
 				
 		if @current_user.anonymous? 
-			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:first_name]} #{params[:order][:last_name]}" )
+			@order.user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:name]}" )
 			@order.user.save( false )
 			# todo = some validations here and/or punting errors on user up to controller flash
 		else

@@ -28,8 +28,7 @@
 			= f.hidden_field :sku_id, :value => @sku.id
 	
 			= fields_for :shipping_address do |addr_form|
-				= addr_form.hidden_field :first_name, :value => @paypal_data.params["name"].split(' ').first
-				= addr_form.hidden_field :last_name, :value => @paypal_data.params["name"].split(' ').last
+				= addr_form.hidden_field :name, :value => @paypal_data.params["name"]
 				= addr_form.hidden_field :street, :value => @paypal_data.params["street1"]
 				= addr_form.hidden_field :street2, :value => @paypal_data.params["street2"]
 				= addr_form.hidden_field :city, :value => @paypal_data.params["city_name"]
