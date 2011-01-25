@@ -12,11 +12,11 @@
 		-if @sku.contains_merch?		
 			%b
 				Shipping fee of 
-				=number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
+				= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
 				applies to US orders.
 				%br
 				Shipping fee of 
-				=number_to_currency( @sku.international_shipping_price.to_f / 100)  
+				= number_to_currency( @sku.international_shipping_price.to_f / 100)  
 				applies to International orders.
 			%br
 
@@ -28,6 +28,7 @@
 			= f.hidden_field :sku_id, :value => @sku.id
 	
 			= fields_for :shipping_address do |addr_form|
+				= addr_form.hidden_field :address_type, :value => 'shipping'
 				= addr_form.hidden_field :name, :value => @paypal_data.params["name"]
 				= addr_form.hidden_field :street, :value => @paypal_data.params["street1"]
 				= addr_form.hidden_field :street2, :value => @paypal_data.params["street2"]
