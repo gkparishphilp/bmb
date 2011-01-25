@@ -26,8 +26,7 @@
 					%td Name:
 					%td
 						-if @order.billing_address
-							=@order.billing_address.first_name 
-							=@order.billing_address.last_name
+							=@order.billing_address.name 
 						-else
 							=@order.user.name
 				%tr

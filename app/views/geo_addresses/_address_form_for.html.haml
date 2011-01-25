@@ -10,14 +10,9 @@
 	= addr_form.fields_for :geo_address do |geo_form|
 		%tr
 			%td
-				%b First Name:
+				%b Name:
 			%td
-				= geo_form.text_field :first_name
-		%tr
-			%td
-				%b Last Name:
-			%td
-				= geo_form.text_field :last_name
+				= geo_form.text_field :name
 		%tr
 			%td
 				%b Street:

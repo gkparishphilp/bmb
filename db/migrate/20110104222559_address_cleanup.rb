@@ -257,9 +257,7 @@ class AddressCleanup < ActiveRecord::Migration
 		GeoCountry.create :abbrev => "ZM", :name => "Zambia"
 		GeoCountry.create :abbrev => "ZW", :name => "Zimbabwe"
 		
-		# TODO -- slam all this into one big mother address migration
-		# Remember to set geo_address.state field == to the geo_state.abbrev
-		
+	
 		# Migrate addresses from old geo_addresses table
 		create_table :tmp_geo_addresses, :force => true do |t|
 			t.string		:address_type
@@ -267,10 +265,11 @@ class AddressCleanup < ActiveRecord::Migration
 			t.string		:title
 			t.string		:first_name
 			t.string		:last_name
+			t.string		:name
 			t.string		:street
 			t.string		:street2
 			t.string		:city
-			t.references	:geo_state
+			t.string		:state
 			t.string		:zip
 			t.string		:country
 			t.string		:phone
@@ -286,12 +285,13 @@ class AddressCleanup < ActiveRecord::Migration
 				new_geo_addy = TmpGeoAddress.find_or_initialize_by_street_and_first_name_and_last_name(	
 													:user_id => order.user.id,
 													:title => billing_address.title,
+													:name => billing_address.first_name + ' ' + billing_address.last_name,
 													:first_name => billing_address.first_name,
 													:last_name => billing_address.last_name,
 													:street => billing_address.street,
 													:street2 => billing_address.street2,
 													:city => billing_address.city,
-													:geo_state_id => billing_address.geo_state.id,
+													:state => billing_address.geo_state.abbrev,
 													:zip => billing_address.zip,
 													:country => billing_address.country,
 													:phone => billing_address.phone,
@@ -306,12 +306,13 @@ class AddressCleanup < ActiveRecord::Migration
 				new_geo_addy = TmpGeoAddress.find_or_initialize_by_street_and_first_name_and_last_name_and_address_type(
 													:user_id => order.user.id,
 													:title => shipping_address.title,
+													:name => shipping_address.first_name + ' ' + shipping_address.last_name,
 													:first_name => shipping_address.first_name,
 													:last_name => shipping_address.last_name,
 													:street => shipping_address.street,
 													:street2 => shipping_address.street2,
 													:city => shipping_address.city,
-													:geo_state_id => shipping_address.geo_state.id,
+													:state => shipping_address.geo_state.abbrev,
 													:zip => shipping_address.zip,
 													:country => shipping_address.country,
 													:phone => shipping_address.phone,
@@ -329,12 +330,13 @@ class AddressCleanup < ActiveRecord::Migration
 								new_geo_addy = TmpGeoAddress.find_or_initialize_by_street_and_first_name_and_last_name(
 													:user_id => billing_address.user.id,
 													:title => billing_address.title,
+													:name => billing_address.first_name + ' ' + billing_address.last_name,
 													:first_name => billing_address.first_name,
 													:last_name => billing_address.last_name,
 													:street => billing_address.street,
 													:street2 => billing_address.street2,
 													:city => billing_address.city,
-													:geo_state_id => billing_address.geo_state.id,
+													:state => billing_address.geo_state.abbrev,
 													:zip => billing_address.zip,
 													:country => billing_address.country,
 													:phone => billing_address.phone,
@@ -346,8 +348,11 @@ class AddressCleanup < ActiveRecord::Migration
 		rename_column	:geo_addresses, :type, :address_type
 		
 		execute 'delete from geo_addresses'
-		execute 'insert into geo_addresses (id, user_id, address_type, title, first_name, last_name, street, street2, city, geo_state_id, zip, country, phone) select id, user_id, address_type, title, first_name, last_name, street, street2, city, geo_state_id, zip, country, phone from tmp_geo_addresses'
+		execute 'insert into geo_addresses (id, user_id, address_type, title, name, street, street2, city, state, zip, country, phone) select id, user_id, address_type, title, name, street, street2, city, state, zip, country, phone from tmp_geo_addresses'
 		drop_table :tmp_geo_addresses
+		
+		add_index :geo_countries, :abbrev
+		add_index :geo_states, :abbrev
 		
 		remove_column	:geo_addresses, :geo_state_id
 		remove_column	:geo_addresses, :first_name
