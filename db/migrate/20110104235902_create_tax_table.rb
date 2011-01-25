@@ -2,7 +2,8 @@ class CreateTaxTable < ActiveRecord::Migration
   def self.up
 	create_table :tax_rates do |t|
 		t.references	:geo_state
-		t.float		:rate
+		t.float			:rate
+		t.string		:geo_state_abbrev
 	end
 	
 	r = TaxRate.create :geo_state_id => 1 , :rate => 0.04
@@ -65,7 +66,13 @@ class CreateTaxTable < ActiveRecord::Migration
 	r = TaxRate.create :geo_state_id => 50 , :rate => 0.05
 	r = TaxRate.create :geo_state_id => 51 , :rate => 0.04
 
+	TaxRate.all.each do |state|
+		state.geo_state_abbrev = state.geo_state.abbrev
+		state.save
+	end
 	
+	remove_column :tax_rates, :geo_state_id
+		
   end
 
   def self.down
