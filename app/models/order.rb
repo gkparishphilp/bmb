@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110121210536
+# Schema version: 20110104222559
 #
 # Table name: orders
 #
@@ -10,14 +10,12 @@
 #  sku_id                  :integer(4)
 #  email                   :string(255)
 #  ip                      :string(255)
+#  price                   :integer(4)
 #  status                  :string(255)
 #  paypal_express_token    :string(255)
 #  paypal_express_payer_id :string(255)
 #  created_at              :datetime
 #  updated_at              :datetime
-#  tax_amount              :integer(4)
-#  shipping_amount         :integer(4)
-#  total                   :integer(4)
 #
 
 class Order < ActiveRecord::Base
@@ -197,18 +195,16 @@ class Order < ActiveRecord::Base
 		tax = 0
 		
 		if self.sku.contains_merch?
-			author_state = self.sku.owner.user.billing_address.geo_state
-		
-			if self.paypal_express?
-				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state ).rate.to_f ) if self.get_paypal_express_details.params["state_or_province"] == author_state.abbrev
-			else
-				tax = (self.sku.price.to_f/100 * TaxRate.find_by_geo_state_id( author_state ).rate.to_f ) if self.billing_address.geo_state_id == author_state.id
-			end
-		
-			tax = (tax * 100).round
+			author_state = self.sku.owner.user.billing_address.state
+			# because paypal orders will not have billing addresses, just set 
+			# billing == to shipping if billing_address is nil
+			self.billing_address ||= self.shipping_address 
+			
+			tax = (self.sku.price * TaxRate.find_by_geo_state_abbrev( author_state ).rate ).round if self.billing_address.state == author_state
+
 		end
 		
-		self.tax_amount = tax.to_i
+		self.tax_amount = tax
 		
 	end
 
@@ -216,22 +212,18 @@ class Order < ActiveRecord::Base
 		shipping_price = 0
 		
 		if self.sku.contains_merch?
-			# Author should have at least one billing address, but default to US if he doesn't
-			author_country = self.sku.owner.user.billing_address.geo_country.abbrev
+			# Author should have at least one billing address
+			author_country = self.sku.owner.user.billing_address.country
 		
 			# Determine country of order
-			if self.paypal_express?
-				order_country = self.get_paypal_express_details.params["country"]
-			else
-				order_country = self.shipping_address.geo_country.abbrev
-			end
-		
+			order_country = self.shipping_address.country
+
 			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
 		
 			shipping_price ||= 0 
 		end
 		
-		self.shipping_amount = shipping_price.to_i
+		self.shipping_amount = shipping_price
 	end
 
 #---------------------------------------------------------------
@@ -239,8 +231,7 @@ class Order < ActiveRecord::Base
 #---------------------------------------------------------------
 
 	def send_author_emails
-		self.paypal_express_token.present? ? paypal_details = EXPRESS_GATEWAY.details_for( self.paypal_express_token ).params : paypal_details = nil
-		UserMailer.fulfill_order( self, self.user, paypal_details).deliver if self.sku.contains_merch?
+		UserMailer.fulfill_order( self, self.user ).deliver if self.sku.contains_merch?
 	end
 
 	def send_customer_emails
@@ -305,7 +296,7 @@ class Order < ActiveRecord::Base
 				:address1 => self.billing_address.street,
 				:address2 => self.billing_address.street2,
 				:city => self.billing_address.city,
-				:state => self.billing_address.geo_state.abbrev,
+				:state => self.billing_address.state,
 				:zip => self.billing_address.zip,
 				:country => self.billing_address.country,
 				:phone => self.billing_address.phone
@@ -349,7 +340,7 @@ class Order < ActiveRecord::Base
 				:address1 => self.billing_address.street,
 				:address2 => self.billing_address.street2,
 				:city => self.billing_address.city,
-				:state => self.billing_address.geo_state.abbrev,
+				:state => self.billing_address.state,
 				:zip => self.billing_address.zip,
 				:country => self.billing_address.country,
 				:phone => self.billing_address.phone

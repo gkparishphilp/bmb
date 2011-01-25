@@ -9,6 +9,15 @@
 				Price: 
 				%span#the_price( sku_price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
+			-if @sku.contains_merch?		
+			%b 
+				Shipping fee of 
+				=number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
+				applies to US orders.
+				%br
+				Shipping fee of 
+				=number_to_currency( @sku.international_shipping_price.to_f / 100)  
+				applies to International orders.
 			%br
 
 		= form_for @order do |f|
@@ -55,6 +64,6 @@
 			%br
 			%br
 			-if params[:author_id]
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
 			-else
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), paypal_express_new_order_url(:sku => @sku, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL)

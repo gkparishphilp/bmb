@@ -12,8 +12,6 @@
 
 class GeoCountry < ActiveRecord::Base
 	
-	has_many	:geo_addresses
-	
 	def self.usa
 		return GeoCountry.find( 1 )
 	end

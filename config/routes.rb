@@ -122,7 +122,8 @@ Backmybook::Application.routes.draw do
 	end
 
 	resources :orders , :constraints => { :protocol => Rails.env.production? ? "https" : "http"} do
-		get 'paypal_express', :on => :new
+		get 'go_paypal', :on => :collection
+		get 'ret_paypal', :on => :collection
 		get 'admin', :on => :collection
 		get 'inspect', :on => :member
 		get 'admin', :on => :collection

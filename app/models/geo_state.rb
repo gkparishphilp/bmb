@@ -1,19 +1,16 @@
 # == Schema Information
-# Schema version: 20110121210536
+# Schema version: 20110104222559
 #
 # Table name: geo_states
 #
-#  id             :integer(4)      not null, primary key
-#  name           :string(255)
-#  abbrev         :string(255)
-#  country        :string(255)
-#  created_at     :datetime
-#  updated_at     :datetime
-#  geo_country_id :integer(4)
+#  id         :integer(4)      not null, primary key
+#  name       :string(255)
+#  abbrev     :string(255)
+#  country    :string(255)
+#  created_at :datetime
+#  updated_at :datetime
 #
 
 class GeoState < ActiveRecord::Base
-	has_many :shipping_addresses
-	has_many :billing_address
 	has_one	:tax_rate
 end

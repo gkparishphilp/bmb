@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110121210536
+# Schema version: 20110104222559
 #
 # Table name: links
 #

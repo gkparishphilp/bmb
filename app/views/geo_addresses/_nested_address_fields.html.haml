@@ -8,14 +8,9 @@
 - else
 	= addr_form.hidden_field :address_type, :value => addr_type
 .order_label
-	First Name:
+	Name:
 .order_field
-	= addr_form.text_field :first_name
-	= addr_form.hidden_field :country, :value => 'US'
-.order_label
-	Last Name:
-.order_field
-	= addr_form.text_field :last_name
+	= addr_form.text_field :name
 .order_label
 	Street:
 .order_field
@@ -31,7 +26,7 @@
 .order_label
 	State:
 .order_field
-	= addr_form.collection_select :geo_state_id, @states, :id, :name
+	= addr_form.text_field :state
 .order_label
 	Zip:
 .order_field

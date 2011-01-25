@@ -20,10 +20,9 @@ class UserMailer < ActionMailer::Base
 		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
 	
-	def fulfill_order( order, user, paypal_details )
+	def fulfill_order( order, user )
 		@order = order
 		@user = user
-		@paypal_details = paypal_details
 		mail( :from => "orders@backmybook.com", :to => @order.sku.owner.user.email, :subject => "You have an order to fulfill!")
 	end
 	

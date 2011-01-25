@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
 	
 	before_filter :require_author, :only => [ :admin, :inspect ]
 	before_filter :get_form_data, :only => :new
-	before_filter :get_sku, :only => [:new, :paypal_express]
+	before_filter :get_sku, :only => [ :new, :go_paypal, :ret_paypal ]
 	layout	:set_layout
 	helper_method :sort_column, :sort_dir
 	
@@ -35,20 +35,11 @@ class OrdersController < ApplicationController
 		
 		
 	end
+	
 
 	def new
 		@order = Order.new
-		
-		# set order fields if returning from PayPal
-		if params[:token]			
-			@order.paypal_express_token = params[:token] 
-			@order.paypal_express_payer_id = params[:PayerID] 
-			paypal_express_details = EXPRESS_GATEWAY.details_for( params[:token] )
-			order_country = paypal_express_details.params["country"]
-			render :paypal_express_confirm
-			return false
-		end
-		
+
 		# set order fields if in Dev environment
 		if Rails.env.development?
 			@order.card_number = '4411037113154626'
@@ -65,19 +56,32 @@ class OrdersController < ApplicationController
 			
 	end
 
-	def check_order
-	end
-
-	def paypal_express
+	def go_paypal
 		price_in_cents = @sku.price
 		cancel_return_url = new_order_url(:sku => @sku.id, :author_id => params[:author_id])
 		
 		response = EXPRESS_GATEWAY.setup_purchase(price_in_cents,
 			:ip => request.remote_ip,
-			:return_url => new_order_url(:sku => params[:sku], :author_id => params[:author_id]),
+			:return_url => ret_paypal_orders_url(:sku => params[:sku], :author_id => params[:author_id]),
 			:cancel_return_url => cancel_return_url
 		)
-		redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+		redirect_to EXPRESS_GATEWAY.redirect_url_for( response.token )
+		
+	end
+	
+	def ret_paypal
+		# method to field response form PayPal
+		# set order fields coming back from PayPal
+		@order = Order.new
+		
+		if paypal_token = params[:token]			
+			@order.paypal_express_token = params[:token] 
+			@order.paypal_express_payer_id = params[:PayerID] 
+			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )
+			pop_flash "Please Confirm Your Order", :success
+		else
+			pop_flash "There was a problem with your order, please try again later", :error
+		end
 		
 	end
 	
@@ -115,28 +119,33 @@ class OrdersController < ApplicationController
 		
 		# setup addresses
 		# ...first billing
-		if @order.user.billing_address.present?
-			@order.user.billing_address.attributes = params[:billing_address]
-		else
-			@order.user.billing_address = GeoAddress.new params[:billing_address]
-		end
-		if @order.user.billing_address.save
-			@order.billing_address = @order.user.billing_address
-			@order.billing_address_id = @order.user.billing_address.id
-		else
-			pop_flash "There was a problem with the Billing Address", :error, @order.user.billing_address
-			if @author.present?
-				redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+		if params[:billing_address].present? # because paypal return does not send billing address data
+			if @order.user.billing_address.present?
+				@order.user.billing_address.attributes = params[:billing_address]
 			else
-				redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				@order.user.billing_address = GeoAddress.new params[:billing_address]
 			end
-			return false
+			if @order.user.billing_address.save
+				@order.billing_address = @order.user.billing_address
+				@order.billing_address_id = @order.user.billing_address.id
+			else
+				pop_flash "There was a problem with the Billing Address", :error, @order.user.billing_address
+				if @author.present?
+					redirect_to new_author_order_url( @author, :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				else
+					redirect_to new_order_url( :sku => @order.sku.id, :protocol => SSL_PROTOCOL )
+				end
+				return false
+			end
 		end
 		
 		# ...ok, now shipping
 		if params[:ship_to_bill]
+			# set the shipping_id == tp billing if user selects shipt_to_bill
 			@order.shipping_address_id = @order.billing_address_id
-		elsif @order.shipping_address.nil? # because the shipping_address_id selector should just set this in the order attributes otherwise
+		elsif @order.shipping_address.nil? && params[:shipping_address].present? 
+			# we're only creating a new shipping address if we get params AND the shipping_address_id selector has not
+			# set the shipping_id in the order attributes otherwise
 			ship_addr = @order.user.shipping_addresses.new( params[:shipping_address] )
 			if ship_addr.save
 				@order.shipping_address_id = ship_addr.id
