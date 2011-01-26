@@ -78,7 +78,6 @@ class OrdersController < ApplicationController
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
 			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )
-			pop_flash "Please Confirm Your Order", :success
 		else
 			pop_flash "There was a problem with your order, please try again later", :error
 		end

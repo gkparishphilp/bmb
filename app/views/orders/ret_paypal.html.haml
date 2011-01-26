@@ -18,6 +18,11 @@
 				Shipping fee of 
 				= number_to_currency( @sku.international_shipping_price.to_f / 100)  
 				applies to International orders.
+				%br
+				Taxes added for 
+				=@sku.owner.user.billing_address.state
+				orders.
+				%br
 			%br
 
 		= form_for @order do |f|

@@ -55,7 +55,7 @@ Hi
 
 %p
 	- if @order.sku.items.first.owner.contact_email.present?
-		For questions about the item or shipping, you can contact the author at:  
+		For questions about the item or shipping (if applicable), you can contact the author directly at:  
 		= @order.sku.items.first.owner.contact_email
 		%br
 
