@@ -137,6 +137,10 @@ class User < ActiveRecord::Base
 		!self.email.blank?
 	end
 	
+	def registered?
+		self.hashed_password.present?
+	end
+	
 	def validated?
 		!self.email.blank? && !self.activated_at.nil?
 	end
