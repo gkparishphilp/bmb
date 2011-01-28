@@ -1,14 +1,15 @@
 !!!strict
 %html
 	%head
-		= render :partial => 'layouts/meta'
+		= render 'layouts/meta'
 	%body
+		= render 'layouts/noscript_alert'
 		#container
-			= render :partial => 'shared/header'
+			= render 'shared/header'
 			#bd
 				.pad_content
 					= render 'shared/flash', :flash => flash
 					= yield
-			= render :partial => 'shared/footer'
-		= render :partial => 'shared/analytics'
-		= render :partial => 'shared/scripts'
+			= render 'shared/footer'
+		= render 'shared/analytics'
+		= render 'shared/scripts'

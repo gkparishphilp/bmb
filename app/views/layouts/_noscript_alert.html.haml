@@ -1,0 +1,18 @@
+%noscript
+	#noscript_alert
+		%h1 You need to change a setting in your web browser
+		%p 
+			This application  requires a browser feature called 
+			%b JavaScript. 
+			All modern browsers support JavaScript. You probably just need to change a setting in order to turn it on.
+		%p 
+			Please see: 
+			= link_to "How to enable JavaScript in your browser.", "http://www.google.com/support/bin/answer.py?answer=23852"
+		%p
+			If you use ad-blocking software, it may require you to allow JavaScript from 
+			= @current_site.domain
+		%p
+			Once you've enabled JavaScript you can 
+			= link_to "try loading this page again", ""
+		%p
+			Thank you!

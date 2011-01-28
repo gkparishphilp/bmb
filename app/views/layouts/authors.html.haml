@@ -1,12 +1,13 @@
 !!!strict
 %html
 	%head
-		= render :partial => 'layouts/meta'
+		= render 'layouts/meta'
 		- if @theme
-			= render :partial => 'shared/custom_style'
+			= render 'shared/custom_style'
 	%body
+		= render 'layouts/noscript_alert'
 		#container
-			= render :partial => 'shared/header'
+			= render 'shared/header'
 			#bd
 				.column1
 					.author_hd
@@ -16,7 +17,7 @@
 							- else
 								&nbsp;
 						.author_corner
-							= render :partial => 'authors/menu'
+							= render 'authors/menu'
 					.author_bd
 						#inner-content-wrapper
 							= render 'shared/flash', :flash => flash
@@ -25,7 +26,7 @@
 					.author_photo
 						= avatar_tag( @author, nil, :width => 250 )
 					= yield :right_column
-					= render :partial => 'authors/right_column'
-			= render :partial => 'shared/footer'
-		= render :partial => 'shared/analytics'
-		= render :partial => 'shared/scripts'
+					= render 'authors/right_column'
+			= render 'shared/footer'
+		= render 'shared/analytics'
+		= render 'shared/scripts'

@@ -1,10 +1,11 @@
 !!!strict
 %html
 	%head
-		= render :partial => 'layouts/meta'
+		= render 'layouts/meta'
 	%body
+		= render 'layouts/noscript_alert'
 		#container
-			= render :partial => 'shared/header'
+			= render 'shared/header'
 			#bd
 				.column1
 					.pad_content
@@ -13,7 +14,7 @@
 				.column2
 					.pad_content
 						= yield :right_column
-			= render :partial => 'shared/footer'
-		= render :partial => 'shared/analytics'
-		= render :partial => 'shared/scripts'
+			= render 'shared/footer'
+		= render 'shared/analytics'
+		= render 'shared/scripts'
 

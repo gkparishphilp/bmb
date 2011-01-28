@@ -39,12 +39,18 @@ class User < ActiveRecord::Base
 	after_create	:set_avatar
   
 	# Validations	--------------------------------------
-	validates	:password, :confirmation => true, :length => { :minimum => 4, :maximum => 254 }, :if => :password_present?
+	validates	:password, :confirmation => true, :length => { :minimum => 4, :maximum => 254 }, :if => :has_password?
 
 	validates	:email, :uniqueness => true, 
 						:length => {:minimum => 3, :maximum => 254},
 						:email => true,
 						:if => :has_email?
+
+	validates	:name, :uniqueness => true, 
+						:length => {:minimum => 2, :maximum => 254},
+						:format => /\A[a-zA-Z0-9]+\z/,
+						:if => :has_name?
+
 
 
 	# Relations   	--------------------------------------
@@ -78,8 +84,6 @@ class User < ActiveRecord::Base
 	belongs_to :site
 	
 	# Plugins	--------------------------------------
-	
-	#TODO need to figure out friendly_id usage when only an email is being saved
 	has_friendly_id   :name, :use_slug => :true
 
 	has_attached :avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => {
@@ -96,15 +100,26 @@ class User < ActiveRecord::Base
 
 	# Class methods 	------------------------------------
 
-	def self.authenticate( email, password )
-		user = User.find_by_email( email )
-		if user
+	def self.authenticate( id, password )
+		# going to tweak this to return the user(or false) along with a status msg
+		# so, new use will be user, msg = User.authenticate( email, password )
+		# also going to add the ability to login by username in addition to email
+		user = User.find_by_email( id ) || User.find_by_name( id )
+		
+		if user.nil?
+			return user, "Invalid user/password combination"
+		elsif not user.registered?
+			return false, "User not registered"
+		else
 			expected_password = encrypted_password( password, user.salt )
 			if user.hashed_password != expected_password
 				user = nil
+				return user, "Invalid user/password combination"
 			end
 		end
-		user
+		
+		return user, "#{user.email} successfully logged in"
+		
   	end
 
 	def self.anonymous
@@ -112,7 +127,51 @@ class User < ActiveRecord::Base
 	end
 
 	# Instance Methods	------------------------------------
-	#'password' is a virtual attribute i.e. not in the db
+	
+	# For sessions / Validations, etc..
+	
+	def anonymous?
+		self.id == ANONYMOUS_ID
+	end
+	
+	def create_activation_code
+		self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+		self.save
+	end
+	
+	def create_remember_token
+		self.remember_token = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+		self.remember_token_expires_at = 1.day.from_now
+		self.save
+	end
+	
+	def has_email?
+		!self.email.blank?
+	end
+	
+	def has_name?
+		self.name.present?
+	end
+	
+	def has_password?
+		self.password.present?
+	end
+	
+		#ruby attribute names can't end with question marks, only method names, so I'll
+		#write my own attr_writer and a custom attr_reader that ends with a ?
+	def human=(val)
+		@human=val
+	end
+  
+	def human?
+		@human
+	end
+	
+	def logged_in?
+		!self.anonymous?
+	end
+	
+		#'password' is a virtual attribute i.e. not in the db
 	def password
 		@password
 	end
@@ -124,19 +183,6 @@ class User < ActiveRecord::Base
 		self.hashed_password = User.encrypted_password(self.password, self.salt)
 	end
 	
-	def anonymous?
-		self.id == ANONYMOUS_ID
-	end
-  
-	def logged_in?
-		!self.anonymous?
-	end
-  
-	
-	def has_email?
-		!self.email.blank?
-	end
-	
 	def registered?
 		self.hashed_password.present?
 	end
@@ -145,17 +191,16 @@ class User < ActiveRecord::Base
 		!self.email.blank? && !self.activated_at.nil?
 	end
 	
-	def author?
-		!self.author.nil?
+	
+	# For permissions / Roles
+	
+	def admin?( site )
+		site.admins.include? self
 	end
 	
-	def create_activation_code
-		self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-		self.save
-	end
-	
-	def make_site_role( site, role )
-		r = Role.create :user_id => self.id, :site_id => site.id, :role => role
+	def contributor?( site )
+		contribs = site.contributors + site.admins
+		contribs.include? self
 	end
 	
 	def make_admin( site )
@@ -167,52 +212,28 @@ class User < ActiveRecord::Base
 		r = Role.create :user_id => self.id, :site_id => site.id, :role => 'contributor'
 	end
 	
-	def admin?( site )
-		site.admins.include? self
+	def make_site_role( site, role )
+		r = Role.create :user_id => self.id, :site_id => site.id, :role => role
 	end
-	
-	def contributor?( site )
-		contribs = site.contributors + site.admins
-		contribs.include? self
-	end
-  
-	#ruby attribute names can't end with question marks, only method names, so I'll
-	#write my own attr_writer and a custom attr_reader that ends with a ?
-	def human=(val)
-		@human=val
-	end
-  
-	def human?
-		@human
-	end
-	
-	# Stuff for user registration housekeeping --------------------------
-  
-	def create_remember_token
-		self.remember_token = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
-		self.remember_token_expires_at = 1.day.from_now
-		self.save
-	end
-
-
 	
 	# Stuff for Social Media ---------------------------------------------
+		# Facebook -------------------------------------------------
+	def facebook_user?
+		!self.facebook_accounts.empty?
+	end
+	
 	def social_accounts
 		self.twitter_accounts + self.facebook_accounts
 	end
-
-	def password_present?
-		self.password.present?
-	end
 	
-	# Stuff for Twitter --------------------------------------------------
+		# Twitter --------------------------------------------------
 	def twitter_user?
 		!self.twitter_accounts.empty?
 	end
 	
-	# Stuff for Facebook -------------------------------------------------
-	def facebook_user?
-		!self.facebook_accounts.empty?
+	# App-specific
+	def author?
+		!self.author.nil?
 	end
 	
 	def owns?( sku )
@@ -230,7 +251,6 @@ class User < ActiveRecord::Base
 			pic = Attachment.create( :path => photo_url, :attachment_type => 'avatar', :owner => self, :remote => true, :format => 'jpg' )
 		end
 	end
-
 	
 	def strip_website_url
 		website_url.gsub!('http://', '') unless website_url.nil?

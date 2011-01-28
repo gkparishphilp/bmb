@@ -29,11 +29,6 @@ class UsersController < ApplicationController
 		end
 	end
 
-	def new
-		@user = User.new
-		@dest = params[:dest]
-		@a = params[:a]
-	end
 
 	def edit
 		@user = User.find params[:id] 
