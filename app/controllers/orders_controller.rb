@@ -169,13 +169,13 @@ class OrdersController < ApplicationController
 			pop_flash 'Order was successfully processed.'
 			@order.update_attributes :status => 'success'			
 			@order.sku.ownings.create :user => @order.user, :status => 'active'
+			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
+			@order.calculate_royalties
 			@order.send_author_emails
 			@order.send_customer_emails
-			@order.calculate_royalties
 			# todo
 			#@order.update_backings  
 			#@order.update_author_points 
-			@order.redeem_coupon( @coupon ) if @coupon.present? && @coupon.is_valid?(@order.sku )
 
 			if @author.present?
 				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )

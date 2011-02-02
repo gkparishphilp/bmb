@@ -32,12 +32,13 @@
 			(US Credit Cards or PayPal Only)
 			%br
 			%br.clear
-			.order_label
-				Enter Coupon Code: 
-			.order_field
-				= text_field_tag :coupon_code, "", :class => :coupon
-				#valid_coupon_div( style = "margin:10px 0px;")
-					#valid_coupon
+			#coupon_code
+				.order_label
+					Enter Coupon Code: 
+				.order_field
+					= text_field_tag :coupon_code, "", :class => :coupon
+					#valid_coupon_div( style = "margin:10px 0px;")
+						#valid_coupon
 			= render 'pay_method', :f => f
 			
 			#cc_info

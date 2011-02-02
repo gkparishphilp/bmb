@@ -81,12 +81,14 @@ $(document).ready(function(){
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){
 			$('#cc_info').hide();
+			$('#coupon_code').hide();
 		}
 		$('#paypal_x_checkout').show();
 	});
 	$('#credit_radio').click(function (){
 		if( $(this).attr('checked') && !$('#cc_info').is(':visible') ){
 			$('#cc_info').show();
+			$('#coupon_code').show();
 		}
 		$('#paypal_x_checkout').hide();
 	});

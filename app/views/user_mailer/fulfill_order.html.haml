@@ -16,8 +16,9 @@ Product Name:
 Items in Product:
 %br
 -for sku_item in @order.sku.sku_items
-	= sku_item.item.title if sku_item.item.is_a? Merch
-	%br
+	-if sku_item.item.is_a? Merch
+		= sku_item.item.title 
+		%br
 %br
 Customer Name:	
 = @order.user.name
