@@ -6,7 +6,8 @@ class ReportsController < ApplicationController
 		@end_date = params[:end_date] || Time.now.getutc 
 		
 		@orders = Order.for_author( @current_author )
-		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc )
+		# Active relation just passes in the day, starting at midnight.  So forwarding the end date by 1 day to capture today's purchases
+		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day )
 		@orders_for_period = @orders.dated_between( @start_date, @end_date)
 		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / 100
 		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / (@end_date.to_date - @start_date.to_date) / 100
