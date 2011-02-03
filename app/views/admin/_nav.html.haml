@@ -6,5 +6,5 @@
 
 #admin_hd Reports
 %li= link_to 'Sales', reports_sales_path
-%li= link_to "Orders", admin_orders_path
+%li= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
 %li= link_to "Coupons", reports_redemptions_path
