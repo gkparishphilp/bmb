@@ -19,7 +19,7 @@
 		-for order in @orders_past_day
 			%tr
 				%td= order.created_at.to_date
-				%td= link_to order.order_transaction.reference, inspect_order_path( order )
+				%td= link_to order.order_transaction.reference, inspect_order_url( order , :protocol => SSL_PROTOCOL )
 				%td= order.sku.title
 				%td= format_price( order.total )
 	%br
