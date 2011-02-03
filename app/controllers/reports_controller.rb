@@ -2,12 +2,12 @@ class ReportsController < ApplicationController
 
 	def sales
 		#todo - catch error condition when start date is later than end date
-		@start_date = params[:start_date] || 1.months.ago
-		@end_date = params[:end_date] || Time.now 
+		@start_date = params[:start_date] || 1.months.ago.getutc
+		@end_date = params[:end_date] || Time.now.getutc 
 		
 		@orders = Order.for_author( @current_author )
-		@orders_past_day = @orders.dated_between( 1.day.ago, Time.now )
-		@orders_for_period = @orders.dated_between( @start_date, @end_date )
+		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc )
+		@orders_for_period = @orders.dated_between( @start_date, @end_date)
 		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / 100
 		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / (@end_date.to_date - @start_date.to_date) / 100
 
@@ -28,14 +28,12 @@ class ReportsController < ApplicationController
 	end
 
 	def redemptions
-		@start_date = params[:start_date] || 1.month.ago
-		@end_date = params[:end_date] || Time.now
-	
-		@redemptions = Redemption.for_author( @current_author ).dated_between( @start_date, @end_date )
-
+		@start_date = params[:start_date] || 1.month.ago.getutc
+		@end_date = params[:end_date] || Time.now.getutc
+		
 		@redemption_count = Array.new
 		for coupon in @current_author.coupons
-			@redemption_count << [coupon.id, coupon.code, coupon.sku.title, coupon.redemptions.redeemed.count]
+			@redemption_count << [coupon.id, coupon.code, coupon.sku.title, coupon.redemptions.dated_between(@start_date, @end_date).redeemed.count]
 		end	
 	
 	end

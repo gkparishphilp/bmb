@@ -25,7 +25,7 @@ class Event < ActiveRecord::Base
 	
 	searchable_on [ :title, :location ]
 	
-	scope :published, where( "ends_at <= ? and status = 'publish'", Time.now )
+	scope :published, where( "ends_at <= ? and status = 'publish'", Time.now.getutc )
 		
 	scope :upcomming, lambda { |*args|
 		limit( args.first || 5 )
@@ -33,7 +33,7 @@ class Event < ActiveRecord::Base
 	}
 	
 	scope :dated_between, lambda { |*args| 
-		where( "starts_at between ? and ?", (args.first || 1.day.ago), (args.second || Time.now) ) 
+		where( "starts_at between ? and ?", (args.first || 1.day.ago.getutc), (args.second || Time.now.getutc) ) 
 	} 
 	
 	scope :month_year, lambda { |*args| 

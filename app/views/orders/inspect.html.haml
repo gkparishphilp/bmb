@@ -5,7 +5,7 @@
 		.admin_title
 			%h3
 				Inspecting Order:
-				= link_to "[[Back]]", admin_orders_path
+				= link_to "[[Back]]", :back
 		.clear
 		.form_group
 			%h3 Order Details:
@@ -16,10 +16,10 @@
 			.data= format_price @order.sku.price
 			.clear
 			.label Shipping
-			.data TODO -- Shipping
+			.data= format_price @order.shipping_amount
 			.clear
 			.label Tax
-			.data TODO Tax
+			.data= format_price @order.tax_amount
 			.clear
 			-if @order.coupon.present?
 				.label Coupon Code
@@ -49,10 +49,10 @@
 			-unless @order.paypal_express?
 				%h4 Billing Address
 				.label Name:
-				.data= @order.billing_address.full_name
+				.data= @order.billing_address.name
 				.clear
 				.label Street:
-				.data= @order.billing_address.full_street
+				.data= @order.billing_address.street
 				.clear
 				.label City, ST Zip:
 				.data= @order.billing_address.city_st_zip
@@ -61,10 +61,10 @@
 			- if false #@order.shipping_address.present?
 				%h4 Shipping Address
 				.label Name:
-				.data= @order.shipping_address.full_name
+				.data= @order.shipping_address.name
 				.clear
 				.label Street:
-				.data= @order.shipping_address.full_street
+				.data= @order.shipping_address.street
 				.clear
 				.label City, ST Zip:
 				.data= @order.shipping_address.city_st_zip
@@ -79,7 +79,7 @@
 			.data= @order.order_transaction.reference
 			.clear
 			.label Transaction Type:
-			.data= @order.paypal_express? ? 'PayPal' : 'Credit Card'
+			.data= @order.paypal_express? ? 'PayPal Express' : 'Credit Card'
 			.clear
 			.label Price:
 			.data= number_to_currency @order.order_transaction.price.to_f / 100
@@ -108,7 +108,7 @@
 			.data= @order.user.email
 			.clear
 			.label Registered User?:
-			.data= @order.user.password_present?
+			.data= @order.user.hashed_password.present?
 			.clear
 			.label Last IP:
 			.data= @order.user.last_ip
@@ -132,7 +132,9 @@
 			.label SKU Price:
 			.data= format_price( @order.sku.price )
 			.clear
-			%h4 Contains
+			%br
+			%h4 Contains:
+			%br
 			%ul
 				- for item in @order.sku.items
 					- if item.respond_to? 'document'
