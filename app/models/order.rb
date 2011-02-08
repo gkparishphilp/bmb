@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
 	
 	scope :dated_between, lambda { |*args| 
-		where( "orders.created_at between ? and ?", (args.first.to_date || 7.days.ago), (args.second.to_date || Time.now) ) 
+		where( "orders.created_at between ? and ?", (args.first.to_date || 7.days.ago.getutc), (args.second.to_date || Time.now.getutc) ) 
 	}
 
 	scope :for_author, lambda { |args|

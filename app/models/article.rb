@@ -44,7 +44,7 @@ class Article < ActiveRecord::Base
 	}
 	
 	scope :dated_between, lambda { |*args| 
-		where( "publish_at between ? and ?", (args.first || 1.day.ago), (args.second || Time.now) ) 
+		where( "publish_at between ? and ?", (args.first || 1.day.ago.getutc), (args.second || Time.now.getutc) ) 
 	} 
 	
 	scope :month_year, lambda { |*args| 

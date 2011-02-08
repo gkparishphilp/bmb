@@ -1,5 +1,8 @@
 class AuthorAdminController < ApplicationController
+	## todo THIS IS OLD - NEED TO CLEAN UP AS ADMIN CONSOLE IS BUILT
+	
 	# for author admin to expose functional pieces as they become baked
+	
 	
 	layout '3col'
 	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin

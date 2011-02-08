@@ -5,7 +5,7 @@
 	%h1 Sales
 	%br
 		
-	%h3 Sales Last 24 hours
+	%h3 Recent Sales
 	%table.admin_table
 		%tr
 			%td 
@@ -19,17 +19,23 @@
 		-for order in @orders_past_day
 			%tr
 				%td= order.created_at.to_date
-				%td= order.order_transaction.reference
+				%td= link_to order.order_transaction.reference, inspect_order_url( order , :protocol => SSL_PROTOCOL )
 				%td= order.sku.title
 				%td= format_price( order.total )
 	%br
 	%br
-	%h3 Average Daily Sales
-	= @avg_daily_sales
-	
-	%br
-	%br
+	%hr
+	%h3 Select Period
 	= render :partial => 'shared/date_picker'
+	%br			
+	%h4 Total Sales in Period
+	= number_to_currency( @total_sales )
+
+	%br
+	%br
+	%h4 Average Daily Sales in Period
+	= number_to_currency( @avg_daily_sales )
+
 	
 
 	#daily_sales_div
