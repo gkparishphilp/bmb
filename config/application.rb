@@ -43,5 +43,6 @@ module Backmybook
 
 	# Rails 3 doesn’t autoload modules/code in lib by default now. 
 	config.autoload_paths += %W(#{config.root}/lib)
+	config.autoload_paths += %W( #{Rails.root.to_s}/app/sweepers )
   end
 end

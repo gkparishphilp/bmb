@@ -1,12 +1,7 @@
 %div[activity]
 	- if activity.actor.respond_to? 'avatar'
 		= image_tag activity.actor.avatar.location, :width => 20 unless activity.actor.avatar.nil?
-	- if activity.actor == @current_user
-		You
-	- elsif activity.actor.respond_to? 'pen_name'
-		= link_to activity.actor.pen_name, polymorphic_url( activity.actor )
-	- else
-		= link_to activity.actor.name, polymorphic_url( activity.actor )
+	= link_to activity.actor.name, polymorphic_url( activity.actor )
 	= activity.verb
 	- if activity.target.respond_to? 'title'
 		- if activity.target.is_a? Topic
