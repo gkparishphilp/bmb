@@ -209,6 +209,7 @@ Backmybook::Application.routes.draw do
 	match '/login' => 'sessions#new', :as => 'login'
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
+	match '/logo/:code', :to => 'email_deliveries#count_open', :as => 'logo' 
 	
 	
 	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'

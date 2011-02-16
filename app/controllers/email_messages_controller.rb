@@ -60,7 +60,17 @@ class EmailMessagesController < ApplicationController
 		@message = EmailMessage.find( params[:email_message] )
 		@subscriptions = @current_author.email_subscribings.subscribed
 		for @subscription in @subscriptions
-			MarketingMailer.send_to_all( @message, @current_author, @subscription).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Error sending email', :error )
+			
+			# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
+			@delivery_record = @subscription.email_deliveries.create
+			@delivery_record.update_delivery_record_for( @message, 'created' )
+			
+			if 	MarketingMailer.send_to_all( @message, @current_author, @subscription, @delivery_record ).deliver 
+				@delivery_record.update_attributes :status => 'sent'
+				pop_flash( 'Email sent' ) 
+			else 
+				pop_flash( 'Error sending email', :error )
+			end
 		end
 		redirect_to admin_email_messages_path
 		

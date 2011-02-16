@@ -14,4 +14,18 @@
 class EmailDelivery < ActiveRecord::Base
 	belongs_to	:email_subscribing
 	belongs_to	:email_message
+	
+	def generate_tracking_code
+		random_string = rand(1000000000).to_s + Time.now.to_s
+		if self.code == nil
+			self.code = Digest::SHA1.hexdigest random_string
+		end
+		
+	end
+	
+	def update_delivery_record_for( message, status )
+		self.update_attributes :email_subscribing_id => self.email_subscribing.id , :email_message_id => message.id, :status => status
+		self.generate_tracking_code
+		self.save
+	end
 end
