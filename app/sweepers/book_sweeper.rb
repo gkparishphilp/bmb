@@ -11,5 +11,6 @@ class BookSweeper < ActionController::Caching::Sweeper
 
 	def expire_cache( book )
 		expire_fragment( :controller => 'books', :action => 'index')
+		expire_fragment( :controller => 'books', :action => 'show', :action_suffix => 'book_description')
 	end
 end
