@@ -195,6 +195,7 @@ Backmybook::Application.routes.draw do
 	# todo Clean up routes for reporting when I've figured out how to post and get the same resourced route
 	match '/reports/sales' => 'reports#sales', :as => :reports_sales
 	match '/reports/redemptions' => 'reports#redemptions', :as => :reports_redemptions
+	match '/reports/emails' => 'reports#emails', :as => :reports_emails
 		
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface

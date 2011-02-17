@@ -1,0 +1,18 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+		
+- content_for :middle_column do
+	%h1 Emails
+	%br
+	- for @email in @emails
+		%p
+			= @email.subject
+	%p
+		Bounces 
+		= @bounces
+	%p
+		Sent 
+		= @email.sends
+	%p
+		Opens
+		= @opens

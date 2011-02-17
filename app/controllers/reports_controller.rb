@@ -39,5 +39,14 @@ class ReportsController < ApplicationController
 	
 	end
 
+	def emails
+		@start_date = params[:start_date] || 1.month.ago.getutc
+		@end_date = params[:end_date] || Time.now.getutc
+		
+		@emails = EmailMessage.for_author( @current_author )
+		@bounces = @emails.bounced.count
+		@sends = @emails.sent.count
+		@opens = @emails.opened.count
+	end
 
 end

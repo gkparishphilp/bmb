@@ -26,8 +26,5 @@ class Redemption < ActiveRecord::Base
 	}
 
 	scope :redeemed, where( "status = 'redeemed'" )
-
-	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
-
 		
 end
