@@ -1,6 +1,6 @@
 class EmailMessagesController < ApplicationController
 	before_filter :get_parent
-	#uses_tiny_mce  #Need to get html_safe/raw all sorted out to send HTML formatted emails 
+	uses_tiny_mce 
 	
 	def admin
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
@@ -72,6 +72,7 @@ class EmailMessagesController < ApplicationController
 			end
 		end
 		pop_flash( "Email newsletters sent")
+		@message.update_attributes :status => "Sent #{Time.now.to_s(:short)}"
 		redirect_to admin_email_messages_path
 		
 	end

@@ -7,21 +7,7 @@
 		%br
 		%h3 Create/Edit a newsletter
 		= form_for [ @current_author, @campaign, @email_message ]  do |f|
-
-			Subject:
-			%br
-			=f.text_field :subject
-			%br
-
-			%br
-			= f.hidden_field :status, :value => 'Created'
-			= f.text_area :content
-
-			%br
-
-			= f.submit 'Create' 
-			|
-			= link_to 'Cancel', :back
+			= render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Save'}
 		
 		%br
 		%br
@@ -47,13 +33,11 @@
 					%td 
 						= message.status
 					%td
-						- if message.status.match(/created/i)
-							=link_to '[Send to me]', send_to_self_email_messages_path( :email_message => message )
-							=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message )
-							=link_to '[Edit]', admin_email_messages_path( :email_message => message )
-							=link_to '[Delete]', author_email_campaign_email_message_url( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
-						- else 
-							=link_to '[View]', author_admin_newsletters_url( @current_author, @campaign, message )
+						=link_to '[Send to me]', send_to_self_email_messages_path( :email_message => message )
+						=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message )
+						=link_to '[Edit]', admin_email_messages_path( :email_message => message )
+						=link_to '[Delete]', author_email_campaign_email_message_url( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
+
 		
 		
 - content_for :right_column do

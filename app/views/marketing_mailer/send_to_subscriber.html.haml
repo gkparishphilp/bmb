@@ -1,5 +1,9 @@
-= image_tag("http://localhost:3000/logo/#{@delivery_record.code}")
-= @message.content.html_safe
-%br
-%br	
-= render :partial => 'unsubscribe'
+!!!strict
+%html
+	%head
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		%title
+			=@message.subject
+	%body	
+		= @message.content.html_safe
+		= render :partial => 'unsubscribe'

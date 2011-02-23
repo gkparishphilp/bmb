@@ -5,11 +5,11 @@ Subject:
 
 %br
 = f.hidden_field :status, :value => 'Created'
-= f.tinymce :content, :class => 'mceEditor'
+= f.text_area :content, :class => 'mceEditor'
 
 %br
 
-= f.submit m, :class => :button
+= f.submit 'Create' 
 |
 = link_to 'Cancel', :back
 
