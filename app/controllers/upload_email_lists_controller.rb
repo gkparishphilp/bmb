@@ -17,7 +17,6 @@ class UploadEmailListsController < ApplicationController
 		if @upload_email_list.save
 			flash[:success] = 'Email list was successfully imported.'
 			if @author
-				#TODO Need to fix these redirect_to paths
 				if params[:upload_email_list][:list_type] == 'giveaway'
 					redirect_to admin_list_email_messages_path
 				elsif params[:upload_email_list][:list_type] == 'newsletter'

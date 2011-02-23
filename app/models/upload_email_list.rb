@@ -58,6 +58,7 @@ class UploadEmailList < ActiveRecord::Base
 		CSV.foreach( path ) do |row|
 			name = row[0]
 			email = row[1]
+			name = email if name.blank?
 			user = User.find_or_initialize_by_email( :email => email)
 			user.save( false )
 			if self.author

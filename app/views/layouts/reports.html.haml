@@ -24,13 +24,10 @@
 				.left_col
 					.pad_content
 						= yield :left_column
-				.middle_col
+				.big_right_col
 					.pad_content
 						= render 'shared/flash', :flash => flash
 						= yield :middle_column
-				.right_col
-					.pad_content
-						= yield :right_column
 			= render 'shared/footer'
 		= render 'shared/analytics'
 		= render 'shared/scripts'
