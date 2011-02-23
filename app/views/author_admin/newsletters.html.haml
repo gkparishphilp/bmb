@@ -48,8 +48,8 @@
 						= message.status
 					%td
 						- if message.status.match(/created/i)
-							=link_to '[Send to me]', author_admin_send_to_self_url( :email_message => message )
-							=link_to '[Send]', author_admin_send_to_all_url( :email_message => message )
+							=link_to '[Test]', author_admin_send_to_self_url( :email_message => message )
+							=link_to '[Send]', author_admin_send_to_subscriber_url( :email_message => message )
 							=link_to '[Edit]', author_admin_newsletters_url( :email_message => message )
 							=link_to '[Delete]', author_email_campaign_email_message_url( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
 						- else 

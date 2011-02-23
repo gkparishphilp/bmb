@@ -10,27 +10,28 @@
 			= f.file_field :file_name
 			= f.hidden_field :list_type, :value => "newsletter"
 			= f.submit "Upload"
-			%br
-			Comma separated value (.csv) file with name and email columns only.  
+			%p Comma separated value (.csv) file with name and email columns only.  
 		
 		%br
 		%br
 		
-		%h3 Upload Giveaway Email List 
+		-# Commenting this block out for now
+			%h3 Upload Giveaway Email List 
 
-		-form_for UploadEmailList.new, :html => {:multipart => :true} do |f|
-			For Sku: 
-			= f.collection_select :sku_id, @current_author.skus[0,10], :id, :title
-			= f.file_field :file_name
-			= f.submit "Upload"
-			= f.hidden_field :list_type, :value => "giveaway"
-			%br
-			Comma separated value (.csv) file with email column only.
+			-form_for UploadEmailList.new, :html => {:multipart => :true} do |f|
+				For Sku: 
+				= f.collection_select :sku_id, @current_author.skus[0,10], :id, :title
+				= f.file_field :file_name
+				= f.submit "Upload"
+				= f.hidden_field :list_type, :value => "giveaway"
+				%br
+				Comma separated value (.csv) file with email column only.
 
-		%br
-		%br
-		%h3 Download Giveway Email List
+			%br
+			%br
+			%h3 Download Giveway Email List
 		
-		=link_to 'Download Giveaway List', download_upload_email_lists_url
+			=link_to 'Download Giveaway List', download_upload_email_lists_url
+			
 - content_for :right_column do
 	= render 'shared/help'
