@@ -4,7 +4,7 @@ class EmailMessagesController < ApplicationController
 	
 	def admin
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def admin_list
@@ -72,7 +72,7 @@ class EmailMessagesController < ApplicationController
 			end
 		end
 		pop_flash( "Email newsletters sent")
-		@message.update_attributes :status => "Sent #{Time.now.to_s(:short)}"
+		@message.update_attributes :status => "Sent #{Time.now.to_date}"
 		redirect_to admin_email_messages_path
 		
 	end

@@ -1,1 +1,8 @@
-= @message.content.html_safe
+!!!strict
+%html
+	%head
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		%title
+			=@message.subject
+	%body	
+		= @message.content.html_safe

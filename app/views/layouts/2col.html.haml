@@ -1,0 +1,20 @@
+!!!strict
+%html
+	%head
+		= stylesheet_link_tag 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/smoothness/jquery-ui.css'
+		= render 'layouts/meta'
+	%body
+		= render 'layouts/noscript_alert'
+		#container
+			= render 'shared/header'
+			#bd
+				.left_col
+					.pad_content
+						= yield :left_column
+				.middle_col_2
+					.pad_content
+						= render 'shared/flash', :flash => flash
+						= yield :middle_column
+			= render 'shared/footer'
+		= render 'shared/analytics'
+		= render 'shared/scripts'

@@ -16,8 +16,6 @@
 		%table.admin_table
 			%tr
 				%td 
-					%b Created On
-				%td 
 					%b Subject
 				%td 
 					%b Status
@@ -27,14 +25,12 @@
 			- for message in @current_author.email_campaigns.default.first.email_messages.reverse
 				%tr{:class => cycle(:odd, :even)}
 					%td 
-						= format_date_only( message.created_at )
-					%td 
 						= message.subject
 					%td 
 						= message.status
 					%td
 						=link_to '[Send to me]', send_to_self_email_messages_path( :email_message => message )
-						=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message )
+						=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message ), :confirm => 'Are you sure you want to send to all your subscribers?'
 						=link_to '[Edit]', admin_email_messages_path( :email_message => message )
 						=link_to '[Delete]', author_email_campaign_email_message_url( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
 
