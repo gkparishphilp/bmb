@@ -35,7 +35,8 @@ Backmybook::Application.configure do
 	config.action_mailer.smtp_settings = {
 	    :address        => "localhost",
 	    :port           =>  25,
-	    :domain         => "backmybook.com"
+	    :domain         => "backmybook.com",
+	    :enable_starttls_auto => false
 	}
 
 	config.action_mailer.default_url_options = {
