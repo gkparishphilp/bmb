@@ -2,7 +2,8 @@ class ArticlesController < ApplicationController
 	# only things we do here are create, update, and delete the resource.  Used for form paths from object name
 	cache_sweeper :article_sweeper, :only => [:create, :update, :destroy]
 	before_filter :get_admin
-	layout '3col'
+	uses_tiny_mce 
+	layout '2col'
 	
 	def new
 		@article = Article.new( :comments_allowed => true )
