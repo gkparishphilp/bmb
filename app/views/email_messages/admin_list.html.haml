@@ -14,7 +14,25 @@
 		
 		%br
 		%br
-		
+	
+	.form_group
+		%h3 Your Subscriber List
+		- if @subscribings.empty?
+			No Subscribers
+		- else
+			%table.admin_table
+				%th Name
+				%th Email
+				%th Status
+				- for subscribing in @subscribings
+					%tr
+						%td.small
+							= subscribing.subscriber.name 
+						%td.small
+							= subscribing.subscriber.email
+						%td.small
+							= subscribing.status
+			
 		-# Commenting this block out for now
 			%h3 Upload Giveaway Email List 
 

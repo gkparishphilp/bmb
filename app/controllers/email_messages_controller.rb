@@ -8,6 +8,7 @@ class EmailMessagesController < ApplicationController
 	end
 	
 	def admin_list
+		@subscribings = @current_author.email_subscribings.order(name desc)
 		render :layout => '3col'
 	end
 	
