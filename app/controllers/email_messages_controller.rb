@@ -8,7 +8,7 @@ class EmailMessagesController < ApplicationController
 	end
 	
 	def admin_list
-		@subscribings = @current_author.email_subscribings.order(name desc)
+		@subscribings = @current_author.email_subscribings.reverse.paginate(:page => params[:page], :per_page => 10)
 		render :layout => '3col'
 	end
 	

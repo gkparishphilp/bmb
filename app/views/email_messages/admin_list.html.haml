@@ -16,7 +16,10 @@
 		%br
 	
 	.form_group
-		%h3 Your Subscriber List
+		%h3 
+			Your Subscriber List (
+			=@subscribings.count
+			members)
 		- if @subscribings.empty?
 			No Subscribers
 		- else
@@ -32,7 +35,14 @@
 							= subscribing.subscriber.email
 						%td.small
 							= subscribing.status
-			
+							
+		- unless @subscribings.total_pages < 2
+			.pagination
+				.page_info
+					= page_entries_info @subscribings
+				= will_paginate @subscribings
+				
+				
 		-# Commenting this block out for now
 			%h3 Upload Giveaway Email List 
 
