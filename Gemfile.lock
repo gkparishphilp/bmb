@@ -41,6 +41,14 @@ GEM
       builder
       mime-types
       xml-simple
+    aws-ses (0.4.1)
+      builder
+      builder
+      mail (~> 2.2.5)
+      mime-types
+      mime-types
+      xml-simple
+      xml-simple
     babosa (0.2.2)
     builder (2.1.2)
     compass (0.10.6)
@@ -129,6 +137,7 @@ DEPENDENCIES
   amazon-ecs
   ambethia-recaptcha
   aws-s3
+  aws-ses (~> 0.4.1)
   compass
   delayed_job
   friendly_id

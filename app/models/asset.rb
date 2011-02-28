@@ -53,7 +53,7 @@ class Asset < ActiveRecord::Base
 		# todo - scope the filenames on AMZN S3 so won't have name confilcts with multiple authors having same name asset
 		one_day = 24 * 60 * 60
 		filename = "#{self.document.name}.#{self.document.format}"
-		AWS::S3::Base.establish_connection!(:access_key_id => S3_ID, :secret_access_key => S3_SECRET)
+		AWS::S3::Base.establish_connection!(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
 		AWS::S3::S3Object.url_for( filename, 'bmb_downloads', :expires_in => one_day )
 	end
 end

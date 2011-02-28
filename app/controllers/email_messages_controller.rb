@@ -53,7 +53,14 @@ class EmailMessagesController < ApplicationController
 	
 	def send_to_self
 		@message = EmailMessage.find( params[:email_message] )
-		MarketingMailer.send_to_self( @message, @current_author ).deliver ? pop_flash( 'Email sent' ) : pop_flash( 'Email Errored Out' , :error )
+		email_msg = @message.build_html_email(:test => true)
+		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
+		if ses.send_email( :to => ["#{@current_author.user.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject} (Test Message)", :html_body => email_msg)
+			pop_flash( 'Test email sent' )
+		else
+			pop_flash( 'Error sending email' , :error )
+		end
+		#MarketingMailer.send_to_self( @message, @current_author ).deliver ? pop_flash( 'Test email sent' ) : pop_flash( 'Error sending email' , :error )
 		redirect_to admin_email_messages_path
 	end
 	

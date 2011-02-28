@@ -31,7 +31,7 @@ Backmybook::Application.configure do
   # config.cache_store = :mem_cache_store
 
   # Mail configuration
-	config.action_mailer.delivery_method = :smtp
+	config.action_mailer.delivery_method = :ses
 	config.action_mailer.smtp_settings = {
 	    :address        => "localhost",
 	    :port           =>  25,
