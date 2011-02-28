@@ -42,14 +42,17 @@ class EmailMessage < ActiveRecord::Base
 	end
 
 
-	def build_html_email( args={})  #test, unsubscribe_code, #open_code
-		message_header = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <body>"
+	def build_html_email( args={})  #test, unsubscribe_code, #delivery_code
+		message_header = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title> #{self.subject}</title> <body>"
 		message_footer = "</body></html>"
 		if args[:test].present? 
-			message = message_header + self.content + message_footer
+			message_unsubscribe = "<p>To unsubscribe from this author's newsletter, please click here: *unsubscribe link goes here*  </p>"
+			message = message_header + self.content.html_safe + message_unsubscribe + message_footer
 		else
 			unsubscribe_code = args[:unsubscribe_code]
-			open_code = args[:open_code]
+			delivery_code = args[:delivery_code]
+			message_unsubscribe = "<p> <img alt =\"logo\" src=\"http://backmybook.com/logo/#{delivery_code}\" /> To unsubscribe from this author's newsletter, please click here: <a href=\"http://backmybook.com/unsubscribe/#{unsubscribe_code}\">Unsubscribe</a></p>"
+			message = message_header + self.content.html_safe + message_unsubscribe + message_footer
 		end	 
 		
 		return message

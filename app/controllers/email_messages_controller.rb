@@ -60,26 +60,27 @@ class EmailMessagesController < ApplicationController
 		else
 			pop_flash( 'Error sending email' , :error )
 		end
-		#MarketingMailer.send_to_self( @message, @current_author ).deliver ? pop_flash( 'Test email sent' ) : pop_flash( 'Error sending email' , :error )
 		redirect_to admin_email_messages_path
 	end
 	
 	def send_to_subscriber
 		@message = EmailMessage.find( params[:email_message] )
+		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
 		@subscriptions = @current_author.email_subscribings.subscribed
 		for @subscription in @subscriptions
 			
 			# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
 			@delivery_record = @subscription.email_deliveries.create
 			@delivery_record.update_delivery_record_for( @message, 'created' )
-			
-			if 	MarketingMailer.send_to_subscriber( @message, @current_author, @subscription, @delivery_record ).deliver 
+			email_msg = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
+
+			if ses.send_email( :to => ["#{@subscription.subscriber.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject}", :html_body => email_msg ) 
 				@delivery_record.update_attributes :status => 'sent'
 			else 
 				pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
 			end
 		end
-		pop_flash( "Email newsletters sent")
+		pop_flash( "Your newsletter has been successfully queued for delivery!")
 		@message.update_attributes :status => "Sent #{Time.now.to_date}"
 		redirect_to admin_email_messages_path
 		
