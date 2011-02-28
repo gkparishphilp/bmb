@@ -55,7 +55,12 @@ class EmailMessagesController < ApplicationController
 		@message = EmailMessage.find( params[:email_message] )
 		email_msg = @message.build_html_email(:test => true)
 		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
-		if ses.send_email( :to => ["#{@current_author.user.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject} (Test Message)", :html_body => email_msg)
+		#if ses.send_email( :to => ["#{@current_author.user.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject} (Test Message)", :html_body => email_msg)
+		to =  "#{@current_author.user.email}"
+		source = "#{@current_author.pen_name} <donotreply@backmybook.com>"
+		subject = "#{@message.subject} (Test Message)"
+		html_body = email_msg
+		if Delayed::Job.enqueue( SendEmailJob.new(to, source, subject, html_body),0, 10.minutes.from_now.getutc )
 			pop_flash( 'Test email sent' )
 		else
 			pop_flash( 'Error sending email' , :error )
