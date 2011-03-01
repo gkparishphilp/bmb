@@ -28,4 +28,13 @@ class EmailDelivery < ActiveRecord::Base
 		self.generate_tracking_code
 		self.save
 	end
+	
+	def quota_remaining
+		aws_ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
+		response = aws_ses.quota
+		quota_24_hrs = response.max_24_hour_send.to_i
+		sent_24_hrs = response.sent_last_24_hours.to_i
+		return quota_remaining = ((quota_24_hrs - sent_24_hrs) * 0.9).round
+	end
+	
 end

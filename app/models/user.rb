@@ -48,7 +48,6 @@ class User < ActiveRecord::Base
 
 	validates	:name, :uniqueness => true, 
 						:length => {:minimum => 2, :maximum => 254},
-						:format => /\A[a-zA-Z0-9_]+\z/,
 						:if => :has_name?
 
 

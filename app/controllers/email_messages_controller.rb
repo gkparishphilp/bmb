@@ -53,14 +53,9 @@ class EmailMessagesController < ApplicationController
 	
 	def send_to_self
 		@message = EmailMessage.find( params[:email_message] )
-		email_msg = @message.build_html_email(:test => true)
-		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
-		#if ses.send_email( :to => ["#{@current_author.user.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject} (Test Message)", :html_body => email_msg)
-		to =  "#{@current_author.user.email}"
-		source = "#{@current_author.pen_name} <donotreply@backmybook.com>"
-		subject = "#{@message.subject} (Test Message)"
-		html_body = email_msg
-		if Delayed::Job.enqueue( SendEmailJob.new(to, source, subject, html_body),0, 10.minutes.from_now.getutc )
+		html_body = @message.build_html_email(:test => true)
+
+		if Delayed::Job.enqueue( SendEmailJob.new(@current_author.user, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject} (Test Message)", html_body) )
 			pop_flash( 'Test email sent' )
 		else
 			pop_flash( 'Error sending email' , :error )
@@ -70,20 +65,35 @@ class EmailMessagesController < ApplicationController
 	
 	def send_to_subscriber
 		@message = EmailMessage.find( params[:email_message] )
-		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
 		@subscriptions = @current_author.email_subscribings.subscribed
+		count = 0
+		# Check and see how much quota we've got left and break it up according to quota
+		# todo - this needs to be refactored for when multiple authors are sending newsletters
+		# Need to look at the delayed_job queues and see how many email slots are open for that day
+		
+		quota_remaining = EmailDelivery.quota_remaining
+
 		for @subscription in @subscriptions
 			
 			# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
 			@delivery_record = @subscription.email_deliveries.create
 			@delivery_record.update_delivery_record_for( @message, 'created' )
-			email_msg = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
-
-			if ses.send_email( :to => ["#{@subscription.subscriber.email}"], :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject}", :html_body => email_msg ) 
+			
+			# Create HTML email message to be sent through AWS SES
+			html_body = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
+			
+			#Calulate n days away we can schedule the send based on quota availability
+			n = count.divmod( quota_remaining).first.to_i
+			
+			# Kick it to delayed_job to manage the send time and send load
+			if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
 				@delivery_record.update_attributes :status => 'sent'
 			else 
 				pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
 			end
+	
+			count += 1
+			
 		end
 		pop_flash( "Your newsletter has been successfully queued for delivery!")
 		@message.update_attributes :status => "Sent #{Time.now.to_date}"
