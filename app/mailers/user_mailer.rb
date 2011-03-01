@@ -4,14 +4,14 @@ class UserMailer < ActionMailer::Base
 		# setup instance variables for the view
 		@user = user
 		@current_site = site
-		mail :to => "#{user.name}<#{user.email}>", :from => site.name, :subject => "Welcome to #{site.name}"
+		mail :to => "#{user.name}<#{user.email}>", :from => "donotreply@backmybook.com", :subject => "Welcome to #{site.name}"
 	end
 	
 	def forgot_password( user, site )
 		# setup instance variables for the view
 		@user = user
 		@current_site = site		
-		mail :to => "#{user.name}<#{user.email}>", :from => site.name, :subject => "Forgotten Password"
+		mail :to => "#{user.name}<#{user.email}>", :from => "donotreply@backmybook.com", :subject => "Forgotten Password"
 	end
 
 	def bought_sku( order, user )
