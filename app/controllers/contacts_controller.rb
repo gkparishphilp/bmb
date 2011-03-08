@@ -15,6 +15,7 @@ class ContactsController < ApplicationController
 
 	def new
 		@contact = Contact.new
+		@subject = params[:subject] if params[:subject]
 	end
 
 	def edit

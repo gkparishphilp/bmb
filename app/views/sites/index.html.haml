@@ -1,46 +1,40 @@
 - content_for :left_column do
-	- cache( :controller => 'site', :action => 'index', :action_suffix => 'left') do
-		= link_to image_tag( "welcome_authors.jpg" ), register_url
-		.pad_content
+	-# cache( :controller => 'site', :action => 'index', :action_suffix => 'left') do
+	.pad_content
+	
+		#hp_promo
+			%h1
+				%span.black Authors:
+				%span.sell Sell your books & merch directly to your readers 
+			
+			.more
+				We make it easy and economical to create lasting relationships with your customers with your own online bookstore.
+
+			%h2
+				BackMyBook gives you
+			%ul
+				%li <b>Free</b> online store design and setup
+				%li Full E-commerce engine with credit card and Paypal support 
+				%li Email marketing 
+			%h2
+				Try us risk free with our "NO HASSLE" 3 month trial
+			%ul
+				%li No upfront fees, charges, or subscriptions
+				%li Industry leading 90/10 Revenue Share
+				%li Personalized service and support
+			%h2
+				How much does it cost?
+			%ul
+				%li The BackMyBook service is <b>FREE</b> to use
+				%li When you sell a book, you keep 90% of the net revenue, we keep 10%  
+			
+			%p.get_started
+				= link_to ">> Get Started!", new_contact_path(:subject =>"Let's get started!"), :class => 'big_green_button'
+			%br
+			%br.clear
+
 		
-			#home_blog
-				- for item in @items
-					-if item.is_a? Article
-						.home_article_header
-							.type_icon
-								= image_tag "blog_post_icon.png", :height => 32
-							.title
-								= link_to item.title, blog_url( item )
-							.participate
-								= image_tag "comment.png", :width => 20
-								= pluralize item.comments.count, "Comment"
-								%br
-								- if item.comments.count > 0
-									.converse= link_to "Join the Conversation", blog_url( item ) + "#comment"
-								- else
-									.converse= link_to "Be the first!", blog_url( item ) + "#comment"
-						%br.clear
-						%p.text
-							= snip item.content.html_safe, 500
-						%hr.home
-					-if item.is_a? Episode
-						.home_article_header
-							.type_icon
-								= image_tag "podcast_icon.png", :width => 32
-							.title
-								= link_to item.title, podcast_episode_url( item.podcast, item )
-							.participate
-								= image_tag "comment.png", :width => 20
-								= pluralize item.comments.count, "Comment"
-								%br
-								- if item.comments.count > 0
-									.converse= link_to "Join the Conversation", podcast_episode_url( item.podcast, item ) + "#comment"
-								- else
-									.converse= link_to "Be the first!", podcast_episode_url( item.podcast, item ) + "#comment"
-						%br.clear
-						%p.text
-							= snip item.description.html_safe, 500
-						%hr.home
+			
 	
 - content_for :right_column do
 
@@ -71,15 +65,19 @@
 						= image_tag "podcast_icon.png", :width => 20
 						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 			
-	- unless @activities.empty?	
-		- cache( :controller => 'site', :action => 'index', :action_suffix => 'activity_feed') do
-		
-			%br
-			%div
-				%h3 
-					=link_to 'Site Activity','#'
-				%div.text 
-					- for activity in @activities
-						= render activity
+	%div
+		%br
+		%h3 
+			=link_to 'Recent Blog Articles','#'
+		%div.text 
+
+			.recent_posts
+				- for article in @recent_blog_posts
+					.recent_title
+						= image_tag "blog_post_icon.png", :height => 20
+						= link_to article.title, blog_link( article )
+					.recent_preview.text
+						= snip article.content.html_safe, 140
+
 
 		
