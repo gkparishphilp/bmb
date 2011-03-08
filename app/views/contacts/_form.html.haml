@@ -6,7 +6,7 @@
 	= f.text_field :email, :value => @current_user.email
 
 = f.label :subject, "Subject:"
-= f.text_field :subject
+= f.text_field :subject, :value => @subject
 %p
 	= f.text_area :content, :rows => 12, :cols => 72
 %br
