@@ -1,0 +1,5 @@
+%h1 
+	Editing Email Message For
+	= @current_author.pen_name
+-form_for [ @current_author, @email_template ]  do |f|
+	=render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}

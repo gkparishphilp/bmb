@@ -87,14 +87,20 @@ Backmybook::Application.routes.draw do
 	resources :contacts
 	
 	resources :crashes
-
+	
 	resources :email_messages do
 		get 'admin', :on => :collection
 		get 'admin_list', :on => :collection
 		get 'send_to_self', :on => :collection
 		get 'send_to_subscriber', :on => :collection
+		get 'get_shipping', :on  => :collection
+		get 'edit_shipping', :on => :collection
+		get 'send_shipping', :on => :collection
 	end
 	
+	resources :email_templates do
+		get 'admin', :on => :collection
+	end
 	
 	resources :events do
 		get 'admin', :on => :collection

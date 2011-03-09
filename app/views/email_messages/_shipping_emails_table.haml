@@ -1,0 +1,29 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @orders.empty?
+	No Orders
+- else
+	%table.admin_table( style = 'width:800px;' )
+		%th Date
+		%th Transaction ID
+		%th Email
+		%th SKU
+		%th Delivery Notice
+		- for order in @orders
+			%tr
+				%td.small= format_date_only order.created_at
+				%td.small
+					= link_to order.order_transaction.reference, inspect_order_path( order )
+				%td.small
+					= link_to order.user.email, order_path( order )
+				%td.small
+					= order.sku.title
+				%td.small
+					=link_to "Send", send_shipping_email_messages_path(:order_id => order.id)
+					=link_to "Edit" , edit_shipping_email_messages_path(:order_id => order.id)
+
+	- unless @orders.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @orders
+			= will_paginate @orders

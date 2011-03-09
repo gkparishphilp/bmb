@@ -22,16 +22,21 @@ class EmailMessagesController < ApplicationController
 	def create
 		@email_message = EmailMessage.new params[:email_message]
 		@email_message.email_campaign = @campaign
-		
+		@current_author.present? ? @email_message.sender = @current_author : @email_message.sender = @current_user
+
 		if @email_message.save
-			redirect_to admin_email_messages_path
+			if @email_message.email_type == 'newsletter'
+				redirect_to admin_email_messages_path
+			elsif @email_message.email_type == 'shipping'
+				redirect_to get_shipping_email_messages_path
+			end
 		else
 			pop_flash 'Oooops, Email Message not saved...', 'error', @email_message
 			render :action => :new
 		end
 
 	end
-	
+
 	def update
 		@email_message = EmailMessage.find params[:id] 
 
@@ -87,7 +92,7 @@ class EmailMessagesController < ApplicationController
 			
 			# Kick it to delayed_job to manage the send time and send load
 			if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
-				@delivery_record.update_attributes :status => 'sent'
+				@delivery_record.update_attributes :status => 'sent', :email_type => 'newsletter'
 			else 
 				pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
 			end
@@ -98,6 +103,24 @@ class EmailMessagesController < ApplicationController
 		pop_flash( "Your newsletter has been successfully queued for delivery!")
 		@message.update_attributes :status => "Sent #{Time.now.to_date}"
 		redirect_to admin_email_messages_path
+		
+	end
+	
+	def get_shipping
+		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.order("created_at desc").paginate(:per_page => 10, :page => params[:page])
+		render :layout  => '2col'
+	end
+
+	def edit_shipping
+		@order = Order.find params[:order_id]
+		# if an email_message exists for this grab it, else grab the template version
+		@subject = EmailTemplate.first.subject #@current_author.shipping_email.subject
+		@content = Liquid::Template.parse( EmailTemplate.first.content ).render('order' => @order) #@current_author.shipping_email.content
+		render :layout  => '2col'
+	end
+	
+	def send_shipping
+		@order = Order.find params[:order_id]
 		
 	end
 	

@@ -54,6 +54,8 @@ class Author < ActiveRecord::Base
 	has_many	:addressings, :as => :owner
 	has_many	:geo_addresses, :through => :addressings
 	has_one		:nexus_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='nexus'"
+	has_many	:email_templates, :as => :owner
+	has_many	:email_messages, :as => :sender
 	
 	does_activities
 	

@@ -16,6 +16,7 @@
 class EmailMessage < ActiveRecord::Base
 	belongs_to	:email_campaign
 	has_many	:email_deliveries
+	belongs_to	:sender, :polymorphic => true
 	
 	#Scopes 
 

@@ -30,6 +30,7 @@ class Order < ActiveRecord::Base
 	
 	belongs_to		:shipping_address, :class_name => 'GeoAddress', :foreign_key => :shipping_address_id
 	belongs_to		:billing_address, :class_name => 'GeoAddress', :foreign_key => :billing_address_id
+	liquid_methods	:email
 	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
@@ -44,6 +45,8 @@ class Order < ActiveRecord::Base
 	scope :for_author, lambda { |args|
 		joins( "join skus on skus.id = sku_id " ).where( "skus.owner_type='Author' and skus.owner_id = ?", args )
 	}
+	
+	scope :has_shipping_amount, where("shipping_amount > 0")
 	
 #---------------------------------------------------------------
 # Validations

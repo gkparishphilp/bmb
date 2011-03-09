@@ -1,0 +1,35 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h1 Manage Email Templates
+		%br
+		%br
+		%h3 Create/Edit a template
+		= form_for @email_template  do |f|
+			= render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Save'}
+		
+		%br
+		%br
+	.form_group
+		%h3 Existing Templates
+		%br
+		%table.admin_table
+			%tr
+				%td 
+					%b Description
+				%td
+					%b Action
+
+			- for template in @current_author.email_templates
+				%tr{:class => cycle(:odd, :even)}
+					%td 
+						= template.description
+					%td
+						=link_to '[Edit]',  admin_email_templates_path( :email_template => template )
+						=link_to '[Delete]', email_template_path( template ), :confirm => 'Are you sure you want to delete this template?', :method => :delete
+
+		
+		
+- content_for :right_column do
+	= render 'shared/help'

@@ -79,6 +79,8 @@ class User < ActiveRecord::Base
 	has_many	:ownings
 	has_many	:skus, :through => :ownings
 	has_many	:coupons
+	has_many	:email_messages, :as => :sender
+	has_many	:email_messages
 	
 	belongs_to :site
 	
