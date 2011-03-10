@@ -33,5 +33,5 @@ class ShippingAddress < GeoAddress
 	validates :city, :presence => true
 	validates :geo_state_id, :presence => true
 	validates :zip, :presence => true
-	validates :country, :presence => true
+	validates :country, :presence => true	
 end

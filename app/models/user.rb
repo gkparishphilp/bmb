@@ -95,6 +95,7 @@ class User < ActiveRecord::Base
 	
 	acts_as_follower
 	does_activities
+	liquid_methods :name
 
 	# Attribute accessors		------------------------------------
 	attr_accessor	:password_confirmation

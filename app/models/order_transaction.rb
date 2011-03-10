@@ -19,4 +19,5 @@
 class OrderTransaction < ActiveRecord::Base
 	belongs_to :order
 	serialize :params
+	liquid_methods :reference
 end

@@ -15,6 +15,6 @@
 #
 
 class EmailCampaign < ActiveRecord::Base
-	has_many	:email_messages
+	has_many	:email_messages, :as => :source
 	scope :default, where("Title = 'Default'")
 end

@@ -33,6 +33,7 @@ class Merch < ActiveRecord::Base
 	
 	attr_accessor	:price, :book_id
 	
+	liquid_methods :title
 	
 	def review_average
 		return avg = self.reviews.average( :score ).to_f

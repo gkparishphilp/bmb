@@ -4,8 +4,8 @@ class ExtendEmailMessages < ActiveRecord::Migration
 	add_column	:email_messages, :sender_id, :string
 	add_column	:email_messages, :sender_type, :string
 	add_column	:email_messages, :user_id, :string
-	add_column	:email_messages, :owner_id, :string
-	add_column	:email_messages, :owner_type, :string
+	add_column	:email_messages, :source_id, :string
+	add_column	:email_messages, :source_type, :string
 	
 	add_index :email_messages, :email_type
 	add_index :email_messages, :user_id
@@ -18,7 +18,7 @@ class ExtendEmailMessages < ActiveRecord::Migration
 	remove_column	:email_messages, :sender_id
 	remove_column	:email_messages, :sender_type
 	remove_column	:email_messages, :user_id
-	remove_column	:email_messages, :owner_id
-	remove_column	:email_messages, :owner_type
+	remove_column	:email_messages, :source_id
+	remove_column	:email_messages, :source_type
   end
 end

@@ -7,15 +7,18 @@
 		%br
 		Subject:
 		%br
-		=f.text_field :subject, :value => @subject
+		=f.text_field :subject, :value => @email_message.subject
 		%br
 
 		%br
-		= f.text_area :content, :class => 'mceEditor', :value => @content
+		= f.text_area :content, :class => 'mceEditor', :value => @email_message.content
 
 		%br
+		
 		= f.hidden_field :email_type, :value => 'shipping'
 		= f.hidden_field :user_id, :value => @order.user.id
+		= f.hidden_field :source_id, :value => @order.id
+		= f.hidden_field :source_type, :value => 'Order'
 		
 		= f.submit 'Save' 
 		|

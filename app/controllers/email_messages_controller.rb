@@ -1,5 +1,4 @@
 class EmailMessagesController < ApplicationController
-	before_filter :get_parent
 	uses_tiny_mce 
 	
 	def admin
@@ -21,18 +20,19 @@ class EmailMessagesController < ApplicationController
 
 	def create
 		@email_message = EmailMessage.new params[:email_message]
-		@email_message.email_campaign = @campaign
 		@current_author.present? ? @email_message.sender = @current_author : @email_message.sender = @current_user
 
-		if @email_message.save
-			if @email_message.email_type == 'newsletter'
-				redirect_to admin_email_messages_path
-			elsif @email_message.email_type == 'shipping'
-				redirect_to get_shipping_email_messages_path
-			end
-		else
-			pop_flash 'Oooops, Email Message not saved...', 'error', @email_message
-			render :action => :new
+		if @email_message.email_type == 'newsletter'
+			@email_message.owner = @current_author.email_campaigns.find_by_title('Default')
+			@email_message.save
+			pop_flash 'Email message saved!'
+			redirect_to admin_email_messages_path
+			
+		else @email_message.email_type == 'shipping'
+			
+			@email_message.save
+			pop_flash 'Email message saved!'
+			redirect_to get_shipping_email_messages_path
 		end
 
 	end
@@ -55,6 +55,10 @@ class EmailMessagesController < ApplicationController
 		pop_flash 'Email message was successfully deleted', 'success'
 		redirect_to admin_email_messages_path
 	end
+	
+	############################################
+	# Methods for sending out email newsletters
+	############################################
 	
 	def send_to_self
 		@message = EmailMessage.find( params[:email_message] )
@@ -106,25 +110,52 @@ class EmailMessagesController < ApplicationController
 		
 	end
 	
+	#######################################################
+	# Methods for sending out shipping confirmation emails
+	#######################################################
+	
 	def get_shipping
-		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.order("created_at desc").paginate(:per_page => 10, :page => params[:page])
-		render :layout  => '2col'
+		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.reverse.paginate( :page => params[:page], :per_page => 10 )
+				render :layout  => '2col'
 	end
 
 	def edit_shipping
 		@order = Order.find params[:order_id]
-		# if an email_message exists for this grab it, else grab the template version
-		@subject = EmailTemplate.first.subject #@current_author.shipping_email.subject
-		@content = Liquid::Template.parse( EmailTemplate.first.content ).render('order' => @order) #@current_author.shipping_email.content
+		@email_message = retrieve_shipping_email(@order)
 		render :layout  => '2col'
 	end
 	
 	def send_shipping
 		@order = Order.find params[:order_id]
-		
+
+		@email_message = retrieve_shipping_email(@order)
+		@email_message.save
+
+		@testuser = User.find_by_email 'tay.x.nguyen@gmail.com'
+		if 	Delayed::Job.enqueue( SendEmailJob.new(@testuser, "#{@current_author.pen_name} <donotreply@backmybook.com>", @email_message.subject, @email_message.content) )
+			@email_message.email_deliveries.create :status => 'sent'
+			pop_flash 'Email sent!'
+		else
+			pop_flash 'Error sending email!', :error
+		end
+		redirect_to :back
 	end
 	
+
+	
 	private 
+	
+	def retrieve_shipping_email(order)
+		# If delivery confirmation email exists, grab it, else create a new one from the template
+		if order.email_messages.shipping.last.present?
+			email_message = order.email_messages.shipping.last
+		else
+			subject = @current_author.email_templates.shipping.last.subject 
+			content = Liquid::Template.parse( @current_author.email_templates.shipping.last.content ).render('order' => order, 'time' => Date.today.to_s(:long) ) 
+			email_message = EmailMessage.new	:subject => subject, :content => content, :email_type => 'shipping', :sender => @current_author, :user_id => order.user.id, :source_id => order.id, :source_type => 'Order'
+		end
+		return email_message
+	end
 	
 	def get_parent
 		@campaign = @current_author.email_campaigns.find_by_title('Default')

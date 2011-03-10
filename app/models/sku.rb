@@ -65,7 +65,7 @@ class Sku < ActiveRecord::Base
 	scope 	:subscription, where( "sku_type = 'subscription'")
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
-	
+	liquid_methods :title, :sku_items
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches
 	end

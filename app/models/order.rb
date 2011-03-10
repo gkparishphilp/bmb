@@ -27,10 +27,11 @@ class Order < ActiveRecord::Base
 	has_one		:subscribing
 	
 	has_many	:royalties
+	has_many	:email_messages, :as => :source
 	
 	belongs_to		:shipping_address, :class_name => 'GeoAddress', :foreign_key => :shipping_address_id
 	belongs_to		:billing_address, :class_name => 'GeoAddress', :foreign_key => :billing_address_id
-	liquid_methods	:email
+	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address
 	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity

@@ -14,7 +14,7 @@
 #
 
 class EmailMessage < ActiveRecord::Base
-	belongs_to	:email_campaign
+	belongs_to	:owner, :polymorphic => true
 	has_many	:email_deliveries
 	belongs_to	:sender, :polymorphic => true
 	
@@ -24,7 +24,6 @@ class EmailMessage < ActiveRecord::Base
 	scope :sent, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'sent'" )
 	scope :opened, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'opened'" )
 	scope :bounced, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'bounced'" )
-
 	
 	scope :dated_between, lambda { |*args| 
 		where( "emails_messages.created_at between ? and ?", (args.first.to_date || 7.days.ago.getutc), (args.second.to_date || Time.now.getutc) ) 
@@ -34,6 +33,8 @@ class EmailMessage < ActiveRecord::Base
 		joins( "join email_campaigns on email_campaigns.id = email_messages.email_campaign_id " ).where( "email_campaigns.owner_type='Author' and email_campaigns.owner_id = ?", args )
 	}
 	
+	scope :shipping, where("email_type = 'shipping'")
+	
 	def bounces
 		self.email_deliveries.find(:all, :conditions  => "status = 'bounced'")
 	end
@@ -41,8 +42,7 @@ class EmailMessage < ActiveRecord::Base
 	def sends
 		self.email_deliveries.find(:all, :conditions  => "status = 'sent'")
 	end
-
-
+	
 	def build_html_email( args={})  #test, unsubscribe_code, #delivery_code
 		message_header = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title> #{self.subject}</title> <body>"
 		message_footer = "</body></html>"

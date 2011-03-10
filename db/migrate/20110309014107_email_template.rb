@@ -5,9 +5,13 @@ class EmailTemplate < ActiveRecord::Migration
 		t.string		:subject
 		t.text			:content
 		t.string		:description
+		t.string		:template_type
 	end
+	add_index :email_templates, :template_type
   end
 
   def self.down
+	remove_index :email_templates, :template_type
+	drop_table :email_templates
   end
 end

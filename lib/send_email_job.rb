@@ -1,4 +1,4 @@
-class SendEmailJob  < Struct.new(:user, :source, :subject, :html_body, :email)
+class SendEmailJob  < Struct.new(:user, :source, :subject, :html_body)
 	def perform
 		if user.valid?
 			ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)

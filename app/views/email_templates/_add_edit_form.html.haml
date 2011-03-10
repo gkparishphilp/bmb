@@ -12,7 +12,7 @@ Subject:
 = f.text_area :content, :class => 'mceEditor'
 
 %br
-
+= f.hidden_field :template_type, :value => 'shipping'
 = f.submit 'Save' 
 |
 = link_to 'Cancel', :back
