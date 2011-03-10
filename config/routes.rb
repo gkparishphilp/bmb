@@ -93,9 +93,9 @@ Backmybook::Application.routes.draw do
 		get 'admin_list', :on => :collection
 		get 'send_to_self', :on => :collection
 		get 'send_to_subscriber', :on => :collection
-		get 'get_shipping', :on  => :collection
-		get 'edit_shipping', :on => :collection
-		get 'send_shipping', :on => :collection
+		get 'admin_get_merch_orders', :on  => :collection
+		get 'admin_edit_shipping_email', :on => :collection
+		get 'admin_send_shipping_email', :on => :collection
 	end
 	
 	resources :email_templates do

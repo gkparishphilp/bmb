@@ -36,7 +36,7 @@ class EmailMessagesController < ApplicationController
 			
 			@email_message.save
 			pop_flash 'Email message saved!'
-			redirect_to get_shipping_email_messages_path
+			redirect_to admin_get_merch_orders_email_messages_path
 		end
 
 	end
@@ -118,18 +118,18 @@ class EmailMessagesController < ApplicationController
 	# Methods for sending out shipping confirmation emails
 	#######################################################
 	
-	def get_shipping
+	def admin_get_merch_orders
 		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.reverse.paginate( :page => params[:page], :per_page => 10 )
 				render :layout  => '2col'
 	end
 
-	def edit_shipping
+	def admin_edit_shipping_email
 		@order = Order.find params[:order_id]
 		@email_message = retrieve_shipping_email(@order)
 		render :layout  => '2col'
 	end
 	
-	def send_shipping
+	def admin_send_shipping_email
 		@order = Order.find params[:order_id]
 
 		@email_message = retrieve_shipping_email(@order)
