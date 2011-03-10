@@ -31,10 +31,10 @@ class Order < ActiveRecord::Base
 	
 	belongs_to		:shipping_address, :class_name => 'GeoAddress', :foreign_key => :shipping_address_id
 	belongs_to		:billing_address, :class_name => 'GeoAddress', :foreign_key => :billing_address_id
+	
+	
+	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity, :subscribe_to_author
 	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address
-	
-	
-	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity
 	
 	# adding for 12/4 fixpass....
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )

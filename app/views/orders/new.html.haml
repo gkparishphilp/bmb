@@ -56,10 +56,12 @@
 			
 				- if @sku.contains_merch?
 					= render 'shipping_form', :f => f
-					
-					
-				= f.submit 'Place Order', :class => 'buttons'
 				%br
+				Subscribe to #{@author.pen_name}'s newsletter
+				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'
+				%br
+				%br
+				= f.submit 'Place Order', :class => 'buttons'
 				%br
 				Note: Your credit card will be billed by "Groundswell Enterprises".
 		%br.clear

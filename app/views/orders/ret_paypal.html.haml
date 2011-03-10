@@ -56,7 +56,9 @@
 			#valid_coupon_div( style = "margin:10px 0px;")
 				#valid_coupon
 			%p Please confirm your Paypal order by clicking the button below.
-					
+			%p
+				Subscribe to #{@author.pen_name}'s newsletter
+				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'				
 			%p Note: Your Paypal Account will be billed by "Groundswell Enterprises".
 			%p
 			= f.submit "Confirm Your Paypal Order", :class => :buttons
