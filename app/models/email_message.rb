@@ -14,7 +14,7 @@
 #
 
 class EmailMessage < ActiveRecord::Base
-	belongs_to	:owner, :polymorphic => true
+	belongs_to	:source, :polymorphic => true
 	has_many	:email_deliveries
 	belongs_to	:sender, :polymorphic => true
 	

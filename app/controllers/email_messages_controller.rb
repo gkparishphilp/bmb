@@ -2,11 +2,15 @@ class EmailMessagesController < ApplicationController
 	uses_tiny_mce 
 	
 	def admin
+		@campaign = @current_author.email_campaigns.find_by_title('Default')
+		@num_subscribers = @current_author.email_subscribings.count
+		
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
 		render :layout => '2col'
 	end
 	
 	def admin_list
+		@num_subscribers = @current_author.email_subscribings.count
 		@subscribings = @current_author.email_subscribings.reverse.paginate(:page => params[:page], :per_page => 10)
 		render :layout => '3col'
 	end
@@ -23,7 +27,7 @@ class EmailMessagesController < ApplicationController
 		@current_author.present? ? @email_message.sender = @current_author : @email_message.sender = @current_user
 
 		if @email_message.email_type == 'newsletter'
-			@email_message.owner = @current_author.email_campaigns.find_by_title('Default')
+			@email_message.source = @current_author.email_campaigns.find_by_title('Default')
 			@email_message.save
 			pop_flash 'Email message saved!'
 			redirect_to admin_email_messages_path
@@ -96,7 +100,7 @@ class EmailMessagesController < ApplicationController
 			
 			# Kick it to delayed_job to manage the send time and send load
 			if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
-				@delivery_record.update_attributes :status => 'sent', :email_type => 'newsletter'
+				@delivery_record.update_attributes :status => 'sent'
 			else 
 				pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
 			end

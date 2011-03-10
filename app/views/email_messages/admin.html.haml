@@ -31,7 +31,7 @@
 						= message.status
 					%td
 						=link_to '[Send to me]', send_to_self_email_messages_path( :email_message => message )
-						=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message ), :confirm => 'Are you sure you want to send to all your subscribers?'
+						=link_to '[Send]', send_to_subscriber_email_messages_path( :email_message => message ), :confirm => "Are you sure you want to send to your #{@num_subscribers} subscribers?"
 						=link_to '[Edit]', admin_email_messages_path( :email_message => message )
 						=link_to '[Delete]', author_email_campaign_email_message_url( @current_author, @campaign, message ), :confirm => 'Are you sure you want to delete this message?', :method => :delete
 
