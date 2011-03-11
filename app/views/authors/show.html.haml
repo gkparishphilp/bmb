@@ -1,12 +1,8 @@
 - content_for :left_column do
-	- if @author.promo_content.present?
-		= @author.promo_content.html_safe
-	- else
-		= @author.bio.html_safe
-	
-	- unless @author.articles.recent.empty?
-		- for article in @author.articles.published.recent
-			= render article
-		
+	- cache( :controller => 'authors', :action => 'show', :action_suffix => 'sku_listing' ) do 
+		= @author.promo.html_safe if @author.promo.present? 
+		- for sku in @skus
+			= render 'store/item_listing', :sku => sku
+
 - content_for :right_column do
 	&nbsp;

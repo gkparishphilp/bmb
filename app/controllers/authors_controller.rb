@@ -47,7 +47,8 @@ class AuthorsController < ApplicationController
 	
 	def update
 		@author = Author.find params[:id]
-		unless author_owns( @author )
+		unless @current_author == @author
+			pop_flash "Unauthorized", :error
 			redirect_to root_path
 			return false
 		end
@@ -63,13 +64,16 @@ class AuthorsController < ApplicationController
 	def show 
 		@author = Author.find params[:id] if @author.nil?
 		
-		set_meta @author.pen_name, @author.bio
-		
-		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		if @author.nil?
 			pop_flash "No author found", :notice
 			redirect_to root_path
 		end
+		
+		@skus = @author.skus
+		
+		set_meta @author.pen_name, @author.bio
+		
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		
 	end
 	

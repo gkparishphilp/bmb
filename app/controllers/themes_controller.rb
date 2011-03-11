@@ -1,5 +1,12 @@
 class ThemesController < ApplicationController
 	
+	before_filter :require_author
+	
+	def admin
+		@default_themes = Theme.default - @current_author.themes
+		render :layout => '3col'
+	end
+	
 	def new
 		@edit_theme = Theme.new
 		render :layout => '3col'

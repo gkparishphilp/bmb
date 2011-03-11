@@ -46,7 +46,7 @@ protected
 	# grabs @current_site from request.domain
 	def fetch_site
 		@domain = request.domain
-		@current_site = Site.find_by_domain @domain || Site.first
+		@current_site = Site.find_by_domain( @domain ) || Site.first
 		@author = @current_site.author
 	end
 	

@@ -1,27 +1,5 @@
 .author_menu
 	%ul.main-menu
-		%li= current_page?( author_url( @author ) ) ? ( link_to "Home", author_url( @author ), :class => 'selected' ) : ( link_to "Home", author_url( @author ) )
-		
-		- if @theme.nil? || !@theme.book_site
-			- unless @author.bio.blank?
-				%li= current_page?( bio_author_url( @author ) ) ? ( link_to "Bio", bio_author_url( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_url( @author ) )
-				
-			- unless @author.books.empty?
-				%li= current_page?( author_books_url( @author ) ) ? ( link_to "Books", author_books_url( @author ), :class => 'selected' ) : ( link_to "Books", author_books_url( @author ) )
-		
-		- else
-			%li= current_page?( bio_author_url( @author ) ) ? ( link_to "About", bio_author_url( @author ), :class => 'selected' ) : ( link_to "About", bio_author_url( @author ) )
-		
-		- unless @author.articles.empty?
-			%li= current_page?( author_blog_index_url( @author ) ) ? ( link_to "Blog", author_blog_index_url( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_url( @author ) )
-		
-		- unless @author.forums.empty?
-			%li= current_page?( author_forums_url( @author ) ) ? ( link_to "Forums", author_forums_url( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_url( @author ) )
-		
-		- unless @author.podcasts.empty?
-			%li= current_page?( author_podcasts_url( @author ) ) ? ( link_to "Podcasts", author_podcasts_url( @author ), :class => 'selected' ) : ( link_to "Podcasts", author_podcasts_url( @author ) )
-		
-		- unless @author.skus.empty?
-			%li= current_page?( author_store_index_url( @author ) ) ? ( link_to "Store", author_store_index_url( @author ), :class => 'selected' ) : ( link_to "Store", author_store_index_url( @author ) )
+		%li= current_page?( author_url( @author ) ) ? ( link_to "Store", author_url( @author ), :class => 'selected' ) : ( link_to "Store", author_url( @author ) )
 			
 		%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
