@@ -14,10 +14,10 @@ class ThemesController < ApplicationController
 	
 	def edit
 		@edit_theme = Theme.find params[:id]
-		unless author_owns( @edit_theme )
-			redirect_to root_path
-			return false
-		end
+	#	unless author_owns( @edit_theme )
+	#		redirect_to root_path
+	#		return false
+	#	end
 		render :layout => '3col'
 	end
 	
@@ -60,10 +60,10 @@ class ThemesController < ApplicationController
 	
 	def update
 		@theme = Theme.find params[:id]
-		unless author_owns( @theme )
-			redirect_to root_path
-			return false
-		end
+	#	unless author_owns( @theme )
+	#		redirect_to root_path
+	#		return false
+	#	end
 		if @theme.update_attributes params[:theme]
 			process_attachments_for( @theme )
 			pop_flash 'Theme saved!'
