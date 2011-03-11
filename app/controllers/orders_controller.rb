@@ -193,6 +193,11 @@ class OrdersController < ApplicationController
 			#TODO send back errors from Paypal here also
 		end
 		
+		# Add user to author's subscriber list if the subscribed box is checked
+		if @order.subscribe_to_author == 'true'
+			subscribing = EmailSubscribing.find_or_create_subscription(@order.sku.owner, @order.user)   # its the actual word 'true', not the boolean true
+			subscribing.update_attributes :status => 'subscribed'  # Since the user didn't affirmatively opt-out, set his status to true
+		end
 	end
 
 private

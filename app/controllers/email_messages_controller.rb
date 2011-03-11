@@ -136,7 +136,9 @@ class EmailMessagesController < ApplicationController
 		@email_message.save
 
 		@testuser = User.find_by_email 'tay.x.nguyen@gmail.com'
-		if 	Delayed::Job.enqueue( SendEmailJob.new(@testuser, "#{@current_author.pen_name} <donotreply@backmybook.com>", @email_message.subject, @email_message.content) )
+		@user = @order.user
+		
+		if 	Delayed::Job.enqueue( SendEmailJob.new(@user, "#{@current_author.pen_name} <donotreply@backmybook.com>", @email_message.subject, @email_message.content) )
 			@email_message.email_deliveries.create :status => 'sent'
 			pop_flash 'Email sent!'
 		else
