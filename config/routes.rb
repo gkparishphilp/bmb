@@ -68,7 +68,10 @@ Backmybook::Application.routes.draw do
 		resources :skus do
 			put 'add_item', :on => :member
 		end
-		resources :store
+		resources :store do
+			get 'admin', :on => :collection
+		end
+		
 		resources :sites
 		resources :themes do
 			post 'activate', :on => :collection
@@ -176,7 +179,10 @@ Backmybook::Application.routes.draw do
 		end
 	end
 	
-	resources :themes
+	resources :themes do
+		get 'admin', :on => :collection
+	end
+	
 	resources :upload_email_lists do
 		get 'download', :on => :collection
 	end

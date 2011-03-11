@@ -1,5 +1,5 @@
 - content_for :left_column do
-	- cache( :controller => 'store', :action => 'index', :action_suffix => 'sku_listing' ) do 
+	- cache( :controller => 'authors', :action => 'show', :action_suffix => 'sku_listing' ) do 
 		%p.text
 			%b Want to buy more than one item? 
 			Simply purchase one of the items or combos of items below. If you don’t find a combo that has everything you need, just make multiple purchases.
@@ -8,7 +8,7 @@
 			For anyone who has purchased or purchases the hardcover of THE STARTER, we are offering a Free eBook! The Free STARTER eBook does not apply to any package you see on this page. For more information 
 			= link_to "click here", " http://www.scottsigler.com/makeitright"
 		- for sku in @skus
-			= render 'item_listing', :sku => sku
+			= render 'store/item_listing', :sku => sku
 
 - content_for :right_column do
 	&nbsp;

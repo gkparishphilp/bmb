@@ -2,6 +2,10 @@ class StoreController < ApplicationController
 	# going to use to show store page -- list of skus, and store/show/id for sku detail
 	layout 'authors'
 	
+	def admin
+		render :layout => '3col'
+	end
+	
 	def index
 		@skus = @author.skus
 	end

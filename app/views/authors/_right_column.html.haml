@@ -48,16 +48,3 @@
 							%br
 							At: 
 							= event.location
-	- unless current_page?( new_author_order_path( @author ) )
-		- cache( :controller => 'authors', :action => 'show', :action_suffix => 'activity_feed') do
-		
-			%div
-				%h3 
-					=link_to 'Recent Activity','#'
-				%div 
-					- if Activity.feed( @author, @author.books, @author.merches ).empty?
-						No Activity
-					- else
-						- for activity in Activity.feed( @author, @author.books, @author.merches )[0..19]
-							= render activity
-				

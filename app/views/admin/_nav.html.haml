@@ -1,8 +1,11 @@
-#admin_hd  Your Website
-
-%li= link_to "Blog", admin_blog_index_url
+#admin_hd  Display
+%li= link_to "Promo", admin_author_store_index_url( @current_author )
+%li= link_to "Sidebar Items"
+%li= link_to "Featured Items"
+%li= link_to "Theme", admin_themes_url
 %li= link_to "Links", admin_links_url
-%li= link_to "Events", admin_events_path
+
+
 
 #admin_hd Reports
 %li= link_to 'Sales', reports_sales_path
