@@ -29,12 +29,15 @@ class EmailSubscribing < ActiveRecord::Base
 		where("subscribed_to_type='Author' and subscribed_to_id = ? ", args)
 	}
 	
-	def generate_unsubscribe_code
-		random_string = rand(1000000000).to_s + Time.now.to_s
-		if self.unsubscribe_code == nil
-			self.unsubscribe_code = Digest::SHA1.hexdigest random_string
+	
+	def self.find_or_create_subscription(subscribed_to, subscriber)
+		subscribing = subscriber.email_subscribings.find_or_initialize_by_subscribed_to_id_and_subscribed_to_type( :subscribed_to_id => subscribed_to.id, :subscribed_to_type => subscribed_to.class.name )
+		subscribing.status = 'subscribed' if subscribing.status.nil?
+		if subscribing.unsubscribe_code.nil?
+			random_string = rand(1000000000).to_s + Time.now.to_s
+			subscribing.unsubscribe_code = Digest::SHA1.hexdigest random_string
 		end
-		
+		subscribing.save
 	end
 	
 end

@@ -62,13 +62,7 @@ class UploadEmailList < ActiveRecord::Base
 			user = User.find_or_initialize_by_email( :email => email)
 			user.save( false )
 			if self.author
-				next if EmailSubscribing.find_by_subscribed_to_type_and_subscribed_to_id_and_subscriber_type_and_subscriber_id( self.author.class, self.author.id, user.class, user.id )
-				email_subscribing = EmailSubscribing.new
-				email_subscribing.subscriber = user
-				email_subscribing.subscribed_to = self.author
-				email_subscribing.status = 'subscribed'
-				email_subscribing.generate_unsubscribe_code
-				email_subscribing.save
+				subscribing = EmailSubscribing.find_or_create_subscription( self.author, user)
 			end
 		end
 	end
