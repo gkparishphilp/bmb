@@ -38,6 +38,7 @@ class EmailSubscribing < ActiveRecord::Base
 			subscribing.unsubscribe_code = Digest::SHA1.hexdigest random_string
 		end
 		subscribing.save
+		return subscribing
 	end
 	
 end
