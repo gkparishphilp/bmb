@@ -1,0 +1,10 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	%h4 Enter an email address to send out test email to:
+	= form_tag send_test_email_email_messages_path do
+		=text_field_tag	:email
+		=hidden_field_tag :email_message_id, @message.id
+		=submit_tag "Send Test"
+- content_for :right_column do
+	= render 'shared/help'

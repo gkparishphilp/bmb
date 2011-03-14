@@ -99,6 +99,7 @@ Backmybook::Application.routes.draw do
 		get 'admin_get_merch_orders', :on  => :collection
 		get 'admin_edit_shipping_email', :on => :collection
 		get 'admin_send_shipping_email', :on => :collection
+		post 'send_test_email', :on => :collection
 	end
 	
 	resources :email_templates do

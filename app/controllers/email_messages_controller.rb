@@ -66,14 +66,29 @@ class EmailMessagesController < ApplicationController
 	
 	def send_to_self
 		@message = EmailMessage.find( params[:email_message] )
+		#if Delayed::Job.enqueue( SendEmailJob.new(@current_author.user, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject} (Test Message)", html_body) )
+		#	pop_flash( 'Test email sent' )
+		#else
+		#	pop_flash( 'Error sending email' , :error )
+		#end
+		render :layout => '3col'
+		
+	end
+	
+	def send_test_email
+		@email = params[:email]
+		@message = EmailMessage.find( params[:email_message_id])
 		html_body = @message.build_html_email(:test => true)
-
-		if Delayed::Job.enqueue( SendEmailJob.new(@current_author.user, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject} (Test Message)", html_body) )
-			pop_flash( 'Test email sent' )
+		
+		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
+		if ses.send_email( :to => @email, :source => "#{@current_author.pen_name} <donotreply@backmybook.com>", :subject => "#{@message.subject} (Test Message)", :html_body => html_body)
+			pop_flash 'Test email sent successfully!'
 		else
-			pop_flash( 'Error sending email' , :error )
+			pop_flash 'Error sending test email'
 		end
+		
 		redirect_to admin_email_messages_path
+		
 	end
 	
 	def send_to_subscriber
