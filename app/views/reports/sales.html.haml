@@ -4,7 +4,6 @@
 - content_for :middle_column do
 	%h1 Sales
 	%br
-		
 	%h3 Recent Sales
 	%table.admin_table
 		%tr
@@ -23,8 +22,26 @@
 				%td= order.sku.title
 				%td= format_price( order.total )
 	%br
-	%br
 	%hr
+	%h3 Weekly Summary
+	for week ending
+	= format_date_only( @week_ending - 1.second )
+	%br
+	%br
+	%table.admin
+		%tr
+			%td
+				%b SKU
+			%td
+				%b Sales	
+		- @orders_by_sku_week_ending.each do |sku|
+			- sku.each do |sku|
+				%tr
+					%td= sku[0]
+					%td= sku[1]
+
+	%hr
+	%br
 	%h3 Select Period
 	= render :partial => 'shared/date_picker'
 	%br			
