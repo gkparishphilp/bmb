@@ -22,7 +22,6 @@
 				%td= order.sku.title
 				%td= format_price( order.total )
 	%br
-	%hr
 	%h3 Weekly Summary
 	for week ending
 	= format_date_only( @week_ending - 1.second )
@@ -37,9 +36,10 @@
 		- @orders_by_sku_week_ending.each do |sku|
 			- sku.each do |sku|
 				%tr
-					%td= sku[0]
+					%td.data_wide= sku[0]
 					%td= sku[1]
 
+	%br
 	%hr
 	%br
 	%h3 Select Period
