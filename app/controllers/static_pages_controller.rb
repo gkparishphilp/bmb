@@ -1,6 +1,7 @@
 class StaticPagesController < ApplicationController
 	
 	before_filter   :require_admin, :except => [ :show  ]
+	uses_tiny_mce
 	layout '1col'
 
 	def admin
