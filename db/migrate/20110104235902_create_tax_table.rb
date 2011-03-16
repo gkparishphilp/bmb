@@ -65,13 +65,6 @@ class CreateTaxTable < ActiveRecord::Migration
 	r = TaxRate.create :geo_state_id => 49 , :rate => 0.06
 	r = TaxRate.create :geo_state_id => 50 , :rate => 0.05
 	r = TaxRate.create :geo_state_id => 51 , :rate => 0.04
-
-	TaxRate.all.each do |state|
-		state.geo_state_abbrev = state.geo_state.abbrev
-		state.save
-	end
-	
-	remove_column :tax_rates, :geo_state_id
 		
   end
 

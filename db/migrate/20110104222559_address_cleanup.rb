@@ -256,7 +256,7 @@ class AddressCleanup < ActiveRecord::Migration
 		GeoCountry.create :abbrev => "ZR", :name => "Zaire"
 		GeoCountry.create :abbrev => "ZM", :name => "Zambia"
 		GeoCountry.create :abbrev => "ZW", :name => "Zimbabwe"
-		
+
 		add_index :geo_countries, :abbrev
 		add_index :geo_states, :abbrev
 		

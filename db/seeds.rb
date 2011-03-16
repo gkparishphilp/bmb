@@ -103,17 +103,14 @@ GeoState.create :country => 'US', :name => 'West Virginia', :abbrev => 'WV'
 GeoState.create :country => 'US', :name => 'Wisconsin', :abbrev => 'WI'
 GeoState.create :country => 'US', :name => 'Wyoming', :abbrev => 'WY'
 
-#Commenting out Canada until we support international payments, taxes, and currencies
-#GeoState.create :country => 'CA', :name => 'Alberta', :abbrev => 'AB'
-#GeoState.create :country => 'CA', :name => 'British Columbia', :abbrev => 'BC'
-#GeoState.create :country => 'CA', :name => 'Manitoba', :abbrev => 'MB'
-#GeoState.create :country => 'CA', :name => 'New Brunswick', :abbrev => 'NB'
-#GeoState.create :country => 'CA', :name => 'Newfoundland', :abbrev => 'NL'
-#GeoState.create :country => 'CA', :name => 'Northwest Territories', :abbrev => 'NT'
-#GeoState.create :country => 'CA', :name => 'Nova Scotia', :abbrev => 'NS'
-#GeoState.create :country => 'CA', :name => 'Ontario', :abbrev => 'ON'
-#GeoState.create :country => 'CA', :name => 'Prince Edward Island', :abbrev => 'PE'
-#GeoState.create :country => 'CA', :name => 'Quebec', :abbrev => 'QC'
-#GeoState.create :country => 'CA', :name => 'Saskatchewan', :abbrev => 'SK'
-#GeoState.create :country => 'CA', :name => 'Yukon', :abbrev => 'YT'
+# Populate the tax rate table abbreviations from the geo_states table.  Don't really use geo_states since the address refactor
+TaxRate.all.each do |state|
+	state.geo_state_abbrev = state.geo_state.abbrev
+	state.save
+end
+
+#Need to remove this deadweight column from the db at some point since we don't use geo_states anymore, but can't do it in this seed file
+#remove_column :tax_rates, :geo_state_id 
+
+
 
