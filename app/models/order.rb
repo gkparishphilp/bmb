@@ -58,7 +58,7 @@ class Order < ActiveRecord::Base
 	validate_on_create :validate_unique_order
 	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
-
+	
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner

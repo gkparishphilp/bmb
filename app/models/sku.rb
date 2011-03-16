@@ -66,6 +66,11 @@ class Sku < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	liquid_methods :title, :sku_items
+	
+	def allow_comment?
+		return self.allow_comment
+	end
+	
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches
 	end
