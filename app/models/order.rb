@@ -34,7 +34,7 @@ class Order < ActiveRecord::Base
 	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity, :subscribe_to_author
-	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address
+	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address, :comment
 	
 	# adding for 12/4 fixpass....
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
@@ -386,7 +386,7 @@ class Order < ActiveRecord::Base
 			if self.user.orders.present? && self.user.orders.successful.present?
 				if existing_order = self.user.orders.successful.find_by_sku_id( self.sku_id )
 					txn_number = existing_order.order_transaction.reference
-					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by loging in or creating an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='contacts/new'>contact support</a>." 
+					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by logging in or registering an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='contacts/new'>contact support</a>." 
 					errors.add_to_base message
 				end
 			end
