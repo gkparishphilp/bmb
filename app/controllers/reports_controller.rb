@@ -61,8 +61,7 @@ class ReportsController < ApplicationController
 	end
 	
 	def inventory
-		@author = Author.find( params[:author_id] )
-		@skus = @author.skus
+		@skus = @current_author.skus
 		render :layout  => '2col'
 		
 	end

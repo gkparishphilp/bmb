@@ -208,7 +208,7 @@ Backmybook::Application.routes.draw do
 	
 	match '/get-started' => 'contacts#get_started', :as => :get_started 
 
-	match '/authors/:author_id/reports/(:action)' => 'reports', :as => :author_report
+	match '/reports/(:action)' => 'reports', :as => :report
 		
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
