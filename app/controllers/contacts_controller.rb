@@ -67,7 +67,6 @@ class ContactsController < ApplicationController
 
 		if @contact.author.present?
 			# email the author
-			pop_flash "author"
 			send_email = UserMailer.author_contact_email( @contact ).deliver
 			redirect_to @contact.author
 		else
