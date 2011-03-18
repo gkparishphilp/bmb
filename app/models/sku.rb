@@ -26,6 +26,8 @@ class Sku < ActiveRecord::Base
 	#def items
 	#	self.sku_items.collect{ |si| si.item }
 	#end
+
+	after_create :assign_listing_order
 	
 	has_many :coupons
 	has_many :orders
@@ -66,6 +68,10 @@ class Sku < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	liquid_methods :title, :sku_items
+
+	def assign_listing_order
+
+	end
 	
 	def allow_comment?
 		return self.allow_comment
@@ -115,6 +121,12 @@ class Sku < ActiveRecord::Base
 			return true if sku_item.item_type == 'Audio'
 		end
 		return false
+	end
+	
+	def decrement_inventory
+		if self.number_remaining > 0
+			self.update_attributes :number_remaining => self.number_remaining - 1
+		end
 	end
 	
 	

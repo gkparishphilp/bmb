@@ -1,5 +1,6 @@
 class SkusController < ApplicationController
 	cache_sweeper :sku_sweeper, :only => [:create, :update, :destroy]
+
 	
 	def create
 		@sku = Sku.new params[:sku]

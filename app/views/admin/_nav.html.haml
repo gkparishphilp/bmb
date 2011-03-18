@@ -5,12 +5,12 @@
 %li= link_to "Theme", admin_themes_url
 -#%li= link_to "Links", admin_links_url
 
-
-
 #admin_hd Reports
-%li= link_to 'Sales', reports_sales_path
+%li= link_to 'Sales', author_report_path(@current_author, 'sales')
 %li= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
-%li= link_to "Coupons", reports_redemptions_path
+%li= link_to "Inventory", author_report_path(@current_author, 'inventory')
+%li= link_to "Coupons", author_report_path(@current_author, 'redemptions')
+
 -#%li= link_to "Emails", reports_emails_path
 
 #admin_hd Messaging
