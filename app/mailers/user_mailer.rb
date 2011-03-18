@@ -40,4 +40,9 @@ class UserMailer < ActionMailer::Base
 		@contact = contact
 		mail( :from => "donotreply@backmybook.com", :to => 'support@backmybook.com', :subject => "Support email from #{@contact.email}" )
 	end
+	
+	def author_contact_email( contact )
+		@contact = contact
+		mail( :from => "donotreply@backmybook.com", :to => @contact.author.contact_email, :subject => "BackMyBook.com email from #{@contact.email}" )
+	end
 end

@@ -6,20 +6,13 @@
 We've been notified of the error, but you can give us additional information below, such as what you were looking for, or what link you clicked that caused the error:
 %br
 %br
-.form_group
-	= form_for Contact.new do |f|
-		- if @crash
-			= f.hidden_field :crash_id, :value => @crash.id 
-		%p
-			= f.label :email, "Your Email (optional):"
-			= f.text_field :email
-		%p
-			= f.label :subject, "Subject:"
-			= f.text_field :subject, :value => "Error: " + @crash.message
-		%p
+
+- if @crash
+	.form_group
+		= form_for @crash do |f|
 			= f.label "Describe What Happened (optional):"
-			= f.text_area :content, :class => 'long_desc_area'
-		%br
-		= f.submit 'Enter', :class=> 'buttons'
-		|
-		= link_to "Cancel", root_path
+			= f.text_area :user_note, :class => 'long_desc_area'
+			%br
+			= f.submit 'Enter', :class=> 'buttons'
+			|
+			= link_to "Cancel", root_path

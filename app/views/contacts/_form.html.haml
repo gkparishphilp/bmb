@@ -10,6 +10,9 @@
 %p
 	= f.text_area :content, :rows => 12, :cols => 72
 %br
+- unless @current_user.human?
+	Please type the words you see below:
+	= recaptcha_tags( :display => { :theme=>"clean" } ).html_safe
 = f.submit 'Enter', :class=>'buttons'
 |
 = link_to "Cancel", root_url
