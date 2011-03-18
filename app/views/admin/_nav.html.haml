@@ -4,6 +4,7 @@
 -# %li= link_to "Featured Items"
 %li= link_to "Theme", admin_themes_url
 -#%li= link_to "Links", admin_links_url
+%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
 
 #admin_hd Reports
 %li= link_to 'Sales', author_report_path(@current_author, 'sales')

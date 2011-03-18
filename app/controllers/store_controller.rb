@@ -7,7 +7,7 @@ class StoreController < ApplicationController
 	end
 	
 	def index
-		@skus = @author.skus
+		@skus = @author.skus.order( 'listing_order asc' )
 	end
 	
 	def show

@@ -52,6 +52,20 @@ class SkusController < ApplicationController
 		render :layout => '3col'
 	end
 	
+	def sort
+		@skus = @current_author.skus.order( 'listing_order asc' )
+		render :layout => '3col'
+	end
+	
+	def update_sort
+		ids = params[:newOrder].split(/,/).collect{ |elem| elem.split(/_/).last }
+		for id in ids
+			sku = Sku.find( id )
+			sku.update_attributes( :listing_order => ids.index( id ) )
+		end
+		redirect_to sort_author_skus_path( @current_author )
+	end
+	
 	def add_item
 		@sku = Sku.find params[:id]
 		type, id = params[:sku][:item].split(/_/)

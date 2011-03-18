@@ -67,6 +67,7 @@ Backmybook::Application.routes.draw do
 		end
 		resources :skus do
 			put 'add_item', :on => :member
+			get 'sort', :on => :collection
 		end
 		resources :store do
 			get 'admin', :on => :collection
@@ -228,6 +229,8 @@ Backmybook::Application.routes.draw do
 	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'
 	match 'coupons/validate/:sku_id/:code', :to => 'coupons#validate', :as => 'validate_coupon'
 	
+	#for sku sorting ajax
+	match '/skus/update_sort', :to => 'skus#update_sort'
 	
 	match "/:permalink", :to => 'static_pages#show'
 		
