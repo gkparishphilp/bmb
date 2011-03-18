@@ -69,7 +69,7 @@ class ContactsController < ApplicationController
 			# email the author
 			pop_flash "author"
 			send_email = UserMailer.author_contact_email( @contact ).deliver
-			redirect_to contact.author
+			redirect_to @contact.author
 		else
 			#email BmB support
 			send_email = UserMailer.support_email( @contact ).deliver

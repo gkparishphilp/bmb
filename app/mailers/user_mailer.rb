@@ -43,6 +43,6 @@ class UserMailer < ActionMailer::Base
 	
 	def author_contact_email( contact )
 		@contact = contact
-		mail( :from => "donotreply@backmybook.com", :to => @contact.author.contact_email, :subject => "BackMyBook.com email from #{@contact.email}" )
+		mail( :from => "donotreply@backmybook.com", :to => @contact.author.contact_email, :subject => "BackMyBook.com contact from #{@contact.email}" )
 	end
 end
