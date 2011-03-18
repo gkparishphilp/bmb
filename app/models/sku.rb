@@ -70,8 +70,7 @@ class Sku < ActiveRecord::Base
 	liquid_methods :title, :sku_items
 
 	def assign_listing_order
-		skus = Sku.all
-		for sku in skus
+		for sku in self.owner.skus
 			sku.update_attributes :listing_order => sku.listing_order.to_i + 1
 		end
 		self.update_attributes :listing_order => 0
