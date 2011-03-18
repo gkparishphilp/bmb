@@ -3,8 +3,8 @@
 		%h2 
 			We'd love to hear from you!
 
-		-form_for @contact do |f|
-			=render 'form', :f => f
+		= form_for @contact do |f|
+			= render 'form', :f => f
 
 - content_for :right_column do
 	%h3 Need Help?

@@ -7,6 +7,7 @@
 		%h3
 			If you have any questions about ordering my books, please send us a note below and we’ll sort you out.
 		= form_for Contact.new do |f|
+			= f.hidden_field :author_id, :value => @author.id
 			= render 'contacts/form', :f => f
 			
 	%br

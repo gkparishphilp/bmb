@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110104222559
+# Schema version: 20110318174450
 #
 # Table name: email_deliveries
 #
@@ -9,6 +9,7 @@
 #  status               :string(255)
 #  created_at           :datetime
 #  updated_at           :datetime
+#  code                 :string(255)
 #
 
 class EmailDelivery < ActiveRecord::Base

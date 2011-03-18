@@ -8,4 +8,11 @@ class CrashesController < ApplicationController
 	def show
 		@crash = Crash.find params[:id]
 	end
+	
+	def update
+		@crash = Crash.find( params[:id] )
+		@crash.update_attributes( params[:crash] )
+		pop_flash "Thanks for your feedback"
+		redirect_to root_path
+	end
 end

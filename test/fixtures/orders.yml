@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110104222559
+# Schema version: 20110318174450
 #
 # Table name: orders
 #
@@ -10,12 +10,14 @@
 #  sku_id                  :integer(4)
 #  email                   :string(255)
 #  ip                      :string(255)
-#  price                   :integer(4)
 #  status                  :string(255)
 #  paypal_express_token    :string(255)
 #  paypal_express_payer_id :string(255)
 #  created_at              :datetime
 #  updated_at              :datetime
+#  tax_amount              :integer(4)
+#  shipping_amount         :integer(4)
+#  total                   :integer(4)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110104222559
+# Schema version: 20110318174450
 #
 # Table name: email_messages
 #
@@ -11,6 +11,12 @@
 #  status            :string(255)
 #  created_at        :datetime
 #  updated_at        :datetime
+#  email_type        :string(255)
+#  sender_id         :string(255)
+#  sender_type       :string(255)
+#  user_id           :string(255)
+#  source_id         :string(255)
+#  source_type       :string(255)
 #
 
 class EmailMessage < ActiveRecord::Base

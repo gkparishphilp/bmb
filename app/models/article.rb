@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110104222559
+# Schema version: 20110318174450
 #
 # Table name: articles
 #
@@ -12,7 +12,7 @@
 #  view_count       :integer(4)      default(0)
 #  content          :text
 #  status           :string(255)     default("publish")
-#  comments_allowed :boolean(1)
+#  comments_allowed :boolean(1)      default(TRUE)
 #  publish_at       :datetime
 #  article_type     :string(255)
 #  cached_slug      :string(255)

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110121210536
+# Schema version: 20110318174450
 #
 # Table name: geo_countries
 #
