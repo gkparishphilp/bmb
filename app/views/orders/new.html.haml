@@ -60,6 +60,9 @@
 				Subscribe to #{@author.pen_name}'s newsletter
 				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'
 				%br
+				-if @sku.allow_comment?
+					%h3 Special Order Instructions
+					= f.text_area :comment
 				%br
 				= f.submit 'Place Order', :class => 'buttons'
 				%br

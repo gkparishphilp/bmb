@@ -47,6 +47,7 @@ class ReportsController < ApplicationController
 			@redemption_count << [coupon.id, coupon.code, coupon.sku.title, coupon.redemptions.dated_between(@start_date, @end_date).redeemed.count]
 		end	
 	
+		render :layout  => '2col'	
 	end
 
 	def emails
@@ -57,6 +58,13 @@ class ReportsController < ApplicationController
 		@bounces = @emails.bounced.count
 		@sends = @emails.sent.count
 		@opens = @emails.opened.count
+	end
+	
+	def inventory
+		@author = Author.find( params[:author_id] )
+		@skus = @author.skus
+		render :layout  => '2col'
+		
 	end
 
 end
