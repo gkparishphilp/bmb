@@ -70,7 +70,10 @@ class Sku < ActiveRecord::Base
 	liquid_methods :title, :sku_items
 
 	def assign_listing_order
-
+		skus = Sku.all
+		max_sku = skus.max {|a,b| a.listing_order <=> b.listing_order}
+		max_listing_order = max_sku.listing_order
+		self.update_attributes :listing_order => max_listing_order.to_i + 1
 	end
 	
 	def allow_comment?
