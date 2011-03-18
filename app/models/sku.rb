@@ -71,9 +71,10 @@ class Sku < ActiveRecord::Base
 
 	def assign_listing_order
 		skus = Sku.all
-		max_sku = skus.max {|a,b| a.listing_order <=> b.listing_order}
-		max_listing_order = max_sku.listing_order
-		self.update_attributes :listing_order => max_listing_order.to_i + 1
+		for sku in skus
+			sku.update_attributes :listing_order => sku.listing_order.to_i + 1
+		end
+		self.update_attributes :listing_order => 0
 	end
 	
 	def allow_comment?
