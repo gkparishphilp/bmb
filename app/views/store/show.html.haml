@@ -41,24 +41,23 @@
 									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 
 			.right_col.text
-				-cache( :controller => 'store', :action => 'show', :action_suffix => 'sku_description') do
-					%h1= @sku.title
-					.book-meta.clearfix
-						.info
-							- if @sku.book.genre.present?
-								%p
-									Genre:
-									%em= @sku.book.genre.name
-							%p 
-								By:
-								%em= @sku.book.author.pen_name
-						.ratings
-							%p Avg rating: 
-							%ul.star-rating
-								%li.current-rating{ :style => "width:#{ ( @sku.book.review_average * 125 ) / 5 }px;" }
-					.book_content	
-						= @sku.description.html_safe
-					.clear
+				%h1= @sku.title
+				.book-meta.clearfix
+					.info
+						- if @sku.book.genre.present?
+							%p
+								Genre:
+								%em= @sku.book.genre.name
+						%p 
+							By:
+							%em= @sku.book.author.pen_name
+					.ratings
+						%p Avg rating: 
+						%ul.star-rating
+							%li.current-rating{ :style => "width:#{ ( @sku.book.review_average * 125 ) / 5 }px;" }
+				.book_content	
+					= @sku.description.html_safe
+				.clear
 	
 - content_for :right_column do
 	&nbsp;

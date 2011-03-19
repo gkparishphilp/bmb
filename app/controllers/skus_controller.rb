@@ -1,7 +1,6 @@
 class SkusController < ApplicationController
-	cache_sweeper :sku_sweeper, :only => [:create, :update, :destroy]
+	cache_sweeper :sku_sweeper, :only => [:create, :update, :destroy, :update_sort]
 
-	
 	def create
 		@sku = Sku.new params[:sku]
 		@sku.sku_type = 'custom' #since the only way to hit this is through admin
@@ -16,6 +15,7 @@ class SkusController < ApplicationController
 	
 	def update
 		@sku = Sku.find params[:id]
+		#todo need to make sure only the owner of a sku can update it, author_owns doesn't work anymore
 		unless author_owns( @sku )
 			redirect_to root_path
 			return false
@@ -36,6 +36,7 @@ class SkusController < ApplicationController
 	
 	def edit
 		@sku = Sku.find params[:id]
+		#todo need to make sure only the owner of a sku can update it, author_owns doesn't work anymore
 		unless author_owns( @sku )
 			redirect_to root_path
 			return false

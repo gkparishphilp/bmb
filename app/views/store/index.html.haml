@@ -1,5 +1,5 @@
 - content_for :left_column do
-	- cache( :controller => 'authors', :action => 'show', :action_suffix => 'sku_listing' ) do 
+	- cache( "store_sku_listing_#{@author.id}" ) do 
 		%p.text
 			%b Want to buy more than one item? 
 			Simply purchase one of the items or combos of items below. If you don’t find a combo that has everything you need, just make multiple purchases.
