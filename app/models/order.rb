@@ -18,6 +18,7 @@
 #  tax_amount              :integer(4)
 #  shipping_amount         :integer(4)
 #  total                   :integer(4)
+#  comment                 :text
 #
 
 class Order < ActiveRecord::Base

@@ -11,28 +11,31 @@
 			.text
 				We make it easy and economical to create lasting relationships with your customers with your own online bookstore.
 				
-			= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
+			.get_started
+				= link_to image_tag( "get_started_button.png" ), 'get-started'
+			-#= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
 
 			%h2
 				= image_tag( "logo_icon.png" )
 				BackMyBook gives you
 			%ul
-				%li <b>Free</b> online store - sell e-books in ANY format, audio-books, even hardcovers and merchandise
+				%li <span class="green">Free</span> online store - sell e-books in ANY format, audio-books, even hardcovers and merchandise
 				%li Industry-leading 90/10 royalties
 				%li Email marketing -- sign-up your readers and send newsletters
 			%h2
 				= image_tag( "trial_icon.png" )
-				Try us <span class="red">risk free</span>
+				Try us <span class="green">Risk Free</span>
 			%ul
-				%li The BackMyBook service is <span class="red">FREE</span> to use! No upfront fees, charges, or subscriptions
 				%li Free branded store setup and customization
+				%li Free consultation to get you started
 				%li Personalized service and support
+				%li Cancel at any time in the first 90 days with no obligation
 				
 			%h2
 				= image_tag( "cost_icon.png" )
 				How much does it cost?
 			%ul
-				%li The BackMyBook service is <span class="red">FREE</span> to use
+				%li The BackMyBook service is <span class="green">FREE</span> to use! No upfront fees, charges, or subscriptions
 				%li When you sell a book, you keep 90% of the net revenue, we keep 10%
 			
 			.get_started

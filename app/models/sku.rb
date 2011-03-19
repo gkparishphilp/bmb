@@ -16,6 +16,9 @@
 #  updated_at                   :datetime
 #  domestic_shipping_price      :integer(4)      default(0)
 #  international_shipping_price :integer(4)      default(0)
+#  allow_comment                :boolean(1)
+#  number_remaining             :integer(4)      default(-1)
+#  listing_order                :integer(4)
 #
 
 class Sku < ActiveRecord::Base
