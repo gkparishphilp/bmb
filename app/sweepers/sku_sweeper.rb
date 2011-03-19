@@ -14,7 +14,7 @@ class SkuSweeper < ActionController::Caching::Sweeper
 	end
 
 	def expire_cache( sku )
-		expire_fragment( :controller => 'authors', :action => 'show', :action_suffix => 'sku_listing')
-		expire_fragment( :controller => 'store', :action => 'show', :action_suffix => 'sku_description')
+		expire_fragment( "author_sku_listing_#{sku.owner.id}" )
+		expire_fragment( "store_sku_listing_#{sku.owner.id}" )
 	end
 end
