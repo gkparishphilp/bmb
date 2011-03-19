@@ -55,6 +55,11 @@
 			= text_field_tag :coupon_code, "", :class => :coupon
 			#valid_coupon_div( style = "margin:10px 0px;")
 				#valid_coupon
+			%p
+				-if @sku.allow_comment?
+					%h3 Special Order Instructions
+					= f.text_area :comment
+				%br
 			%p Please confirm your Paypal order by clicking the button below.
 			%p
 				Subscribe to #{@author.pen_name}'s newsletter
