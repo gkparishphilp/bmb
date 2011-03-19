@@ -3,28 +3,41 @@
 	.pad_content
 	
 		#hp_promo
-			%h1
-				%span.black Authors:
-				%span.sell Sell your books & merch directly to your readers 
+			.top_promo
+				%h1
+					%span.author Authors:
+					%span Sell your books &amp; merch directly to your readers
 			
-			.more
+			.text
 				We make it easy and economical to create lasting relationships with your customers with your own online bookstore.
+				
+			= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
 
 			%h2
+				= image_tag( "logo_icon.png" )
 				BackMyBook gives you
 			%ul
-				%li <b>Free</b> online store -- sell e-books in ANY format, audio-books, even hardcovers and merchandise
+				%li <b>Free</b> online store - sell e-books in ANY format, audio-books, even hardcovers and merchandise
 				%li Industry-leading 90/10 royalties
 				%li Email marketing -- sign-up your readers and send newsletters
 			%h2
-				Try us risk free with our "NO HASSLE" 3 month trial
+				= image_tag( "trial_icon.png" )
+				Try us <span class="red">risk free</span> with our "NO HASSLE" 3 month trial
 			%ul
-				%li The BackMyBook service is <b>FREE</b> to use!  No upfront fees, charges, or subscriptions
+				%li The BackMyBook service is <span class="red">FREE</span> to use! No upfront fees, charges, or subscriptions
 				%li Free branded store setup and customization
 				%li Personalized service and support
+				
+			%h2
+				= image_tag( "cost_icon.png" )
+				How much does it cost?
+			%ul
+				%li The BackMyBook service is <span class="red">FREE</span> to use
+				%li When you sell a book, you keep 90% of the net revenue, we keep 10%
 			
-			%p.get_started
-				= link_to ">> Get Started!", get_started_path, :class => 'big_green_button'
+			.get_started
+				= link_to image_tag( "get_started_button.png" ), 'get-started'
+			
 			%br
 			%br.clear
 
@@ -33,7 +46,7 @@
 	
 - content_for :right_column do
 
-	.pad_content
+	.hp_promo
 		= link_to image_tag( "bmb_sigler_hp_promo.jpg" ), 'authors/scott-sigler'
 
 	.follow-me.ui-helper-clearfix
@@ -60,18 +73,15 @@
 						= image_tag "podcast_icon.png", :width => 20
 						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 			
-	%div
-		%br
+	%div.blog-entries
 		%h3 
-			=link_to 'Recent Blog Articles','#'
-		%div.text 
-
-			.recent_posts
-				- for article in @recent_blog_posts
-					.recent_title
-						= image_tag "blog_post_icon.png", :height => 20
-						= link_to article.title, blog_link( article )
-					.recent_preview.text
+			Recent Blog Articles
+		.recent_posts
+			- for article in @recent_blog_posts
+				.text
+					.recent_preview
+						.recent_title
+							= link_to article.title, blog_link( article )
 						= snip article.content.html_safe, 140
 
 
