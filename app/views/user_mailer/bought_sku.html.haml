@@ -65,6 +65,11 @@ Hi
 				= item.title 
 				%br
 
+- if @order.comment.present?
+	%p
+		Special Order Instructions:
+		%br
+		= @order.comment
  
 
 %p

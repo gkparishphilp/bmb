@@ -69,7 +69,7 @@ class AuthorsController < ApplicationController
 			redirect_to root_path
 		end
 		
-		@skus = @author.skus
+		@skus = @author.skus.order( 'listing_order asc' )
 		
 		set_meta @author.pen_name, @author.bio
 		

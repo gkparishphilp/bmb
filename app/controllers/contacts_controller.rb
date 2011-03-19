@@ -67,16 +67,16 @@ class ContactsController < ApplicationController
 
 		if @contact.author.present?
 			# email the author
-			pop_flash "author"
-			#send_email = UserMailer.author_contact_email( @contact ).deliver
+			send_email = UserMailer.author_contact_email( @contact ).deliver
+			redirect_to @contact.author
 		else
 			#email BmB support
-			#send_email = UserMailer.support_email( @contact ).deliver
+			send_email = UserMailer.support_email( @contact ).deliver
+			redirect_to root_path
 		end
-		
-		redirect_to root_path
 	
 	end
+	
 
 	def update
 		@contact = Contact.find params[:id]

@@ -178,5 +178,13 @@ $(document).ready(function(){
 			$('#valid_coupon').html('');
 		}
 	});
+	
+	$('#sortable').sortable({
+		update: function( event, ui ){
+			var newOrder = $(this).sortable('toArray').toString();
+			$.get( '/skus/update_sort', {newOrder:newOrder} );
+			}
+		});
+	$('#sortable').disableSelection();
 
 });

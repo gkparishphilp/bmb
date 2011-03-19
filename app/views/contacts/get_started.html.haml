@@ -15,15 +15,15 @@
 				= f.text_field :email, :value => @current_user.email
 
 			%p
-				%b Your Phone Number:
+				%b Your Phone Number (required):
 			= f.text_field :phone
 			
 			%p
-				%b Your Website:
+				%b Your Website (optional):
 			= f.text_field :web_address
 			
 			%p 
-				%b How did you hear about us?
+				%b How did you hear about us (optional)?
 			= f.text_field :referrer
 			%p
 				Please let us know how we can help you:  			
