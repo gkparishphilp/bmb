@@ -7,7 +7,7 @@
 			= f.hidden_field :subject, :value => 'BMB Enquiry'
 		
 			%p
-				%b Your Email:
+				%b Your Email (required):
 
 			- if @current_user.anonymous?
 				= f.text_field :email
@@ -15,7 +15,7 @@
 				= f.text_field :email, :value => @current_user.email
 
 			%p
-				%b Your Phone Number (required):
+				%b Your Phone Number (optional):
 			= f.text_field :phone
 			
 			%p
