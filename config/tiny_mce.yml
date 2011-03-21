@@ -2,6 +2,7 @@
 #
 width: 640
 height: 480
+convert_urls: false
 theme: advanced
 theme_advanced_toolbar_location: top
 theme_advanced_buttons1: 'formatselect,justifyleft,justifycenter,justifyright,justifyfull,indent,outdent,|,bold,italic,strikethrough,backcolor,forecolor,blockquote,charmap,bullist,numlist,removeformat, hr,|,link,unlink,anchor,image,styleprops,|,code'
