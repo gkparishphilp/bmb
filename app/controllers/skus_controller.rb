@@ -15,8 +15,8 @@ class SkusController < ApplicationController
 	
 	def update
 		@sku = Sku.find params[:id]
-		#todo need to make sure only the owner of a sku can update it, author_owns doesn't work anymore
-		unless author_owns( @sku )
+		unless @sku.owner == @current_author
+			pop_flash 'You do not own this SKU', :error
 			redirect_to root_path
 			return false
 		end
@@ -36,8 +36,8 @@ class SkusController < ApplicationController
 	
 	def edit
 		@sku = Sku.find params[:id]
-		#todo need to make sure only the owner of a sku can update it, author_owns doesn't work anymore
-		unless author_owns( @sku )
+		unless @sku.owner == @current_author
+			pop_flash 'You do not own this SKU', :error
 			redirect_to root_path
 			return false
 		end

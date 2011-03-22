@@ -9,7 +9,8 @@ class MerchesController < ApplicationController
 	
 	def edit
 		@merch = Merch.find params[:id]
-		unless author_owns( @merch )
+		unless @merch.owner == @current_author
+			pop_flash "You don't own this!", :error
 			redirect_to root_path
 			return false
 		end
@@ -45,8 +46,8 @@ class MerchesController < ApplicationController
 
 	def update
 		@merch = Merch.find params[:id]
-		unless author_owns( @merch )
-			redirect_to root_path
+		unless @merch.owner == @current_author
+			pop_flash "You don't own this!", :error
 			return false
 		end
 		if @merch.update_attributes params[:merch] 

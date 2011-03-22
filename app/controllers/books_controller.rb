@@ -41,11 +41,11 @@ class BooksController < ApplicationController
 	
 	def edit
 		@book = Book.find params[:id]
-		# What is this author_owns method?  In the codebase but doesn't exist
-		#unless author_owns( @book )
-		#	redirect_to root_path
-		#	return false
-		#end
+		unless @book.author == @current_author
+			pop_flash "You don't own this book", :error
+			redirect_to root_path
+			return false
+		end
 		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
 		@genres += Genre.find_by_name( 'fiction' ).children
 		@genres += Genre.find_by_name( 'non fiction' ).children
@@ -58,10 +58,10 @@ class BooksController < ApplicationController
 	
 	def update
 		@book = Book.find params[:id] 
-		#unless author_owns( @book )
-		#	redirect_to root_path
-		#	return false
-		#end
+		unless @book.author == @current_author
+			pop_flash "You don't own this book", :error		#	redirect_to root_path
+			return false
+		end
 		if @book.update_attributes params[:book]
 			process_attachments_for( @book )
 			pop_flash 'Book was successfully updated.'

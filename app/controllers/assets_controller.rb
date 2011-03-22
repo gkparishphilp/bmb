@@ -11,7 +11,8 @@ class AssetsController < ApplicationController
 	def edit
 		@asset = Asset.find params[:id]
 		@type = @asset.type.downcase
-		unless author_owns( @asset )
+		unless @asset.book.author == @current_author
+			pop_flash "You don't own this!", :error
 			redirect_to root_path
 			return false
 		end
@@ -50,7 +51,8 @@ class AssetsController < ApplicationController
 	
 	def update
 		@asset = Asset.find params[:id]
-		unless author_owns( @asset )
+		unless @asset.book.author == @current_author
+			pop_flash "You don't own this!", :error
 			redirect_to root_path
 			return false
 		end
