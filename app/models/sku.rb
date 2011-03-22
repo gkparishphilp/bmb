@@ -70,7 +70,7 @@ class Sku < ActiveRecord::Base
 	scope 	:subscription, where( "sku_type = 'subscription'")
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
-	liquid_methods :title, :sku_items
+	liquid_methods :title, :owner, :sku_items
 
 	def assign_listing_order
 		for sku in self.owner.skus
@@ -92,8 +92,13 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def merch_sku?
-		# A merch singleton sku -- contains merch, and only merch
-		return self.sku_items.count == 1 && self.merches.first.present?
+		# Previous function (return self.sku_items.count == 1 && self.merches.first.present?) didn't work when there were two items in a sku and both were merch, so...
+		# Collect all the items in a sku, and then check to see if each item is a merch.  If all items are merch, then there won't be any 'false' values in the collect array
+		if self.sku_items.collect{ |item| item.is_a? Merch}.include?(false)
+			return true
+		else
+			return false
+		end
 	end
 	
 	def book_sku?
@@ -130,10 +135,12 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def decrement_inventory
-		if self.number_remaining > 0
-			self.update_attributes :number_remaining => self.number_remaining - 1
+		for item in self.sku_items
+			if item.item_type == 'Merch' and item.merch.inventory_count > 0
+				item.merch.update_attributes :inventory_count => item.merch.inventory_count - 1
+				item.check_inventory_level
+			end
 		end
 	end
-	
 	
 end

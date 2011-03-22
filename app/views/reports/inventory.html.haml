@@ -8,15 +8,18 @@
 	%table.admin_table
 		%tr
 			%td 
-				%b SKU
+				%b Merchandise
 			%td 
-				%b Number remaining
+				%b Units remaining
+			%td
+				%b Warning threshold
 			
-		-for sku in @skus
-			- if sku.number_remaining > 0 
+		-for item in @merches
+			- if item.inventory_count > 0
 				%tr
-					%td= sku.title
-					%td= sku.number_remaining
+					%td= item.title
+					%td= item.inventory_count
+					%td= item.inventory_warning
 
 	
 

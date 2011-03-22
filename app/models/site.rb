@@ -36,6 +36,7 @@ class Site < ActiveRecord::Base
 	has_many :static_pages
 	has_many :contacts
 	has_many :crashes
+	has_many :email_templates, :as => :owner
 	
 	belongs_to	:author
 	

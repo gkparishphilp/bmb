@@ -61,7 +61,7 @@ class ReportsController < ApplicationController
 	end
 	
 	def inventory
-		@skus = @current_author.skus
+		@merches = @current_author.merches
 		render :layout  => '2col'
 		
 	end

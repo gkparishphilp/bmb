@@ -384,7 +384,7 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_unique_order
-		# of course, only do this for digital orders.  FOlks can buy all the t-shirts they want
+		# of course, only do this for digital orders.  Folks can buy all the t-shirts they want
 		unless self.sku.merch_sku?
 			if self.user.orders.present? && self.user.orders.successful.present?
 				if existing_order = self.user.orders.successful.find_by_sku_id( self.sku_id )

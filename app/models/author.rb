@@ -23,7 +23,7 @@ class Author < ActiveRecord::Base
 	# may or may not belong to user
 	
 	before_create	:set_subdomain#, :set_domain_vhost
-	after_create	:create_default_campaign
+	after_create	:create_defaults
 	#before_update	:set_domain_vhost
 	
 	validate	:valid_subdomain
@@ -61,6 +61,7 @@ class Author < ActiveRecord::Base
 	
 	has_friendly_id	:pen_name, :use_slug => true
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
+	liquid_methods :pen_name, :contact_email, :contact_phone
 		
 	# todo return effective royalty rate depending on author's subscriptions
 	def current_royalty_rate
@@ -85,8 +86,16 @@ class Author < ActiveRecord::Base
 		self.subdomain = self.pen_name.gsub(/\W/, "-").downcase
 	end
 	
-	def create_default_campaign
-		EmailCampaign.create!(:owner_type => self.class, :owner_id => self.id, :title => 'Default')
+	def create_defaults
+		self.email_campaign.create :title => 'Default'
+		self.email_campaign.create :subject => 'Inventory Warning ', :description => 'Inventory Warning email', :template_type => 'inventory_warning',
+			:content => "Hi {{item.sku.owner.pen_name}},
+
+			This is a quick message to let you know that your product, {{item.merch.title}}, has reached a level of {{item.merch.inventory_count}} units.  This is at or below your warning level.  Please let us know if you there is anything we can do for you by emailing support@backmybook.com.
+
+			Cheers,
+
+			Tay, GK, and the BackMyBook team"
 	end
 	
 	def promo_content
