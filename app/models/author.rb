@@ -89,13 +89,10 @@ class Author < ActiveRecord::Base
 	def create_defaults
 		self.email_campaigns.create :title => 'Default'
 		self.email_templates.create :subject => 'Inventory Warning ', :description => 'Inventory Warning email', :template_type => 'inventory_warning',
-			:content => "Hi {{item.sku.owner.pen_name}},
-
-			This is a quick message to let you know that your product, {{item.merch.title}}, has reached a level of {{item.merch.inventory_count}} units.  This is at or below your warning level.  Please let us know if you there is anything we can do for you by emailing support@backmybook.com.
-
-			Cheers,
-
-			Tay, GK, and the BackMyBook team"
+			:content => "<p>Hi {{item.sku.owner.pen_name}},</p>
+			<p>This is a quick message to let you know that your product, {{item.merch.title}}, has reached a level of {{item.merch.inventory_count}} units.  This is at or below your warning level.  Please let us know if you there is anything we can do for you by emailing support@backmybook.com.</p>
+			<p>Cheers,</p>
+			<p>Tay, GK, and the BackMyBook team</p>"
 	end
 	
 	def promo_content
