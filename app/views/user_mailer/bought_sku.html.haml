@@ -73,6 +73,8 @@ Hi
  
 
 %p
+	Note that you can always register and login to BackMyBook.com to re-download your digital purchases at any time. 
+	%br 
 	- if @order.sku.items.first.owner.contact_email.present?
 		For questions about the item or shipping (if applicable), you can contact the author directly at:  
 		= @order.sku.items.first.owner.contact_email
@@ -83,7 +85,8 @@ Hi
 		= @order.sku.items.first.owner.contact_phone
 		%br
 
-If you have further questions or issues, please contact us at: http://backmybook.com/contacts/new.
+%p
+	If you have further questions or issues, please contact us at: http://backmybook.com/contacts/new.  		
 
 %p
 	Best Regards,
