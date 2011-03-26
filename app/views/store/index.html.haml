@@ -7,7 +7,7 @@
 			%b STARTER Hardcover Owners Free eBook Offer: 
 			For anyone who has purchased or purchases the hardcover of THE STARTER, we are offering a Free eBook! The Free STARTER eBook does not apply to any package you see on this page. For more information 
 			= link_to "click here", " http://www.scottsigler.com/makeitright"
-		- for sku in @skus
+		- for sku in @skus.published
 			= render 'store/item_listing', :sku => sku
 
 - content_for :right_column do

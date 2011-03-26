@@ -19,6 +19,7 @@ class Merch < ActiveRecord::Base
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
+	scope   :published, where( "status = 'publish'" )
 	
 	belongs_to	:book #sometimes.... not necessarily
 	

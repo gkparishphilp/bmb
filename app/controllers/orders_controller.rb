@@ -40,20 +40,24 @@ class OrdersController < ApplicationController
 	def new
 		@order = Order.new
 
-		# set order fields if in Dev environment
-		if Rails.env.development?
-			@order.card_number = '4411037113154626'
-			@order.card_cvv = '123'
-			@order.card_exp_year = '2013'
-		end
+		if @sku.published?
+			# set order fields if in Dev environment
+			if Rails.env.development?
+				@order.card_number = '4411037113154626'
+				@order.card_cvv = '123'
+				@order.card_exp_year = '2013'
+			end
 		
-		#initialize a billing address if the user doesn't have one
-		@billing_address = @current_user.billing_address.present? ? @current_user.billing_address : GeoAddress.new( :address_type => 'billing' )
-		#setup array of shipping addresses with appended option for new address
-		@shipping_addresses_for_select = @current_user.shipping_addresses.map{ |a| [ a.street, a.id ] } + ['New Address']
-		# create an empty shipping address in case user wants to enter a new one right on the checkout form
-		@shipping_address = GeoAddress.new( :address_type => 'shipping' ) if @sku.contains_merch?
-			
+			#initialize a billing address if the user doesn't have one
+			@billing_address = @current_user.billing_address.present? ? @current_user.billing_address : GeoAddress.new( :address_type => 'billing' )
+			#setup array of shipping addresses with appended option for new address
+			@shipping_addresses_for_select = @current_user.shipping_addresses.map{ |a| [ a.street, a.id ] } + ['New Address']
+			# create an empty shipping address in case user wants to enter a new one right on the checkout form
+			@shipping_address = GeoAddress.new( :address_type => 'shipping' ) if @sku.contains_merch?
+		else
+			pop_flash "We're sorry, that item is no longer available.", :error
+			redirect_to author_store_index_path( @sku.owner )
+		end
 	end
 
 	def go_paypal

@@ -96,6 +96,10 @@ class Book < ActiveRecord::Base
 		self.skus.audio_book.first
 	end
 	
+	def hardcover_sku
+		self.skus.merch.first
+	end
+	
 	def merch_skus
 		self.skus.merch
 	end

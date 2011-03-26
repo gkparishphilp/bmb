@@ -67,7 +67,8 @@ class Sku < ActiveRecord::Base
 	scope	:audio_book, where( "sku_type = 'audio_book'" )
 	scope	:merch, where( "sku_type = 'merch'" )
 	scope	:custom, where( "sku_type = 'custom'" )
-	scope 	:subscription, where( "sku_type = 'subscription'")
+	scope	:subscription, where( "sku_type = 'subscription'" )
+	scope   :published, where( "status = 'publish'" )
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	liquid_methods :title, :owner, :sku_items
@@ -81,6 +82,10 @@ class Sku < ActiveRecord::Base
 	
 	def allow_comment?
 		return self.allow_comment
+	end
+	
+	def published?
+		self.status == 'publish' ? (return true) : (return false)
 	end
 	
 	def items

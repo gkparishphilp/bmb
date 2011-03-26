@@ -9,10 +9,13 @@
 					%ul.star-rating
 						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
 		.book-info
-			- unless book.ebook_sku.nil?
+			- unless book.merch_skus.published.nil?
+				.listing_buy
+					= link_to "Buy Hardcover", new_author_order_url( @author, :sku => book.hardcover_sku, :protocol => SSL_PROTOCOL ) 
+			- unless book.skus.published.ebook.first.nil?
 				.listing_buy
 					= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
-			- unless book.audio_book_sku.nil?
+			- unless book.skus.published.audio_book.first.nil?
 				.listing_buy
 					= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
 		.listing_description

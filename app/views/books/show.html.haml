@@ -23,11 +23,11 @@
 				.also-available
 					%h3 Also Available
 					%ul
-						- for sku in @book.merch_skus
+						- for sku in @book.merch_skus.published
 							%li
 								= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
 								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
-						- for sku in @book.custom_skus
+						- for sku in @book.custom_skus.published
 							%li
 								= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
 								%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )

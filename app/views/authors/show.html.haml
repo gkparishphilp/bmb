@@ -1,7 +1,7 @@
 - content_for :left_column do
 	- cache( "author_sku_listing_#{@author.id}" ) do 
 		= @author.promo.html_safe if @author.promo.present? 
-		- for sku in @skus
+		- for sku in @skus.published
 			= render 'store/item_listing', :sku => sku
 
 - content_for :right_column do
