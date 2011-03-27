@@ -88,6 +88,17 @@ class Sku < ActiveRecord::Base
 		self.status == 'publish' ? (return true) : (return false)
 	end
 	
+	def sold_out?
+		self.sku_items.each do |sku_item|
+			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count == 0
+		end
+		return false
+	end
+	
+	def show_inventory?
+		return self.show_inventory
+	end
+	
 	def items
 		self.etexts + self.pdfs + self.audios + self.merches
 	end
@@ -140,12 +151,20 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def decrement_inventory
-		for item in self.sku_items
-			if item.item_type == 'Merch' and item.merch.inventory_count > 0
-				item.merch.update_attributes :inventory_count => item.merch.inventory_count - 1
-				item.check_inventory_level
+		for sku_item in self.sku_items
+			if sku_item.item_type == 'Merch' and sku_item.merch.inventory_count > 0
+				sku_item.merch.update_attributes :inventory_count => sku_item.merch.inventory_count - 1
+				sku_item.check_inventory_warning
 			end
 		end
+	end
+	
+	def remaining_inventory
+		inventory = Array.new
+		self.sku_items.each do |sku_item|
+			inventory << sku_item.item.inventory_count if sku_item.item_type == 'Merch'
+		end
+		return inventory.min
 	end
 	
 end

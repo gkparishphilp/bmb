@@ -21,7 +21,7 @@ class SkuItem < ActiveRecord::Base
 	
 	liquid_methods :title, :sku, :merch, :item
 	
-	def check_inventory_level
+	def check_inventory_warning
 		if self.item_type == 'Merch' and self.merch.inventory_count == self.merch.inventory_warning
 			
 			# build message

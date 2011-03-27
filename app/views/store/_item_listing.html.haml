@@ -12,8 +12,14 @@
 				= link_to sku.title, author_store_url( @author, sku )
 		.book-info			
 			.listing_buy
-				.button
-					=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'yellow'
+				- if sku.sold_out?
+					.button
+						=link_to "SOLD OUT", "#", :class=>'red'
+				- else
+					.button
+						- if sku.show_inventory?
+							= "#{sku.remaining_inventory} remaining!"
+						=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'yellow'
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
 	.clear
