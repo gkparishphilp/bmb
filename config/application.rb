@@ -21,7 +21,7 @@ module Backmybook
 
     # Activate observers that should always be running.
     # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
-  	config.active_record.observers = :comment_observer
+  	config.active_record.observers = :comment_observer, :merch_observer
 
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -44,5 +44,7 @@ module Backmybook
 	# Rails 3 doesn’t autoload modules/code in lib by default now. 
 	config.autoload_paths += %W(#{config.root}/lib)
 	config.autoload_paths += %W( #{Rails.root.to_s}/app/sweepers )
+	config.autoload_paths += %W( #{Rails.root.to_s}/app/observers )
+	
   end
 end

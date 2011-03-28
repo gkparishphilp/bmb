@@ -40,7 +40,7 @@ class OrdersController < ApplicationController
 	def new
 		@order = Order.new
 
-		if @sku.published?
+		if @sku.published? && !@sku.sold_out?
 			# set order fields if in Dev environment
 			if Rails.env.development?
 				@order.card_number = '4411037113154626'
@@ -55,7 +55,7 @@ class OrdersController < ApplicationController
 			# create an empty shipping address in case user wants to enter a new one right on the checkout form
 			@shipping_address = GeoAddress.new( :address_type => 'shipping' ) if @sku.contains_merch?
 		else
-			pop_flash "We're sorry, that item is no longer available.", :error
+			pop_flash "We're sorry, that item is no longer available or has sold out.", :error
 			redirect_to author_store_index_path( @sku.owner )
 		end
 	end

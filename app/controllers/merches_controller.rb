@@ -1,6 +1,4 @@
 class MerchesController < ApplicationController
-
-
 	def new
 		@merch = Merch.new
 		@books = @current_author.books
