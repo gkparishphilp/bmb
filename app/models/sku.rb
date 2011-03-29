@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110318174450
+# Schema version: 20110327221930
 #
 # Table name: skus
 #
@@ -17,8 +17,8 @@
 #  domestic_shipping_price      :integer(4)      default(0)
 #  international_shipping_price :integer(4)      default(0)
 #  allow_comment                :boolean(1)
-#  number_remaining             :integer(4)      default(-1)
 #  listing_order                :integer(4)
+#  show_inventory               :boolean(1)
 #
 
 class Sku < ActiveRecord::Base

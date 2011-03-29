@@ -10,15 +10,17 @@
 				= link_to sku.title, author_book_url( @author, sku.book )
 			- else
 				= link_to sku.title, author_store_url( @author, sku )
-		.book-info			
+	
+		.book-info
 			.listing_buy
+				- if sku.show_inventory? && sku.remaining_inventory > 0
+					.inventory_count
+						= "#{sku.remaining_inventory} remaining!"
 				- if sku.sold_out?
-					.button
-						=link_to "SOLD OUT", "#", :class=>'red'
+					.inventory_count
+						Sold Out :(
 				- else
 					.button
-						- if sku.show_inventory?
-							= "#{sku.remaining_inventory} remaining!"
 						=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'yellow'
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
