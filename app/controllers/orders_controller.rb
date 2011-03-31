@@ -66,7 +66,7 @@ class OrdersController < ApplicationController
 		
 		response = EXPRESS_GATEWAY.setup_purchase(price_in_cents,
 			:ip => request.remote_ip,
-			:return_url => ret_paypal_orders_url(:sku => params[:sku], :author_id => params[:author_id]),
+			:return_url => ret_paypal_orders_url(:sku => params[:sku], :author_id => params[:author_id], :quantity => params[:quantity]),
 			:cancel_return_url => cancel_return_url
 		)
 		redirect_to EXPRESS_GATEWAY.redirect_url_for( response.token )
@@ -81,6 +81,8 @@ class OrdersController < ApplicationController
 		if paypal_token = params[:token]			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
+			@order.sku_quantity = params[:quantity]
+			
 			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )	
 		else
 			pop_flash "There was a problem with your order, please try again later", :error

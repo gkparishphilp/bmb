@@ -12,11 +12,11 @@
 
 			-if @sku.contains_merch?		
 				%b 
-					Shipping fee of 
+					Shipping & handling fee of 
 					= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
 					per book applies to US orders.
 					%br
-					Shipping fee of 
+					Shipping & handling fee of 
 					= number_to_currency( @sku.international_shipping_price.to_f / 100) 
 					per book applies to International orders.
 					%br
@@ -62,7 +62,7 @@
 				- if @sku.contains_merch?
 					= render 'shipping_form', :f => f
 				%br
-				Subscribe to #{@author.pen_name}'s newsletter
+				Subscribe to #{@author.pen_name}'s newsletter (come on, you know you want it!)
 				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'
 				%br
 				-if @sku.allow_comment?
