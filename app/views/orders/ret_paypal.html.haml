@@ -2,6 +2,8 @@
 	%h1 
 		Purchase
 		= @sku.title
+		= @coupon
+
 
 	#checkout
 		#price_div( style="width:150px;" )
@@ -35,7 +37,7 @@
 			= f.hidden_field :user_id, :value => @current_user.id
 			= f.hidden_field :sku_id, :value => @sku.id
 			= f.hidden_field :sku_quantity, :value => @order.sku_quantity
-			= hidden_field_tag :coupon_code, :value => params[:coupon_code]
+			= hidden_field_tag :coupon_code, :value => @coupon
 	
 			= fields_for :shipping_address do |addr_form|
 				= addr_form.hidden_field :address_type, :value => 'shipping'
@@ -55,11 +57,6 @@
 				%br
 			- else
 				= f.hidden_field :email, :value => @current_user.email
-			%br
-			%b Enter Coupon Code (if applicable)
-			= text_field_tag :coupon_code, "", :class => :coupon
-			#valid_coupon_div( style = "margin:10px 0px;")
-				#valid_coupon
 			%p
 				-if @sku.allow_comment?
 					%h3 Special Order Instructions
