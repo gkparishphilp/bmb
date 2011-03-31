@@ -141,9 +141,12 @@ $(document).ready(function(){
 	
 	$('.coupon').blur(function (){
 		
-		if ( $(this).attr('value') ){
+		var original_unit_price = $('#orig_price').attr('price');
+		var quantity = $('#order_sku_quantity').attr('value');
 		
-			the_url = "https://backmybook.com/coupons/validate/";
+		if ( $(this).attr('value') ){
+			the_url = "http://localhost:3003/coupons/validate/";
+			// TODO PRODUCTION the_url = "https://backmybook.com/coupons/validate/";
 			the_url += $('#order_sku_id').attr('value');
 			the_url += "/" + $(this).attr('value');
 		
@@ -151,32 +154,34 @@ $(document).ready(function(){
 				var the_response = $(data).attr('value');
 				var discount = $(data).attr('discount');
 				var discount_type = $(data).attr('discount_type');
-				var quantity = $('#quantity_sel').attr('value');
-				var total_price = $('#original_price').attr('price') * quantity;
+				var total_price = original_unit_price * quantity;
 			
 				if( the_response == 'true' ){
-					var new_price = total_price;
+					var new_unit_price = original_unit_price;
 					if( discount_type == 'percent' ){
-						new_price = Math.round( ( total_price - (total_price * discount) ) ) / 100 ;
+						new_unit_price = Math.round( ( new_unit_price - (new_unit_price * discount) ) ) / 100 ;
 					}
 					else{
-						new_price = (total_price - discount) / 100;
+						new_unit_price = (new_unit_price - ( discount ) ) / 100;
 					}
-				
-					$('#order_price').html( "$" + new_price );
-					$('#order_price'),attr( 'price', new_price * 100 );
+					
+					
+					$('#order_price').html( "$" + new_unit_price + " x " + quantity + ": " + "$" + ( new_unit_price * quantity ).toFixed(2) );
+					$('#order_price').attr( 'price', new_unit_price * 100 );
 					$('#valid_coupon').html('Valid Coupon Code Entered');
 					$('#price_div').effect("highlight", {}, 3000);
 					$('#valid_coupon_div').effect("highlight", {}, 3000);
 				}
 				else{
-					$('#order_price').html( "$" + total_price / 100 );
+					$('#order_price').html( "$" + ( original_unit_price / 100 ) + " x " + quantity + ": " + "$" + (( original_unit_price * quantity ) / 100).toFixed(2) );
+					$('#order_price').attr('price', original_unit_price );
 					$('#valid_coupon').html('');
 				}
 			});
 		}
 		else{
-			$('#order_price').html( "$" + total_price / 100 );
+			$('#order_price').html( "$" + ( original_unit_price / 100 ) + " x " + quantity + ": " + "$" + (( original_unit_price * quantity ) / 100).toFixed(2)  );
+			$('#order_price').attr('price', original_unit_price );
 			$('#valid_coupon').html('');
 		}
 	});
