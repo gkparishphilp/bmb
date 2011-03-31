@@ -82,7 +82,22 @@ class OrdersController < ApplicationController
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
 			@order.sku_quantity = params[:quantity] || 1
-			@coupon = params[:coupon_code]
+			
+			
+			coupon = Coupon.find_by_code_and_sku_id( @code, @sku_id )
+			sku = Sku.find( params[:sku_id] )
+			@unit_price = sku.price
+			
+			if coupon.is_valid?( sku )
+				@coupon_code = params[:coupon_code]
+				if coupon.discount_type == 'percent' 
+					@unit_price *= ( coupon.discount.to_f / 100 ) 
+				else
+					@unit_price -= coupon.discount 
+				end
+			end
+			
+			@total_price = @unit_price * @order.sku_quantity
 			
 			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )	
 		else
