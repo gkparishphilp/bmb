@@ -81,7 +81,7 @@ $(document).ready(function(){
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){
 			$('#cc_info').hide();
-			$('#coupon_code').hide();
+			// $('#coupon_code').hide();
 		}
 		$('#paypal_x_checkout').show();
 	});
@@ -143,6 +143,9 @@ $(document).ready(function(){
 		
 		var original_unit_price = $('#orig_price').attr('price');
 		var quantity = $('#order_sku_quantity').attr('value');
+		var pp_url = $('#paypal_btn').attr('href');
+		pp_url = pp_url.replace( /&coupon_code=\w+/, "" );
+		$('#paypal_btn').attr('href', pp_url + '&coupon_code=' + $(this).attr('value') );
 		
 		if ( $(this).attr('value') ){
 			the_url = "http://localhost:3003/coupons/validate/";
