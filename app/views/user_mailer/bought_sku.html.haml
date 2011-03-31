@@ -14,7 +14,7 @@ Hi
 
 	%tr
 		%td= @order.sku.title
-		%td= number_to_currency( @order.sku.price.to_f / 100 )
+		%td= number_to_currency( @order.sku.price.to_f / 100 * @order.sku_quantity)
 	-if @order.coupon.present?
 		%tr
 			%td Discount
