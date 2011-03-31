@@ -78,6 +78,6 @@
 			%br
 			%br
 			-if params[:author_id]
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL), :id => :paypal_btn
 			-else
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL), :id => :paypal_btn

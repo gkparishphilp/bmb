@@ -179,6 +179,19 @@ $(document).ready(function(){
 		}
 	});
 	
+	$('#order_sku_quantity').change( function(){
+		var quant = $(this).attr('value');
+		var orig_price = $('#the_price').attr('sku_price');
+		var new_price = Math.round( orig_price * quant ) / 100
+		new_price = new_price.toFixed(2);
+		orig_price = orig_price / 100 // for display
+		
+		$('#the_price').html( '$' + orig_price + ' x ' + quant + ': ' + '$' + new_price );
+		
+		$('#paypal_btn').attr('href', $('#paypal_btn').attr('href') + '&quantity=' + $(this).attr('value') );
+	});
+	
+	
 	$('#sortable').sortable({
 		update: function( event, ui ){
 			var newOrder = $(this).sortable('toArray').toString();
