@@ -57,7 +57,7 @@ Hi
 
 - if @order.sku.contains_merch?
 	- if @order.sku.owner.is_a? Author
-		The following items will be delivered by the author:
+		The following items will be delivered no later than September 2011 by the author:
 		= @order.sku.owner.pen_name
 		%br
 		- for item in @order.sku.items

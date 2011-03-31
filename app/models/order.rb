@@ -37,7 +37,7 @@ class Order < ActiveRecord::Base
 	
 	
 	attr_accessor	:payment_type, :card_number, :card_cvv, :card_exp_month, :card_exp_year, :card_type, :periodicity, :subscribe_to_author
-	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address, :comment
+	liquid_methods	:email, :created_at, :user, :order_transaction, :sku, :shipping_address, :comment, :sku_quantity
 	
 	# adding for 12/4 fixpass....
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
@@ -58,7 +58,7 @@ class Order < ActiveRecord::Base
 	validate_on_create	:validate_card, :validate_billing_address
 	
 	# adding for 12/4 fixpass....
-	validate_on_create :validate_unique_order
+	validate_on_create :validate_unique_order, :validate_available_quantity
 	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 	
@@ -207,7 +207,7 @@ class Order < ActiveRecord::Base
 			# billing == to shipping if billing_address is nil
 			self.billing_address ||= self.shipping_address 
 			
-			tax = (self.sku.price * TaxRate.find_by_geo_state_abbrev( author_state ).rate ).round if self.billing_address.state == author_state
+			tax = (self.sku.price * TaxRate.find_by_geo_state_abbrev( author_state ).rate * self.sku_quantity).round if self.billing_address.state == author_state
 
 		end
 		
@@ -225,7 +225,7 @@ class Order < ActiveRecord::Base
 			# Determine country of order
 			order_country = self.shipping_address.country
 
-			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price : shipping_price = self.sku.international_shipping_price
+			order_country == author_country ? shipping_price = self.sku.domestic_shipping_price * self.sku_quantity : shipping_price = self.sku.international_shipping_price * self.sku_quantity
 		
 			shipping_price ||= 0 
 		end
@@ -396,6 +396,14 @@ class Order < ActiveRecord::Base
 		end
 	end
 
+	def validate_available_quantity
+		if self.sku.contains_merch?
+			if (self.sku.get_inventory_count ||= 0 ) < self.sku_quantity
+				message = "Sorry, we only have #{self.sku.get_inventory_count} left for this item.  Please change the quantity."
+				errors.add_to_base message
+			end
+		end
+	end
 	
 
 

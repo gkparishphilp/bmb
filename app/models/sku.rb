@@ -90,13 +90,25 @@ class Sku < ActiveRecord::Base
 	
 	def sold_out?
 		self.sku_items.each do |sku_item|
-			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count == 0
+			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count < 1
 		end
 		return false
 	end
 	
 	def show_inventory?
-		return self.show_inventory
+		if self.contains_merch?
+			return self.get_inventory_count
+		else
+			return false
+		end
+	end
+	
+	def get_inventory_count
+		count = Array.new
+		self.sku_items.each do |sku_item|
+			count << sku_item.item.inventory_count if (sku_item.item_type == 'Merch' && sku_item.item.inventory_count < sku_item.item.show_inventory_count_at )
+		end
+		count.size >= 1 ? (return count.min ) : (return false)
 	end
 	
 	def items
@@ -150,10 +162,10 @@ class Sku < ActiveRecord::Base
 		return false
 	end
 	
-	def decrement_inventory
+	def decrement_inventory_by( quantity )
 		for sku_item in self.sku_items
 			if sku_item.item_type == 'Merch' and sku_item.merch.inventory_count > 0
-				sku_item.merch.update_attributes :inventory_count => sku_item.merch.inventory_count - 1
+				sku_item.merch.update_attributes :inventory_count => sku_item.merch.inventory_count - quantity
 				sku_item.check_inventory_warning
 			end
 		end

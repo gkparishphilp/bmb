@@ -9,15 +9,18 @@
 				Price: 
 				%span#the_price( sku_price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
+			%h3
+				Quantity:
+				= @order.sku_quantity
 		-if @sku.contains_merch?		
 			%b
 				Shipping fee of 
 				= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
-				applies to US orders.
+				per book applies to US orders.
 				%br
 				Shipping fee of 
 				= number_to_currency( @sku.international_shipping_price.to_f / 100)  
-				applies to International orders.
+				per book applies to International orders.
 				%br
 				Taxes added for 
 				=@sku.owner.user.billing_address.state

@@ -88,8 +88,11 @@
 							%b Amount
 
 					%tr
-						%td= @order.sku.title
-						%td= format_price( @order.sku.price )
+						%td
+							= @order.sku.title
+							Quantity: 
+							= @order.sku_quantity
+						%td= format_price( @order.sku.price * @order.sku_quantity )
 					-if @order.tax_amount.present?
 						%tr
 							%td Tax

@@ -81,7 +81,7 @@ class OrdersController < ApplicationController
 		if paypal_token = params[:token]			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
-			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )
+			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )	
 		else
 			pop_flash "There was a problem with your order, please try again later", :error
 		end
@@ -91,7 +91,7 @@ class OrdersController < ApplicationController
 	def create
 		@order = Order.new params[:order]
 		@order.ip = request.remote_ip
-		@order.total = Sku.find(params[:order][:sku_id]).price
+		@order.total = Sku.find(params[:order][:sku_id]).price * @order.sku_quantity
 		
 		# setup the order user -- current_user or initialize from email
 		if @current_user.anonymous? 
@@ -205,7 +205,7 @@ class OrdersController < ApplicationController
 		end
 		
 		# Decrement inventory
-		@order.sku.decrement_inventory if @order.order_transaction.present?
+		@order.sku.decrement_inventory_by( @order.sku_quantity ) if @order.order_transaction.present?
 
 	end
 

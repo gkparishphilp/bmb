@@ -1,10 +1,12 @@
 class AddShowInventoryToMerch < ActiveRecord::Migration
   def self.up
-	add_column :skus, :show_inventory, :boolean, :default => false
+	add_column :merches, :show_inventory_count_at, :integer, :default => -1
+	add_column :orders, :sku_quantity, :integer, :default => 1
 	
   end
 
   def self.down
-	remove_column :skus, :show_inventory
+	remove_column :merches, :show_inventory_count_at
+	remove_column :orders, :sku_quantity
   end
 end
