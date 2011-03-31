@@ -4,20 +4,20 @@
 		= @sku.title
 
 	#checkout
-		#price_div( style="width:150px;" )
+		#price_div( style="width:600px;" )
 			%h3
 				Unit Price: 
-				%span#the_price( sku_price="#{@sku.price}" )
-					= number_to_currency @unit_price.to_f / 100
+				= number_to_currency @unit_price.to_f / 100
 			- if @coupon_code.present?
-				%h3 Coupon:
-				= @coupon_code
+				%h3 
+					Coupon Applied:
+					= @coupon_code
 			%h3
 				Quantity:
 				= @order.sku_quantity
 			%h3
 				Total:
-				= @total_price.to_f / 100
+				= number_to_currency @total_price.to_f / 100
 		-if @sku.contains_merch?
 			%b
 				Shipping & handling fee of 
@@ -41,7 +41,7 @@
 			= f.hidden_field :user_id, :value => @current_user.id
 			= f.hidden_field :sku_id, :value => @sku.id
 			= f.hidden_field :sku_quantity, :value => @order.sku_quantity
-			= hidden_field_tag :coupon_code, :value => @coupon
+			= hidden_field_tag :coupon_code, @coupon_code
 	
 			= fields_for :shipping_address do |addr_form|
 				= addr_form.hidden_field :address_type, :value => 'shipping'

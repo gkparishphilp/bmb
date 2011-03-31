@@ -84,8 +84,8 @@ class OrdersController < ApplicationController
 			@order.sku_quantity = params[:quantity] || 1
 			
 			
-			coupon = Coupon.find_by_code_and_sku_id( @code, @sku_id )
-			sku = Sku.find( params[:sku_id] )
+			coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:sku] )
+			sku = Sku.find( params[:sku] )
 			@unit_price = sku.price
 			
 			if coupon.is_valid?( sku )
