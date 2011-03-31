@@ -13,9 +13,9 @@
 	
 		.book-info
 			.listing_buy
-				- if sku.show_inventory? && sku.remaining_inventory > 0
+				- if sku.show_inventory? 
 					.inventory_count
-						= "#{sku.remaining_inventory} remaining!"
+						= "#{sku.show_inventory?} remaining!"
 				- if sku.sold_out?
 					.inventory_count
 						Sold Out :(

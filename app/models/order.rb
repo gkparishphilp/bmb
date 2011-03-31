@@ -98,7 +98,7 @@ class Order < ActiveRecord::Base
 			when 'percent'
 				self.total = (self.total - (coupon.discount/100.0 * self.total)).round 
 			when 'cents'
-				self.total = self.total - coupon.discount
+				self.total = self.total - (coupon.discount * self.sku_quantity)
 		end	
 		self.total = 0 if self.total < 0
 	end
@@ -398,8 +398,8 @@ class Order < ActiveRecord::Base
 
 	def validate_available_quantity
 		if self.sku.contains_merch?
-			if (self.sku.get_inventory_count ||= 0 ) < self.sku_quantity
-				message = "Sorry, we only have #{self.sku.get_inventory_count} left for this item.  Please change the quantity."
+			if self.sku.remaining_quantity < self.sku_quantity
+				message = "Sorry, we only have #{self.sku.remaining_quantity} left for this item.  Please change the quantity."
 				errors.add_to_base message
 			end
 		end

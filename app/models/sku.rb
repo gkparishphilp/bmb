@@ -96,19 +96,39 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def show_inventory?
+		#todo - this needs to be cleaned up when all the merch, sku, sku_item relationships are figured out
+		
+		# First, check to see if the sku contains merch?  If it doesn't, then don't show inventory since its a virtual good
 		if self.contains_merch?
-			return self.get_inventory_count
-		else
-			return false
+			inventory = self.sku_item_counts
+			# If you've set the show_inventory_count_at to -1 to signify that you never want to show a countdown, you'll get an inventory array with no elements.  Return false in this case  
+			if inventory.count == 0
+				return false
+			else
+				#Sort by inventory, and if the smallest quantity item in your sku bundle has crossed its show_inventory_count_at number, then return the number
+				inventory.sort! {|a,b| a[0] <=> b[0]}
+				inventory.first[0] < inventory.first[1] ? (return inventory.first[0]) : (return false)
+			end
 		end
+
+		return false
+
 	end
 	
-	def get_inventory_count
-		count = Array.new
+	def sku_item_counts
+		#returns an array with the inventory_count, and show_inventory_count_at attributes
+		inventory = Array.new
 		self.sku_items.each do |sku_item|
-			count << sku_item.item.inventory_count if (sku_item.item_type == 'Merch' && sku_item.item.inventory_count < sku_item.item.show_inventory_count_at )
+			inventory << [sku_item.item.inventory_count, sku_item.item.show_inventory_count_at] if (sku_item.item_type == 'Merch' && sku_item.item.inventory_count >= 0)
 		end
-		count.size >= 1 ? (return count.min ) : (return false)
+		return inventory
+	end
+	
+	def remaining_quantity
+		#returns a single number that is the remaining quantity for a sku
+		inventory = self.sku_item_counts
+		inventory.sort! {|a,b| a[0] <=> b[0]}
+		return inventory.first[0]
 	end
 	
 	def items
@@ -169,14 +189,6 @@ class Sku < ActiveRecord::Base
 				sku_item.check_inventory_warning
 			end
 		end
-	end
-	
-	def remaining_inventory
-		inventory = Array.new
-		self.sku_items.each do |sku_item|
-			inventory << sku_item.item.inventory_count if sku_item.item_type == 'Merch'
-		end
-		return inventory.min
 	end
 	
 end

@@ -1,5 +1,5 @@
 - content_for :left_column do
-	- if @sku.merch_sku?
+	- if false #@sku.merch_sku?
 		= render 'merches/merch', :merch => @sku.merches.first, :sku => @sku
 	- else
 		.books
@@ -9,8 +9,15 @@
 						= avatar_tag( @sku.book, :profile, :width => 150 )
 					- else
 						= avatar_tag( @sku, :profile, :width => 150 )
-				.button
-					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+				- if @sku.show_inventory? 
+					.inventory_count
+						= "#{@sku.show_inventory?} remaining!"
+				- if @sku.sold_out?
+					.inventory_count
+						Sold Out :(
+				- else
+					.button
+						=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
 
 				.also-available
 					%h3 Contains
