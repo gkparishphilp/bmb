@@ -151,42 +151,44 @@ $(document).ready(function(){
 				var the_response = $(data).attr('value');
 				var discount = $(data).attr('discount');
 				var discount_type = $(data).attr('discount_type');
-				var orig_price = $('#the_price').attr('sku_price');
+				var quantity = $('#quantity_sel').attr('value');
+				var total_price = $('#original_price').attr('price') * quantity;
 			
 				if( the_response == 'true' ){
-					var new_price = orig_price;
+					var new_price = total_price;
 					if( discount_type == 'percent' ){
-						new_price = Math.round( ( orig_price - (orig_price * discount) ) ) / 100 ;
+						new_price = Math.round( ( total_price - (total_price * discount) ) ) / 100 ;
 					}
 					else{
-						new_price = (orig_price - discount) / 100;
+						new_price = (total_price - discount) / 100;
 					}
 				
-					$('#the_price').html( "$" + new_price );
+					$('#order_price').html( "$" + new_price );
+					$('#order_price'),attr( 'price', new_price * 100 );
 					$('#valid_coupon').html('Valid Coupon Code Entered');
 					$('#price_div').effect("highlight", {}, 3000);
 					$('#valid_coupon_div').effect("highlight", {}, 3000);
 				}
 				else{
-					$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+					$('#order_price').html( "$" + total_price / 100 );
 					$('#valid_coupon').html('');
 				}
 			});
 		}
 		else{
-			$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+			$('#order_price').html( "$" + total_price / 100 );
 			$('#valid_coupon').html('');
 		}
 	});
 	
 	$('#order_sku_quantity').change( function(){
-		var quant = $(this).attr('value');
-		var orig_price = $('#the_price').attr('sku_price');
-		var new_price = Math.round( orig_price * quant ) / 100
+		var quantity = $(this).attr('value');
+		var orig_price = $('#order_price').attr('price');
+		var new_price = Math.round( orig_price * quantity ) / 100;
 		new_price = new_price.toFixed(2);
-		orig_price = orig_price / 100 // for display
-		
-		$('#the_price').html( '$' + orig_price + ' x ' + quant + ': ' + '$' + new_price );
+		orig_price = orig_price / 100; // for display
+
+		$('#order_price').html( '$' + orig_price + ' x ' + quantity + ': ' + '$' + new_price );
 		
 		$('#paypal_btn').attr('href', $('#paypal_btn').attr('href') + '&quantity=' + $(this).attr('value') );
 	});

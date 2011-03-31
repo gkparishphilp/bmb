@@ -7,7 +7,8 @@
 		#price_div
 			%h3
 				Price: 
-				%span#the_price( sku_price="#{@sku.price}" )
+				%span#orig_price( price="#{@sku.price}" )
+				%span#order_price( price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
 
 			-if @sku.contains_merch?		
