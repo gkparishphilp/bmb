@@ -90,7 +90,7 @@ class OrdersController < ApplicationController
 			sku = Sku.find( params[:sku] )
 			@unit_price = sku.price
 			
-			if coupon.is_valid?( sku )
+			if coupon.present? && coupon.is_valid?( sku )
 				@coupon_code = params[:coupon_code]
 				if coupon.discount_type == 'percent' 
 					@unit_price *= ( coupon.discount.to_f / 100 ) 
