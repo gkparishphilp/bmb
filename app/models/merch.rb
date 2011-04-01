@@ -37,6 +37,10 @@ class Merch < ActiveRecord::Base
 	attr_accessor	:price, :book_id
 	
 	liquid_methods :title, :inventory_count, :inventory_warning
+
+	def published?
+		self.status == 'publish' ? (return true) : (return false)
+	end
 	
 	def review_average
 		return avg = self.reviews.average( :score ).to_f
