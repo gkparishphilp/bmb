@@ -12,7 +12,12 @@ class StoreController < ApplicationController
 	
 	def show
 		@sku = Sku.find params[:id]
-		@reviewable = @sku.merches.first if @sku.merch_sku?
+		if @sku.published?
+			@reviewable = @sku.merches.first if @sku.merch_sku?
+		else
+			pop_flash "Sorry, that item is not available.", :error
+			redirect_to author_path( @author )
+		end
 	end
 	
 end
