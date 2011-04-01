@@ -18,7 +18,7 @@
 				- if @author.books.published.empty?
 					No Books
 				- else
-					= render @author.books
+					= render @author.books.reverse
 	- unless @author.links.empty?
 		%div
 			%h3 
