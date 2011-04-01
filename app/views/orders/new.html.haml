@@ -40,7 +40,7 @@
 				.order_label
 					Enter Coupon Code: 
 				.order_field
-					= text_field_tag :coupon_code, "", :class => :coupon
+					= text_field_tag :coupon_code, @coupon_code, :class => :coupon
 					#valid_coupon_div( style = "margin:10px 0px;")
 						#valid_coupon
 			= render 'pay_method', :f => f

@@ -39,6 +39,8 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
+		
+		@coupon_code = params[:coupon_code]
 
 		if @sku.published? && !@sku.sold_out?
 			# set order fields if in Dev environment
