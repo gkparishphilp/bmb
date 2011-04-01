@@ -39,6 +39,8 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
+		
+		@coupon_code = params[:coupon_code]
 
 		if @sku.published? && !@sku.sold_out?
 			# set order fields if in Dev environment
@@ -66,7 +68,7 @@ class OrdersController < ApplicationController
 		
 		response = EXPRESS_GATEWAY.setup_purchase(price_in_cents,
 			:ip => request.remote_ip,
-			:return_url => ret_paypal_orders_url(:sku => params[:sku], :author_id => params[:author_id]),
+			:return_url => ret_paypal_orders_url(:sku => params[:sku], :author_id => params[:author_id], :quantity => params[:quantity], :coupon_code => params[:coupon_code]),
 			:cancel_return_url => cancel_return_url
 		)
 		redirect_to EXPRESS_GATEWAY.redirect_url_for( response.token )
@@ -81,6 +83,24 @@ class OrdersController < ApplicationController
 		if paypal_token = params[:token]			
 			@order.paypal_express_token = params[:token] 
 			@order.paypal_express_payer_id = params[:PayerID] 
+			@order.sku_quantity = params[:quantity] || 1
+			
+			
+			coupon = Coupon.find_by_code_and_sku_id( params[:coupon_code], params[:sku] )
+			sku = Sku.find( params[:sku] )
+			@unit_price = sku.price
+			
+			if coupon.present? && coupon.is_valid?( sku )
+				@coupon_code = params[:coupon_code]
+				if coupon.discount_type == 'percent' 
+					@unit_price *= ( coupon.discount.to_f / 100 ) 
+				else
+					@unit_price -= coupon.discount 
+				end
+			end
+			
+			@total_price = @unit_price * @order.sku_quantity
+			
 			@paypal_data = EXPRESS_GATEWAY.details_for( paypal_token )	
 		else
 			pop_flash "There was a problem with your order, please try again later", :error

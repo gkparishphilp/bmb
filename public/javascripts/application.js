@@ -81,7 +81,7 @@ $(document).ready(function(){
 	$('#paypal_radio').click(function (){
 		if( $(this).attr('checked') && $('#cc_info').is(':visible') ){
 			$('#cc_info').hide();
-			$('#coupon_code').hide();
+			// $('#coupon_code').hide();
 		}
 		$('#paypal_x_checkout').show();
 	});
@@ -141,8 +141,14 @@ $(document).ready(function(){
 	
 	$('.coupon').blur(function (){
 		
-		if ( $(this).attr('value') ){
+		var original_unit_price = $('#orig_price').attr('price');
+		var quantity = $('#order_sku_quantity').attr('value');
+		var pp_url = $('#paypal_btn').attr('href');
+		pp_url = pp_url.replace( /&coupon_code=\w+/, "" );
+		$('#paypal_btn').attr('href', pp_url + '&coupon_code=' + $(this).attr('value') );
 		
+		if ( $(this).attr('value') ){
+			//the_url = "http://localhost:3003/coupons/validate/";
 			the_url = "https://backmybook.com/coupons/validate/";
 			the_url += $('#order_sku_id').attr('value');
 			the_url += "/" + $(this).attr('value');
@@ -151,33 +157,50 @@ $(document).ready(function(){
 				var the_response = $(data).attr('value');
 				var discount = $(data).attr('discount');
 				var discount_type = $(data).attr('discount_type');
-				var orig_price = $('#the_price').attr('sku_price');
+				var total_price = original_unit_price * quantity;
 			
 				if( the_response == 'true' ){
-					var new_price = orig_price;
+					var new_unit_price = original_unit_price;
 					if( discount_type == 'percent' ){
-						new_price = Math.round( ( orig_price - (orig_price * discount) ) ) / 100 ;
+						new_unit_price = Math.round( ( new_unit_price - (new_unit_price * discount) ) ) / 100 ;
 					}
 					else{
-						new_price = (orig_price - discount) / 100;
+						new_unit_price = (new_unit_price - ( discount ) ) / 100;
 					}
-				
-					$('#the_price').html( "$" + new_price );
+					
+					
+					$('#order_price').html( "$" + new_unit_price + " x " + quantity + ": " + "$" + ( new_unit_price * quantity ).toFixed(2) );
+					$('#order_price').attr( 'price', new_unit_price * 100 );
 					$('#valid_coupon').html('Valid Coupon Code Entered');
 					$('#price_div').effect("highlight", {}, 3000);
 					$('#valid_coupon_div').effect("highlight", {}, 3000);
 				}
 				else{
-					$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+					$('#order_price').html( "$" + ( original_unit_price / 100 ) + " x " + quantity + ": " + "$" + (( original_unit_price * quantity ) / 100).toFixed(2) );
+					$('#order_price').attr('price', original_unit_price );
 					$('#valid_coupon').html('');
 				}
 			});
 		}
 		else{
-			$('#the_price').html( "$" + $('#order_price').attr('value') / 100 );
+			$('#order_price').html( "$" + ( original_unit_price / 100 ) + " x " + quantity + ": " + "$" + (( original_unit_price * quantity ) / 100).toFixed(2)  );
+			$('#order_price').attr('price', original_unit_price );
 			$('#valid_coupon').html('');
 		}
 	});
+	
+	$('#order_sku_quantity').change( function(){
+		var quantity = $(this).attr('value');
+		var orig_price = $('#order_price').attr('price');
+		var new_price = Math.round( orig_price * quantity ) / 100;
+		new_price = new_price.toFixed(2);
+		orig_price = orig_price / 100; // for display
+
+		$('#order_price').html( '$' + orig_price + ' x ' + quantity + ': ' + '$' + new_price );
+		
+		$('#paypal_btn').attr('href', $('#paypal_btn').attr('href') + '&quantity=' + $(this).attr('value') );
+	});
+	
 	
 	$('#sortable').sortable({
 		update: function( event, ui ){

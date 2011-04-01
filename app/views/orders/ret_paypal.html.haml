@@ -4,21 +4,27 @@
 		= @sku.title
 
 	#checkout
-		#price_div( style="width:150px;" )
+		#price_div( style="width:600px;" )
 			%h3
-				Price: 
-				%span#the_price( sku_price="#{@sku.price}" )
-					= number_to_currency @sku.price.to_f / 100
+				Unit Price: 
+				= number_to_currency @unit_price.to_f / 100
+			- if @coupon_code.present?
+				%h3 
+					Coupon Applied:
+					= @coupon_code
 			%h3
 				Quantity:
 				= @order.sku_quantity
-		-if @sku.contains_merch?		
+			%h3
+				Total:
+				= number_to_currency @total_price.to_f / 100
+		-if @sku.contains_merch?
 			%b
-				Shipping fee of 
+				Shipping & handling fee of 
 				= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
 				per book applies to US orders.
 				%br
-				Shipping fee of 
+				Shipping & handling fee of 
 				= number_to_currency( @sku.international_shipping_price.to_f / 100)  
 				per book applies to International orders.
 				%br
@@ -34,6 +40,8 @@
 			= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
 			= f.hidden_field :user_id, :value => @current_user.id
 			= f.hidden_field :sku_id, :value => @sku.id
+			= f.hidden_field :sku_quantity, :value => @order.sku_quantity
+			= hidden_field_tag :coupon_code, @coupon_code
 	
 			= fields_for :shipping_address do |addr_form|
 				= addr_form.hidden_field :address_type, :value => 'shipping'
@@ -53,11 +61,6 @@
 				%br
 			- else
 				= f.hidden_field :email, :value => @current_user.email
-			%br
-			%b Enter Coupon Code (if applicable)
-			= text_field_tag :coupon_code, "", :class => :coupon
-			#valid_coupon_div( style = "margin:10px 0px;")
-				#valid_coupon
 			%p
 				-if @sku.allow_comment?
 					%h3 Special Order Instructions
@@ -65,7 +68,7 @@
 				%br
 			%p Please confirm your Paypal order by clicking the button below.
 			%p
-				Subscribe to #{@author.pen_name}'s newsletter
+				Subscribe to #{@author.pen_name}'s newsletter (come on, you know you want it!)
 				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'				
 			%p Note: Your Paypal Account will be billed by "Groundswell Enterprises".
 			%p

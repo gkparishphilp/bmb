@@ -9,7 +9,7 @@
 					%ul.star-rating
 						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
 		.book-info
-			- unless book.merch_skus.published.nil? or book.merch_skus.published.first.sold_out?
+			- unless book.merch_skus.published.empty? || book.merch_skus.published.first.sold_out?
 				.listing_buy
 					= link_to "Buy Hardcover #{format_price( book.hardcover_sku.price )}", new_author_order_url( @author, :sku => book.hardcover_sku, :protocol => SSL_PROTOCOL ) 
 			- unless book.skus.published.ebook.first.nil?

@@ -13,7 +13,11 @@ Hi
 			%b Amount
 
 	%tr
-		%td= @order.sku.title
+		%td
+			= @order.sku.title
+			Quantity: 
+			= @order.sku_quantity
+			
 		%td= number_to_currency( @order.sku.price.to_f / 100 * @order.sku_quantity)
 	-if @order.coupon.present?
 		%tr
@@ -21,7 +25,7 @@ Hi
 			-if @order.coupon.discount_type == 'cents'
 				%td
 					(
-					= number_to_currency( @order.coupon.discount.to_f / 100)
+					= number_to_currency( @order.coupon.discount.to_f / 100 * @order.sku_quantity )
 					)
 			-if @order.coupon.discount_type == 'percent'
 				%td
@@ -34,7 +38,7 @@ Hi
 			%td= number_to_currency( @order.tax_amount.to_f / 100)
 	-if @order.shipping_amount.present?
 		%tr
-			%td Shipping
+			%td Shipping and Handling
 			%td= number_to_currency( @order.shipping_amount.to_f / 100)
 	%tr
 		%td Total

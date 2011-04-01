@@ -7,16 +7,17 @@
 		#price_div
 			%h3
 				Price: 
-				%span#the_price( sku_price="#{@sku.price}" )
+				%span#orig_price( price="#{@sku.price}" )
+				%span#order_price( price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
 
 			-if @sku.contains_merch?		
 				%b 
-					Shipping fee of 
+					Shipping & handling fee of 
 					= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
 					per book applies to US orders.
 					%br
-					Shipping fee of 
+					Shipping & handling fee of 
 					= number_to_currency( @sku.international_shipping_price.to_f / 100) 
 					per book applies to International orders.
 					%br
@@ -39,7 +40,7 @@
 				.order_label
 					Enter Coupon Code: 
 				.order_field
-					= text_field_tag :coupon_code, "", :class => :coupon
+					= text_field_tag :coupon_code, @coupon_code, :class => :coupon
 					#valid_coupon_div( style = "margin:10px 0px;")
 						#valid_coupon
 			= render 'pay_method', :f => f
@@ -62,7 +63,7 @@
 				- if @sku.contains_merch?
 					= render 'shipping_form', :f => f
 				%br
-				Subscribe to #{@author.pen_name}'s newsletter
+				Subscribe to #{@author.pen_name}'s newsletter (come on, you know you want it!)
 				= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'
 				%br
 				-if @sku.allow_comment?
@@ -78,6 +79,6 @@
 			%br
 			%br
 			-if params[:author_id]
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :author_id => @author.id, :protocol => SSL_PROTOCOL), :id => :paypal_btn
 			-else
-				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL)
+				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL), :id => :paypal_btn
