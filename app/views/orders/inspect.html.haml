@@ -12,6 +12,9 @@
 			.label Placed At:
 			.data= format_date @order.created_at
 			.clear
+			.label Quantity
+			.data= @order.sku_quantity
+			.clear
 			.label SKU Price
 			.data= format_price @order.sku.price
 			.clear
