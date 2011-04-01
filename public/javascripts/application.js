@@ -148,8 +148,8 @@ $(document).ready(function(){
 		$('#paypal_btn').attr('href', pp_url + '&coupon_code=' + $(this).attr('value') );
 		
 		if ( $(this).attr('value') ){
-			the_url = "http://localhost:3003/coupons/validate/";
-			// TODO PRODUCTION the_url = "https://backmybook.com/coupons/validate/";
+			//the_url = "http://localhost:3003/coupons/validate/";
+			the_url = "https://backmybook.com/coupons/validate/";
 			the_url += $('#order_sku_id').attr('value');
 			the_url += "/" + $(this).attr('value');
 		

@@ -83,6 +83,9 @@ class Book < ActiveRecord::Base
 	end
 	
 	# Instance Methods
+	def published?
+		self.status == 'publish' ? (return true) : (return false)
+	end
 	def owner
 		# for permissions
 		return self.author

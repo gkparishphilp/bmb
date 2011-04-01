@@ -14,16 +14,21 @@ class BooksController < ApplicationController
 	
 	def show
 		@book = Book.find params[:id]
-		@reviewable = @book
-		@review = Review.new
+		if @book.published?
+			@reviewable = @book
+			@review = Review.new
 		
 		
-		set_meta "#{@book.title} by #{@book.author.pen_name}", @book.description
+			set_meta "#{@book.title} by #{@book.author.pen_name}", @book.description
 
-		#Increment view counter
-		#@book.update_attributes :view_count => @book.view_count + 1
-		@book.raw_stats.create :name =>'view', :ip => request.ip #Use raw_stats
-		render :layout => 'authors'
+			#Increment view counter
+			#@book.update_attributes :view_count => @book.view_count + 1
+			@book.raw_stats.create :name =>'view', :ip => request.ip #Use raw_stats
+			render :layout => 'authors'
+		else
+			pop_flash "Sorry, that item is not available.", :error
+			redirect_to author_path( @author )
+		end
 	end
 	
 	def confirm

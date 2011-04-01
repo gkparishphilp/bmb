@@ -18,7 +18,12 @@ class MerchesController < ApplicationController
 	
 	def show
 		@merch = Merch.find params[:id] 
-		redirect_to author_store_path( @merch.owner, @merch.skus.first )
+		if @merch.published?
+			redirect_to author_store_path( @merch.owner, @merch.skus.first )
+		else
+			pop_flash "Sorry, that item is not available", :error
+			redirect_to author_path( @merch.owner )
+		end
 	end
 
 
