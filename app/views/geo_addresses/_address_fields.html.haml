@@ -8,9 +8,13 @@
 - else
 	= addr_form.hidden_field :address_type, :value => addr.address_type
 .order_label
-	Name:
+	First Name:
 .order_field
-	= addr_form.text_field :name, :value => addr.name
+	= addr_form.text_field :first_name, :value => addr.first_name
+.order_label
+	Last Name:
+.order_field
+	= addr_form.text_field :last_name, :value => addr.last_name
 .order_label
 	Street:
 .order_field

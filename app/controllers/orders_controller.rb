@@ -51,7 +51,14 @@ class OrdersController < ApplicationController
 			end
 		
 			#initialize a billing address if the user doesn't have one
-			@billing_address = @current_user.billing_address.present? ? @current_user.billing_address : GeoAddress.new( :address_type => 'billing' )
+			if @current_user.billing_address.present? 
+				@billing_address = @current_user.billing_address
+				#Splitting name into first_name and last_name for form display
+				@billing_address.first_name = @billing_address.name.split(/ /).first
+				@billing_address.last_name = @billing_address.name.split(/ /,2).last
+			else 
+				@billing_address = GeoAddress.new( :address_type => 'billing' )
+			end
 			#setup array of shipping addresses with appended option for new address
 			@shipping_addresses_for_select = @current_user.shipping_addresses.map{ |a| [ a.street, a.id ] } + ['New Address']
 			# create an empty shipping address in case user wants to enter a new one right on the checkout form
@@ -143,6 +150,9 @@ class OrdersController < ApplicationController
 		# setup addresses
 		# ...first billing
 		if params[:billing_address].present? # because paypal return does not send billing address data
+			
+			#Combine first name and last name in form into just name field
+			params[:billing_address][:name] = params[:billing_address][:first_name] + ' ' + params[:billing_address][:last_name]
 			if @order.user.billing_address.present?
 				@order.user.billing_address.attributes = params[:billing_address]
 			else
@@ -169,6 +179,10 @@ class OrdersController < ApplicationController
 		elsif @order.shipping_address.nil? && params[:shipping_address].present? 
 			# we're only creating a new shipping address if we get params AND the shipping_address_id selector has not
 			# set the shipping_id in the order attributes otherwise
+			
+			#Combine first name and last name in form into just name field
+			params[:shipping_address][:name] = params[:shipping_address][:first_name] + ' ' + params[:shipping_address][:last_name]
+			
 			ship_addr = @order.user.shipping_addresses.new( params[:shipping_address] )
 			if ship_addr.save
 				@order.shipping_address_id = ship_addr.id

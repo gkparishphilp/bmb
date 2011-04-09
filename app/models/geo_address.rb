@@ -25,6 +25,8 @@ class GeoAddress < ActiveRecord::Base
 	belongs_to	:user
 	
 	# todo - clean these up and buff them out
+	validates :first_name, :presence => true
+	validates :last_name, :presence => true
 	validates :name, :presence => true
 	validates :street, :presence => true
 	validates :city, :presence => true
@@ -32,8 +34,9 @@ class GeoAddress < ActiveRecord::Base
 	validates :country, :presence => true
 	
 	validate :valid_geo_state
-	
+	attr_accessor :first_name, :last_name
 	liquid_methods :name, :street, :city, :state, :country, :zip
+
 	# some cosmetic methods to display stuff
 	
 	def full_street

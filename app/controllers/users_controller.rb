@@ -32,6 +32,7 @@ class UsersController < ApplicationController
 
 	def edit
 		@user = User.find params[:id] 
+		@countries = GeoCountry.where( "id < 4").all + [ GeoCountry.new( :id => nil, :name => "-----------") ] + GeoCountry.order("name asc" ).all
 		if @current_user.anonymous?
 			flash[:notice] = "Can't edit this user"
 			redirect_to root_path

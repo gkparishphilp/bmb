@@ -17,6 +17,9 @@
 			%h2
 				Thank you for purchasing:
 				= @order.sku.title
+				(Quantity:
+				= @order.sku_quantity
+				)
 			%p
 				If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
 			%p
@@ -55,12 +58,14 @@
 					.listing_data
 						.listing_title
 							= @order.sku.title
-						%b
-							Files in this order:
-						.listing_buy
-							- for item in @order.sku.items
-								%div[item]
-									= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
+
+						-if @order.contains_files?
+							%b
+								Files in this order:
+							.listing_buy
+								- for item in @order.sku.items
+									%div[item]
+										= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
 
 					.clear
 					%br

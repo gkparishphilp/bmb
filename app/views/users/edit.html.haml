@@ -20,6 +20,7 @@
 		
 		%h3 Billing Address:
 		= f.fields_for :billing_address do |addr_form|
+			-# todo - this doesn't render the first_name and last_name fields properly since it is stored as just name in @billing_address
 			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @billing_address
 		%br
 		=f.submit "Update", :class => :button

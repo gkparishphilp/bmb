@@ -140,6 +140,7 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def merch_sku?
+		#merch_sku? means that there is ONLY merch in the sku
 		# Previous function (return self.sku_items.count == 1 && self.merches.first.present?) didn't work when there were two items in a sku and both were merch, so...
 		# Collect all the items in a sku, and then check to see if each item is a merch.  If there is a non-merch item, then a 'false' value will appear, so merch_sku? should be false
 		if self.sku_items.collect{ |item| item.item.is_a? Merch}.include?(false)
