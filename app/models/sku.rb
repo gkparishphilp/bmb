@@ -69,6 +69,10 @@ class Sku < ActiveRecord::Base
 	scope	:custom, where( "sku_type = 'custom'" )
 	scope	:subscription, where( "sku_type = 'subscription'" )
 	scope   :published, where( "status = 'publish'" )
+	scope   :has_merch, :joins => :sku_items, :select => 'distinct skus.*', :conditions => "sku_items.item_type = 'Merch'"
+	scope   :for_author, lambda { |args|
+		where( "owner_type='Author' and owner_id = ?", args )
+	}
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	liquid_methods :title, :owner, :sku_items

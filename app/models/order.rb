@@ -50,6 +50,10 @@ class Order < ActiveRecord::Base
 		joins( "join skus on skus.id = sku_id " ).where( "skus.owner_type='Author' and skus.owner_id = ?", args )
 	}
 	
+	scope :for_sku, lambda {|args|
+		where("sku_id = ?", args)
+	}
+	
 	scope :has_shipping_amount, where("shipping_amount > 0")
 	
 #---------------------------------------------------------------

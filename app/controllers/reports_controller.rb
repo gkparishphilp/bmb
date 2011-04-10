@@ -1,5 +1,6 @@
 class ReportsController < ApplicationController
-
+	require 'csv'
+	
 	def sales
 		#todo - catch error condition when start date is later than end date
 		@start_date = params[:start_date] || 1.months.ago.getutc
@@ -65,5 +66,43 @@ class ReportsController < ApplicationController
 		render :layout  => '2col'
 		
 	end
+	
+	def shipping
+		@start_date = params[:start_date] || 1.months.ago.getutc
+		@end_date = params[:end_date] || Time.now.getutc 
+		
+		@author_skus = Sku.for_author( @current_author ).has_merch.collect { |sku| [sku.title, sku.id] }
+
+			if params[:sku]
+				@sku = Sku.find( params[:sku][:id] )
+			else
+				@sku = Sku.find (@author_skus.first[1])
+			end
+			
+			@orders_for_sku = Order.for_author( @current_author ).for_sku( @sku.id )
+			@orders_for_period = @orders_for_sku.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
+
+		csv_string = CSV.generate do |csv|
+			#header row
+			csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
+			@orders_for_period.each do |order|
+				order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
+				if order.shipping_address.present?
+					shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
+				else
+					shipping_address = ""
+				end
+				
+				csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
+				
+			end
+		end
+	
+		#send_data csv_string,
+		#	:type => 'text/csv; charset=iso-8859-1; header=present',
+		#	:disposition => "attachment; filename = shipping_list.csv"
+
+	end
+	
 
 end
