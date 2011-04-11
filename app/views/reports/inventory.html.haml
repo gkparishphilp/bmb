@@ -8,18 +8,18 @@
 	%table.admin_table
 		%tr
 			%td 
-				%b Merchandise
+				%b Item
 			%td 
 				%b Units remaining
 			%td
-				%b Warning threshold
+				%b Action
 			
-		-for item in @merches
-			- if item.inventory_count > 0
+		-for merch in @merches
+			- if merch.inventory_count > 0
 				%tr
-					%td= item.title
-					%td= item.inventory_count
-					%td= item.inventory_warning
+					%td= merch.title
+					%td= merch.inventory_count
+					%td= link_to "edit", edit_merch_path( merch )
 
 	
 

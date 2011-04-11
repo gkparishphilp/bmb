@@ -80,7 +80,7 @@ class ReportsController < ApplicationController
 			end
 			
 			@orders_for_sku = Order.for_author( @current_author ).for_sku( @sku.id )
-			@orders_for_period = @orders_for_sku.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
+			@orders_for_period = @orders_for_sku.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful.order( "created_at desc")
 
 		csv_string = CSV.generate do |csv|
 			#header row

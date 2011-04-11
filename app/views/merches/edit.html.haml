@@ -9,4 +9,18 @@
 		
 - content_for :right_column do
 	= render 'shared/help'
-
+	%hr 
+	%p 
+		%b Inventory remaining 
+		is the # of units available for sale.
+	%p
+		The system can send an email to 
+		= @current_author.contact_email
+		when the 
+		%b low inventory 
+		threshold is crossed.
+	%p
+		A " NN remaining " prompt will show up on your store page for our readers to 
+		see when the inventory is lower than then 
+		%b show remaining inventory count
+		threshold.
