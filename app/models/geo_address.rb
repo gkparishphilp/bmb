@@ -36,7 +36,7 @@ class GeoAddress < ActiveRecord::Base
 	validate :valid_geo_state
 	attr_accessor :first_name, :last_name
 	liquid_methods :name, :street, :city, :state, :country, :zip
-
+	
 	# some cosmetic methods to display stuff
 	
 	def full_street

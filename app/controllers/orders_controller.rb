@@ -180,8 +180,8 @@ class OrdersController < ApplicationController
 			# we're only creating a new shipping address if we get params AND the shipping_address_id selector has not
 			# set the shipping_id in the order attributes otherwise
 			
-			#Combine first name and last name in form into just name field
-			params[:shipping_address][:name] = params[:shipping_address][:first_name] + ' ' + params[:shipping_address][:last_name]
+			#Combine first name and last name in form into just name field for CC order form since we ask the user to enter both explicitly.  Paypal already sends shipping address name back as one string.
+			params[:shipping_address][:name] = params[:shipping_address][:first_name] + ' ' + params[:shipping_address][:last_name]  unless params[:order][:paypal_express_token].present?
 			
 			ship_addr = @order.user.shipping_addresses.new( params[:shipping_address] )
 			if ship_addr.save
