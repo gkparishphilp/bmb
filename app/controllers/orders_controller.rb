@@ -32,8 +32,6 @@ class OrdersController < ApplicationController
 			pop_flash 'Not your order', :error
 			redirect_to root_path
 		end
-		
-		
 	end
 	
 
@@ -240,7 +238,17 @@ class OrdersController < ApplicationController
 		
 		# Decrement inventory
 		@order.sku.decrement_inventory_by( @order.sku_quantity ) if @order.order_transaction.present?
+	end
 
+	def refund
+		@order = Order.find params[:id] 
+		@refund = Refund.new
+		if @order.sku.owner == @current_author
+			render :layout => '2col'
+		else
+			pop_flash "Can not refund this order.", :error
+			redirect_to :back
+		end
 	end
 
 private

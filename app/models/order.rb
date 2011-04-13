@@ -25,6 +25,7 @@ class Order < ActiveRecord::Base
 	belongs_to	:user
 	belongs_to	:sku
 	has_one		:order_transaction, :dependent => :destroy
+	has_one		:refund
 	has_one		:redemption
 	has_one		:coupon, :through => :redemption
 	has_one		:subscribing
@@ -66,6 +67,9 @@ class Order < ActiveRecord::Base
 	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 	
+	def successful?
+		self.order_transaction.success == 1 ? (return true) : (return false) 
+	end
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner

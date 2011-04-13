@@ -1,0 +1,20 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+	
+- content_for :middle_column do
+	%h1 
+		Refund for Order
+		= @order.order_transaction.reference
+	= form_for Refund.new do |f|
+		= f.hidden_field :order_id, :value => @order.id
+		.order_label
+			Amount
+		.order_field
+			= f.text_field :amount, :value => @order.total
+		.clear
+		.order_label
+			Note
+		.order_field
+			= f.text_field :comment
+		.clear
+		= f.submit
