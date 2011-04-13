@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.for_author( @current_author ).search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
+		@orders = Order.for_author( @current_author ).successful.search( params[:q] ).order( "created_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		render :layout => '3col'
 	end
 	

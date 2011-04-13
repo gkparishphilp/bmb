@@ -68,7 +68,7 @@ class Order < ActiveRecord::Base
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 	
 	def successful?
-		self.order_transaction.success == 1 ? (return true) : (return false) 
+		self.order_transaction.success ? (return true) : (return false) 
 	end
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author

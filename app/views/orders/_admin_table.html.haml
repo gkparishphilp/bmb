@@ -4,7 +4,7 @@
 	No Orders
 - else
 	%table.admin_table( style = 'width:800px;' )
-		%th= sortable 'created_at'
+		%th Date
 		%th Reference #
 		%th Price
 		%th Email
@@ -19,14 +19,17 @@
 				%td.small
 					= number_to_currency order.total.to_f / 100 
 				%td.small
-					= link_to order.user.email, order_path( order )
+					= order.user.email
 				%td.small
 					= order.sku.title
 				%td.small
 					= order.sku_quantity
 				%td.small
-					= link_to 'Refund', refund_order_path( order )
-
+					-if order.refund.nil? 
+						=link_to 'Refund', refund_order_path( order ) 
+					-else
+						Refunded 
+						
 	- unless @orders.total_pages < 2
 		.pagination
 			.page_info

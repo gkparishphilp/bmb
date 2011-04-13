@@ -1,0 +1,44 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+		
+- content_for :middle_column do
+	%h1 
+		Royalty Report  
+	%br
+	%h3 
+		Summary
+		for current quarter: 
+		= @start_date
+		to
+		= @end_date
+	%br
+	.order_label
+		Total Revenue
+	.order_data
+		= format_price @royalty["total"]
+	.clear
+
+	.order_label
+		Author Royalty
+	.order_data
+		= format_price @royalty["author_royalty"]
+	.clear
+
+	.order_label
+		BackMyBook Royalty
+	.order_data
+		= format_price @royalty["backmybook_royalty"]
+	.clear
+	
+	%br
+	
+	%table.admin_table
+		%th Date
+		%th Reference
+		%th Amount
+		-for order in @orders
+		
+			%tr
+				%td= order.created_at
+				%td= order.order_transaction.reference
+				%td= format_price order.total

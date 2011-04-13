@@ -11,7 +11,7 @@ class RefundsController < ApplicationController
 	def create
 		@refund = Refund.new params[:refund]
 
-		if @refund.save
+		if @refund.process
 			pop_flash 'Refund was successfully created.'
 		else
 			pop_flash 'Oooops, Refund not saved...', :error, @refund

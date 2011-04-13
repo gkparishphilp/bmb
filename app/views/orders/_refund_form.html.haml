@@ -1,9 +1,43 @@
-.order_label
-	Amount
-.order_field
-	= f.text_field :amount
-.order_label
-	Note
-.order_field
-	= f.text_field :comment
-= f.submit
+=f.hidden_field :order_id, :value => @order.id
+
+-if @order.sku.contains_merch?
+	.order_label
+		Item Amount
+	.order_field
+		= f.text_field :item_amount, :value => @order.sku.price
+	.clear
+	
+	.order_label
+		Shipping Amount
+	.order_field
+		= f.text_field :shipping_amount, :value => @order.shipping_amount
+	.clear
+	
+	.order_label
+		Tax Amount
+	.order_field
+		= f.text_field :tax_amount, :value => @order.tax_amount
+	.clear
+	
+	.order_label
+		Total Refund Amount
+	.order_field
+		= f.text_field :total, :value => @order.total
+	.clear
+	
+		
+-else
+	.order_label
+		Amount
+	.order_field
+		= f.text_field :amount, :value => @order.total
+	.clear
+	
+	.order_label
+		Note
+	.order_field
+		= f.text_field :comment
+	.clear
+	
+	
+= f.submit 'Refund'

@@ -5,16 +5,15 @@
 	%h1 
 		Refund for Order
 		= @order.order_transaction.reference
-	= form_for Refund.new do |f|
-		= f.hidden_field :order_id, :value => @order.id
-		.order_label
-			Amount
-		.order_field
-			= f.text_field :amount, :value => @order.total
-		.clear
-		.order_label
-			Note
-		.order_field
-			= f.text_field :comment
-		.clear
-		= f.submit
+	%br
+	%h3 Order Details
+	.order_label
+		Email
+	.order_value
+		= @order.user.email
+	.clear
+	
+	%br
+	%hr
+	= form_for @refund do |f|
+		= render :partial => 'refund_form', :locals => {:f => f}
