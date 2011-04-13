@@ -48,8 +48,8 @@
 			.label Email for Order:
 			.data= @order.email
 			.clear
-			
-			-unless @order.paypal_express?
+			%br
+			-if @order.billing_address.present?
 				%h4 Billing Address
 				.label Name:
 				.data= @order.billing_address.name
@@ -60,8 +60,8 @@
 				.label City, ST Zip:
 				.data= @order.billing_address.city_st_zip
 				.clear
-			
-			- if false #@order.shipping_address.present?
+				%br
+			- if @order.shipping_address.present?
 				%h4 Shipping Address
 				.label Name:
 				.data= @order.shipping_address.name
@@ -72,7 +72,12 @@
 				.label City, ST Zip:
 				.data= @order.shipping_address.city_st_zip
 				.clear
-
+				%br
+			- if @order.comment.present?
+				%h4
+				.label Comment:
+				.data= @order.comment
+				.clear
 		%br
 		%br
 		
