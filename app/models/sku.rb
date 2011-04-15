@@ -163,14 +163,7 @@ class Sku < ActiveRecord::Base
 		for sku_item in self.sku_items
 			return true if sku_item.item_type == 'Merch'
 		end
-		
-		#todo - remove this and return false when Sigler flash drive sku is fixed or keep and use shipping_price as an additional check for merchandise status		
-		if self.domestic_shipping_price.present? or self.international_shipping_price.present? 
-			return true 
-		else
-			return false
-		end
-		
+	 	return false
 	end
 	
 	def contains_etext?
