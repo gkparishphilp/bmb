@@ -94,7 +94,8 @@ class Sku < ActiveRecord::Base
 	
 	def sold_out?
 		self.sku_items.each do |sku_item|
-			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count < 1
+			# Since we set -1 as infinite inventory by default in the database, inventory count has to equal to zero to be sold out
+			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count == 0
 		end
 		return false
 	end
