@@ -94,7 +94,8 @@ class Sku < ActiveRecord::Base
 	
 	def sold_out?
 		self.sku_items.each do |sku_item|
-			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count < 1
+			# Since we set -1 as infinite inventory by default in the database, inventory count has to equal to zero to be sold out
+			return true if sku_item.item_type == 'Merch' and sku_item.item.inventory_count == 0
 		end
 		return false
 	end
@@ -163,14 +164,7 @@ class Sku < ActiveRecord::Base
 		for sku_item in self.sku_items
 			return true if sku_item.item_type == 'Merch'
 		end
-		
-		#todo - remove this and return false when Sigler flash drive sku is fixed or keep and use shipping_price as an additional check for merchandise status		
-		if self.domestic_shipping_price.present? or self.international_shipping_price.present? 
-			return true 
-		else
-			return false
-		end
-		
+	 	return false
 	end
 	
 	def contains_etext?

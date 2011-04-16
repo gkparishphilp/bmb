@@ -2,10 +2,19 @@
 = f.text_field :title
 = f.label 'Price:'
 = f.text_field :price
+= f.label 'Domestic Shipping Amount:'
+= f.text_field :domestic_shipping_price
+= f.label 'International Shipping Amount:'
+= f.text_field :international_shipping_price
+= f.label 'Item Type'
+= f.select :sku_type, [ ['Physical Book', 'merch'], ['Merchandise', 'merch'], ['Ebook', 'ebook'], ['Audiobook', 'audio_book'], ['Multiple items', 'custom'] ]
 = f.label "Picture:"
 = file_field_tag :attached_avatar_file
 = f.label 'Associate with Book:'
 = f.collection_select :book_id, @books, :id, :title
 = f.label 'Description:'
 = f.text_area :description
+= f.label 'Make available?'
+= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
+%br
 = f.submit "Create"
