@@ -8,6 +8,7 @@ class AddressCleanup < ActiveRecord::Migration
 		
 		add_column	:geo_addresses, :state, :string
 		add_column	:geo_addresses, :name, :string
+		add_column	:geo_addresses, :address_type, :string
 		
 		GeoCountry.create :abbrev => "US", :name => "United States"
 		GeoCountry.create :abbrev => "CA", :name => "Canada"
