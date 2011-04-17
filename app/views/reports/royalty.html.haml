@@ -13,10 +13,31 @@
 		= @end_date
 	%br
 	.order_label
-		Total Revenue
+		Total Goods Sold
 	.order_data
-		= format_price @royalty["total"]
+		= format_price @royalty["total_goods"]
 	.clear
+
+	.order_label
+		Total Shipping Collected
+	.order_data
+		= format_price @royalty["total_shipping"]
+	.clear
+
+	.order_label
+		Total Tax Collected
+	.order_data
+		= format_price @royalty["total_tax"]
+	.clear
+
+	.order_label
+		Total Revenue Collected
+	.order_data
+		= format_price @royalty["total_revenue"]
+	.clear
+
+	%br
+	%br
 
 	.order_label
 		Author Royalty

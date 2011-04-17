@@ -11,7 +11,9 @@
 
 = f.label 'Description:'
 = f.text_area :description
-= f.label "Inventory Remaining:"
+= f.label 'Item type'
+= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade_paperback'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc']]
+= f.label "Inventory Remaining: (-1 for infinite inventory)"
 = f.text_field :inventory_count
 = f.label "Send low inventory email at: ( -1 to never send email)"
 = f.text_field :inventory_warning

@@ -107,7 +107,7 @@ class ReportsController < ApplicationController
 	def royalty
 		# Note that the start of the quarter is midnight GMT time, not midnight local time
 		@start_date = Date.today.beginning_of_quarter
-		@end_date = Date.today
+		@end_date = Time.now
 		@orders = Order.for_author( @current_author ).dated_between( @start_date, @end_date ).successful.order( "created_at desc")
 		
 		@royalty = Report.calculate_current_quarter_royalty( @orders )

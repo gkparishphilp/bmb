@@ -14,7 +14,7 @@ class RefundsController < ApplicationController
 		if @refund.process
 			pop_flash 'Refund was successfully created.'
 		else
-			pop_flash 'Oooops, Refund not saved...', :error, @refund
+			pop_flash 'Oooops, refund not saved...', :error, @refund
 		end
 		redirect_to :back
 	end
@@ -24,7 +24,7 @@ class RefundsController < ApplicationController
 		if @refund.update_attributes params[:refund]
 			pop_flash 'Refund was successfully updated.'
 		else
-			pop_flash 'Oooops, Refund not updated...', :error, @refund
+			pop_flash 'Oooops, refund not updated...', :error, @refund
 		end
 		redirect_to :back
 	end

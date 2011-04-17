@@ -8,6 +8,7 @@ class AddRefunds < ActiveRecord::Migration
 		t.integer :total
 		t.string  :params
 		t.string  :comment
+		t.timestamps
 	end
   end
 

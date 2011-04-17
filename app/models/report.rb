@@ -15,12 +15,12 @@ class Report < ActiveRecord::Base
 		for order in orders
 			item_total += order.total - order.tax_amount - order.shipping_amount
 			shipping_total += order.shipping_amount
-			tax_total += tax_total
+			tax_total += order.tax_amount
 
 			if order.refund
-				refund_item_total -= order.refund.item_amount
-				refund_shipping_total -= order.refund.shipping_amount 
-				refund_tax_total -= order.refund.tax_amount 
+				refund_item_total += order.refund.item_amount
+				refund_shipping_total += order.refund.shipping_amount 
+				refund_tax_total += order.refund.tax_amount 
 			end
 			
 		end
@@ -33,11 +33,17 @@ class Report < ActiveRecord::Base
 								(shipping_total - refund_shipping_total) * (payment_processing_rate) +
 									(tax_total - refund_tax_total) * (payment_processing_rate)
 
-		total_revenue = (item_total - refund_item_total) + (shipping_total - refund_shipping_total) + 	(tax_total - refund_tax_total)
+		total_goods 	=	(item_total - refund_item_total) 
+		total_shipping 	= 	(shipping_total - refund_shipping_total) 
+		total_tax 		=	(tax_total - refund_tax_total)
+		total_revenue	= 	total_goods + total_shipping + total_tax
 
 		royalty_info = {"author_royalty" => author_royalty, 
 						"backmybook_royalty" => backmybook_royalty,
-						"total" => total_revenue						
+						"total_goods" => total_goods,
+						"total_tax" => total_tax, 
+						"total_shipping" => total_shipping,
+						"total_revenue" => total_revenue
 						}
 		
 	end
