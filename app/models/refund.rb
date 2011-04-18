@@ -5,6 +5,15 @@ class Refund < ActiveRecord::Base
 	validate_on_create :validate_amount, :validate_refundable
 	
 	def process
+		
+		self.item_amount ||= 0
+		self.tax_amount ||= 0
+		self.shipping_amount ||=0
+		
+		self.tax_amount = self.item_amount * self.order.sku.owner.tax_rate if self.order.billing_address.state == self.order.sku.owner.user.billing_address.state
+		
+		self.total = self.item_amount + self.shipping_amount + self.tax_amount 
+		
 		response = GATEWAY.credit( self.total, self.order.order_transaction.reference )
 
 		if response.success?

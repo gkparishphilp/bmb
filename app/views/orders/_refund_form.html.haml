@@ -16,21 +16,26 @@
 	.order_label
 		Tax Amount
 	.order_field
-		= f.text_field :tax_amount, :value => @order.tax_amount
+		Calculate and display dynamically
 	.clear
 	
 	.order_label
 		Total Refund Amount
 	.order_field
-		= f.text_field :total, :value => @order.total
+		Calculate and display dynamically
 	.clear
 	
+	.order_label
+		Note
+	.order_field
+		= f.text_field :comment
+	.clear
 		
 -else
 	.order_label
 		Amount
 	.order_field
-		= f.text_field :amount, :value => @order.total
+		= f.text_field :item_amount, :value => @order.sku.price
 	.clear
 	
 	.order_label

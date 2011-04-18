@@ -2,10 +2,10 @@ class AddRefunds < ActiveRecord::Migration
   def self.up
 	create_table :refunds do |t|
 		t.references :order
-		t.integer :item_amount
-		t.integer :shipping_amount
-		t.integer :tax_amount
-		t.integer :total
+		t.integer :item_amount, :default => 0
+		t.integer :shipping_amount, :default => 0
+		t.integer :tax_amount, :default => 0
+		t.integer :total, :default => 0
 		t.string  :params
 		t.string  :comment
 		t.timestamps

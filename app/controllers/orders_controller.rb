@@ -247,7 +247,7 @@ class OrdersController < ApplicationController
 			render :layout => '2col'
 		else
 			pop_flash "Can not refund this order.", :error
-			redirect_to :back
+			redirect_to admin_orders_path
 		end
 	end
 

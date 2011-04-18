@@ -120,6 +120,13 @@ class Author < ActiveRecord::Base
 		end
 	end
 	
+	def tax_rate
+		state = self.user.billing_address.state
+		geo_state = GeoState.find_by_abbrev( state )
+		tax_rate = geo_state.tax_rate.rate
+		return tax_rate
+	end
+	
 	private
 	
 	def book_promo

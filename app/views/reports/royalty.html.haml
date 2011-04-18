@@ -63,3 +63,10 @@
 				%td= order.created_at
 				%td= order.order_transaction.reference
 				%td= format_price order.total
+				
+			- if order.refund
+				%tr
+					%td= order.refund.created_at 
+					%td  Refund
+					%td= format_price (order.refund.total* -1)
+				

@@ -16,7 +16,7 @@ class RefundsController < ApplicationController
 		else
 			pop_flash 'Oooops, refund not saved...', :error, @refund
 		end
-		redirect_to :back
+		redirect_to :admin_orders_path
 	end
 
 	def update
@@ -26,14 +26,14 @@ class RefundsController < ApplicationController
 		else
 			pop_flash 'Oooops, refund not updated...', :error, @refund
 		end
-		redirect_to :back
+		redirect_to :admin_orders_path
 	end
 
 	def destroy
 		@refund = Refund.find params[:id]
 		@refund.destroy
 		pop_flash 'Refund was successfully deleted.'
-		redirect_to :back
+		redirect_to :admin_orders_path
 	end
 	
 private 
