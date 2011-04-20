@@ -2,25 +2,25 @@
 
 -if @order.sku.contains_merch?
 	.order_label
-		Item Amount
+		Item Amount ($)
 	.order_field
-		= f.text_field :item_amount, :value => @order.sku.price
+		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
 	.clear
 	
 	.order_label
-		Shipping Amount
+		Shipping Amount ($)
 	.order_field
-		= f.text_field :shipping_amount, :value => @order.shipping_amount
+		= f.text_field :shipping_amount, :value => format_dollars( @order.shipping_amount )
 	.clear
 	
 	.order_label
-		Tax Amount
+		Tax Amount ($)
 	.order_field
 		Calculate and display dynamically
 	.clear
 	
 	.order_label
-		Total Refund Amount
+		Total Refund Amount ($)
 	.order_field
 		Calculate and display dynamically
 	.clear
@@ -33,9 +33,9 @@
 		
 -else
 	.order_label
-		Amount
+		Amount ($)
 	.order_field
-		= f.text_field :item_amount, :value => @order.sku.price
+		= f.text_field :item_amount, :value => format_price( @order.sku.price )
 	.clear
 	
 	.order_label

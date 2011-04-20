@@ -9,14 +9,17 @@ class RefundsController < ApplicationController
 	end
 
 	def create
-		@refund = Refund.new params[:refund]
 
+		@refund = Refund.new params[:refund]
+		@refund.item_amount = ( params[:refund][:item_amount].to_f * 100.0).round
+		@refund.shipping_amount = ( params[:refund][:shipping_amount].to_f * 100.0).round
+		
 		if @refund.process
 			pop_flash 'Refund was successfully created.'
 		else
 			pop_flash 'Oooops, refund not saved...', :error, @refund
 		end
-		redirect_to :admin_orders_path
+		redirect_to admin_orders_path
 	end
 
 	def update
@@ -26,14 +29,14 @@ class RefundsController < ApplicationController
 		else
 			pop_flash 'Oooops, refund not updated...', :error, @refund
 		end
-		redirect_to :admin_orders_path
+		redirect_to admin_orders_path
 	end
 
 	def destroy
 		@refund = Refund.find params[:id]
 		@refund.destroy
 		pop_flash 'Refund was successfully deleted.'
-		redirect_to :admin_orders_path
+		redirect_to admin_orders_path
 	end
 	
 private 

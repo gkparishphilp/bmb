@@ -1,16 +1,15 @@
 class Refund < ActiveRecord::Base
 	belongs_to :order
-	
+	serialize :params
 	validates :total, :presence => true
 	validate_on_create :validate_amount, :validate_refundable
 	
 	def process
 		
 		self.item_amount ||= 0
-		self.tax_amount ||= 0
 		self.shipping_amount ||=0
 		
-		self.tax_amount = self.item_amount * self.order.sku.owner.tax_rate if self.order.billing_address.state == self.order.sku.owner.user.billing_address.state
+		self.order.billing_address.state == self.order.sku.owner.user.billing_address.state ? self.tax_amount = (self.item_amount * self.order.sku.owner.taxrate).round : self.tax_amount = 0 
 		
 		self.total = self.item_amount + self.shipping_amount + self.tax_amount 
 		

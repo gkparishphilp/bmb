@@ -9,12 +9,14 @@
 = f.label 'Item Type'
 = f.select :sku_type, [ ['Physical Book', 'merch'], ['Merchandise', 'merch'], ['Ebook', 'ebook'], ['Audiobook', 'audio_book'], ['Multiple items', 'custom'] ]
 = f.label "Picture:"
+= image_tag @sku.avatar.location('thumb'), :width => @sku.avatar.thumb_width if @sku.has_attached_avatar?
 = file_field_tag :attached_avatar_file
-= f.label 'Associate with Book:'
+= f.label 'Associate with title:'
 = f.collection_select :book_id, @books, :id, :title
+= f.label 'Available in store?'
+= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
 = f.label 'Description:'
 = f.text_area :description
-= f.label 'Make available?'
-= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
 %br
-= f.submit "Create"
+%b
+= f.submit "Save"
