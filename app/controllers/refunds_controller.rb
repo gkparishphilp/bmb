@@ -6,7 +6,6 @@ class RefundsController < ApplicationController
 
 	def show
 		@refund = Refund.find params[:id]
-		@content = @refund.send_email
 	end
 
 	def create
