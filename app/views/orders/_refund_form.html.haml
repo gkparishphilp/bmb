@@ -35,7 +35,7 @@
 	.order_label
 		Amount ($)
 	.order_field
-		= f.text_field :item_amount, :value => format_price( @order.sku.price )
+		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
 	.clear
 	
 	.order_label

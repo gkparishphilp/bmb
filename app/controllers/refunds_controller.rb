@@ -6,6 +6,7 @@ class RefundsController < ApplicationController
 
 	def show
 		@refund = Refund.find params[:id]
+		@content = @refund.send_email
 	end
 
 	def create
@@ -16,6 +17,7 @@ class RefundsController < ApplicationController
 		
 		if @refund.process
 			pop_flash 'Refund was successfully created.'
+			@refund.send_email
 		else
 			pop_flash 'Oooops, refund not saved...', :error, @refund
 		end
