@@ -72,6 +72,7 @@ Backmybook::Application.routes.draw do
 		end
 		resources :store do
 			get 'admin', :on => :collection
+			get 'faq', :on => :collection
 		end
 		
 		resources :sites
