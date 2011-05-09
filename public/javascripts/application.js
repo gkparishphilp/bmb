@@ -212,7 +212,10 @@ $(document).ready(function(){
 	
 	$('#refund_item_amount').blur( function(){
 		alert( $(this).val * $('#refund_tax_rate').html() );
-		$('#refund_tax').html( $(this).val * $('#refund_tax_rate').html() );
+		var tax_amount = $('#refund_tax').html() / 100 ;
+		var new_tax = $(this).val * $('#refund_tax_rate').html() / 100;
+		
+		$('#refund_tax').html( tax_amount + " - " + new_tax + ": " + tax_amount - new_tax );
 	});
 
 });
