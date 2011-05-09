@@ -209,5 +209,10 @@ $(document).ready(function(){
 			}
 		});
 	$('#sortable').disableSelection();
+	
+	$('#refund_item_amount').blur( function(){
+		alert( $(this).val * $('#refund_tax_rate').html() );
+		$('#refund_tax').html( $(this).val * $('#refund_tax_rate').html() );
+	});
 
 });
