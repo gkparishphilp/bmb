@@ -211,8 +211,20 @@ $(document).ready(function(){
 	$('#sortable').disableSelection();
 	
 	$('#refund_item_amount').blur( function(){
-		alert( $(this).attr('value') * $('#refund_tax_rate').html() );
-		$('#refund_tax').html( $(this).attr('value') * $('#refund_tax_rate').html() );
+		var refund_total = $('#refund_total').html();
+		
+		var tax_amount = $('#refund_tax').html() / 100;
+		
+		var new_tax = $(this).attr('value') * $('#refund_tax_rate').html();
+		new_tax = new_tax.toFixed(2);
+		
+		var tax_string = tax_amount + " - " + new_tax + ": " + ( tax_amount - new_tax );
+
+		var new_total = refund_total - $(this).attr('value') - new_tax + $('#shipping').html();
+
+		$('#refund_tax').html( tax_string );
+		$('#refund_total').html( new_total );
+
 	});
 
 });
