@@ -37,9 +37,9 @@ Backmybook::Application.routes.draw do
 			get 'mockup', :on => :collection
 			post 'confirm', :on => :collection
 			# all these routes just to edit STI resource on books
-			resources :ebook, :controller => :assets
+			resources :etext, :controller => :assets
 			resources :pdf, :controller => :assets
-			resources :audio_book, :controller => :assets
+			resources :audio, :controller => :assets
 			resources :assets do
 				get 'download', :on => :member
 			end
