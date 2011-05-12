@@ -3,13 +3,13 @@
 -if @order.sku.contains_merch?
 	.order_label
 		Item Amount ($)
-	.order_field
+	#refund_total.order_field
 		= format_dollars( @order.sku.price )
 	.clear
 	
 	.order_label
 		Shipping Amount ($)
-	.order_field
+	#shipping.order_field
 		= format_dollars( @order.shipping_amount )
 	.clear
 	
@@ -23,15 +23,17 @@
 	.clear
 	
 	.order_label
-		Total Refund Amount ($)
-	.order_field
-		#refund_total
-			= @order.total
-	.clear
+		Total ($)
+	#order_total.order_field
+		= @order.total
 	
+	.clear
 	.order_label
 		Refund Amount:
-		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
+	.order_field
+		= f.text_field :item_amount, :value => format_dollars( @order.total )
+		
+	.clear
 	.order_label
 		Note
 	.order_field
