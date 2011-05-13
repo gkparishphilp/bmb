@@ -38,7 +38,11 @@ class UserMailer < ActionMailer::Base
 	
 	def support_email( contact )
 		@contact = contact
-		mail( :from => "donotreply@backmybook.com", :to => 'support@backmybook.com', :subject => "Support email from #{@contact.email}" )
+		if @contact.contact_type == 'info'
+			mail( :from => "donotreply@backmybook.com", :to => 'info@backmybook.com', :subject => "Inquiry email from #{@contact.email}" )
+		else
+			mail( :from => "donotreply@backmybook.com", :to => 'support@backmybook.com', :subject => "Support email from #{@contact.email}" )
+		end
 	end
 	
 	def author_contact_email( contact )

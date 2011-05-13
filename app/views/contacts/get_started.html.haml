@@ -5,6 +5,7 @@
 
 		= form_for @contact do |f|
 			= f.hidden_field :subject, :value => 'BMB Enquiry'
+			= f.hidden_field :contact_type, :value => 'info'
 		
 			%p
 				%b Your Email (required):
