@@ -1,11 +1,11 @@
 = f.label 'Name:'
 = f.text_field :title
-= f.label 'Price:'
-= f.text_field :price
-= f.label 'Domestic Shipping Amount:'
-= f.text_field :domestic_shipping_price
-= f.label 'International Shipping Amount:'
-= f.text_field :international_shipping_price
+= f.label 'Price ($):'
+= f.text_field :price, :value => cents_to_dollars( @sku.price )
+= f.label 'Domestic Shipping Amount ($):'
+= f.text_field :domestic_shipping_price, :value => cents_to_dollars( @sku.domestic_shipping_price )
+= f.label 'International Shipping Amount ($):'
+= f.text_field :international_shipping_price, :value => cents_to_dollars( @sku.international_shipping_price )
 = f.label 'Item Type'
 = f.select :sku_type, [ ['Physical Book', 'merch'], ['Merchandise', 'merch'], ['Ebook', 'ebook'], ['Audiobook', 'audio_book'], ['Multiple items', 'custom'] ]
 = f.label "Picture:"
@@ -16,5 +16,6 @@
 = f.text_area :description
 = f.label 'Make available?'
 = f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
+%br
 %br
 = f.submit "Create"
