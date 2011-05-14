@@ -210,19 +210,29 @@ class Order < ActiveRecord::Base
 		tax = 0
 		
 		if self.sku.contains_merch?
-			author_state = self.sku.owner.user.billing_address.state
 			# because paypal orders will not have billing addresses, just set 
 			# billing == to shipping if billing_address is nil
 			self.billing_address ||= self.shipping_address 
 			
-			tax = (self.sku.price * TaxRate.find_by_geo_state_abbrev( author_state ).rate * self.sku_quantity).round if self.billing_address.state == author_state
-
+			tax = (self.sku.price * self.tax_rate * self.sku_quantity).round if self.billing_address.state == self.nexus
 		end
 		
 		self.tax_amount = tax
 		
 	end
 
+	def nexus
+		return self.sku.owner.user.billing_address.state
+	end
+
+	def tax_rate
+		if self.billing_address.state == self.nexus
+			tax_rate = TaxRate.find_by_geo_state_abbrev( self.nexus ).rate
+		else
+			return 0
+		end
+	end
+	
 	def calculate_shipping
 		shipping_price = 0
 		
