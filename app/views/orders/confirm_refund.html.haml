@@ -1,0 +1,47 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+	
+- content_for :middle_column do
+	%h1 
+		Refund for Order
+		= @order.order_transaction.reference
+	%br
+	%h3 Order Details
+	.order_label
+		Email
+	.order_value
+		= @order.user.email
+	.clear
+	%br
+	%h3 Refund Details
+	.order_label
+		Total Refund Amount
+	.order_value
+		= format_price @refund.total
+	.clear
+	%br
+	.order_label
+		Item Refunded
+	.order_value
+		= format_price @refund.item_amount
+	.clear
+	.order_label
+		Shipping Refunded
+	.order_value
+		= format_price @refund.shipping_amount
+	.clear
+	.order_label
+		Tax Refunded
+	.order_value
+		= format_price @refund.tax_amount
+	.clear	
+	.order_label
+		Comment
+	.order_field
+		= @refund.comment
+	.clear
+	
+	%br
+	
+	= link_to 'Confirm Refund', refunds_path(:refund =>{ :order_id => @order.id, :item_amount => @refund.item_amount, :shipping_amount => @refund.shipping_amount, :tax_amount => @refund.tax_amount, :total => @refund.total, :comment => @refund.comment }), :method => :post
+	

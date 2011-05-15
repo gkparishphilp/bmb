@@ -15,5 +15,5 @@
 	
 	%br
 	%hr
-	= form_for @refund do |f|
+	= form_for @refund, :url => {:action => :confirm_refund} do |f|
 		= render :partial => 'refund_form', :locals => {:f => f}

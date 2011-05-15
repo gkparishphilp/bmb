@@ -22,7 +22,7 @@ class RefundsController < ApplicationController
 		end
 		redirect_to admin_orders_path
 	end
-
+	
 	def update
 		@refund = Refund.find  params[:id] 
 		if @refund.update_attributes params[:refund]

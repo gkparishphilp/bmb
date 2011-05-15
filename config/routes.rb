@@ -141,6 +141,7 @@ Backmybook::Application.routes.draw do
 		get 'inspect', :on => :member
 		get 'admin', :on => :collection
 		get 'refund', :on => :member
+		post 'confirm_refund', :on => :member
 	end
 	
 	resources :order_transactions

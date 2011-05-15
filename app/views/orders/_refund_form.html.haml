@@ -4,34 +4,15 @@
 	.order_label
 		Item Amount ($)
 	.order_field
-		= format_dollars( @order.sku.price )
+		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
 	.clear
 	
 	.order_label
 		Shipping Amount ($)
 	.order_field
-		= format_dollars( @order.shipping_amount )
+		= f.text_field :shipping_amount, :value => format_dollars( @order.shipping_amount )
 	.clear
 	
-	.order_label
-		Tax Amount ($)
-	.order_field
-		#refund_tax_rate{ :style => "display:none;"}
-			= @order.tax_rate
-		#refund_tax
-			= @order.tax_amount
-	.clear
-	
-	.order_label
-		Total Refund Amount ($)
-	.order_field
-		#refund_total
-			= @order.total
-	.clear
-	
-	.order_label
-		Refund Amount:
-		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
 	.order_label
 		Note
 	.order_field
@@ -51,5 +32,4 @@
 		= f.text_field :comment
 	.clear
 	
-	
-= f.submit 'Refund'
+= f.submit 'Submit Refund'

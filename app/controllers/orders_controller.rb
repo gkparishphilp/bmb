@@ -250,6 +250,16 @@ class OrdersController < ApplicationController
 			redirect_to admin_orders_path
 		end
 	end
+	
+	def confirm_refund
+		@order = Order.find params[:refund][:order_id]
+		params[:refund][:item_amount] = (params[:refund][:item_amount].to_f * 100.0).round
+		params[:refund][:shipping_amount] = (params[:refund][:shipping_amount].to_f * 100.0).round
+		@refund = Refund.new params[:refund]
+		@refund.calculate_refund_amount
+		
+		render :layout => '2col'
+	end
 
 private
 

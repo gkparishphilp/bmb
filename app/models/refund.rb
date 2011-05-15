@@ -6,18 +6,6 @@ class Refund < ActiveRecord::Base
 	liquid_methods :item_amount, :shipping_amount, :tax_amount, :total, :order, :comment
 	
 	def process
-		
-		self.item_amount ||= 0
-		self.shipping_amount ||=0
-		
-		if self.order.sku.contains_merch? && self.order.billing_address.state == self.order.sku.owner.user.billing_address.state 
-			self.tax_amount = (self.item_amount * self.order.sku.owner.taxrate).round 
-		else
-			 self.tax_amount = 0 
-		end
-		
-		self.total = self.item_amount + self.shipping_amount + self.tax_amount 
-		
 		response = GATEWAY.credit( self.total, self.order.order_transaction.reference )
 
 		if response.success?
@@ -52,5 +40,16 @@ class Refund < ActiveRecord::Base
 		
 		#send message	
 		EmailDelivery.ses_send('BackMyBook Support <support@backmybook.com>', self.order.email, "Refund for #{self.order.sku.title}", content)
+	end
+	
+	def calculate_refund_amount
+		
+		if self.order.sku.contains_merch? && self.order.billing_address.state == self.order.sku.owner.user.billing_address.state 
+			self.tax_amount = (self.item_amount * self.order.sku.owner.taxrate).round 
+		else
+			 self.tax_amount = 0 
+		end
+		
+		self.total = self.item_amount + self.shipping_amount + self.tax_amount
 	end
 end
