@@ -5,9 +5,10 @@
 		.listing_title
 			= link_to book.title, author_book_url( @author, book )
 			.book-meta.clearfix
-				.ratings
-					%ul.star-rating
-						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
+				-#
+					.ratings
+						%ul.star-rating
+							%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
 		.book-info
 			- unless book.merch_skus.published.empty? || book.merch_skus.published.first.sold_out?
 				.listing_buy

@@ -40,10 +40,16 @@ h1, h2, h3{
 
 .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited{
 	color: <%= @theme.header_color %>;
+	background-color: <%= @theme.nav_bg %>;
 }
 
-.ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited{
-	color: <%= @theme.header_color %>;
+
+.ui-accordion .ui-accordion-content{
+	background-color: <%= @theme.content_bg_color %>;
+} 
+
+.ui-accordion .ui-accordion-content a{
+	color: <%= @theme.link_color %>;
 }
 
 .listing .listing_title a{
@@ -60,5 +66,41 @@ h1, h2, h3{
 ul.main-menu li a{
 	color: <%= @theme.header_color %>;
 }
+
+ul.footer_menu li a{
+	color: <%= @theme.header_color %>;
+}
+
+ul.author_copy li a{
+	color: <%= @theme.header_color %>;
+}
+
+#ft{
+	background-color: <%= @theme.nav_bg %>;
+}
+
+.author_menu{
+	background-color: <%= @theme.nav_bg %>;
+}
+
+ul.main-menu li a.selected{
+	background-color: <%= @theme.nav_bg_selected %>
+}
+
+ul.main-menu li a:hover{
+	background-color: <%= @theme.nav_bg_selected %>;
+}
+
+#bd{
+	border-color: <%= @theme.page_border_color %>;
+}
+
+
+//.author_menu{ 
+//	border-color: #0f0;
+//}
+
+
+
 	
 </style>

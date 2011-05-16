@@ -14,14 +14,26 @@ Share this Theme?
 = f.text_field :text_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.text_color};"
 = f.label "Link Color:"
 = f.text_field :link_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.link_color};"
-= f.label "Hover Color:"
-= f.text_field :hover_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.hover_color};"
+= #f.label "Link Hover Color:"
+= #f.text_field :hover_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.hover_color};"
+
+
+= f.label "Nav Background Color:"
+= f.text_field :nav_bg, :class => 'cpicker', :style => "background-color: #{@edit_theme.nav_bg};"
+
+= f.label "Nav Background Selected Color:"
+= f.text_field :nav_bg_selected, :class => 'cpicker', :style => "background-color: #{@edit_theme.nav_bg_selected};"
+
+
 
 = f.label "Header Color:"
 = f.text_field :header_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.header_color};"
 
 = f.label "Title Color:"
 = f.text_field :title_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.title_color};"
+
+= f.label "Border Color:"
+= f.text_field :page_border_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.page_border_color};"
 
 = f.label "Body Background Color:"
 = f.text_field :bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.bg_color};"
