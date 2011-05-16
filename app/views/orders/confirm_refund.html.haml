@@ -8,40 +8,46 @@
 	%br
 	%h3 Order Details
 	.order_label
-		Email
-	.order_value
-		= @order.user.email
-	.clear
-	%br
-	%h3 Refund Details
-	.order_label
-		Total Refund Amount
-	.order_value
-		= format_price @refund.total
-	.clear
-	%br
-	.order_label
-		Item Refunded
-	.order_value
-		= format_price @refund.item_amount
-	.clear
-	.order_label
-		Shipping Refunded
-	.order_value
-		= format_price @refund.shipping_amount
-	.clear
-	.order_label
-		Tax Refunded
-	.order_value
-		= format_price @refund.tax_amount
-	.clear	
-	.order_label
-		Comment
+		Customer
 	.order_field
-		= @refund.comment
+		= @order.user.name
 	.clear
-	
+
+	.order_label
+		Item
+	.order_field
+		= @order.sku.title
+	.clear
+
+	.order_label
+		Item Amount
+	.order_field
+		= format_price @order.sku.price
+	.clear
+
+	.order_label
+		Shipping Amount
+	.order_field
+		= format_price @order.shipping_amount
+	.clear
+
+	.order_label
+		Taxes
+	.order_field
+		= format_price @order.tax_amount
+	.clear
+
+	%br 
+	.order_label
+		%h4 Total Amount
+	.order_field
+		= format_price @order.total
+	.clear
+
+		
 	%br
+	%hr
 	
-	= link_to 'Confirm Refund', refunds_path(:refund =>{ :order_id => @order.id, :item_amount => @refund.item_amount, :shipping_amount => @refund.shipping_amount, :tax_amount => @refund.tax_amount, :total => @refund.total, :comment => @refund.comment }), :method => :post
-	
+	%h3 Confirm Refund
+	= form_for @refund do |f|
+		= render :partial => 'confirm_refund_form', :locals => {:f => f}

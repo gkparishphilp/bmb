@@ -8,15 +8,12 @@ class Refund < ActiveRecord::Base
 	def process
 		response = GATEWAY.credit( self.total, self.order.order_transaction.reference )
 
-		if response.success?
-			self.params = response.params
-			self.save			
-			return true
-		else
-			self.params = response.params
-			self.save
-			return false
-		end
+		self.params = response.params
+		status = self.params.fetch("ack")
+		status.match(/success/i) ? self.status = true : self.status = false	
+		self.save
+		
+		return response.success?
 		
 	end
 	

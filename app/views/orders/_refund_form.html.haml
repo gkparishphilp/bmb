@@ -2,19 +2,21 @@
 
 -if @order.sku.contains_merch?
 	.order_label
-		Item Amount ($)
+		Item Refund ($)
 	.order_field
 		= f.text_field :item_amount, :value => format_dollars( @order.sku.price )
 	.clear
 	
 	.order_label
-		Shipping Amount ($)
+		Shipping Refund ($)
 	.order_field
 		= f.text_field :shipping_amount, :value => format_dollars( @order.shipping_amount )
 	.clear
 	
+
+	
 	.order_label
-		Note
+		Comment
 	.order_field
 		= f.text_field :comment
 	.clear
@@ -31,5 +33,10 @@
 	.order_field
 		= f.text_field :comment
 	.clear
-	
-= f.submit 'Submit Refund'
+
+.order_value
+	Any taxes charged will be refunded automatically
+.clear
+
+%br
+= f.submit 'Confirm Refund -->'

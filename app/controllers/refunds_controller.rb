@@ -9,7 +9,6 @@ class RefundsController < ApplicationController
 	end
 
 	def create
-
 		@refund = Refund.new params[:refund]
 		@refund.item_amount = ( params[:refund][:item_amount].to_f * 100.0).round
 		@refund.shipping_amount = ( params[:refund][:shipping_amount].to_f * 100.0).round

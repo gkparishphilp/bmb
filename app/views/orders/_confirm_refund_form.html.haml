@@ -1,0 +1,42 @@
+%br
+.order_label
+	%h4 Total Refund
+.order_field
+	= format_price @refund.total
+.clear
+
+%br
+
+=f.hidden_field :order_id, :value => @order.id
+=f.hidden_field :item_amount, :value  => @refund.item_amount
+=f.hidden_field  :shipping_amount, :value  => @refund.shipping_amount
+=f.hidden_field :tax_amount, :value  => @refund.tax_amount
+=f.hidden_field :total, :value  => @refund.total
+=f.hidden_field :comment, :value  => @refund.comment
+
+.order_label
+	Item Refund
+.order_field
+	= format_price @refund.item_amount
+.clear
+.order_label
+	Shipping Refund
+.order_field
+	= format_price @refund.shipping_amount
+.clear
+.order_label
+	Tax Refund
+.order_field
+	= format_price @refund.tax_amount
+.clear	
+.order_label
+	Comment
+.order_field
+	= @refund.comment
+.clear
+
+%br
+
+= f.submit 'Submit Refund'
+
+-#= link_to 'Confirm Refund', refunds_path(:refund =>{ :order_id => @order.id, :item_amount => @refund.item_amount, :shipping_amount => @refund.shipping_amount, :tax_amount => @refund.tax_amount, :total => @refund.total, :comment => @refund.comment }), :method => :post
