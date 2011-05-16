@@ -2,10 +2,10 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 Add Book
+		%h1 Add a Title
 
 		= form_tag confirm_author_books_url( @current_author ) do
-			%h3 What is the Title?
+			%h3 What is the title?
 			= text_field_tag :title, "", :class => :book_title_field
 			%br
 			= check_box_tag :amazon

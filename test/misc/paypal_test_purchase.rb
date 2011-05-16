@@ -9,15 +9,24 @@ ActiveMerchant::Billing::Base.mode = :test
 # Construct the instance of the Paypal payment gateway using the
 # credentials.
 # BEGIN construct
+
 gateway = ActiveMerchant::Billing::PaypalGateway.new({
   :login => 'seller_1269634095_biz_api1.sky360corp.com',
   :password => '1269634102',
   :signature    => 'AuXPSjM3yDZbAYTXCoh4IdooQpR1Aw-6vQhoTPFyzZZ9Am7v6q6l1LiD',
 })
+
+express_gateway = ActiveMerchant::Billing::PaypalExpressGateway.new({
+  :login => 'seller_1269634095_biz_api1.sky360corp.com',
+  :password => '1269634102',
+  :signature    => 'AuXPSjM3yDZbAYTXCoh4IdooQpR1Aw-6vQhoTPFyzZZ9Am7v6q6l1LiD',
+})
+
 # END construct
 
 # Next, construct a CreditCard object that will be charged during the
 # transaction
+
 # BEGIN credit_card
 credit_card = ActiveMerchant::Billing::CreditCard.new({
   :first_name => 'Some',
@@ -54,6 +63,8 @@ if credit_card.valid?
   if response.success?
     puts "The transaction was successful! The authorization is #{response.authorization}"
 	puts "The response is #{response.inspect}"
+	puts "Transaction ID is "
+	puts "#{response.params["transaction_id"]}"
 
   else
     puts "The transaction was unsuccessful because #{response.message}"
@@ -63,6 +74,23 @@ else
 end
 # END purchase
 
-# BEGIN purchase_output
-# => (TEST) The transaction was successful! The authorization is 3459652
-# END purchase_output
+# BEGIN refund
+refund_response = gateway.credit(50, response.params["transaction_id"])
+
+if refund_response.success?
+	puts "Refund processed! The authorization is #{refund_response.authorization}"
+else
+	puts "Refund failed!"
+end
+puts "Refund response is #{refund_response.inspect}"
+	
+
+# BEGIN transfer to test account
+transfer_response = gateway.transfer(999, 'buyer_1269634012_per@sky360corp.com', :note => 'transfer test of $9.99')
+
+if transfer_response.success?
+	puts "Transfer succeeded! Authorization is #{transfer_response.authorization}"
+else
+	puts "Transfer failed!"
+end
+puts "Transfer response is #{transfer_response.inspect}"	

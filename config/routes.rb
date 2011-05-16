@@ -55,6 +55,7 @@ Backmybook::Application.routes.draw do
 			end
 		end
 		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
+
 			
 		resources :podcasts do
 			resources :episodes do
@@ -71,6 +72,7 @@ Backmybook::Application.routes.draw do
 		end
 		resources :store do
 			get 'admin', :on => :collection
+			get 'faq', :on => :collection
 		end
 		
 		resources :sites
@@ -138,6 +140,8 @@ Backmybook::Application.routes.draw do
 		get 'admin', :on => :collection
 		get 'inspect', :on => :member
 		get 'admin', :on => :collection
+		get 'refund', :on => :member
+		post 'confirm_refund', :on => :member
 	end
 	
 	resources :order_transactions
@@ -148,6 +152,8 @@ Backmybook::Application.routes.draw do
 			resources :comments
 		end
 	end
+	
+	resources :refunds
 	
 	resources :sessions do
 		collection do

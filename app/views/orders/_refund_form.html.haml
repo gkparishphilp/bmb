@@ -1,0 +1,43 @@
+= f.hidden_field :order_id, :value => @order.id
+
+-if @order.sku.contains_merch?
+	.order_label
+		Item Refund ($)
+	.order_field
+		= f.text_field :item_amount, :value => cents_to_dollars( @item_price )
+	.clear
+
+	.order_label
+		Shipping Refund ($)
+	.order_field
+		= f.text_field :shipping_amount, :value => cents_to_dollars( @order.shipping_amount )
+	.clear
+
+
+
+	.order_label
+		Comment
+	.order_field
+		= f.text_field :comment
+	.clear
+	
+-else
+	.order_label
+		Amount ($)
+	.order_field
+		= f.text_field :item_amount, :value => cents_to_dollars( @order.sku.price )
+	.clear
+
+	.order_label
+		Note
+	.order_field
+		= f.text_field :comment
+	.clear
+
+.order_value
+	Any taxes charged will be refunded automatically
+.clear
+
+%br
+
+= f.submit 'Confirm Refund -->'

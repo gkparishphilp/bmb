@@ -4,27 +4,32 @@
 	No Orders
 - else
 	%table.admin_table( style = 'width:800px;' )
-		%th= sortable 'created_at'
-		%th TXN ID
+		%th Date
+		%th Reference #
 		%th Price
 		%th Email
 		%th SKU
-		%th Quantity
+		%th Quant
+		%th Action
 		- for order in @orders
 			%tr
 				%td.small= format_date_only order.created_at
 				%td.small
-					-#= link_to image_tag( 'view.png', :width => 20 ), inspect_order_path( order )
 					= link_to order.order_transaction.reference, inspect_order_path( order )
 				%td.small
 					= number_to_currency order.total.to_f / 100 
 				%td.small
-					= link_to order.user.email, order_path( order )
+					= order.user.email
 				%td.small
 					= order.sku.title
 				%td.small
 					= order.sku_quantity
-
+				%td.small
+					-if order.refund.nil? 
+						=link_to 'Refund', refund_order_path( order ) 
+					-else
+						Refunded 
+						
 	- unless @orders.total_pages < 2
 		.pagination
 			.page_info

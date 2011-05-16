@@ -14,7 +14,7 @@ class SkusController < ApplicationController
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
 		end
-		redirect_to :back
+		redirect_to edit_author_sku_path( @current_author, @sku )
 	end
 	
 	def update

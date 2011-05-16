@@ -1,0 +1,47 @@
+%h3 Order Details
+.order_label
+	Customer
+.order_field
+	= @order.user.name
+.clear
+
+.order_label
+	Item
+.order_field
+	= @order.sku.title
+.clear
+
+.order_label
+	Quantity
+.order_field
+	= @order.sku_quantity
+.clear
+
+.order_label
+	Item Amount
+.order_field
+	= format_price @item_price 
+.clear
+
+.order_label
+	Shipping Amount
+.order_field
+	= format_price @order.shipping_amount
+.clear
+
+.order_label
+	Tax Amount
+.order_field
+	= format_price @order.tax_amount
+.clear
+
+%br 
+.order_label
+	%h4 Order Total Amount
+.order_field
+	= format_price @order.total
+.clear
+
+	
+%br
+%hr
