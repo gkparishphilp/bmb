@@ -242,6 +242,7 @@ class OrdersController < ApplicationController
 
 	def refund
 		@order = Order.find params[:id] 
+		@item_price = @order.item_price 
 		@refund = Refund.new
 		if @order.sku.owner == @current_author
 			render :layout => '2col'
@@ -253,6 +254,7 @@ class OrdersController < ApplicationController
 	
 	def confirm_refund
 		@order = Order.find params[:refund][:order_id]
+		@item_price = @order.item_price
 		params[:refund][:item_amount] = (params[:refund][:item_amount].to_f * 100.0).round
 		params[:refund][:shipping_amount] = (params[:refund][:shipping_amount].to_f * 100.0).round
 		@refund = Refund.new params[:refund]

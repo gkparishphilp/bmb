@@ -10,14 +10,12 @@ class RefundsController < ApplicationController
 
 	def create
 		@refund = Refund.new params[:refund]
-		@refund.item_amount = ( params[:refund][:item_amount].to_f * 100.0).round
-		@refund.shipping_amount = ( params[:refund][:shipping_amount].to_f * 100.0).round
 		
 		if @refund.process
-			pop_flash 'Refund was successfully created.'
+			pop_flash 'Refund was successful.'
 			@refund.send_email
 		else
-			pop_flash 'Oooops, refund not saved...', :error, @refund
+			pop_flash 'Oooops, refund failed...', :error, @refund
 		end
 		redirect_to admin_orders_path
 	end

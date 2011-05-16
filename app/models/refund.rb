@@ -13,13 +13,13 @@ class Refund < ActiveRecord::Base
 		status.match(/success/i) ? self.status = true : self.status = false	
 		self.save
 		
-		return response.success?
+		return self.status
 		
 	end
 	
 	def validate_amount
 		if self.total > order.total || self.total< 0
-			message = "The total refund amount can't be greater than the order total." 
+			message = "The total refund amount, #{self.total}, can't be greater than the order total." 
 			errors.add_to_base message
 		end
 	end
