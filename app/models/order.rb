@@ -130,10 +130,10 @@ class Order < ActiveRecord::Base
 			elsif self.coupon.discount_type == 'percent'
 				item_price = self.sku_quantity * (self.sku.price - (coupon.discount/100.0 * self.sku/price)).round  
 			else
-				item_price = self.sku.price
+				item_price = self.sku.price * self.sku_quantity
 			end
 		else 
-			item_price = self.sku.price
+			item_price = self.sku.price * self.sku_quantity
 		end
 		return item_price
 	end

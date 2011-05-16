@@ -6,46 +6,9 @@
 		Refund for Order
 		= @order.order_transaction.reference
 	%br
-	%h3 Order Details
-	.order_label
-		Customer
-	.order_field
-		= @order.user.name
-	.clear
-
-	.order_label
-		Item
-	.order_field
-		= @order.sku.title
-	.clear
-
-	.order_label
-		Item Amount
-	.order_field
-		= format_price @item_price 
-	.clear
-
-	.order_label
-		Shipping Amount
-	.order_field
-		= format_price @order.shipping_amount
-	.clear
-
-	.order_label
-		Taxes
-	.order_field
-		= format_price @order.tax_amount
-	.clear
-
-	%br 
-	.order_label
-		%h4 Total Amount
-	.order_field
-		= format_price @order.total
-	.clear
-		
-	%br
-	%hr
+	= render :partial => 'order_info'
+	
 	%h3 Refund Details
+	%br
 	= form_for @refund, :url => {:action => :confirm_refund} do |f|
 		= render :partial => 'refund_form', :locals => {:f => f}
