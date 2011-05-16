@@ -24,8 +24,8 @@ module ApplicationHelper
 		return number_to_currency( price.to_f / 100 )
 	end
 	
-	def format_dollars( price )
-		return price.to_f / 100
+	def cents_to_dollars( amount )
+		return sprintf("%.2f",amount.to_f / 100)
 	end
 	
 	def dollars_to_cents( amount )

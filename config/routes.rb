@@ -39,7 +39,7 @@ Backmybook::Application.routes.draw do
 			# all these routes just to edit STI resource on books
 			resources :etext, :controller => :assets
 			resources :pdf, :controller => :assets
-			resources :audio_book, :controller => :assets
+			resources :audio, :controller => :assets
 			resources :assets do
 				get 'download', :on => :member
 			end

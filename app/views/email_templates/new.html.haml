@@ -1,5 +1,5 @@
 %h1 
 	New Email Template For
 	= @current_author.pen_name
--form_for [ @current_author, EmailTemplate.new ]  do |f|
-	=render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}
+= form_for [ @current_author, EmailTemplate.new ]  do |f|
+	= render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}

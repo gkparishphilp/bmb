@@ -1,0 +1,14 @@
+= f.label 'Pen Name:'
+%br
+= f.text_field :pen_name
+%br
+%br
+= f.label "Upload Your Picture:"
+= file_field_tag :attached_avatar_file
+%br
+%br
+= f.label 'Your Author Bio:'
+%br
+= f.text_area :bio
+%br
+= f.submit

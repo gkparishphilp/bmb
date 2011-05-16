@@ -2,37 +2,7 @@
 	%h1 Create an Author Profile
 
 	= form_for @author, :html => { :multipart => true } do |f|
-		.order_label
-			= f.label 'Pen Name:'
-		.order_field
-			= f.text_field :pen_name
-		.order_label
-			= f.label "Upload Your Picture:"
-		.order_field
-			= file_field_tag :attached_avatar_file
-		.order_label
-			= f.label 'Your Author Bio:'
-		.order_field
-			= f.text_area :bio
-		.order_label
-			= f.label 'Contact Email'
-		.order_field
-			= f.text_field :contact_email
-		.order_label
-			= f.label 'Contact Phone'
-		.order_field
-			= f.text_field :contact_phone
-		.clear
-		%br
-		%hr
-		%h3 Your Business Address
-		%br
-		%br
-		
-		= fields_for :billing_address do |addr_form|
-			= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @billing_address
-		
-		= f.submit
+		= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 				
 - content_for :right_column do
 

@@ -49,6 +49,8 @@ class AuthorsController < ApplicationController
 	
 	def edit
 		@author = @current_author
+		render :layout => 'application'
+		
 	end
 	
 	def update

@@ -23,5 +23,5 @@
 #
 
 class Etext < Asset
-	has_attached :document, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'docx', 'odt', 'htm'], :private => true
+	has_attached :document, :formats => ['html', 'doc', 'txt', 'rtf', 'epub', 'mobi', 'docx', 'odt', 'htm', 'lrf'], :private => true
 end
