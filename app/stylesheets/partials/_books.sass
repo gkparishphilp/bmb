@@ -1,29 +1,16 @@
 .button a
-	:display block
-	:width 154px
-	:height 25px
-	// :font-size 18px
-	:font-weight bold
-	:text-align center
-	:text-decoration none
-	:text-transform capitalize
-	:margin 5px auto
-	:padding 12px 5px 1px 3px
-	:clear both
-	:background-image url("../images/buttons.png")
-	:background-repeat no-repeat
+	+buttons()
 .button a.blue
-	:background-position -2px -119px
+	+button_color(#b0ddfb)
 .button a.yellow
-	:background-position -2px -2px
+	+button_color(#fbe342)
 .button a.green
-	:background-position -2px -41px
+	+button_color(#cee97e)
 .button a.dark-gray
-	:background-position -2px -80px
-.button a:hover
-	:background-position -2px -158px
+	+button_color(#dbdbdb)
 .books:after
 	+clearfix
+
 
 .books
 	:padding-top 15px
@@ -38,7 +25,6 @@
 		:margin-right 13px
 		.button a
 			:font-size 12px
-			:padding-top 13px
 	.right_col
 		:float left
 		:width 420px
