@@ -83,6 +83,16 @@ ul.author_copy li a{
 	background-color: <%= @theme.nav_bg %>;
 }
 
+.button a{
+	background-color: <%= @theme.nav_bg %>;
+	border: 3px solid <%= @theme.nav_bg_selected %>;
+}
+
+.button a:hover{
+	background-color: <%= @theme.nav_bg_selected %>;
+	border: 2px solid <%= @theme.nav_bg %>;
+}
+
 ul.main-menu li a.selected{
 	background-color: <%= @theme.nav_bg_selected %>
 }
