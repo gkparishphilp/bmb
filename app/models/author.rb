@@ -56,6 +56,7 @@ class Author < ActiveRecord::Base
 	has_one		:nexus_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='nexus'"
 	has_many	:email_templates, :as => :owner
 	has_many	:email_messages, :as => :sender
+	has_one		:contract_agreement
 	
 	does_activities
 	
