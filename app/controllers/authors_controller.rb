@@ -1,6 +1,6 @@
 class AuthorsController < ApplicationController
 	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
-	before_filter	:get_form_data, :only => [:new]
+	before_filter	:get_form_data, :only => [:new, :edit]
 	
 	def index
 		@author = Author.last
@@ -27,7 +27,7 @@ class AuthorsController < ApplicationController
 		@author = Author.new
 		@author.pen_name = @current_user.name
 		@author.bio = @current_user.bio
-		render :layout => 'application'
+		render :layout => '2col'
 	end
 	
 	def create
@@ -49,7 +49,8 @@ class AuthorsController < ApplicationController
 	
 	def edit
 		@author = @current_author
-		render :layout => 'application'
+		@billing_address = @current_author.user.billing_address
+		render :layout => '2col'
 		
 	end
 	
