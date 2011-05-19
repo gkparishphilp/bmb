@@ -1,7 +1,4 @@
 - content_for :left_column do
-	= render :partial => 'admin/nav'
-	
-- content_for :middle_column do
 	%h1 Create an Author Profile
 
 	= form_for @author, :html => { :multipart => true } do |f|

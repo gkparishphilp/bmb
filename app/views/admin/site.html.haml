@@ -1,0 +1,11 @@
+- content_for :middle_column do
+	%h2 Contract for Authors
+	%br
+
+	= form_for @contract do |f|
+		Title:
+		= f.text_field :name
+		= f.text_area :content, :class => 'mceEditor'
+		%br
+		= f.submit
+	%hr

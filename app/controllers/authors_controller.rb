@@ -27,7 +27,7 @@ class AuthorsController < ApplicationController
 		@author = Author.new
 		@author.pen_name = @current_user.name
 		@author.bio = @current_user.bio
-		render :layout => '2col'
+		render :layout => 'application'
 	end
 	
 	def create
@@ -43,7 +43,7 @@ class AuthorsController < ApplicationController
 			redirect_to admin_index_path
 		else
 			pop_flash "Ooops, there was a problem saving the profile", :error, @author
-			redirect_to :new
+			redirect_to :back
 		end
 	end
 	

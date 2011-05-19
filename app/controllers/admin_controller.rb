@@ -2,8 +2,14 @@ class AdminController < ApplicationController
 	# for author admin
 	layout '3col'
 	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin
-	before_filter :require_author 
+	before_filter :require_author, :except => [:site] 
+	before_filter :require_admin, :only => [:site]
 	
+	uses_tiny_mce
+	
+	def site
+		@contract = Contract.last
+	end
 	def books
 		@books = @admin.books
 	end
