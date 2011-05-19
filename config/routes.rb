@@ -90,6 +90,10 @@ Backmybook::Application.routes.draw do
 	
 	resources :contacts
 	
+	resources :contracts do
+		post :agree, :on => :member
+	end
+	
 	resources :crashes
 	
 	resources :email_messages do

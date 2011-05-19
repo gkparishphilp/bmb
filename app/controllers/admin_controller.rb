@@ -12,6 +12,17 @@ class AdminController < ApplicationController
 		@articles = @admin.articles
 	end
 	
+	def index
+		@contract = Contract.last unless @current_author.agreed_to?( Contract.last )
+		
+		@orders = Order.for_author( @current_author )
+		@week_ending = Time.now.beginning_of_week
+		
+		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day ).successful.order('created_at desc')
+		@orders_for_week_ending = @orders.dated_between( (@week_ending - 7.days).getutc, @week_ending.getutc).successful
+		@orders_by_sku_week_ending = [ @orders_for_week_ending.group( "orders.sku_id" ).select( "orders.sku_id, sum(orders.sku_quantity) as count").map {|o| [o.sku_id, o.count]} ]
+	end
+	
 	def podcast
 		@podcasts = @admin.podcasts
 	end
