@@ -14,8 +14,9 @@
 			= text_field_tag :sig
 			= submit_tag 'Agree'
 	
-	- unless @orders_past_day.empty?
-		%h3 Most Recent Sales
+	- unless @recent_orders.empty?
+		%br
+		%h3 Last Ten Sales
 		%table.admin_table
 			%tr
 				%td 

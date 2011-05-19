@@ -15,10 +15,9 @@ class AdminController < ApplicationController
 	def index
 		@contract = Contract.last unless @current_author.agreed_to?( Contract.last )
 		
-		@orders = Order.for_author( @current_author )
-		@week_ending = Time.now.beginning_of_week
-		
-		@recent_orders = @orders.successful.order('created_at desc').limit( 20 )
+		@orders = Order.for_author( @current_author )		
+		@recent_orders = @orders.successful.order('created_at desc').limit( 10 )
+	end
 	
 	def podcast
 		@podcasts = @admin.podcasts
