@@ -8,7 +8,11 @@ class AdminController < ApplicationController
 	uses_tiny_mce
 	
 	def site
-		@contract = Contract.last
+		if Contract.last.nil?
+			@contract = Contract.new
+		else
+			@contract = Contract.last
+		end
 	end
 	def books
 		@books = @admin.books
