@@ -1,9 +1,15 @@
 class StoreController < ApplicationController
 	# going to use to show store page -- list of skus, and store/show/id for sku detail
 	layout 'authors'
+	uses_tiny_mce
 	
 	def admin
-		render :layout => '3col'
+		render :layout => '2col'
+	end
+	
+	def faq
+		@faq = @current_author.faq
+		render :layout => '2col'
 	end
 	
 	def index

@@ -6,17 +6,19 @@
 			%h1
 				Edit
 				= @book.title
-			= link_to "Edit Title", "#", :class => :show_edit_title
+			= link_to "(Edit Title)", "#", :class => :show_edit_title
 			#edit_title
 				= f.text_field :title, :class => :book_title_field
 				= f.submit "Update"
 				= link_to "Cancel", "#", :class => :hide_edit_title
-
+		
 		= image_tag @book.avatar.location('thumb'), :width => @book.avatar.thumb_width if @book.has_attached_avatar?
 		
-		
+		%br
 		= form_for [ @author, @book ], :html => { :multipart => true } do |f|
+			= f.label 'Select Cover Art'
 			= file_field_tag :attached_avatar_file
+			%br
 			= f.label 'Subtitle:'
 			= f.text_field :subtitle
 			= f.label 'Genre:'
@@ -27,8 +29,11 @@
 			= f.text_field :tag_list
 			%br
 			= f.submit
+	.clear
 			
 	.form_group
+		%h3 Add Formats for Title
+		%br
 		.new_button
 			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'etext' )
 			= link_to "Upload E-Text", new_author_book_asset_url( @author, @book, :type => 'etext' )
@@ -38,6 +43,9 @@
 		.new_button
 			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'audio' )
 			= link_to "Upload Audio", new_author_book_asset_url( @author, @book, :type => 'audio' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_merch_url( @author, @merch)
+			= link_to "Add Physical Book", new_author_merch_url( @author, @merch)
 		.clear
 		- unless @book.assets.empty?
 			%h2

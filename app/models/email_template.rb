@@ -16,4 +16,5 @@ class EmailTemplate < ActiveRecord::Base
 	belongs_to :owner, :polymorphic => true
 	scope :shipping, where("template_type = 'shipping'")
 	scope :inventory_warning, where("template_type = 'inventory_warning'")
+	scope :refund, where("template_type = 'refund'")
 end

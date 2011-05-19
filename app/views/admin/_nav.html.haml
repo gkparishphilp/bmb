@@ -1,22 +1,26 @@
-#admin_hd  Display
-%li= link_to "Promo", admin_author_store_index_url( @current_author )
--# %li= link_to "Sidebar Items"
--# %li= link_to "Featured Items"
-%li= link_to "Theme", admin_themes_url
--#%li= link_to "Links", admin_links_url
-%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
+- if @current_author
+	#admin_hd  Display
+	%li= link_to "Promo", admin_author_store_index_url( @current_author )
+	%li= link_to "FAQ", faq_author_store_index_url( @current_author)
+	-# %li= link_to "Sidebar Items"
+	-# %li= link_to "Featured Items"
+	%li= link_to "Theme", admin_themes_url
+	-#%li= link_to "Links", admin_links_url
+	%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
 
-#admin_hd Reports
-%li= link_to 'Sales', report_path( 'sales' )
-%li= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
-%li= link_to "Inventory", report_path( 'inventory' )
-%li= link_to "Coupons", report_path( 'redemptions' )
-%li= link_to "Ship Info", report_path( 'shipping' )
+	#admin_hd Reports
+	%li= link_to 'Sales', report_path( 'sales' )
+	%li= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
+	%li= link_to "Inventory", report_path( 'inventory' )
+	%li= link_to "Coupons", report_path( 'redemptions' )
+	%li= link_to "Ship Info", report_path( 'shipping' )
+	-#%li= link_to "Emails", reports_emails_path
 
--#%li= link_to "Emails", reports_emails_path
-
-#admin_hd Messaging
-%li= link_to 'Newsletters', admin_email_messages_url
-%li= link_to 'Email Lists', admin_list_email_messages_url
--#%li= link_to 'Templates', admin_email_templates_url
-%li= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url 
+	#admin_hd Messaging
+	%li= link_to 'Newsletters', admin_email_messages_url
+	%li= link_to 'Email Lists', admin_list_email_messages_url
+	-#%li= link_to 'Templates', admin_email_templates_url
+	%li= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url 
+	
+	#admin_hd Profiles
+	%li= link_to 'Author Info', edit_author_url( @current_author )

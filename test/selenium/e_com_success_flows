@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="http://localhost:3000/" />
+<title>e_com_success_flows</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">e_com_success_flows</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Bmb_sigler_hp_promo']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Buy It $34.95</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>order_email</td>
+	<td>tay2@backmybook.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_first_name</td>
+	<td>Tay2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_last_name</td>
+	<td>Nguyen</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_street</td>
+	<td>13176 Sierra Mesa</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_city</td>
+	<td>San Diego</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_state</td>
+	<td>CA</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_zip</td>
+	<td>92129</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>order_comment</td>
+	<td>Make it special</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>order_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Store</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Buy It $34.95</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>paypal_radio</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Btn_xpresscheckout']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login_email</td>
+	<td>buyer_1269634012_per@sky360corp.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login_password</td>
+	<td>12345678</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submitLogin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>changeNoteButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>noteToSeller_1</td>
+	<td>Paypal note for comment</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>continueBabySlider</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>continue</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>order_email</td>
+	<td>tay2@backmybook.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>order_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Store</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Buy It $19.95</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>order_email</td>
+	<td>tay3@backmybook.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_first_name</td>
+	<td>Tay3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_last_name</td>
+	<td>Nguyen</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_street</td>
+	<td>13176 Sierra Mesa</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_city</td>
+	<td>San Diego</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_state</td>
+	<td>CA</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>billing_address_zip</td>
+	<td>92129</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>order_submit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Store</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Buy It $19.95</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>paypal_radio</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//img[@alt='Btn_xpresscheckout']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login_email</td>
+	<td>buyer_1269634012_per@sky360corp.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login_password</td>
+	<td>12345678</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>submitLogin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>continue</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>order_email</td>
+	<td>tay312@backmybook.com</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>order_submit</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

@@ -21,7 +21,7 @@
 						Sold Out :(
 				- else
 					.button
-						=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL ), :class=>'yellow'
+						=link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
 	.clear

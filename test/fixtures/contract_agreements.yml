@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  contract_id: 1
+  author_id: 1
+  sig: MyString
+
+two:
+  contract_id: 1
+  author_id: 1
+  sig: MyString

@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.for_author( @current_author ).search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :page => params[:page], :per_page => 10 )
+		@orders = Order.for_author( @current_author ).successful.search( params[:q] ).order( "created_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		render :layout => '3col'
 	end
 	
@@ -32,8 +32,6 @@ class OrdersController < ApplicationController
 			pop_flash 'Not your order', :error
 			redirect_to root_path
 		end
-		
-		
 	end
 	
 
@@ -240,7 +238,29 @@ class OrdersController < ApplicationController
 		
 		# Decrement inventory
 		@order.sku.decrement_inventory_by( @order.sku_quantity ) if @order.order_transaction.present?
+	end
 
+	def refund
+		@order = Order.find params[:id] 
+		@item_price = @order.item_price 
+		@refund = Refund.new
+		if @order.sku.owner == @current_author
+			render :layout => '2col'
+		else
+			pop_flash "Can not refund this order.", :error
+			redirect_to admin_orders_path
+		end
+	end
+	
+	def confirm_refund
+		@order = Order.find params[:refund][:order_id]
+		@item_price = @order.item_price
+		params[:refund][:item_amount] = (params[:refund][:item_amount].to_f * 100.0).round
+		params[:refund][:shipping_amount] = (params[:refund][:shipping_amount].to_f * 100.0).round
+		@refund = Refund.new params[:refund]
+		@refund.calculate_refund_amount
+		
+		render :layout => '2col'
 	end
 
 private

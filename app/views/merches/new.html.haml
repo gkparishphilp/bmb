@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			New Merchandise
+			New Physical Book / Merchandise
 		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 		

@@ -67,6 +67,8 @@
 				-if @sku.allow_comment?
 					%h3 Special Order Instructions
 					= f.text_area :comment, :value=> @paypal_data.params["note"]
+				-else
+					= f.hidden_field :comment, :value=> @paypal_data.params["note"]
 				%br
 			%p Please confirm your Paypal order by clicking the button below.
 			%p

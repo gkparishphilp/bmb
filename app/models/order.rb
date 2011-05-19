@@ -25,6 +25,7 @@ class Order < ActiveRecord::Base
 	belongs_to	:user
 	belongs_to	:sku
 	has_one		:order_transaction, :dependent => :destroy
+	has_one		:refund
 	has_one		:redemption
 	has_one		:coupon, :through => :redemption
 	has_one		:subscribing
@@ -43,7 +44,7 @@ class Order < ActiveRecord::Base
 	scope :successful, joins( "join order_transactions on order_transactions.order_id = orders.id" ).where( "order_transactions.success = 1" )
 	
 	scope :dated_between, lambda { |*args| 
-		where( "orders.created_at between ? and ?", (args.first.to_date || 7.days.ago.getutc), (args.second.to_date || Time.now.getutc) ) 
+		where( "orders.created_at between ? and ?", (args.first.to_date || 7.days.ago.getutc), (args.second.to_time || Time.now.getutc) ) 
 	}
 
 	scope :for_author, lambda { |args|
@@ -66,6 +67,9 @@ class Order < ActiveRecord::Base
 	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 	
+	def successful?
+		self.order_transaction.success ? (return true) : (return false) 
+	end
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner
@@ -117,6 +121,22 @@ class Order < ActiveRecord::Base
 		redemption.save
 	end
 
+	def item_price
+		# Return the price of the order, after the coupon has been applied to it.
+		# Used for refund calculations to take into account coupons
+		if self.coupon.present?
+			if self.coupon.discount_type == 'cents'
+				item_price = (self.sku.price - self.coupon.discount) * self.sku_quantity
+			elsif self.coupon.discount_type == 'percent'
+				item_price = self.sku_quantity * (self.sku.price - (coupon.discount/100.0 * self.sku/price)).round  
+			else
+				item_price = self.sku.price * self.sku_quantity
+			end
+		else 
+			item_price = self.sku.price * self.sku_quantity
+		end
+		return item_price
+	end
 
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases  (regular,express, and subscription)
@@ -206,19 +226,29 @@ class Order < ActiveRecord::Base
 		tax = 0
 		
 		if self.sku.contains_merch?
-			author_state = self.sku.owner.user.billing_address.state
 			# because paypal orders will not have billing addresses, just set 
 			# billing == to shipping if billing_address is nil
 			self.billing_address ||= self.shipping_address 
 			
-			tax = (self.sku.price * TaxRate.find_by_geo_state_abbrev( author_state ).rate * self.sku_quantity).round if self.billing_address.state == author_state
-
+			tax = (self.sku.price * self.tax_rate * self.sku_quantity).round if self.billing_address.state == self.nexus
 		end
 		
 		self.tax_amount = tax
 		
 	end
 
+	def nexus
+		return self.sku.owner.user.billing_address.state
+	end
+
+	def tax_rate
+		if self.billing_address.state == self.nexus
+			tax_rate = TaxRate.find_by_geo_state_abbrev( self.nexus ).rate
+		else
+			return 0
+		end
+	end
+	
 	def calculate_shipping
 		shipping_price = 0
 		

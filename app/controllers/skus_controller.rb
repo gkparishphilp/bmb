@@ -3,18 +3,27 @@ class SkusController < ApplicationController
 
 	def create
 		@sku = Sku.new params[:sku]
-		@sku.sku_type = 'custom' #since the only way to hit this is through admin
+
+		@sku.price = params[:sku][:price].to_f * 100 if params[:sku][:price]
+		@sku.domestic_shipping_price = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
+		@sku.international_shipping_price = params[:sku][:international_shipping_price].to_f * 100 if params[:sku][:international_shipping_price]
+		
 		if @current_author.skus << @sku
 			process_attachments_for @sku
 			pop_flash 'Sku saved!'
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
 		end
-		redirect_to :back
+		redirect_to edit_author_sku_path( @current_author, @sku )
 	end
 	
 	def update
 		@sku = Sku.find params[:id]
+
+		params[:sku][:price] = params[:sku][:price].to_f * 100 if params[:sku][:price]
+		params[:sku][:domestic_shipping_price] = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
+		params[:sku][:international_shipping_price] = params[:sku][:international_shipping_price].to_f * 100 if params[:sku][:international_shipping_price]
+
 		unless @sku.owner == @current_author
 			pop_flash 'You do not own this SKU', :error
 			redirect_to root_path

@@ -5,13 +5,14 @@
 		.listing_title
 			= link_to book.title, author_book_url( @author, book )
 			.book-meta.clearfix
-				.ratings
-					%ul.star-rating
-						%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
+				-#
+					.ratings
+						%ul.star-rating
+							%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
 		.book-info
 			- unless book.merch_skus.published.empty? || book.merch_skus.published.first.sold_out?
 				.listing_buy
-					= link_to "Buy Hardcover #{format_price( book.hardcover_sku.price )}", new_author_order_url( @author, :sku => book.hardcover_sku, :protocol => SSL_PROTOCOL ) 
+					= link_to "Buy Book #{format_price( book.hardcover_sku.price )}", new_author_order_url( @author, :sku => book.hardcover_sku, :protocol => SSL_PROTOCOL ) 
 			- unless book.skus.published.ebook.first.nil?
 				.listing_buy
 					= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )

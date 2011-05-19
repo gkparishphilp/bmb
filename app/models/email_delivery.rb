@@ -38,6 +38,15 @@ class EmailDelivery < ActiveRecord::Base
 		self.save
 	end
 	
+	def self.ses_send( from, to, subject, content)
+		# build message
+		message_header = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">" + "<head> <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /> <title>Inventory Warning</title> <body>"
+		message_footer = "</body></html>"
+		message = message_header + content + message_footer
 
+		# send message
+		ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)
+		ses.send_email( :to => to, :source => from, :subject => subject, :html_body => message )
+	end
 	
 end

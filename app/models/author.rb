@@ -56,6 +56,7 @@ class Author < ActiveRecord::Base
 	has_one		:nexus_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='nexus'"
 	has_many	:email_templates, :as => :owner
 	has_many	:email_messages, :as => :sender
+	has_many	:contract_agreements
 	
 	does_activities
 	
@@ -67,6 +68,10 @@ class Author < ActiveRecord::Base
 	def current_royalty_rate
 		# todo fix this ghetto shit!!!!!!
 		return 90
+	end
+	
+	def agreed_to?( contract )
+		self.contract_agreements.find_by_contract_id( contract.id ).present?
 	end
 	
 	def owner
@@ -93,6 +98,14 @@ class Author < ActiveRecord::Base
 			<p>This is a quick message to let you know that your product, {{item.merch.title}}, has reached a level of {{item.merch.inventory_count}} units.  This is at or below your warning level.  Please let us know if you there is anything we can do for you by emailing support@backmybook.com.</p>
 			<p>Cheers,</p>
 			<p>Tay, GK, and the BackMyBook team</p>"
+		
+		self.email_templates.create :subject => 'Refund from BackMyBook', :description => 'Refund email', :template_type => 'refund',
+			:content => "<p>Hi {{refund.order.user.name}},</p>
+			<p>{{refund.order.sku.owner.pen_name}} and BackMyBook.com have sent you a refund in the amount of {{refund.total | currency }} for the purchase of {{refund.order.sku.title}}, (confirmation # {{refund.order.order_transaction.reference}}).</p>
+			<p>The amount has been credited back to the original method of payment.</p>
+			<p>If you have any questions, please <a href='http://backmybook.com/contacts/new?subject=Refund Question'>contact us</a> at http://backmybook.com/contacts/new.</p>
+			<p>Best regards,</p>
+			<p>{{refund.order.sku.owner.pen_name}} and BackMyBook.com</p>"
 	end
 	
 	def promo_content
@@ -118,6 +131,12 @@ class Author < ActiveRecord::Base
 		for order in Order.all
 			orders << order if order.sku.owner == self
 		end
+	end
+	
+	def taxrate
+		state = self.user.billing_address.state
+		tax = TaxRate.find_by_geo_state_abbrev( state ).rate
+		return tax
 	end
 	
 	private
