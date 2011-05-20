@@ -63,7 +63,7 @@ class SkusController < ApplicationController
 	end
 	
 	def sort
-		@skus = @current_author.skus.order( 'listing_order asc' )
+		@skus = @current_author.skus.published.order( 'listing_order asc' )
 		render :layout => '3col'
 	end
 	
