@@ -2,6 +2,7 @@ class ReportsController < ApplicationController
 	require 'csv'
 	
 	def sales
+		#todo - wow, this has grown pretty heinous.  Move into a model and clean up 
 		#todo - catch error condition when start date is later than end date
 		@start_date = params[:start_date] || 1.months.ago.getutc
 		@end_date = params[:end_date] || Time.now.getutc 
@@ -12,8 +13,12 @@ class ReportsController < ApplicationController
 		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day ).successful.order('created_at desc')
 		@orders_for_period = @orders.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
 		@orders_for_week_ending = @orders.dated_between( (@week_ending - 7.days).getutc, @week_ending.getutc).successful
-		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / 100
-		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total / (@end_date.to_date - @start_date.to_date) / 100
+		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total 
+		@total_sales ||= 0
+		@total_sales = @total_sales / 100 
+		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total 
+		@avg_daily_sales ||= 0
+		@avg_daily_sales = @avg_daily_sales / (@end_date.to_date - @start_date.to_date) / 100
 
 		@daily_sales = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.total) as total" ).map { |o| [o.created_at.to_s, o.total.to_f / 100] } ]
 		@daily_orders = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.sku_quantity) as count" ).map { |o| [o.created_at.to_s, o.count] } ]
@@ -71,36 +76,39 @@ class ReportsController < ApplicationController
 		@start_date = params[:start_date] || 1.months.ago.getutc
 		@end_date = params[:end_date] || Time.now.getutc 
 		
-		@author_skus = Sku.for_author( @current_author ).has_merch.collect { |sku| [sku.title, sku.id] }
+		unless Sku.for_author( @current_author ).has_merch.empty?
+
+			@author_skus = Sku.for_author( @current_author ).has_merch.collect { |sku| [sku.title, sku.id] }
 
 			if params[:sku]
 				@sku = Sku.find( params[:sku][:id] )
 			else
-				@sku = Sku.find (@author_skus.first[1])
+				@sku = Sku.find (@author_skus.first[1]) 
 			end
-			
+		
 			@orders_for_sku = Order.for_author( @current_author ).for_sku( @sku.id )
 			@orders_for_period = @orders_for_sku.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful.order( "created_at desc")
 
-		csv_string = CSV.generate do |csv|
-			#header row
-			csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
-			@orders_for_period.each do |order|
-				order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
-				if order.shipping_address.present?
-					shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
-				else
-					shipping_address = ""
+			csv_string = CSV.generate do |csv|
+				#header row
+				csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
+				@orders_for_period.each do |order|
+					order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
+					if order.shipping_address.present?
+						shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
+					else
+						shipping_address = ""
+					end
+				
+					csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
+				
 				end
-				
-				csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
-				
 			end
-		end
 	
-		#send_data csv_string,
-		#	:type => 'text/csv; charset=iso-8859-1; header=present',
-		#	:disposition => "attachment; filename = shipping_list.csv"
+			#send_data csv_string,
+			#	:type => 'text/csv; charset=iso-8859-1; header=present',
+			#	:disposition => "attachment; filename = shipping_list.csv"
+		end
 
 	end
 	
