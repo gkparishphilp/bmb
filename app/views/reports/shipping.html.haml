@@ -4,45 +4,48 @@
 - content_for :middle_column do
 	%h1 Shipping Info
 	%br
-	%h3 Select Period and SKU
-	= form_tag do 
-		%b Start Date:
-		= text_field_tag :start_date, @start_date, :size => 10, :class => 'datepicker'
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		%b End Date:
-		= text_field_tag :end_date, @end_date, :size => 10, :class => 'datepicker'
-		%p
-			= select("sku","id", @author_skus )
+	- if @sku 
+		%h3 Select Period and SKU
+		= form_tag do 
+			%b Start Date:
+			= text_field_tag :start_date, @start_date, :size => 10, :class => 'datepicker'
+			&nbsp;&nbsp;&nbsp;&nbsp;
+			%b End Date:
+			= text_field_tag :end_date, @end_date, :size => 10, :class => 'datepicker'
+			%p
+				= select("sku","id", @author_skus )
 
-		= submit_tag 'Submit', :class => 'buttons'
-	%hr
-	%br
-	%h3 
-		Shipping Information for 
-		= @sku.title
-	%table.admin_table
-		%tr
-			%td 
-				%b Date
-			%td 
-				%b Customer Name
-			%td 
-				%b Quantity
-			%td 
-				%b Shipping Address				
-			%td 
-				%b Personalization
-				
-		-for order in @orders_for_period
+			= submit_tag 'Submit', :class => 'buttons'
+		%hr
+		%br
+		%h3 
+			Shipping Information for 
+			= @sku.title
+		%table.admin_table
 			%tr
-				%td= order.created_at.to_date
-				%td= order.billing_address.name if order.billing_address.present?
-				%td= order.sku_quantity
-				%td
-					= order.shipping_address.name if order.shipping_address.present?
-					%br
-					= order.shipping_address.full_street if order.shipping_address.present?
-					%br
-					= order.shipping_address.city_st_zip if order.shipping_address.present?
-					%br
-				%td= order.comment
+				%td 
+					%b Date
+				%td 
+					%b Customer Name
+				%td 
+					%b Quantity
+				%td 
+					%b Shipping Address				
+				%td 
+					%b Personalization
+				
+			-for order in @orders_for_period
+				%tr
+					%td= order.created_at.to_date
+					%td= order.billing_address.name if order.billing_address.present?
+					%td= order.sku_quantity
+					%td
+						= order.shipping_address.name if order.shipping_address.present?
+						%br
+						= order.shipping_address.full_street if order.shipping_address.present?
+						%br
+						= order.shipping_address.city_st_zip if order.shipping_address.present?
+						%br
+					%td= order.comment
+	- else
+		No shipping information available

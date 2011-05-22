@@ -1,4 +1,7 @@
 class MerchObserver < ActiveRecord::Observer
+	# Need this observer instead of a sweeper because this operates across models and expires sku fragments
+	# Should probably migrate all cache sweeping actions to observers
+	
 	observe Merch
 	
 	def after_save( merch )

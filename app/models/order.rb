@@ -121,6 +121,22 @@ class Order < ActiveRecord::Base
 		redemption.save
 	end
 
+	def item_price
+		# Return the price of the order, after the coupon has been applied to it.
+		# Used for refund calculations to take into account coupons
+		if self.coupon.present?
+			if self.coupon.discount_type == 'cents'
+				item_price = (self.sku.price - self.coupon.discount) * self.sku_quantity
+			elsif self.coupon.discount_type == 'percent'
+				item_price = self.sku_quantity * (self.sku.price - (coupon.discount/100.0 * self.sku/price)).round  
+			else
+				item_price = self.sku.price * self.sku_quantity
+			end
+		else 
+			item_price = self.sku.price * self.sku_quantity
+		end
+		return item_price
+	end
 
 #-------------------------------------------------------------------------
 # Method calling Paypal Gateways for purchases  (regular,express, and subscription)

@@ -7,17 +7,17 @@
 			- for asset in @book.assets.free do
 				%li
 					.button
-						= link_to "Free Sample", download_author_book_asset_url( @author, @book, asset ), :class=>'blue'
+						= link_to "Free Sample", download_author_book_asset_url( @author, @book, asset )
 			
 			- unless @book.ebook_sku.nil?
 				%li
 					.button
-						=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+						=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL )
 			
 			- unless @book.audio_book_sku.nil?
 				%li
 					.button
-						=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+						=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL )
 			
 			- unless @book.custom_skus.empty? && @book.merch_skus.empty?
 				.also-available
@@ -38,10 +38,11 @@
 			- cache( :controller => 'books', :action => 'show', :action_suffix => 'book_description') do 
 				%h1= @book.title
 				.book-meta.clearfix
-					.ratings
-						%ul.star-rating
-							%li.current-rating{ :style => "width:#{ ( @book.review_average * 125 ) / 5 }px;" }
-						%em= link_to "Rate It", "#reviews"
+					-#
+						.ratings
+							%ul.star-rating
+								%li.current-rating{ :style => "width:#{ ( @book.review_average * 125 ) / 5 }px;" }
+							%em= link_to "Rate It", "#reviews"
 				.book_content	
 					= @book.description.html_safe
 			

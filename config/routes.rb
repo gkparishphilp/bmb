@@ -39,7 +39,7 @@ Backmybook::Application.routes.draw do
 			# all these routes just to edit STI resource on books
 			resources :etext, :controller => :assets
 			resources :pdf, :controller => :assets
-			resources :audio_book, :controller => :assets
+			resources :audio, :controller => :assets
 			resources :assets do
 				get 'download', :on => :member
 			end
@@ -92,6 +92,10 @@ Backmybook::Application.routes.draw do
 	
 	resources :contacts
 	
+	resources :contracts do
+		post :agree, :on => :member
+	end
+	
 	resources :crashes
 	
 	resources :email_messages do
@@ -141,6 +145,7 @@ Backmybook::Application.routes.draw do
 		get 'inspect', :on => :member
 		get 'admin', :on => :collection
 		get 'refund', :on => :member
+		post 'confirm_refund', :on => :member
 	end
 	
 	resources :order_transactions
@@ -216,7 +221,7 @@ Backmybook::Application.routes.draw do
 	match '/reports/(:action)' => 'reports', :as => :report
 		
 	# Site Admin -- blog/podcasts, maybe customer support
-	match '/site-admin/' => 'admin#index', :as => :site_admin_index  # for now, send site-admin root to old admin interface
+	match '/site-admin/' => 'admin#site'
 	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
 		

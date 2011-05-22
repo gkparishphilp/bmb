@@ -1,0 +1,15 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+	
+- content_for :middle_column do
+	%h1 
+		Refund for Order
+		= @order.order_transaction.reference
+	%br
+
+	= render :partial => 'order_info'
+	
+	%h3 Confirm Refund
+	%br
+	= form_for @refund do |f|
+		= render :partial => 'confirm_refund_form', :locals => {:f => f}

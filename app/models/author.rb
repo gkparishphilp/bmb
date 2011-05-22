@@ -56,6 +56,7 @@ class Author < ActiveRecord::Base
 	has_one		:nexus_address, :through => :addressings, :source => :geo_address, :conditions => "address_type='nexus'"
 	has_many	:email_templates, :as => :owner
 	has_many	:email_messages, :as => :sender
+	has_many	:contract_agreements
 	
 	does_activities
 	
@@ -67,6 +68,10 @@ class Author < ActiveRecord::Base
 	def current_royalty_rate
 		# todo fix this ghetto shit!!!!!!
 		return 90
+	end
+	
+	def agreed_to?( contract )
+		self.contract_agreements.find_by_contract_id( contract.id ).present?
 	end
 	
 	def owner

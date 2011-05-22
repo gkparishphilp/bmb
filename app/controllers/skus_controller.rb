@@ -3,6 +3,11 @@ class SkusController < ApplicationController
 
 	def create
 		@sku = Sku.new params[:sku]
+
+		@sku.price = params[:sku][:price].to_f * 100 if params[:sku][:price]
+		@sku.domestic_shipping_price = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
+		@sku.international_shipping_price = params[:sku][:international_shipping_price].to_f * 100 if params[:sku][:international_shipping_price]
+		
 		if @current_author.skus << @sku
 			process_attachments_for @sku
 			pop_flash 'Sku saved!'
@@ -14,6 +19,11 @@ class SkusController < ApplicationController
 	
 	def update
 		@sku = Sku.find params[:id]
+
+		params[:sku][:price] = params[:sku][:price].to_f * 100 if params[:sku][:price]
+		params[:sku][:domestic_shipping_price] = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
+		params[:sku][:international_shipping_price] = params[:sku][:international_shipping_price].to_f * 100 if params[:sku][:international_shipping_price]
+
 		unless @sku.owner == @current_author
 			pop_flash 'You do not own this SKU', :error
 			redirect_to root_path
@@ -53,7 +63,7 @@ class SkusController < ApplicationController
 	end
 	
 	def sort
-		@skus = @current_author.skus.order( 'listing_order asc' )
+		@skus = @current_author.skus.published.order( 'listing_order asc' )
 		render :layout => '3col'
 	end
 	

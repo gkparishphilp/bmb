@@ -34,6 +34,8 @@ class AssetsController < ApplicationController
 			@asset = @book.assets.new params[:asset]
 		end
 		
+		@asset.price = params[:asset][:price].to_f * 100 if params[:asset][:price]
+		
 		if @asset.save
 			# Check sku if type is sale
 			create_asset_sku if @asset.asset_type == 'sale'
@@ -57,9 +59,21 @@ class AssetsController < ApplicationController
 			return false
 		end
 		
-		if @asset.update_attributes params[:asset]
+		case @asset.type
+			
+		when 'Etext'
+			parameters = params[:etext].clone
+		when 'Pdf'
+			parameters = params[:pdf].clone
+		when 'Audio'
+			parameters = params[:audio].clone
+		else
+			parameters = params[:asset].clone
+		end
+		
+		if @asset.update_attributes parameters
 			process_attachments_for( @asset )
-			pop_flash 'Asset saved!', 'success'
+			pop_flash 'Asset updated!', 'success'
 		else
 			pop_flash 'Asset could not be saved.', :error, @asset
 		end
@@ -132,7 +146,7 @@ class AssetsController < ApplicationController
 			if sku.present?
 				sku.add_item( @asset )
 			else
-				sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
+				sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price 
 				sku.add_item( @asset )
 			end
 		elsif params[:type] == 'audio'

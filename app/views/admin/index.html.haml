@@ -5,8 +5,40 @@
 		= @current_author.pen_name
 		Admin Area
 	%br
-	
-	
+	- if @contract.present?
+		Please Agree to the
+		= link_to @contract.name, @contract
+		to activate your store.
+		= form_tag agree_contract_path( @contract ) do |f|
+			%b Your Name: 
+			= text_field_tag :sig
+			= submit_tag 'Agree'
+		%br
+	- unless @recent_orders.empty?
+		%br
+		%h3 Last Ten Sales
+		%table.admin_table
+			%tr
+				%td 
+					%b Date
+				%td 
+					%b Confirmation #
+				%td 
+					%b Item
+				%td 
+					%b Quantity
+				%td 
+					%b Amount				
+			- for order in @recent_orders
+				%tr
+					%td= order.created_at.to_date
+					%td= link_to order.order_transaction.reference, inspect_order_url( order , :protocol => SSL_PROTOCOL )
+					%td= order.sku.title
+					%td= order.sku_quantity
+					%td= format_price( order.total )
+	- else
+		No Recent Sales
+
 
 
 	

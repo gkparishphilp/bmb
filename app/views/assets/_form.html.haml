@@ -1,22 +1,22 @@
-= f.label 'Asset Name'
+= f.label 'Title of eBook'
 = f.text_field :title, :class => 'title_field'
 
 = hidden_field_tag :type, @type
 
 = f.label :description
 = f.text_area :description
-
+%br
 - case @type
 - when 'etext'
-	= f.label 'File (txt, doc, html, htm, odt, max 100 MB)'
+	= f.label 'File (epub, mobi, lrf, txt, doc, html, htm, odt, max 100 MB)'
 	= file_field_tag :attached_document_file
 	
-	= f.label "Asset Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+	= f.label "Pricing Type"
+	= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
-	- if @book.ebook_sku.nil? # Todo - claen this so it applies to audiobook as well
+	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
 		#price
-			= f.label "Price"
+			= f.label "Price ($)"
 			= f.text_field :price
 
 	#unlock_req
@@ -27,12 +27,12 @@
 	= f.label 'File (pdf, max 100 MB)'
 	= file_field_tag :attached_document_file
 	
-	= f.label "Asset Type"
+	= f.label "Price"
 	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
 
-	- if @book.ebook_sku.nil? # Todo - claen this so it applies to audiobook as well
+	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
 		#price
-			= f.label "Price"
+			= f.label "Price ($)"
 			= f.text_field :price
 
 	#unlock_req
@@ -41,7 +41,7 @@
 		
 		
 - when 'audio'
-	= f.label 'File (mp3, aac, ogg, wav, max 100 MB)'
+	= f.label 'File (mp3, aac, ogg, wav, zip max 500 MB)'
 	= file_field_tag :attached_document_file
 	= f.label 'Duration:'
 	= f.text_field :duration
@@ -53,7 +53,7 @@
 
 	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well
 		#price
-			= f.label "Price"
+			= f.label "Price ($)"
 			= f.text_field :price
 
 	#unlock_req
@@ -61,6 +61,7 @@
 		= f.text_field :unlock_requirement
 
 
+%br
 %br
 = f.submit m, :class => :button
 |

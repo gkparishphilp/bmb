@@ -1,0 +1,8 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	%h2 FAQ Entries
+	%p Enter any additional FAQ text below. 
+	= form_for @current_author do |f|
+		= f.text_area :faq, :class => 'mceEditor'
+		= f.submit "Update FAQ", :class => :buttons

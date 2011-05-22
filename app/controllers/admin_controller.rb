@@ -1,8 +1,19 @@
 class AdminController < ApplicationController
 	# for author admin
 	layout '3col'
-	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin
-	before_filter :require_author 
+
+	before_filter :require_author, :except => [:site] 
+	before_filter :require_admin, :only => [:site]
+	
+	uses_tiny_mce
+	
+	def site
+		if Contract.last.nil?
+			@contract = Contract.new
+		else
+			@contract = Contract.last
+		end
+	end
 	
 	def books
 		@books = @admin.books
@@ -10,6 +21,13 @@ class AdminController < ApplicationController
 	
 	def blog
 		@articles = @admin.articles
+	end
+	
+	def index
+		@contract = Contract.last unless @current_author.agreed_to?( Contract.last )
+		
+		@orders = Order.for_author( @current_author )		
+		@recent_orders = @orders.successful.order('created_at desc').limit( 10 )
 	end
 	
 	def podcast

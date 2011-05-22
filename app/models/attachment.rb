@@ -180,7 +180,6 @@ class Attachment < ActiveRecord::Base
 		end
 		ext = full_name.match( /\w+\z/ ).to_s.downcase # any number of word chars following non-word (ie period), then eol
 		name = full_name.match( /[_ ',;:+=|()!\?\d\w-]+\./ ).to_s.chop.downcase
-
 		return name, ext
 	
 	end

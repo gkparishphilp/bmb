@@ -1,6 +1,6 @@
 class AuthorsController < ApplicationController
 	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
-	before_filter	:get_form_data, :only => [:new]
+	before_filter	:get_form_data, :only => [:new, :edit]
 	
 	def index
 		@author = Author.last
@@ -43,12 +43,15 @@ class AuthorsController < ApplicationController
 			redirect_to admin_index_path
 		else
 			pop_flash "Ooops, there was a problem saving the profile", :error, @author
-			redirect_to :new
+			redirect_to :back
 		end
 	end
 	
 	def edit
 		@author = @current_author
+		@billing_address = @current_author.user.billing_address
+		render :layout => '2col'
+		
 	end
 	
 	def update

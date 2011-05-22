@@ -1,0 +1,11 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+	
+- content_for :middle_column do
+	.form_group
+		%h1 Edit an Author Profile
+
+		= form_for @author, :html => { :multipart => true } do |f|
+			= render :partial => 'form', :locals => {:f => f}
+
+

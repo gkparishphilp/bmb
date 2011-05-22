@@ -6,3 +6,4 @@ module LiquidFilters
 	end
 end
 
+Liquid::Template.register_filter(LiquidFilters)

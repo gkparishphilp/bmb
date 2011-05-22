@@ -6,14 +6,9 @@
 		Refund for Order
 		= @order.order_transaction.reference
 	%br
-	%h3 Order Details
-	.order_label
-		Email
-	.order_value
-		= @order.user.email
-	.clear
+	= render :partial => 'order_info'
 	
+	%h3 Refund Details
 	%br
-	%hr
-	= form_for @refund do |f|
+	= form_for @refund, :url => {:action => :confirm_refund} do |f|
 		= render :partial => 'refund_form', :locals => {:f => f}

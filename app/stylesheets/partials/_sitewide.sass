@@ -24,6 +24,7 @@ $tab-font: 14px
 	-khtml-border-radius: $radius
 	-webkit-border-radius: $radius
 	border-radius: $radius
+	:behavior url(/javascripts/PIE.htc)
 
 =rounded-sides($side, $radius: 4px)
 	-moz-border-radius-#{$side}left: $radius
@@ -74,6 +75,31 @@ $tab-font: 14px
 			:font-weight bold
 			:padding 3px 14px 3px 2px
 			:color #333
+
+=buttons()
+	:display block
+	:width 147px
+	:line-height 26px
+	:font-weight bold
+	:text-align center
+	:text-decoration none
+	:text-transform capitalize
+	:margin 5px auto
+	:padding 0 5px 0 3px
+	:clear both
+	:background-image url("../images/gradient.png")
+	:background-repeat repeat-x
+	+rounded(6px)
+.button
+	:position relative
+
+=button_color($color)
+	:background-color $color + #111
+	:border 3px solid $color
+	&:hover
+		:background-color $color + #222
+		:border 3px solid $color
+		:text-decoration none
 
 body, input, textarea
 	:font-family Arial, Verdana, sans-serif
