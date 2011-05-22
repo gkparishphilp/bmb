@@ -8,12 +8,6 @@
 			%h3 What is the title?
 			= text_field_tag :title, "", :class => :book_title_field
 			%br
-			= check_box_tag :amazon
-			My Book is on Amazon
-			(
-			= link_to "What's this?", '/faq'
-			)
-			%br
 			= submit_tag "Enter"
 - content_for :right_column do
 	= render 'shared/help'
