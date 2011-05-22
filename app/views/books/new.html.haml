@@ -2,18 +2,28 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 Add a Title
+		%h1 Enter the Title of your Book
 
 		= form_tag confirm_author_books_url( @current_author ) do
-			%h3 What is the title?
 			= text_field_tag :title, "", :class => :book_title_field
 			%br
-			= check_box_tag :amazon
-			My Book is on Amazon
-			(
-			= link_to "What's this?", '/faq'
-			)
-			%br
-			= submit_tag "Enter"
+			= submit_tag "Submit"
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 
+		Book Uploading Process
+	%p
+		%b Step 1: 
+		Enter the title of your book.
+	%p
+		Step 2:
+		Enter the meta data for your book
+	%p
+		Step 3:
+		Add formats for your book
+		%br
+		3a. Upload digital versions
+		%li It's helpful to readers to include the format (epub, mobi) or the device (Nook,Kindle, etc) for this format in the Title and Description.
+		%li 
+		3b. Enter physical version
