@@ -25,18 +25,20 @@
 			= f.collection_select :genre_id, @genres, :id, :name
 			= f.label "Description:"
 			= f.text_area :description
-			= f.label 'Keywords:'
-			= f.text_field :tag_list
 			%br
-			= f.submit
+			= f.submit('Update Metadata')
 	.clear
 			
 	.form_group
-		%h3 Add Formats for Title
+		%h3 
+			Add Formats for
+			" 
+			= @book.title
+			"
 		%br
 		.new_button
 			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'etext' )
-			= link_to "Upload E-Text", new_author_book_asset_url( @author, @book, :type => 'etext' )
+			= link_to "Upload eBook", new_author_book_asset_url( @author, @book, :type => 'etext' )
 		.new_button
 			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'pdf' )
 			= link_to "Upload PDF", new_author_book_asset_url( @author, @book, :type => 'pdf' )

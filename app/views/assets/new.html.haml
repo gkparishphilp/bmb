@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			New Asset for
+			New eBook format for
 			= @book.title
 		= form_for [ @author, @book, @asset ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}

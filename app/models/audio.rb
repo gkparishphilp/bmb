@@ -23,5 +23,5 @@
 #
 
 class Audio < Asset
-	has_attached :document, :formats => ['mp3', 'aac', 'wav', 'ogg', 'zip'], :private => true
+	has_attached :document, :private => true
 end
