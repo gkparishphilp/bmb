@@ -1,7 +1,7 @@
 = f.label 'Name:'
 = f.text_field :title
 
--# Disabling uploading of pictures until has_attachments is fixed
+-# todo Disabling uploading of pictures until has_attachments is fixed
 	%p
 		= f.label 'Picture:'
 		%br
@@ -12,13 +12,14 @@
 = f.label 'Description:'
 = f.text_area :description
 = f.label 'Item type'
-= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade_paperback'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc']]
+= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade_paperback'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc']], :selected => params[:merch_type]
 = f.label "Inventory Remaining: (-1 for infinite inventory)"
 = f.text_field :inventory_count
 = f.label "Send low inventory email at: ( -1 to never send email)"
 = f.text_field :inventory_warning
 = f.label "Show remaining inventory count in store at: ( 0 to never show inventory )"
 = f.text_field :show_inventory_count_at
+= f.hidden_field :book_id, :value => params[:book_id]
 %p
 	= f.submit m
 	| 

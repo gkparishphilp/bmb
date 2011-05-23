@@ -35,7 +35,7 @@ class Merch < ActiveRecord::Base
 	
 	gets_activities
 	
-	attr_accessor	:price, :book_id
+	attr_accessor	:price
 	
 	liquid_methods :title, :inventory_count, :inventory_warning
 

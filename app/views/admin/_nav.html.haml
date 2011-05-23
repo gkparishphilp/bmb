@@ -9,8 +9,8 @@
 
 	#admin_hd Manage Store
 	%li= link_to 'Store FAQ', '#'
-	%li= link_to 'Add/Edit Book', new_author_book_path( @current_author )
-	%li= link_to 'Add/Edit Merch', new_author_merch_path( @current_author )
+	%li= link_to 'Manage Books', new_author_book_path( @current_author )
+	%li= link_to 'Manage Merch', new_author_merch_path( @current_author )
 	%li= link_to 'New SKU', new_author_sku_path( @current_author )
 	%li= link_to 'List SKUs', listing_author_skus_path( @current_author )
 	%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
