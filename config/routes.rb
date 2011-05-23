@@ -74,6 +74,7 @@ Backmybook::Application.routes.draw do
 			get 'sort', :on => :collection
 			get 'listing', :on => :collection
 			get 'manage_items', :on => :member
+			post 'remove_item', :on => :member
 		end
 		resources :store do
 			get 'admin', :on => :collection

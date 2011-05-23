@@ -144,6 +144,10 @@ class Sku < ActiveRecord::Base
 		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
 	end
 	
+	def remove_item( item )
+		return self.sku_items.delete item
+	end
+	
 	def merch_sku?
 		#merch_sku? means that there is ONLY merch in the sku
 		# Previous function (return self.sku_items.count == 1 && self.merches.first.present?) didn't work when there were two items in a sku and both were merch, so...

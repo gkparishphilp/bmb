@@ -42,7 +42,7 @@ class MerchesController < ApplicationController
 			pop_flash 'Merchandise could not be saved.', :error, @merch
 		end
 		
-		redirect_to admin_index_path
+		redirect_to :back
 	
 	end
 

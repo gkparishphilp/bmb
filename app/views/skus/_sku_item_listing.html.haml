@@ -1,10 +1,11 @@
-%h2 Items in this Sku
+%h2 
+	Items in SKU: 
+	= @sku.title
+	
 -if @sku.items.count == 0
 	%p 
 		.warning
-			Warning!  SKU has no items associated with it!
-			%br
-			Please add an item.
+			Warning!  SKU has no items associated with it! Please add an item.
 - else
 	%table.admin_table
 		%th Title
@@ -13,7 +14,7 @@
 		- for item in @sku.items
 			%tr
 				%td= item.title
-				%td= link_to '[Remove]', '#'
+				%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name), :method => :post, :confirm => 'Are you sure you want to remove this item?'
 %br
 %hr
 %h3 Add Item into SKU

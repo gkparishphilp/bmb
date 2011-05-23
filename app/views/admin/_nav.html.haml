@@ -6,6 +6,13 @@
 	-# %li= link_to "Featured Items"
 	%li= link_to "Theme", admin_themes_url
 	-#%li= link_to "Links", admin_links_url
+
+	#admin_hd Manage Store
+	%li= link_to 'Store FAQ', '#'
+	%li= link_to 'Add/Edit Book', new_author_book_path( @current_author )
+	%li= link_to 'Add/Edit Merch', new_author_merch_path( @current_author )
+	%li= link_to 'New SKU', new_author_sku_path( @current_author )
+	%li= link_to 'List SKUs', listing_author_skus_path( @current_author )
 	%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
 
 	#admin_hd Reports
@@ -22,11 +29,6 @@
 	-#%li= link_to 'Templates', admin_email_templates_url
 	%li= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url 
 	
-	#admin_hd Manage Store
-	%li= link_to 'Add/Edit Book', new_author_book_path( @current_author )
-	%li= link_to 'Add/Edit Merch', new_author_merch_path( @current_author )
-	%li= link_to 'New SKU', new_author_sku_path( @current_author )
-	%li= link_to 'List SKUs', listing_author_skus_path( @current_author )
 	
 	#admin_hd Profiles
 	%li= link_to 'Author Info', edit_author_url( @current_author )

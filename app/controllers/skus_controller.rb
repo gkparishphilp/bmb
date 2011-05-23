@@ -98,6 +98,18 @@ class SkusController < ApplicationController
 		redirect_to :back
 	end
 	
+	def remove_item
+		@sku = Sku.find params[:id]
+		@item = eval "#{params[:item_type]}.find #{params[:item_id]}"
+		if @sku.remove_item( @item )
+			pop_flash "Item removed"
+		else
+			pop_flash "Could not remove item", :error
+		end
+		redirect_to :back
+			 
+	end
+	
 	def listing
 		render :layout => '2col'
 	end
