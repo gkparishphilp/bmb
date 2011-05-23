@@ -1,0 +1,22 @@
+%h2 Items in this Sku
+-if @sku.items.count == 0
+	%p 
+		.warning
+			Warning!  SKU has no items associated with it!
+			%br
+			Please add an item.
+- else
+	%table.admin_table
+		%th Title
+		%th Action
+		
+		- for item in @sku.items
+			%tr
+				%td= item.title
+				%td= link_to '[Remove]', '#'
+%br
+%hr
+%h3 Add Item into SKU
+= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
+	= f.select :item, @items
+	= f.submit 'Add Item'

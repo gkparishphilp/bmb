@@ -32,6 +32,14 @@ module ApplicationHelper
 		return (amount * 100).round
 	end
 	
+	def format_status( status )
+		if status == 'publish'
+			return 'Available'
+		else
+			return 'Unavailable'
+		end
+	end
+	
 	def get_title
 		if @title
 			title = "BackMyBook | " + @title

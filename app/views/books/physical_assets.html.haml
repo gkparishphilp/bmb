@@ -1,0 +1,38 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h3 
+			= @book.title
+			\: Add physical formats
+		%br
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_merch_url( @author, :merch_type => 'hardcover' )
+			= link_to "Add Hardcover", new_author_merch_url( @author, :merch_type => 'hardcover' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_merch_url( @author, :merch_type => 'trade_paperback' )
+			= link_to "Add Trade Paperback",  new_author_merch_url( @author, :merch_type => 'trade_paperback' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ),  new_author_merch_url( @author, :merch_type => 'paperback' )
+			= link_to "Add Paperback",  new_author_merch_url( @author, :merch_type => 'paperback' )
+		.clear
+	%br
+	.form_group
+		- unless @book.physical_assets.empty?
+			%h2
+				= @book.title
+				\: Available physical formats
+			%table.admin_table
+				%th Title
+				%th Format
+				%th Action
+				- for asset in @book.physical_assets
+					%tr
+						%td
+							= asset.title
+						%td
+							= asset.merch_type
+						%td
+							= link_to '[edit]', edit_merch_url( asset.id )
+- content_for :right_column do
+	= render 'shared/help'

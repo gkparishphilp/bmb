@@ -3,9 +3,26 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			New Physical Book / Merchandise
+			-if params[:merch_type]
+				New
+				= params[:merch_type].capitalize
+			-else
+				New Physical Book / Merchandise
 		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+	%br
+	
+	.form_group
+		%h1 Existing Merchandise
+		%table.admin_table
+			%th Title
+			%th Action
+			
+			- for merch in @current_author.merches.not_books
+				%tr
+					%td= merch.title
+					%td
+						= link_to '[edit]', edit_author_merch_path( @current_author, merch )
 		
 - content_for :right_column do
 	= render 'shared/help'

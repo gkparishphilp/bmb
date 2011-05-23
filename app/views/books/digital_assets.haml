@@ -1,0 +1,43 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h3 
+			= @book.title
+			\: Add digital formats
+		%br
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'etext' )
+			= link_to "Upload eBook", new_author_book_asset_url( @author, @book, :type => 'etext' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'pdf' )
+			= link_to "Upload PDF", new_author_book_asset_url( @author, @book, :type => 'pdf' )
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_book_asset_url( @author, @book, :type => 'audio' )
+			= link_to "Upload Audio", new_author_book_asset_url( @author, @book, :type => 'audio' )
+		.clear
+	%br
+	.form_group
+		- unless @book.assets.empty?
+			%h2
+				= @book.title
+				\: Available digital formats
+			%table.admin_table
+				%th Title
+				%th Format
+				%th Sale/Free
+				%th Action
+				- for asset in @book.assets
+					%tr
+						%td
+							= asset.title
+						%td
+							= asset.document.format
+						%td
+							= asset.asset_type
+						%td
+							= link_to '[edit]', edit_author_book_asset_url( @author, @book, asset )
+							= link_to '[delete]', author_book_asset_url( @author, @book, asset ), :method => :delete, :confirm => 'Are you sure you want to delete this asset?'
+- content_for :right_column do
+	= render 'shared/help'
+	

@@ -10,9 +10,21 @@
 		
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
 	%h3 Notice
 	By uploading content to BackMyBook, you agree to our 
 	= link_to "terms of service", "/terms", :target => "_blank"
 	and our 
 	= link_to "content publishing agreement", "/content", :target => "_blank"
 	&#46;
+	%br
+	%br
+	%hr
+	%h3 
+		Upload eBook Tips
+	%br
+	%li
+		Replace etext with the format (epub/mobi/etc.) or the ereader version (iPad/Nook/Kindle/etc.) in the title of the book
+	%br
+	%li Select the correct 'Pricing Type'.  If this is the first ebook format uploaded for a Title, selecting 'For Sale' will allow you to enter a price for the eBook edition.
+	

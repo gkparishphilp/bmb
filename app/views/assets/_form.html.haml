@@ -8,20 +8,22 @@
 %br
 - case @type
 - when 'etext'
-	= f.label 'File (epub, mobi, lrf, txt, doc, html, htm, odt, max 100 MB)'
-	= file_field_tag :attached_document_file
+	%p
+		= f.label 'File to upload(epub, mobi, lrf, pdf max 100 MB)'
+		= file_field_tag :attached_document_file
 	
-	= f.label "Pricing Type"
-	= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
+	%p
+		= f.label "Pricing Type"
+		= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
-	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
+		- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
+			#price
+				= f.label "Price ($)"
+				= f.text_field :price
 
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
+		#unlock_req
+			= f.label "Unlock Requirement"
+			= f.text_field :unlock_requirement
 		
 - when 'pdf'
 	= f.label 'File (pdf, max 100 MB)'

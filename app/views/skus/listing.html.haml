@@ -1,0 +1,21 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h2 SKU Listing
+		%table.admin_table
+			%th Title
+			%th Price
+			%th Status
+			%th Action
+		
+			- for sku in @current_author.skus
+				%tr
+					%td= sku.title
+					%td= format_price( sku.price )
+					%td= format_status( sku.status )
+					%td
+						= link_to '[edit]', edit_author_sku_path( @current_author, sku )
+- content_for :right_column do
+	%h3 
+		Need Help?

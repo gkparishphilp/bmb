@@ -21,7 +21,8 @@ class Merch < ActiveRecord::Base
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
-	scope   :published, where( "status = 'publish'" )
+	scope :published, where( "status = 'publish'" )
+	scope :not_books, where("(merch_type <> 'hardcover' and merch_type <> 'trade_paperback' and merch_type <> 'paperback') or merch_type is null")
 	
 	belongs_to	:book #sometimes.... not necessarily
 	
@@ -44,6 +45,10 @@ class Merch < ActiveRecord::Base
 	
 	def review_average
 		return avg = self.reviews.average( :score ).to_f
+	end
+	
+	def is_a_book?
+		self.merch_type == 'hardcover' || self.merch_type == 'trade_paperback' || self.merch_type == 'paperback'
 	end
 
 end

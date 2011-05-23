@@ -4,9 +4,10 @@
 	.form_group
 		= form_for [ @author, @book ] do |f|
 			%h1
-				Edit
+				Enter metadata for "
 				= @book.title
-			= link_to "(Edit Title)", "#", :class => :show_edit_title
+				"
+			= link_to "(Change Title)", "#", :class => :show_edit_title
 			#edit_title
 				= f.text_field :title, :class => :book_title_field
 				= f.submit "Update"
@@ -28,7 +29,8 @@
 			%br
 			= f.submit('Update Metadata')
 	.clear
-			
+	%br
+	%br		
 	.form_group
 		%h3 
 			Add Formats for
@@ -70,9 +72,17 @@
 - content_for :right_column do
 	= render 'shared/help'
 	
-	%h3 Links
-	- for link in @book.links
-		= link_to link.title, link.url
-		edit | delete
+	%hr
+	%h3 
+		Book Upload Steps
+	%p
+		Step 1: 
+		Enter the title of your book.
+	%p
+		%b Step 2:
+		Enter the meta data for your book
+	%p
+		Step 3:
+		Add digital formats
 		
 

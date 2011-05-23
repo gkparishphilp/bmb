@@ -8,6 +8,26 @@ class BooksController < ApplicationController
 		@reviewable = @book
 	end
 	
+	def digital_assets
+		@book = Book.find params[:id]
+		unless @book.author == @current_author
+			pop_flash "You don't own this book", :error
+			redirect_to root_path
+			return false
+		end
+		render :layout => '2col'
+	end
+	
+	def physical_assets
+		@book = Book.find params[:id]
+		unless @book.author == @current_author
+			pop_flash "You don't own this book", :error
+			redirect_to root_path
+			return false
+		end
+		render :layout => '3col'
+	end
+	
 	def index
 		@books = @author.books #.published
 	end
@@ -58,7 +78,7 @@ class BooksController < ApplicationController
 	end
 	
 	def new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def update

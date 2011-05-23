@@ -1,5 +1,6 @@
 class SkusController < ApplicationController
 	cache_sweeper :sku_sweeper, :only => [:create, :update, :destroy, :update_sort]
+	before_filter :get_items, :only => [:edit, :manage_items]
 
 	def create
 		@sku = Sku.new params[:sku]
@@ -11,10 +12,11 @@ class SkusController < ApplicationController
 		if @current_author.skus << @sku
 			process_attachments_for @sku
 			pop_flash 'Sku saved!'
+			redirect_to manage_items_author_sku_path( @current_author, @sku)
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
+			redirect_to edit_author_sku_path( @current_author, @sku )
 		end
-		redirect_to edit_author_sku_path( @current_author, @sku )
 	end
 	
 	def update
@@ -43,6 +45,16 @@ class SkusController < ApplicationController
 		render :layout => 'authors'
 	end
 	
+	def manage_items
+		@sku = Sku.find params[:id]
+		unless @sku.owner == @current_author
+			pop_flash 'You do not own this SKU', :error
+			redirect_to root_path
+			return false
+		end
+		render :layout => '3col'
+	end
+	
 	def edit
 		@sku = Sku.find params[:id]
 		unless @sku.owner == @current_author
@@ -50,9 +62,6 @@ class SkusController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		@books = @current_author.books
-		@items = @current_author.merches.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
-		@items += @current_author.assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
 		render :layout => '3col'
 	end
 	
@@ -88,5 +97,16 @@ class SkusController < ApplicationController
 		end
 		redirect_to :back
 	end
+	
+	def listing
+		render :layout => '2col'
+	end
 
+	protected
+	
+	def get_items
+		@books = @current_author.books
+		@items = @current_author.merches.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
+		@items += @current_author.assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
+	end
 end

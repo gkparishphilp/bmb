@@ -14,7 +14,7 @@
 = f.label 'Associate with title:'
 = f.collection_select :book_id, @books, :id, :title
 = f.label 'Available in store?'
-= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
+= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']], :selected => @sku.status
 = f.label 'Description:'
 = f.text_area :description
 %br

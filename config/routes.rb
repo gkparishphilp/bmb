@@ -36,6 +36,8 @@ Backmybook::Application.routes.draw do
 		resources :books do
 			get 'mockup', :on => :collection
 			post 'confirm', :on => :collection
+			get 'digital_assets', :on => :member
+			get 'physical_assets', :on => :member
 			# all these routes just to edit STI resource on books
 			resources :etext, :controller => :assets
 			resources :pdf, :controller => :assets
@@ -54,6 +56,7 @@ Backmybook::Application.routes.draw do
 				resources :posts
 			end
 		end
+		resource :merches
 		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 
 			
@@ -69,6 +72,8 @@ Backmybook::Application.routes.draw do
 		resources :skus do
 			put 'add_item', :on => :member
 			get 'sort', :on => :collection
+			get 'listing', :on => :collection
+			get 'manage_items', :on => :member
 		end
 		resources :store do
 			get 'admin', :on => :collection

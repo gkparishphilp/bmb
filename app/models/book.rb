@@ -43,6 +43,7 @@ class Book < ActiveRecord::Base
 	has_one		:upload_file
 	has_many	:raw_stats, :as => :statable
 	has_many	:skus
+	has_many	:merches
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
@@ -53,7 +54,7 @@ class Book < ActiveRecord::Base
 	attr_accessor :asin
 	
 	scope :published, where( "status = 'publish'" )
-		
+
 	# class_methods
 	def self.find_on_amazon( title )
 		Amazon::Ecs.item_search( title, :response_group => 'Medium', :search_index => 'Books' ).items
@@ -90,6 +91,15 @@ class Book < ActiveRecord::Base
 		# for permissions
 		return self.author
 	end
+	
+	def physical_assets
+		a = Array.new
+		for merch in self.merches
+			a << merch if merch.is_a_book?
+		end
+		return a		
+	end
+	
 	
 	def ebook_sku
 		self.skus.ebook.first

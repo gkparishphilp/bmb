@@ -7,14 +7,9 @@
 		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
 		%br
-		%hr
-		%h3 Items in this Sku
-		- for item in @sku.items
-			= item.title
-			%hr
-		= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
-			= f.select :item, @items
-			= f.submit 'Add Item'
+	%br	
+	.form_group
+		= render :partial => 'sku_item_listing'
 		
 - content_for :right_column do
 	= render 'shared/help'
