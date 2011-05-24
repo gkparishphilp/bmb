@@ -185,6 +185,14 @@ class Sku < ActiveRecord::Base
 		return false
 	end
 	
+	def has_sales?
+		if Order.for_sku( self ).count > 0 
+			return true
+		else
+			return false
+		end
+	end
+	
 	def decrement_inventory_by( quantity )
 		for sku_item in self.sku_items
 			if sku_item.item_type == 'Merch' and sku_item.merch.inventory_count > 0

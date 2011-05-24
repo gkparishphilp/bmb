@@ -2,8 +2,14 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 
-			New Physical Book / Merchandise
+		-if @book
+			%br
+			%h1= @book.title
+			%h2
+				= params[:merch_type].capitalize 
+				edition
+		-else
+			%h1 New Merchandise
 				
 		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}

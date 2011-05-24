@@ -14,10 +14,13 @@
 		- for item in @sku.items
 			%tr
 				%td= item.title
-				%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name), :method => :post, :confirm => 'Are you sure you want to remove this item?'
+				- unless @sku.has_sales?
+					%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => 'Are you sure you want to remove this item?'
 %br
-%hr
-%h3 Add Item into SKU
-= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
-	= f.select :item, @items
-	= f.submit 'Add Item'
+
+-unless @sku.has_sales?
+	%hr
+	%h3 Add Item into SKU
+	= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
+		= f.select :item, @items
+		= f.submit 'Add Item'

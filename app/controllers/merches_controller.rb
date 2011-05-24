@@ -2,6 +2,7 @@ class MerchesController < ApplicationController
 	def new
 		@merch = Merch.new
 		@books = @current_author.books
+		@book = Book.find params[:book_id] if params[:book_id]
 		render :layout => '3col'
 	end
 	
