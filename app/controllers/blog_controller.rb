@@ -48,7 +48,7 @@ class BlogController < ApplicationController
 private
 
 	def get_owner
-		@owner = @author ? @author : @current_site
+		@owner = @current_author ? @current_author : @author 
 	end
 	
 	def get_admin

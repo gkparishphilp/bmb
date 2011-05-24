@@ -1,0 +1,23 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+
+- content_for :middle_column do
+	%h1 Site Configuration
+	= form_for @author do |f|
+		%p
+			Enable blog?
+			=f.check_box :enable_blog, {:checked => @author.has_blog?}
+		%p
+			Enable store?
+			=f.check_box :enable_store, {:checked => @author.has_store?}
+		%p
+			Enable help page?
+			=f.check_box :enable_help, {:checked => @author.has_store?}
+		%p
+			Enable bio page?
+			=f.check_box :enable_bio, {:checked => @author.has_bio?}
+		%p
+			= f.submit
+		
+- content_for :right_column do
+	=render 'shared/help'

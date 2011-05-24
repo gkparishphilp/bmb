@@ -139,6 +139,26 @@ class Author < ActiveRecord::Base
 		return tax
 	end
 	
+	def has_blog?
+		return self.enable_blog
+	end
+
+	def has_store?
+		return self.enable_store
+	end
+	
+	def has_help?
+		return self.enable_help
+	end
+	
+	def has_bio?
+		return self.enable_bio
+	end
+	
+	def has_forum?
+		return self.enable_forums
+	end
+	
 	private
 	
 	def book_promo
@@ -155,6 +175,8 @@ class Author < ActiveRecord::Base
 			return false
 		end
 	end
+	
+
 	
 	
 end

@@ -1,5 +1,15 @@
 .author_menu
 	%ul.main-menu
-		%li= current_page?( author_url( @author ) ) ? ( link_to "Store", author_url( @author ), :class => 'selected' ) : ( link_to "Store", author_url( @author ) )
-			
-		%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
+		- if @author.has_blog?
+			%li= current_page?( author_blog_index_url( @author ) ) ? ( link_to "Blog", author_blog_index_url( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_url( @author ) )	
+		- if @author.has_store?
+			%li= current_page?( author_url( @author ) ) ? ( link_to "Store", author_url( @author ), :class => 'selected' ) : ( link_to "Store", author_url( @author ) )
+
+		- if @author.has_bio?
+			%li= current_page?( bio_author_url( @author ) ) ? ( link_to "Bio", bio_author_url( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_url( @author ) )
+
+		- if @author.has_help?
+			%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
+
+
+		- if @author.has_forum?

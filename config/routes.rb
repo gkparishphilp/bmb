@@ -32,6 +32,7 @@ Backmybook::Application.routes.draw do
 		resources :articles
 		get 'bio', :on => :member
 		get 'help', :on => :member
+		get 'site_config', :on => :member
 		resources :blog
 		resources :books do
 			get 'mockup', :on => :collection

@@ -5,6 +5,11 @@ class AuthorsController < ApplicationController
 	def index
 		@author = Author.last
 	end
+	
+	def site_config
+		@author = @current_author
+		render :layout => '3col'
+	end
 
 	def manage
 		@author = @current_user.author

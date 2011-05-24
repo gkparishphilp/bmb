@@ -1,5 +1,6 @@
 - if @current_author
 	#admin_hd  Display
+	%li= link_to 'Site Features', site_config_author_url( @current_author )
 	%li= link_to "Promo", admin_author_store_index_url( @current_author )
 	%li= link_to "FAQ", faq_author_store_index_url( @current_author)
 	-# %li= link_to "Sidebar Items"
@@ -23,6 +24,10 @@
 	%li= link_to "Ship Info", report_path( 'shipping' )
 	-#%li= link_to "Emails", reports_emails_path
 
+	-if @current_author.has_blog?
+		#admin_hd Blog
+		%li= link_to 'Manage Blog', admin_blog_index_path
+
 	#admin_hd Messaging
 	%li= link_to 'Newsletters', admin_email_messages_url
 	%li= link_to 'Email Lists', admin_list_email_messages_url
@@ -30,5 +35,6 @@
 	%li= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url 
 	
 	
+
 	#admin_hd Profiles
 	%li= link_to 'Author Info', edit_author_url( @current_author )
