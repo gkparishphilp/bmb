@@ -100,8 +100,7 @@ class SkusController < ApplicationController
 	
 	def remove_item
 		@sku = Sku.find params[:id]
-		@item = SkuItem.where( :sku_id => @sku.id, :item_id => params[:item_id], :item_type => params[:item_type] )
-
+		@item = SkuItem.find_by_sku_id_and_item_id_and_item_type(@sku.id, params[:item_id], params[:item_type] )
 		if @sku.remove_item( @item )
 			pop_flash "Item removed"
 		else

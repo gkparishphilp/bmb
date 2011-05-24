@@ -141,10 +141,11 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def add_item( item )
-		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
+		return self.sku_items.create :item_id => item.id, :item_type => item.class.name, :status => 'active'
 	end
 	
 	def remove_item( item )
+		#todo need to figure out why the join table entry isn't deleted, the sku_id is only set to NULL.  Is it because of the item polymorphism
 		return self.sku_items.delete item
 	end
 	

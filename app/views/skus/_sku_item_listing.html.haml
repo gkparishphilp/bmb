@@ -14,8 +14,8 @@
 		- for item in @sku.items
 			%tr
 				%td= item.title
-				- unless @sku.has_sales?
-					%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => 'Are you sure you want to remove this item?'
+				-unless @sku.has_sales?
+					%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
 %br
 
 -unless @sku.has_sales?
