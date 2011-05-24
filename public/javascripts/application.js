@@ -13,6 +13,30 @@ $(document).ready(function(){
 	});
 	
 	
+	//////////////////// Jquery Editor /////////////////////
+	var editor_small_opts = {
+		lang			: 'en',   // set your language
+		styleWithCSS	: false,
+		width			: 510, 
+		height			: 200,
+		fmAllow			: true,
+		toolbar			: 'compact'
+	}
+	
+	var editor_opts = {
+		lang			: 'en',   // set your language
+		styleWithCSS	: false,
+		width			: 700, 
+		height			: 400,
+		fmAllow			: true,
+		toolbar			: 'complete'
+	};
+	// create editor
+	$('.editor').elrte(editor_opts);
+	$('.editor_small').elrte(editor_small_opts);
+	
+	
+	
 	///////////////////////  Stuff For Edit Book Page  //////////////////////
 	
 	$('.show_edit_title').click( function() {

@@ -25,7 +25,7 @@
 			= f.label 'Genre:'
 			= f.collection_select :genre_id, @genres, :id, :name
 			= f.label "Description:"
-			= f.text_area :description
+			= f.text_area :description, :class => 'editor_small'
 			%br
 			= f.submit('Update Metadata')
 	.clear
@@ -34,16 +34,15 @@
 	= render 'shared/help'
 	
 	%hr
+	%br
 	%h3 
-		Book Upload Steps
+		Tip:
 	%p
-		Step 1: 
-		Enter the title of your book.
-	%p
-		%b Step 2:
-		Enter the meta data for your book
-	%p
-		Step 3:
-		Add digital formats
+		After entering the book metadata, add 
+		= link_to 'physical', physical_assets_author_book_path(@current_author, @book)
+		or 
+		= link_to 'digital', digital_assets_author_book_path(@current_author, @book)
+		assets for your book.
+
 		
 

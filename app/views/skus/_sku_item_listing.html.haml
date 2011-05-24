@@ -1,26 +1,29 @@
-%h2 
-	Items in SKU: 
-	= @sku.title
+.form_group
+	%h2 
+		Items in SKU: 
+		= @sku.title
 	
--if @sku.items.count == 0
-	%p 
-		.warning
-			Warning!  SKU has no items associated with it! Please add an item.
-- else
-	%table.admin_table
-		%th Title
-		%th Action
+	-if @sku.items.count == 0
+		%p 
+			.warning
+				Warning!  SKU has no items associated with it! Please add an item.
+	- else
+		%table.admin_table
+			%th Title
+			%th Action
 		
-		- for item in @sku.items
-			%tr
-				%td= item.title
-				-unless @sku.has_sales?
-					%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
-%br
+			- for item in @sku.items
+				%tr
+					%td= item.title
+					-unless @sku.has_sales?
+						%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
+	%br
 
--unless @sku.has_sales?
-	%hr
-	%h3 Add Item into SKU
-	= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
-		= f.select :item, @items
-		= f.submit 'Add Item'
+	-unless @sku.has_sales?
+		%hr
+		%h3 
+			Add Item into SKU: 
+			= @sku.title
+		= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
+			= f.select :item, @items
+			= f.submit 'Add Item'

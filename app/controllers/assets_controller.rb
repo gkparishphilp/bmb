@@ -47,7 +47,7 @@ class AssetsController < ApplicationController
 			pop_flash 'Asset could not be saved.', :error, @asset
 		end
 
-		redirect_to author_book_assets_path( @current_author, @book ) 
+		redirect_to digital_assets_author_book_path( @current_author, @book ) 
 
 	end
 	
@@ -78,7 +78,7 @@ class AssetsController < ApplicationController
 			pop_flash 'Asset could not be saved.', :error, @asset
 		end
 
-		redirect_to :back
+		redirect_to digital_assets_author_book_path( @current_author, @book ) 
 		
 	end
 	

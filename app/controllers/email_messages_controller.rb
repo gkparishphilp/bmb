@@ -1,5 +1,4 @@
 class EmailMessagesController < ApplicationController
-	uses_tiny_mce 
 	
 	def admin
 		@campaign = @current_author.email_campaigns.find_by_title('Default')

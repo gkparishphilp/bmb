@@ -11,13 +11,16 @@
 = f.label "Picture:"
 = image_tag @sku.avatar.location('thumb'), :width => @sku.avatar.thumb_width if @sku.has_attached_avatar?
 = file_field_tag :attached_avatar_file
+%br
+%br
 = f.label 'Associate with title:'
 = f.collection_select :book_id, @books, :id, :title
 = f.label 'Available in store?'
 = f.select :status, [['Yes', 'publish'], ['No', 'unpublish']], :selected => @sku.status
-= f.label 'Description:'
-= f.text_area :description
 %br
+%br
+= f.label 'Description:'
+= f.text_area :description, :class => 'editor_small'
 %br
 = f.submit "Save"
 

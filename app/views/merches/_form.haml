@@ -9,12 +9,12 @@
 	= file_field_tag :attached_avatar_file
 
 = f.label 'Description:'
-= f.text_area :description
+= f.text_area :description, :class => 'editor_small'
 = f.label 'Item type'
-- if params[:book_id]
-	= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade_paperback'], ['Paperback','paperback']], :selected => params[:merch_type]
+- if @merch.is_a_book?
+	= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade paperback'], ['Paperback','paperback']], :selected => params[:merch_type]
 - else
-	= f.select :merch_type, [ ['Apparel','apparel'], ['Misc','misc']], :selected => params[:merch_type]
+	= f.select :merch_type, [ ['Apparel','apparel'], ['Misc','misc']]
 	
 = f.label "Inventory Remaining: (-1 for infinite inventory)"
 = f.text_field :inventory_count

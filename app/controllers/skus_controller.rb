@@ -37,7 +37,7 @@ class SkusController < ApplicationController
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
 		end
-		redirect_to :back
+		redirect_to listing_author_sku_path(@current_author)
 	end
 	
 	def show
@@ -118,7 +118,7 @@ class SkusController < ApplicationController
 	
 	def get_items
 		@books = @current_author.books
-		@items = @current_author.merches.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
-		@items += @current_author.assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
+		@items = @current_author.merches.published.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
+		@items += @current_author.published_assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
 	end
 end

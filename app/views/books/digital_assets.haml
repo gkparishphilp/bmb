@@ -25,6 +25,7 @@
 			%table.admin_table
 				%th Title
 				%th Format
+				%th Availability
 				%th Sale/Free
 				%th Action
 				- for asset in @book.assets
@@ -34,10 +35,11 @@
 						%td
 							= asset.document.format
 						%td
+							= format_status asset.status
+						%td
 							= asset.asset_type
 						%td
 							= link_to '[edit]', edit_author_book_asset_url( @author, @book, asset )
-							= link_to '[delete]', author_book_asset_url( @author, @book, asset ), :method => :delete, :confirm => 'Are you sure you want to delete this asset?'
 - content_for :right_column do
 	= render 'shared/help'
 	

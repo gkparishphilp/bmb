@@ -22,7 +22,7 @@ class Merch < ActiveRecord::Base
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
 	scope :published, where( "status = 'publish'" )
-	scope :not_books, where("(merch_type <> 'hardcover' and merch_type <> 'trade_paperback' and merch_type <> 'paperback') or merch_type is null")
+	scope :not_books, where("(merch_type <> 'hardcover' and merch_type <> 'trade paperback' and merch_type <> 'paperback') or merch_type is null")
 	
 	belongs_to	:book #sometimes.... not necessarily
 	
@@ -48,7 +48,7 @@ class Merch < ActiveRecord::Base
 	end
 	
 	def is_a_book?
-		self.merch_type == 'hardcover' || self.merch_type == 'trade_paperback' || self.merch_type == 'paperback'
+		self.merch_type == 'hardcover' || self.merch_type == 'trade paperback' || self.merch_type == 'paperback'
 	end
 
 end

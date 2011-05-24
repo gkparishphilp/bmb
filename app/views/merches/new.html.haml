@@ -5,7 +5,7 @@
 		-if @book
 			%br
 			%h1= @book.title
-			%h2
+			%h3
 				= params[:merch_type].capitalize 
 				edition
 		-else
@@ -29,3 +29,20 @@
 		
 - content_for :right_column do
 	= render 'shared/help'
+	%hr 
+	%h3 Tips
+
+	%p Include the edition (ie. Hardcover/Paperback/etc) in the item Name and Description so your buyers will quickly know what edition they are purchasing.
+	%p 
+		%b Inventory remaining 
+		is the # of units available for sale.
+	%p
+		The system can send an email to 
+		= @current_author.contact_email
+		when the 
+		%b low inventory 
+		threshold is crossed.
+	%p
+		A " XX remaining " prompt will show up on your store so buyers will see that the item is in low supply.  This prompt appears when the inventory count is lower than the  
+		%b show remaining inventory count
+		threshold.

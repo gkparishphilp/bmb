@@ -5,8 +5,6 @@ class AdminController < ApplicationController
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
 	
-	uses_tiny_mce
-	
 	def site
 		if Contract.last.nil?
 			@contract = Contract.new

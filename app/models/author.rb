@@ -82,9 +82,9 @@ class Author < ActiveRecord::Base
 		return self.pen_name
 	end
 	
-	def assets
-		# return all assets for all books for the author
-		self.books.collect{ |b| b.assets }.flatten
+	def published_assets
+		# return all published assets for all books for the author
+		self.books.collect{ |b| b.assets.published }.flatten
 	end
 	
 	def set_subdomain

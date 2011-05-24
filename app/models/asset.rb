@@ -40,6 +40,7 @@ class Asset < ActiveRecord::Base
 	attr_accessor :price
 	
 	scope :free, where( "asset_type = 'free'" )
+	scope :published, where("status = 'publish'")
 	
 	def sku
 		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku

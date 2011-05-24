@@ -4,12 +4,22 @@
 	.form_group
 		%h1 
 			Edit Sku
+		- if @sku.sku_items.count == 0
+			.warning
+				Warning!  SKU has no items associated with it! Please add an item at the bottom of this page.
 		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
-		%br
 	%br	
 	.form_group
 		= render :partial => 'sku_item_listing'
 		
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 Tips
+	%p Only SKUs with physical goods should have a shipping amount.
+	%p Add the format (ie. Hardcover/Kindle/etc) in the SKU Name and Description fields so buyer can easily distinguish the formats.
+	%p Associating the SKU with a title makes it appear on the sidebar of that title's description page. 
+	%p Make sure to add at least one item into the SKU.
+	%p You can add or remove a SKU item only if the SKU hasn't been purchased.
+	

@@ -4,7 +4,7 @@
 = hidden_field_tag :type, @type
 
 = f.label :description
-= f.text_area :description
+= f.text_area :description, :class => 'editor_small'
 %br
 - case @type
 - when 'etext'
@@ -30,7 +30,7 @@
 	= file_field_tag :attached_document_file
 	
 	= f.label "Price"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
 	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
 		#price
@@ -51,7 +51,7 @@
 	= f.text_field :bitrate
 	
 	= f.label "Asset Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
 	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well
 		#price
@@ -62,9 +62,10 @@
 		= f.label "Unlock Requirement"
 		= f.text_field :unlock_requirement
 
+%p
+	= f.label "Availability"
+	= f.select :status, [['Available', 'publish'], ['Unavailable', 'unpublish']]
 
-%br
-%br
 = f.submit m, :class => :button
 |
 = link_to 'Cancel', :back

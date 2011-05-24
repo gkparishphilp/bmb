@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	= form_for @current_author do |f|
 		= f.label "Store Promo"
-		= f.text_area :promo, :class => 'mceEditor'
+		= f.text_area :promo, :class => 'editor'
 		= f.submit "Update Promo", :class => :buttons
 - content_for :right_column do
 	= render 'shared/help'
