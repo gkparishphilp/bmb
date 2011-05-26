@@ -215,6 +215,9 @@ class OrdersController < ApplicationController
 
 			if @author.present?
 				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )
+				
+			elsif @current_author
+				redirect_to admin_index_url
 			else
 				redirect_to @order
 			end
