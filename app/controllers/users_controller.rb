@@ -53,6 +53,7 @@ class UsersController < ApplicationController
 	end
 
 	def create
+
 		@user = User.find_or_initialize_by_email params[:user][:email]
 		if @user.hashed_password.present?
 			pop_flash "An account exists for this email -- please login", :notice

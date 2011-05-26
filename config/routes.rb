@@ -224,6 +224,7 @@ Backmybook::Application.routes.draw do
 	match '/admin/' => 'admin#index', :as => :admin_index
 	
 	match '/get-started' => 'contacts#get_started', :as => :get_started 
+	match '/author/signup' => 'authors#signup', :as => :author_signup
 
 	match '/reports/(:action)' => 'reports', :as => :report
 		
