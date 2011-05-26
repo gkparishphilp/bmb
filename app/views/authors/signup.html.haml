@@ -1,0 +1,41 @@
+- content_for :left_column do
+	%h1 Let's Get Started!
+	.form_group
+		%h3 First, Please Create an Account:
+		= form_tag author_signup_path do
+			= label_tag 'Email Address:'
+			= text_field_tag :email, "", :class => 'register_field'
+			= label_tag 'Password:'
+			= password_field_tag :password, "", :class => 'register_field'
+			= label_tag 'Confirm Password:'
+			= password_field_tag :password_confirmation, "", :class => 'register_field'
+			
+			= label_tag 'Pen Name:'
+			= text_field_tag :pen_name, "", :class => 'register_field'
+			
+			= label_tag 'Website: (optional)'
+			= text_field_tag :website, "", :class => 'register_field'
+			
+			.clear
+			= submit_tag 'Register', :class => 'buttons'
+		
+- content_for :right_column do
+	#sidebar_promo
+		%h3
+			BackMyBook Features
+		%ul
+			%li Your own Online store
+			%li Industry-leading 90/10 net royalties
+			%li We support <b>any</b> book format including audio-books and even hardcovers and merchandise
+			%li Detailed reporting
+		%h3 
+			Your store, Your customers
+		%ul
+			%li Email marketing -- sign-up your readers and send newsletters
+			%li Send personalized fulfillment emails and auto-responders
+			%li Social Marketing -- message your readers on all major social networks
+		%h3
+			Try us risk free
+		%ul
+			%li Branded store setup and customization
+			%li Personalized service and support

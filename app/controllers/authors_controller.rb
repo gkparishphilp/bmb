@@ -1,5 +1,5 @@
 class AuthorsController < ApplicationController
-	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
+	before_filter	:require_login, :except => [ :index, :show, :bio, :help, :signup ]
 	before_filter	:get_form_data, :only => [:new, :edit]
 	
 	def index
@@ -99,6 +99,48 @@ class AuthorsController < ApplicationController
 	def help
 		@author = Author.find params[:id] if @author.nil?
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
+	def signup
+		if request.post?
+			if params[:email].blank?
+				pop_flash "Email is required", :error
+				redirect_to :back
+				return false
+			end
+			@user = User.find_or_initialize_by_email params[:email]
+			# todo - catch users who already have pws?
+			if @user.hashed_password.blank?
+				@user.attributes = { :password => params[:password], 
+										:password_confirmation => params[:password_confirmation] }
+			end
+			
+			@user.orig_ip = request.ip
+
+			@user.status = 'pending'
+			@user.site = @current_site
+			
+			@user.website_url = params[:website] unless params[:website].blank?
+	
+			if @user.save
+			
+				@user.create_activation_code
+				@user.reload
+			
+				#email = UserMailer.author_welcome( @user, @current_site ).deliver
+				login( @user )
+				
+				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
+				pop_flash "Something Good."
+
+				redirect_to '/orders/new?sku=16'
+			else
+				pop_flash "There was a problem", :error, @user
+			end
+
+		else
+			render :layout => 'application'
+		end
 	end
 	
 	private
