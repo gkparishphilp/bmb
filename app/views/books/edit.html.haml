@@ -10,9 +10,9 @@
 			= link_to "(Change Title)", "#", :class => :show_edit_title
 			#edit_title
 				= f.text_field :title, :class => :book_title_field
-				= f.submit "Update"
+				= f.submit "Update", :class => 'buttons'
 				= link_to "Cancel", "#", :class => :hide_edit_title
-		
+		%br
 		= image_tag @book.avatar.location('thumb'), :width => @book.avatar.thumb_width if @book.has_attached_avatar?
 		
 		%br
@@ -27,7 +27,8 @@
 			= f.label "Description:"
 			= f.text_area :description, :class => 'editor_small'
 			%br
-			= f.submit('Update Metadata')
+			= f.submit 'Update Metadata', :class => 'buttons'
+			= link_to 'Cancel', :back
 	.clear
 		
 - content_for :right_column do

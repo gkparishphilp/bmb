@@ -17,7 +17,7 @@
 			Enable bio page?
 			=f.check_box :enable_bio, {:checked => @author.has_bio?}
 		%p
-			= f.submit
+			= f.submit 'Update Site', :class => 'buttons'
 		
 - content_for :right_column do
 	=render 'shared/help'

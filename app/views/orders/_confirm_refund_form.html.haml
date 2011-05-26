@@ -36,6 +36,6 @@
 
 %br
 
-= f.submit 'Submit Refund'
+= f.submit 'Submit Refund', :class => 'buttons'
 
 -#= link_to 'Confirm Refund', refunds_path(:refund =>{ :order_id => @order.id, :item_amount => @refund.item_amount, :shipping_amount => @refund.shipping_amount, :tax_amount => @refund.tax_amount, :total => @refund.total, :comment => @refund.comment }), :method => :post

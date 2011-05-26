@@ -1,5 +1,5 @@
 = f.label 'Name:'
-= f.text_field :title
+= f.text_field :title, :value => @merch_title
 
 %p
 	= f.label 'Picture:'
@@ -11,7 +11,7 @@
 = f.label 'Description:'
 = f.text_area :description, :class => 'editor_small'
 = f.label 'Item type'
-- if @merch.is_a_book?
+- if @merch.is_a_book? or params[:merch_type]
 	= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade paperback'], ['Paperback','paperback']], :selected => params[:merch_type]
 - else
 	= f.select :merch_type, [ ['Apparel','apparel'], ['Misc','misc']]
@@ -24,7 +24,7 @@
 = f.text_field :show_inventory_count_at
 = f.hidden_field :book_id, :value => params[:book_id]
 %p
-	= f.submit m
+	= f.submit 'Submit', :class => 'buttons'
 	| 
 	= link_to "Cancel", :back
 	

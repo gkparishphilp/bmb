@@ -17,8 +17,10 @@
 			= link_to "Upload Audio", new_author_book_asset_url( @author, @book, :type => 'audio' )
 		.clear
 	%br
-	.form_group
-		- unless @book.assets.empty?
+
+	- unless @book.assets.empty?
+
+		.form_group
 			%h2
 				= @book.title
 				\: Available digital formats

@@ -4,7 +4,9 @@
 	.form_group
 		-if @book
 			%br
-			%h1= @book.title
+			%h1 
+				Enter metadata for 
+				= @book.title
 			%h3
 				= params[:merch_type].capitalize 
 				edition

@@ -7,7 +7,7 @@
 		= form_tag confirm_author_books_url( @current_author ) do
 			= text_field_tag :title, "", :class => :book_title_field
 			%br
-			= submit_tag "Submit"
+			= submit_tag "Submit", :class => 'buttons'
 	%br
 	.form_group
 		%h1 Existing Books

@@ -22,5 +22,7 @@
 = f.label 'Description:'
 = f.text_area :description, :class => 'editor_small'
 %br
-= f.submit "Save"
+= f.submit "Save", :class => 'buttons'
+|
+= link_to 'Cancel', :back
 

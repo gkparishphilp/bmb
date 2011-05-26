@@ -1,4 +1,4 @@
-= f.label 'Title of eBook'
+= f.label 'Title'
 = f.text_field :title, :class => 'title_field'
 
 = hidden_field_tag :type, @type
@@ -29,7 +29,7 @@
 	= f.label 'File (pdf, max 100 MB)'
 	= file_field_tag :attached_document_file
 	
-	= f.label "Price"
+	= f.label "Pricing Type"
 	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
 	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
@@ -50,7 +50,7 @@
 	= f.label 'Bitrate:'
 	= f.text_field :bitrate
 	
-	= f.label "Asset Type"
+	= f.label "Pricing Type"
 	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
 	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well

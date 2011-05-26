@@ -9,10 +9,10 @@ Subject:
 %br
 
 %br
-= f.text_area :content, :class => 'mceEditor'
+= f.text_area :content, :class => 'editor'
 
 %br
-= f.hidden_field :template_type, :value => 'shipping'
-= f.submit 'Save' 
+= f.hidden_field :template_type, :value => 'custom'
+= f.submit 'Save' , :class => 'buttons'
 |
 = link_to 'Cancel', :back
