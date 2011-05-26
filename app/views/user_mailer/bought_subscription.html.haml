@@ -1,0 +1,60 @@
+Hi
+= @user.name
+, 
+%p
+	This email confirms your purchase of 
+	= @order.sku.title
+
+%table.admin_table
+	%tr
+		%td 
+			%b Item
+		%td 
+			%b Amount
+
+	%tr
+		%td
+			= @order.sku.title
+			Quantity: 
+			= @order.sku_quantity
+			
+		%td= number_to_currency( @order.sku.price.to_f / 100 * @order.sku_quantity)
+	-if @order.coupon.present?
+		%tr
+			%td Discount
+			-if @order.coupon.discount_type == 'cents'
+				%td
+					(
+					= number_to_currency( @order.coupon.discount.to_f / 100 * @order.sku_quantity )
+					)
+			-if @order.coupon.discount_type == 'percent'
+				%td
+					(
+					= number_to_currency( @order.coupon.discount.to_f / 100 * @order.sku.price.to_f / 100)
+					)
+	-if @order.tax_amount.present?
+		%tr
+			%td Tax
+			%td= number_to_currency( @order.tax_amount.to_f / 100)
+	-if @order.shipping_amount.present?
+		%tr
+			%td Shipping and Handling
+			%td= number_to_currency( @order.shipping_amount.to_f / 100)
+	%tr
+		%td Total
+		%td= number_to_currency( @order.total.to_f / 100 )
+
+%p
+	Your confirmation number is:
+	= @order.order_transaction.reference
+	%br
+	Please use it in all correspondence regarding this order.
+	
+
+
+%p
+	If you have further questions or issues, please contact us at: http://backmybook.com/contacts/new.  		
+
+%p
+	Best Regards,
+
