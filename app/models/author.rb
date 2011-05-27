@@ -108,6 +108,16 @@ class Author < ActiveRecord::Base
 			<p>{{refund.order.sku.owner.pen_name}} and BackMyBook.com</p>"
 	end
 	
+	def has_valid_subscription?( subscription )
+		sub = Subscription.find (subscription.id)
+		if subscribing = self.user.subscribings.find_by_subscription_id(sub.id)
+			subscribing.status == 'ActiveProfile' ? (return true) : (return false)
+		else
+			return false
+		end
+		
+	end
+	
 	def promo_content
 		#if self.promo =~ "book_1" #use book_bookid
 		#podcast_1

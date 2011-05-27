@@ -8,7 +8,13 @@ class AuthorsController < ApplicationController
 	
 	def site_config
 		@author = @current_author
-		render :layout => '3col'
+		author_subscription = Subscription.first # Author subscription will always be the first subscription
+		if @author.has_valid_subscription?( author_subscription )
+			render :layout => '3col'
+		else
+			pop_flash 'Please upgrade to access site customization options.', :error
+			redirect_to :admin_index
+		end
 	end
 
 	def manage
