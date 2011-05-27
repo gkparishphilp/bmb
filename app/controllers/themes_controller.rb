@@ -4,7 +4,13 @@ class ThemesController < ApplicationController
 	
 	def admin
 		@default_themes = Theme.default - @current_author.themes
-		render :layout => '3col'
+		author_subscription = Subscription.first # Author subscription will always be the first subscription
+		if @current_author.has_valid_subscription?( author_subscription )
+			render :layout => '3col'
+		else
+			pop_flash 'Please upgrade to access site customization options.', :error
+			redirect_to :admin_index
+		end
 	end
 	
 	def new
