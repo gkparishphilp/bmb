@@ -133,7 +133,7 @@ class AuthorsController < ApplicationController
 				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
 				pop_flash "Something Good."
 
-				redirect_to '/orders/new?sku=16'
+				redirect_to admin_index_url
 			else
 				pop_flash "There was a problem", :error, @user
 			end
