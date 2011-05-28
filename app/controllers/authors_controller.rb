@@ -56,9 +56,14 @@ class AuthorsController < ApplicationController
 	
 	def edit
 		@author = @current_author
-		@billing_address = @current_author.user.billing_address
+		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
 		render :layout => '2col'
 		
+	end
+	
+	def edit_profile
+		@author = @current_author
+		render :layout => '2col'
 	end
 	
 	def update
@@ -114,7 +119,9 @@ class AuthorsController < ApplicationController
 			# todo - catch users who already have pws?
 			if @user.hashed_password.blank?
 				@user.attributes = { :password => params[:password], 
-										:password_confirmation => params[:password_confirmation] }
+										:password_confirmation => params[:password_confirmation],
+										:display_name => params[:pen_name], 
+										:name => params[:pen_name].gsub(/\W/, "_") }
 			end
 			
 			@user.orig_ip = request.ip

@@ -157,6 +157,10 @@ class Author < ActiveRecord::Base
 		return self.skus.published.present?
 	end
 	
+	def has_merch?
+		self.skus.has_merch
+	end
+	
 	def has_faq?
 		return self.faq.present?
 	end
@@ -166,7 +170,7 @@ class Author < ActiveRecord::Base
 	end
 	
 	def has_forum?
-		return self.forums.published.present?
+		return self.forums.present?
 	end
 	
 	private

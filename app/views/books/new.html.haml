@@ -9,21 +9,22 @@
 			%br
 			= submit_tag "Submit", :class => 'buttons'
 	%br
-	.form_group
-		%h1 Existing Books
-		%table.admin_table
-			%th Title
-			%th Action
-			%th Digital Assets
-			%th Physical Assets
+	- if @current_author.books.present?
+		.form_group
+			%h1 Existing Books
+			%table.admin_table
+				%th Title
+				%th Action
+				%th Digital Assets
+				%th Physical Assets
 
-			- for book in @current_author.books
-				%tr
-					%td= book.title
-					%td
-						= link_to '[edit metadata]', edit_author_book_url( @author, book )
-					%td= link_to '[edit]', digital_assets_author_book_path( @author, book )
-					%td= link_to '[edit]', physical_assets_author_book_path( @author, book )
+				- for book in @current_author.books
+					%tr
+						%td= book.title
+						%td
+							= link_to '[edit metadata]', edit_author_book_url( @author, book )
+						%td= link_to '[edit]', digital_assets_author_book_path( @author, book )
+						%td= link_to '[edit]', physical_assets_author_book_path( @author, book )
 					
 
 					

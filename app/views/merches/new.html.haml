@@ -17,17 +17,18 @@
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 	%br
 	
-	.form_group
-		%h1 Existing Merchandise
-		%table.admin_table
-			%th Title
-			%th Action
+	- if @current_author.merches.not_books.present?
+		.form_group
+			%h1 Existing Merchandise
+			%table.admin_table
+				%th Title
+				%th Action
 			
-			- for merch in @current_author.merches.not_books
-				%tr
-					%td= merch.title
-					%td
-						= link_to '[edit]', edit_author_merch_path( @current_author, merch )
+				- for merch in @current_author.merches.not_books
+					%tr
+						%td= merch.title
+						%td
+							= link_to '[edit]', edit_author_merch_path( @current_author, merch )
 		
 - content_for :right_column do
 	= render 'shared/help'
