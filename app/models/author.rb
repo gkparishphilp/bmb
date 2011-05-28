@@ -150,23 +150,23 @@ class Author < ActiveRecord::Base
 	end
 	
 	def has_blog?
-		return self.enable_blog
+		return self.articles.published.present?
 	end
 
 	def has_store?
-		return self.enable_store
+		return self.skus.published.present?
 	end
 	
-	def has_help?
-		return self.enable_help
+	def has_faq?
+		return self.faq.present?
 	end
 	
 	def has_bio?
-		return self.enable_bio
+		return self.bio.present?
 	end
 	
 	def has_forum?
-		return self.enable_forums
+		return self.forums.published.present?
 	end
 	
 	private

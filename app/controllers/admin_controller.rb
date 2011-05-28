@@ -4,7 +4,6 @@ class AdminController < ApplicationController
 
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
-	before_filter :get_author_subscription
 	
 	def site
 		if Contract.last.nil?
@@ -41,6 +40,16 @@ class AdminController < ApplicationController
 	def forums
 		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
 		@forums = @admin.forums
+	end
+	
+	def site_config
+		@author = @current_author
+		if @author.has_valid_subscription?( Subscription.first )
+			render :layout => '3col'
+		else
+			pop_flash 'Please upgrade to access site customization options.', :error
+			redirect_to :admin_index
+		end
 	end
 	
 	def store

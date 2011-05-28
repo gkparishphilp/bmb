@@ -6,20 +6,12 @@ class AuthorsController < ApplicationController
 		@author = Author.last
 	end
 	
-	def upsell
+	def platform_builder
 		@author = @current_author
 		render :layout => '3col'
 	end
 	
-	def site_config
-		@author = @current_author
-		if @author.has_valid_subscription?( @marketing_subscription )
-			render :layout => '3col'
-		else
-			pop_flash 'Please upgrade to access site customization options.', :error
-			redirect_to :admin_index
-		end
-	end
+	
 
 	def manage
 		@author = @current_user.author

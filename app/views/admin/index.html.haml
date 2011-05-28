@@ -12,7 +12,7 @@
 		= form_tag agree_contract_path( @contract ) do |f|
 			%b Your Name: 
 			= text_field_tag :sig
-			= submit_tag 'Agree'
+			= submit_tag 'I Agree', :class => 'buttons'
 		%br
 	- unless @recent_orders.empty?
 		%br
@@ -37,6 +37,8 @@
 					%td= order.sku_quantity
 					%td= format_price( order.total )
 	- else
+		%br
+		%br
 		No Recent Sales
 
 
@@ -47,7 +49,6 @@
 	= render 'shared/help'
 	%hr
 	%h3 Tips
-	-unless @current_author.has_valid_subscription?( @marketing_subscription )
-		%p Areas marked with * require a Platform Maker level account
-		%p Sign up for yours now!
+	-unless @current_author.has_valid_subscription?( Subscription.first )
+		%p Sign up for a Platform Builder Account!
 		

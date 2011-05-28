@@ -32,8 +32,7 @@ Backmybook::Application.routes.draw do
 		resources :articles
 		get 'bio', :on => :member
 		get 'help', :on => :member
-		get 'site_config', :on => :member
-		get 'upsell', :on => :collection
+		get 'platform_builder', :on => :collection
 		resources :blog
 		resources :books do
 			get 'mockup', :on => :collection
@@ -222,17 +221,19 @@ Backmybook::Application.routes.draw do
 	# named routes
 	match '/activate' => 'users#activate', :as => 'activate'
 	
-	match '/admin/' => 'admin#index', :as => :admin_index
-	
-	match '/get-started' => 'contacts#get_started', :as => :get_started 
 	match '/author/signup' => 'authors#signup', :as => :author_signup
 
 	match '/reports/(:action)' => 'reports', :as => :report
-		
+	
+	# Admin for authors
+	match '/admin/' => 'admin#index', :as => :admin_index
+	
+	
 	# Site Admin -- blog/podcasts, maybe customer support
 	match '/site-admin/' => 'admin#site'
 	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
+	
 		
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

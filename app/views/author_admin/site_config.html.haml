@@ -12,7 +12,7 @@
 			=f.check_box :enable_store, {:checked => @author.has_store?}
 		%p
 			Enable help page?
-			=f.check_box :enable_help, {:checked => @author.has_store?}
+			=f.check_box :enable_help, {:checked => @author.has_faq?}
 		%p
 			Enable bio page?
 			=f.check_box :enable_bio, {:checked => @author.has_bio?}

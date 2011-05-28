@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
-	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user, :get_author_subscription
+	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
 	cache_sweeper :activity_sweeper
 	
 	# so, we set these application-level global instance vars:
@@ -15,10 +15,6 @@ protected
 		authenticate_or_request_with_http_basic do |name, pass|
 			name == 'admin' && pass == 'gr0undsw3ll'
 		end
-	end
-
-	def get_author_subscription
-		@marketing_subscription = Subscription.first # Author marketing subscription should always be the first subscription
 	end
 
 	# Custom 404s & 500 catch-all
