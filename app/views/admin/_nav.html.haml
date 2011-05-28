@@ -1,7 +1,12 @@
 - if @current_author
 	#admin_hd  Display
-	%li= link_to 'Site Features', site_config_author_url( @current_author )
-	%li= link_to "Theme", admin_themes_url
+	-if @current_author.has_valid_subscription?( @marketing_subscription )
+		%li= link_to 'Site Features', site_config_author_url( @current_author )
+		%li= link_to "Theme", admin_themes_url
+	-else 
+		%li= link_to 'Site Features*', upsell_authors_path
+		%li= link_to 'Theme*', upsell_authors_path
+
 	%li= link_to "Promo", admin_author_store_index_url( @current_author )
 	%li= link_to "FAQ", faq_author_store_index_url( @current_author)
 	-# %li= link_to "Sidebar Items"

@@ -4,7 +4,8 @@ class AdminController < ApplicationController
 
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
-		
+	before_filter :get_author_subscription
+	
 	def site
 		if Contract.last.nil?
 			@contract = Contract.new
@@ -92,6 +93,10 @@ class AdminController < ApplicationController
 			@download_url = @asset.generate_secure_url
 		end
 	end
+	
+	protected
+	
+
 
 end
 

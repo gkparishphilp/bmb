@@ -6,10 +6,14 @@ class AuthorsController < ApplicationController
 		@author = Author.last
 	end
 	
+	def upsell
+		@author = @current_author
+		render :layout => '3col'
+	end
+	
 	def site_config
 		@author = @current_author
-		author_subscription = Subscription.first # Author subscription will always be the first subscription
-		if @author.has_valid_subscription?( author_subscription )
+		if @author.has_valid_subscription?( @marketing_subscription )
 			render :layout => '3col'
 		else
 			pop_flash 'Please upgrade to access site customization options.', :error
