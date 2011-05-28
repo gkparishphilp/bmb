@@ -57,13 +57,13 @@ class AuthorsController < ApplicationController
 	def edit
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
-		render :layout => '2col'
+		render :layout => '3col'
 		
 	end
 	
 	def edit_profile
 		@author = @current_author
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def update

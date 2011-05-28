@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 	before_filter :require_login
 	before_filter :get_parent
+	before_filter :set_layout
 	
 	def new
 		@post = Post.new
@@ -48,4 +49,8 @@ private
 		@forum = Forum.find params[:forum_id] if params[:forum_id]
 		@topic = Topic.find params[:topic_id] if params[:topic_id]
 	end 
+	
+	def set_layout
+		@author ? "authors" : "application"
+	end
 end

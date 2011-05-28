@@ -3,12 +3,12 @@ class StoreController < ApplicationController
 	layout 'authors'
 	
 	def admin
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def faq
 		@faq = @current_author.faq
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def index

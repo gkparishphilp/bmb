@@ -42,6 +42,14 @@
 							= asset.asset_type
 						%td
 							= link_to '[edit]', edit_author_book_asset_url( @author, @book, asset )
+
+
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 Tips
+	-unless @current_author.has_valid_subscription?( Subscription.first )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path
 	

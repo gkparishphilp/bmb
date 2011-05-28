@@ -15,7 +15,7 @@ class BooksController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def physical_assets
@@ -78,7 +78,7 @@ class BooksController < ApplicationController
 	end
 	
 	def new
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def update

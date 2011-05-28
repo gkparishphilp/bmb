@@ -1,28 +1,33 @@
-%h1.admin_header
-	Forum Admin 
-.new_button
-	= link_to image_tag( 'add.png', :width => 16 ), new_forum_url
-	%b= link_to "New Forum", new_forum_url
+- content_for :left_column do
+	= render 'admin/nav'
+- content_for :middle_column do
+	%h1.admin_header
+		Forum Admin 
+	.new_button
+		= link_to image_tag( 'add.png', :width => 16 ), new_forum_url
+		%b= link_to "New Forum", new_forum_url
 	
-%table
-	%thead
-		%tr
-			%th Name
-			%th Description
-			%th Created
-
-	%tbody
-		- for forum in @forums
+	%table
+		%thead
 			%tr
-				%td
-					= link_to forum.title, forum
-				%td
-					= forum.description
-				%td
-					= format_date forum.created_at
-				%td
-					= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_url( forum )
-					= link_to 'edit', edit_forum_url( forum )
-				%td
-					= link_to image_tag( 'trash.png', :width => 20 ), forum, :confirm => 'Are you sure you want to delete this forum?', :method => :delete
-					= link_to 'delete', forum, :confirm => 'Are you sure you want to delete this forum?', :method => :delete
+				%th Name
+				%th Description
+				%th Created
+
+		%tbody
+			- for forum in @forums
+				%tr
+					%td
+						= link_to forum.title, forum
+					%td
+						= forum.description
+					%td
+						= format_date forum.created_at
+					%td
+						= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_url( forum )
+						= link_to 'edit', edit_forum_url( forum )
+					%td
+						= link_to image_tag( 'trash.png', :width => 20 ), forum, :confirm => 'Are you sure you want to delete this forum?', :method => :delete
+						= link_to 'delete', forum, :confirm => 'Are you sure you want to delete this forum?', :method => :delete
+- content_for :right_column do
+	&nbsp;

@@ -52,17 +52,24 @@ Backmybook::Application.routes.draw do
 		resources :email_campaigns do
 			resources :email_messages 
 		end
-		resources :events
+		resources :events do
+			get 'admin', :on => :collection
+		end
 		resources :forums do
+			get 'admin', :on => :collection
 			resources :topics do
 				resources :posts
 			end
 		end
-		resource :merches
-		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
+		
+		resources :links do
+			get 'admin', :on => :collection
+		end
 
+		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 			
 		resources :podcasts do
+			get 'admin', :on => :collection
 			resources :episodes do
 				get 'download', :on => :member
 				resources :comments

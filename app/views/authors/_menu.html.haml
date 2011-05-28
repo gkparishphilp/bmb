@@ -13,3 +13,4 @@
 
 
 		- if @author.has_forum?
+			%li= current_page?( author_forums_url( @author ) ) ? ( link_to "Forums", author_forums_url( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_url( @author ) )

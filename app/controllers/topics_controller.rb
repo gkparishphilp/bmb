@@ -46,10 +46,10 @@ class TopicsController < ApplicationController
 		if ( @forum.topics << @topic )
 			flash[:notice] = "Topic added"
 			@current_user.did_post_in_the_forums @topic
-			redirect_to forum_topics_path( @topic.forum )
+			redirect_to author_forum_topics_path( @author, @topic.forum )
 		else
 			pop_flash = "Topic not saved", :error, @topic
-			redirect_to new_forum_topic_path( @topic.forum )
+			redirect_to new_author_forum_topic_path( @author, @topic.forum )
 		end
 	end
 	

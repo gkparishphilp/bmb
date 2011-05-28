@@ -4,6 +4,7 @@ class ForumsController < ApplicationController
 	
 	def admin
 		@forums = @owner.forums.all
+		render :layout => '3col'
 	end
 	
 	def index

@@ -111,7 +111,7 @@ class SkusController < ApplicationController
 	end
 	
 	def listing
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 
 	protected

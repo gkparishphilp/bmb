@@ -7,7 +7,7 @@
 	%br
 	- if @contract.present?
 		Please Agree to the
-		= link_to @contract.name, @contract
+		= link_to @contract.name, @contract, :target => '_new'
 		to activate your store.
 		= form_tag agree_contract_path( @contract ) do |f|
 			%b Your Name: 
@@ -46,5 +46,7 @@
 	%hr
 	%h3 Tips
 	-unless @current_author.has_valid_subscription?( Subscription.first )
-		%p Sign up for a Platform Builder Account!
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path
 		
