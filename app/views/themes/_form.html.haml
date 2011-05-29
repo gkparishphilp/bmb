@@ -1,5 +1,5 @@
 = f.label "Theme Name:"
-= f.text_field :name
+= f.text_field :name, :class => 'title_field'
 %br
 = f.check_box :show_pen_name, :checked => @edit_theme.show_pen_name
 Display Pen Name?
@@ -30,15 +30,15 @@ Share this Theme?
 = #f.text_field :hover_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.hover_color};"
 %br
 %hr
-%h4 Main Content Area Settings
-= f.label "Main Content Area Background Color:"
-= f.text_field :content_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.content_bg_color};"
+%h4 Banner Settings
+= f.label "Banner Image:"
+= file_field_tag :attached_banner_file
 
-= f.label "Main Content Area Background Image:"
-= file_field_tag :attached_bg_file
+= f.label "Repeat Banner:"
+= f.select :banner_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
 
-= f.label "Repeat Background Main Content Area Image:"
-= f.select :bg_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+= f.label "Banner Background Color:"
+= f.text_field :banner_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.banner_bg_color};"
 %br
 %hr
 %h4 Navigation Bar Settings
@@ -52,15 +52,17 @@ Share this Theme?
 = f.text_field :header_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.header_color};"
 %br
 %hr
-%h4 Banner Settings
-= f.label "Banner Image:"
-= file_field_tag :attached_banner_file
+%h4 Main Content Area Settings
+= f.label "Main Content Area Background Color:"
+= f.text_field :content_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.content_bg_color};"
 
-= f.label "Repeat Banner:"
-= f.select :banner_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+= f.label "Main Content Area Background Image:"
+= file_field_tag :attached_bg_file
 
-= f.label "Banner Background Color:"
-= f.text_field :banner_bg_color, :class => 'cpicker', :style => "background-color: #{@edit_theme.banner_bg_color};"
+= f.label "Repeat Background Main Content Area Image:"
+= f.select :bg_repeat, { 'None' => 'no-repeat', 'Across the page' => 'repeat-x', 'Down the page' => 'repeat-y', 'Tile' => 'repeat'}
+
+
 
 %br
 %br

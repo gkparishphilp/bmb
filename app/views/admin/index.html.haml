@@ -6,13 +6,15 @@
 		Admin Area
 	%br
 	- if @contract.present?
-		Please Agree to the
-		= link_to @contract.name, @contract, :target => '_new'
-		to activate your store.
-		= form_tag agree_contract_path( @contract ) do |f|
-			%b Your Name: 
-			= text_field_tag :sig
-			= submit_tag 'I Agree', :class => 'buttons'
+		.outline
+			.highlight
+				Please Agree to the
+				= link_to @contract.name, @contract, :target => '_new'
+				to activate your store.
+			= form_tag agree_contract_path( @contract ) do |f|
+				%b Your Name: 
+				= text_field_tag :sig
+				= submit_tag 'I Agree', :class => 'buttons'
 		%br
 	- unless @recent_orders.empty?
 		%br

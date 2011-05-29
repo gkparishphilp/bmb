@@ -1,4 +1,9 @@
-%h1 New podcast
+- content_for :left_column do
+	= render 'admin/nav'
+- content_for :middle_column do
+	%h1 New podcast
 
--form_for @podcast do |f|
-	=render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+	- form_for @podcast do |f|
+		= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+- content_for :right_column do
+	= render 'shared/help'

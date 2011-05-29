@@ -34,7 +34,9 @@ Backmybook::Application.routes.draw do
 		get 'help', :on => :member
 		get 'platform_builder', :on => :collection
 		get 'edit_profile', :on => :member
-		resources :blog
+		resources :blog do
+			get 'admin', :on => :collection
+		end
 		resources :books do
 			get 'mockup', :on => :collection
 			post 'confirm', :on => :collection

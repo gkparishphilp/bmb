@@ -1,51 +1,67 @@
--#
-	.follow-me.ui-helper-clearfix
-		%h3 Follow Me
-		%div
-			=image_tag('twitter.jpg')
-			=image_tag('facebook.jpg')
-			=image_tag('rss.jpg',:alt=>'rss feed')
-			=image_tag('mail.jpg', :alt=>'contact author', :class => :toggle_contact_form )
-		#contact_form
-			= text_field_tag :email
-			= submit_tag 'Submit'
-#accordion
-	- if @theme.nil? || !@theme.book_site
-		%div
-			%h3 
-				=link_to 'Featured books','#'
-			%div 
-				- if @author.books.published.empty?
-					No Books
-				- else
-					= render @author.books.published.reverse
 
-	- unless @author.links.empty?
-		%div
-			%h3 
-				=link_to 'Links','#'
-			%div 
-				- if @author.links.empty?
-					No Links
-				- else
-					- for link in @author.links
-						= link_to link.title, link.url
-						.small= link.description
+.sidebar_sections
+	%h3 Follow Me
+	.pad
+		= image_tag('twitter.jpg')
+		= image_tag('facebook.jpg')
+		= image_tag('rss.jpg',:alt=>'rss feed')
+
+- if true # todo if @author.has_subscription?( email )
+	.sidebar_sections
+		%h3 
+			=link_to 'Newsletter Signup','#'
+		.pad
+			Keep in touch with
+			= @author.pen_name
+			sign up for the free newsletter.
+			= form_tag "", :style => 'margin-top:10px;' do #todo author_newsletter_signup_path
+				%b Name:
+				= text_field_tag :name
+				%br
+				%b Email:
+				= text_field_tag :email
+				= submit_tag "Join", :class => 'buttons'
+			.tiny
+				BackMyBook and 
+				= @author.pen_name
+				respect your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
+
+- if @theme.nil? || !@theme.book_site
+	.sidebar_sections
+		%h3 
+			=link_to 'Featured books','#'
+		.pad
+			- if @author.books.published.empty?
+				No Books
+			- else
+				= render @author.books.published.reverse
+
+- unless @author.links.empty?
+	.sidebar_sections
+		%h3 
+			=link_to 'Links','#'
+		.pad
+			- if @author.links.empty?
+				No Links
+			- else
+				- for link in @author.links
+					= link_to link.title, link.url
+					.small= link.description
+					%br
+- unless @author.events.upcomming.empty?
+	.sidebar_sections
+		%h3 
+			=link_to 'Events','#'
+		.pad
+			- if @author.events.upcomming.empty?
+				No Upcomming Events
+			- else
+				- for event in @author.events.upcomming
+					= link_to event.title, author_event_url( @author, event )
+					.small
 						%br
-	- unless @author.events.upcomming.empty?
-		%div
-			%h3 
-				=link_to 'Events','#'
-			%div 
-				- if @author.events.upcomming.empty?
-					No Upcomming Events
-				- else
-					- for event in @author.events.upcomming
-						= link_to event.title, author_event_url( @author, event )
-						.small
-							%br
-							On:
-							= format_date event.starts_at
-							%br
-							At: 
-							= event.location
+						On:
+						= format_date event.starts_at
+						%br
+						At: 
+						= event.location

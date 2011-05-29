@@ -4,7 +4,7 @@ class ThemesController < ApplicationController
 	
 	def admin
 		@default_themes = Theme.default - @current_author.themes
-		if @current_author.has_valid_subscription?( @marketing_subscription )
+		if true # todo @current_author.has_valid_subscription?( @marketing_subscription )
 			render :layout => '3col'
 		else
 			pop_flash 'Please upgrade to access site customization options.', :error

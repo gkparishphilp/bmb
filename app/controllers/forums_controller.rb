@@ -35,7 +35,7 @@ class ForumsController < ApplicationController
 		
 		if @owner.forums << @forum
 			pop_flash 'Forum was successfully created.'
-			redirect_to admin_forums_path 
+			redirect_to admin_author_forums_path( @current_author )
 		else
 			pop_flash 'Oooops, Forum not saved... ', :error, @forum
 			render :action => "new" 

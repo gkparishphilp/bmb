@@ -28,6 +28,16 @@ class BlogController < ApplicationController
 			@articles = @owner.articles.published.order( 'publish_at desc' ).paginate( :page => params[:page], :per_page => 10 )
 		end
 	end
+	
+	def new
+		@article = Article.new
+		render :layout => '3col'
+	end
+	
+	def edit
+		@article = @current_author.articles.find( params[:id] )
+		render :layout => '3col'
+	end
 
 
 	def show
