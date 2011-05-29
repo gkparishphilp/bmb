@@ -1,32 +1,34 @@
 class EventsController < ApplicationController
 	before_filter	:get_owner, :get_admin, :get_sidebar_data
 	
-	layout			:set_layout, :only => [ :index, :show ]
-	layout			"3col", :only => [ :admin, :edit, :new ]
+	layout			:set_layout
 	
 	helper_method	:sort_column, :sort_dir
 
 	def admin
 		@events = @admin.events.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '3col'
 	end
 
 	def index
 		if ( @month = params[:month] ) && ( @year = params[:year] )
-			@events = @owner.events.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@events = @owner.events.published.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		elsif @year = params[:year]
-			@events = @owner.events.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@events = @owner.events.published.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@events = @owner.events.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+			@events = @owner.events.upcomming.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
 	end
 	
 	def new
 		@event = Event.new
+		render :layout => '3col'
 	end
 	
 	def edit
 		@event = Event.find params[:id]
 		verify_author_permissions( @event )
+		render :layout => '3col'
 	end
 
 
@@ -69,12 +71,12 @@ class EventsController < ApplicationController
 private
 	
 	def get_owner
-		@owner = @author ? @author : @current_site
+		@owner = @current_author ? @current_author : @author 
 	end
 	
 	def get_admin
 		@admin = @current_author ? @current_author : @current_site
-		require_admin if @admin == @current_site
+		require_contributor if @admin == @current_site
 	end
 
 	def get_sidebar_data

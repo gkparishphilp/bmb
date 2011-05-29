@@ -1,12 +1,13 @@
-- unless @recent_posts.empty?
-	.sidebar_sections
-		%h3 Recent Posts
-		.recent_posts
-			- for article in @recent_posts
-				.recent_title
-					= link_to article.title, blog_link( article )
-				.recent_preview.text
-					= snip article.content.html_safe, 140
+- if false # todo -- change to popular posts
+	- unless @recent_posts.empty?
+		.sidebar_sections
+			%h3 Recent Posts
+			.recent_posts
+				- for article in @recent_posts
+					.recent_title
+						= link_to article.title, blog_link( article )
+					.recent_preview.text
+						= snip article.content.html_safe, 140
 - unless @topics.empty?
 	.sidebar_sections
 		%h3 Topics

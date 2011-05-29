@@ -4,7 +4,7 @@ xml.rss :version => "2.0" do
   xml.channel do
     xml.title "The todo Blog"
     xml.description "A blog about todo."
-    xml.link formatted_blog_index_url( :rss ) 
+    xml.link author_blog_index_url( @author, :format => :rss ) 
     
     for article in @articles
       xml.item do
@@ -12,7 +12,7 @@ xml.rss :version => "2.0" do
         xml.description article.content
         xml.pubDate article.created_at.to_s( :rfc822 )
         xml.link blog_url( article )
-        xml.guid formatted_blog_url( article, :rss )
+        xml.guid author_blog_url( @author, article, :format => :rss )
       end
     end
   end

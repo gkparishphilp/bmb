@@ -9,8 +9,8 @@
 				= possessize @admin.name
 				Blog
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_author_blog_url
-			= link_to "New Article", new_author_blog_url
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_blog_url( @current_author )
+			= link_to "New Article", new_author_blog_url( @current_author )
 		.clear
 	
 	= form_tag admin_blog_index_path, :method => :get, :id => 'search_form' do

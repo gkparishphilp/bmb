@@ -1,7 +1,9 @@
 = content_for :left_column do
-	%h1 Events
-	- for event in @events
-		%div[event]
-			= event.title
+	%h1 Upcoming Events
+	
+	- if @events.empty?
+		No Upcoming Events
+	= render @events
+
 = content_for :right_column do
 	&nbsp;

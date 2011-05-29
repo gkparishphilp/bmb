@@ -67,6 +67,8 @@ Backmybook::Application.routes.draw do
 		resources :links do
 			get 'admin', :on => :collection
 		end
+		
+		post 'newsletter_signup', :on => :member, :as => 'newsletter_signup'
 
 		resources :orders, :constraints => { :protocol => Rails.env.production? ? "https" : "http"}
 			

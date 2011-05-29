@@ -1,20 +1,23 @@
 
-.sidebar_sections
-	%h3 Follow Me
-	.pad
-		= image_tag('twitter.jpg')
-		= image_tag('facebook.jpg')
-		= image_tag('rss.jpg',:alt=>'rss feed')
+- if false # TODO - implement
+	.sidebar_sections
+		%h3 Follow Me
+		.pad
+			= image_tag('twitter.jpg')
+			= image_tag('facebook.jpg')
+			= image_tag('rss.jpg',:alt=>'rss feed')
 
 - if true # todo if @author.has_subscription?( email )
 	.sidebar_sections
 		%h3 
 			=link_to 'Newsletter Signup','#'
 		.pad
-			Keep in touch with
-			= @author.pen_name
-			sign up for the free newsletter.
-			= form_tag "", :style => 'margin-top:10px;' do #todo author_newsletter_signup_path
+			Sign up for 
+			= possessize @author.pen_name
+			free newsletter to keep in touch.
+			
+			
+			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do #todo author_newsletter_signup_path
 				%b Name:
 				= text_field_tag :name
 				%br
@@ -51,7 +54,7 @@
 - unless @author.events.upcomming.empty?
 	.sidebar_sections
 		%h3 
-			=link_to 'Events','#'
+			=link_to 'Events', author_events_path( @author )
 		.pad
 			- if @author.events.upcomming.empty?
 				No Upcomming Events

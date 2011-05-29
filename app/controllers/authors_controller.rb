@@ -66,6 +66,12 @@ class AuthorsController < ApplicationController
 		render :layout => '3col'
 	end
 	
+	def newsletter_signup
+		@author = Author.find( params[:id] )
+		pop_flash "#{params[:email]} signed up for #{@author.pen_name}"
+		redirect_to :back
+	end
+	
 	def update
 		@author = Author.find params[:id]
 		unless @current_author == @author
