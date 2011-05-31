@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
 	before_filter   :get_commentable
+	cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
 		
 	def new
 		@comment = Comment.new

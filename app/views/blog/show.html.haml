@@ -32,7 +32,7 @@
 				- unless @article.comments.empty?
 					#comments
 						%h3 Comments
-						= render :partial => 'comments/comment', :collection => @article.comments
+						= render :partial => 'comments/comment', :collection => @article.comments.order('created_at desc')
 	
 - content_for :right_column do
 	= render :partial => 'sidebar'
