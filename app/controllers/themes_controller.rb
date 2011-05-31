@@ -5,7 +5,7 @@ class ThemesController < ApplicationController
 	def admin
 		@default_themes = Theme.default - @current_author.themes
 		if true # todo @current_author.has_valid_subscription?( @marketing_subscription )
-			render :layout => '3col'
+			render :layout => '2col'
 		else
 			pop_flash 'Please upgrade to access site customization options.', :error
 			redirect_to :admin_index
@@ -14,7 +14,7 @@ class ThemesController < ApplicationController
 	
 	def new
 		@edit_theme = Theme.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -24,7 +24,7 @@ class ThemesController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def activate

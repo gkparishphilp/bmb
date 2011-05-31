@@ -1,5 +1,6 @@
 - if @current_author
 	.admin_nav
+		= render 'shared/help'
 		#admin_hd  Account Info
 		%li.vspaced= link_to 'Admin Home', admin_index_url
 		%li.vspaced= link_to 'Author Settings', edit_author_url( @current_author )
@@ -21,8 +22,6 @@
 		-# %li= link_to "Featured Items"
 
 	
-	
-	
 
 		#admin_hd Your Store
 		%li.vspaced= link_to 'README', '#'
@@ -35,24 +34,21 @@
 
 		#admin_hd Reports
 		- if @current_author.has_valid_subscription?( Subscription.first )
-			%li.vspaced= link_to 'Sales', report_path( 'sales' )
-			%li.vspaced= link_to "Coupons", report_path( 'redemptions' )
+		%li.vspaced= link_to 'Sales', report_path( 'sales' )
+		%li.vspaced= link_to "Coupons", report_path( 'redemptions' )
 		%li.vspaced= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
 		- unless @current_author.has_merch?
 			%li.vspaced= link_to "Inventory", report_path( 'inventory' )
 			%li.vspaced= link_to "Ship Info", report_path( 'shipping' )
 			%li.vspaced= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url
 		-#%li= link_to "Emails", reports_emails_path
-
-		- if @current_author.has_valid_subscription?( Subscription.first )
-			#admin_hd Blog
-			%li.vspaced= link_to 'Manage Blog', admin_blog_index_path
 	
 		-if @current_author.has_valid_subscription?( Subscription.first )
-			#admin_hd Messaging
-			%li.vspaced= link_to 'Newsletters', admin_email_messages_url
-			%li.vspaced= link_to 'Email Lists', admin_list_email_messages_url
-			-#%li= link_to 'Templates', admin_email_templates_url
+		#admin_hd Messaging
+		%li.vspaced= link_to 'Newsletters', admin_email_messages_url
+		%li.vspaced= link_to 'Email Lists', admin_list_email_messages_url
+		-#%li= link_to 'Templates', admin_email_templates_url
+	
 		 
 
 	

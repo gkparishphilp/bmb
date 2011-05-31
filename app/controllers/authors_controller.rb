@@ -8,7 +8,7 @@ class AuthorsController < ApplicationController
 	
 	def platform_builder
 		@author = @current_author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	
@@ -57,19 +57,33 @@ class AuthorsController < ApplicationController
 	def edit
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
-		render :layout => '3col'
+		render :layout => '2col'
 		
 	end
 	
 	def edit_profile
 		@author = @current_author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def newsletter_signup
 		@author = Author.find( params[:id] )
-		pop_flash "#{params[:email]} signed up for #{@author.pen_name}"
+		
+		user = User.find_or_initialize_by_email( params[:email] )
+		user.name = params[:name].gsub( /\W/, "_" )
+
+		if user.save
+			subscribing = EmailSubscribing.find_or_create_subscription( @author, user)  
+			subscribing.update_attributes :status => 'subscribed' 
+		else
+			pop_flash 'There was an error: ', :error, user
+			redirect_to :back
+			return false
+		end
+		
+		pop_flash "Thank you for signing up for the #{@author.pen_name} newsletter!"
 		redirect_to :back
+		
 	end
 	
 	def update

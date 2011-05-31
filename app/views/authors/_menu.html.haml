@@ -1,7 +1,7 @@
 .author_menu
 	%ul.main-menu
 		- if @author.has_blog?
-			%li= current_page?( author_blog_index_url( @author ) ) ? ( link_to "Blog", author_blog_index_url( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_url( @author ) )	
+			%li= controller.controller_name == 'blog' ? ( link_to "Blog", author_blog_index_url( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_url( @author ) )	
 		- if @author.has_store?
 			%li= current_page?( author_url( @author ) ) ? ( link_to "Store", author_url( @author ), :class => 'selected' ) : ( link_to "Store", author_url( @author ) )
 
@@ -13,4 +13,4 @@
 
 
 		- if @author.has_forum?
-			%li= current_page?( author_forums_url( @author ) ) ? ( link_to "Forums", author_forums_url( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_url( @author ) )
+			%li= ( controller.controller_name == 'forums' || controller.controller_name == 'topics' ) ? ( link_to "Forums", author_forums_url( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_url( @author ) )

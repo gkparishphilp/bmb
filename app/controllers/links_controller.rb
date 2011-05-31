@@ -3,7 +3,7 @@ class LinksController < ApplicationController
 	before_filter	:get_admin
 	helper_method	:sort_column, :sort_dir
 	
-	layout '3col'
+	layout '2col'
 
 	def admin
 		@links = @admin.links.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )

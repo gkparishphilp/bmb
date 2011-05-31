@@ -4,7 +4,7 @@ class ForumsController < ApplicationController
 	
 	def admin
 		@forums = @owner.forums.all
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def index
@@ -18,7 +18,7 @@ class ForumsController < ApplicationController
 
 	def new
 		@forum = Forum.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def edit
@@ -27,7 +27,7 @@ class ForumsController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def create

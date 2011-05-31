@@ -52,7 +52,7 @@ class SkusController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -62,18 +62,18 @@ class SkusController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def new
 		@sku = Sku.new
 		@books = @current_author.books
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def sort
 		@skus = @current_author.skus.published.order( 'listing_order asc' )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def update_sort
@@ -111,7 +111,7 @@ class SkusController < ApplicationController
 	end
 	
 	def listing
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	protected

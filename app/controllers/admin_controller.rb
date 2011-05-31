@@ -1,6 +1,6 @@
 class AdminController < ApplicationController
 	# for author admin
-	layout '3col'
+	layout '2col'
 
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
@@ -45,7 +45,7 @@ class AdminController < ApplicationController
 	def site_config
 		@author = @current_author
 		if @author.has_valid_subscription?( Subscription.first )
-			render :layout => '3col'
+			render :layout => '2col'
 		else
 			pop_flash 'Please upgrade to access site customization options.', :error
 			redirect_to :admin_index

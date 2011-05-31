@@ -11,7 +11,7 @@ class EmailMessagesController < ApplicationController
 	def admin_list
 		@num_subscribers = @current_author.email_subscribings.count
 		@subscribings = @current_author.email_subscribings.reverse.paginate(:page => params[:page], :per_page => 10)
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def new
@@ -70,7 +70,7 @@ class EmailMessagesController < ApplicationController
 		#else
 		#	pop_flash( 'Error sending email' , :error )
 		#end
-		render :layout => '3col'
+		render :layout => '2col'
 		
 	end
 	

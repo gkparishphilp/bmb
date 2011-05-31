@@ -36,10 +36,10 @@ class PostsController < ApplicationController
 			@forum.posts << @post
 			@current_user.did_post_in_the_forums @post
 			pop_flash "Post added"
-			redirect_to forum_topic_path( @forum, @topic)
+			redirect_to author_forum_topic_path( @forum.owner, @forum, @topic)
 		else
  			pop_flash 'Post not saved. ', :error, @post
-			redirect_to forum_topic_path( @topic.forum, @topic )
+			redirect_to author_forum_topic_path( @forum.owner, @topic.forum, @topic )
 		end
 	end
 	

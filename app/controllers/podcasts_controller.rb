@@ -4,7 +4,7 @@ class PodcastsController < ApplicationController
 	
 	def admin
 		@podcasts = @current_site.podcasts
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	

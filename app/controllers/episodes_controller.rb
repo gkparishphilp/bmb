@@ -19,7 +19,7 @@ class EpisodesController < ApplicationController
 
 	def new
 		@episode = Episode.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def edit
@@ -28,7 +28,7 @@ class EpisodesController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def create

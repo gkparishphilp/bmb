@@ -1,11 +1,46 @@
 - content_for :left_column do
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
-	Awesome value prop here
-	%br
-	Buy Platform Subscription Button here
+	%h1 The Author Platform Builder
 	
+	%h4{ :style => 'margin-top:15px;' }
+		Get back to writing, let us handle the technology.
+		
+	%h4{ :style => 'margin-top:15px;' }
+		What you get:
+		
+	%ul
+		%li.bulleted  Customizable Author website optimized for building an audience online
+		%li.bulleted  Author Blog
+		%li.bulleted  Forums
+		%li.bulleted  Event Calendar
+		%li.bulleted  Coupons and Discount Codes
+		%li.bulleted  Newsletter Engine: email signup widget, list import, unlimited subscribers and up to 1000 sends per month free
+		%li.bulleted  Pro Reporting - sales trending, campaign management
+			
+	%h4{ :style => 'margin-top:15px;' }
+		The easiest, most economical way to promote your books online.
+	.screen_shots{ :style => 'margin-top:20px;' }
+		.screen_shot
+			= link_to image_tag( 'screen1.png', :width => 150 ), '/images/screen1.png', :target => '_new'
+			.caption
+				Pro Reports
+		.screen_shot
+			= link_to image_tag( 'screen1.png', :width => 150 ), '/images/screen1.png', :target => '_new'
+			.caption
+				Custom Theme and Colors
+		.screen_shot
+			= link_to image_tag( 'screen1.png', :width => 150 ), '/images/screen1.png', :target => '_new'
+			.caption
+				Newsletters
+	%br.clear
+	
+	.get_started{ :style => 'text-align:center;margin-top:20px;' }
+		= link_to image_tag( "get_started_button.png" ), new_order_path( :sku_id => 16 )
 	%br
-	%br	
+	%br
+
 - content_for :right_column do
-	More benefits here
+	No risk, cancel anytime
+	%hr
+	Sell $200 of merchandise in any month, and that month is free!
