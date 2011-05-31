@@ -37,6 +37,8 @@ class Asset < ActiveRecord::Base
 	
 	has_many	:owners, :through => :ownings
 	
+	searchable_on [ :title ]
+	
 	attr_accessor :price
 	
 	scope :free, where( "asset_type = 'free'" )

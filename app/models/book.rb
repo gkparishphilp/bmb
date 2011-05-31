@@ -47,9 +47,10 @@ class Book < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
-	gets_activities
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags
+	
+	searchable_on [ :title ]
 	
 	attr_accessor :asin
 	

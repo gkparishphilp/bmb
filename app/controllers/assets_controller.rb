@@ -2,6 +2,14 @@ class AssetsController < ApplicationController
 	before_filter   :get_parent, :except => :deliver
 	layout			'2col'
 	
+	helper_method	:sort_column, :sort_dir
+	
+	
+	def admin
+		@assets = @book.assets.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '2col'
+	end
+	
 	def new
 		@type = params[:type]
 		@asset = Asset.new
@@ -134,6 +142,7 @@ class AssetsController < ApplicationController
 		redirect_to :back
 	end
 	
+	
 	private
 	
 	def get_parent
@@ -158,6 +167,14 @@ class AssetsController < ApplicationController
 				sku.add_item( @asset )
 			end
 		end
+	end
+	
+	def sort_column
+		Asset.column_names.include?( params[:sort] ) ? params[:sort] : 'title'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 
 end

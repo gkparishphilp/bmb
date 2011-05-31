@@ -33,7 +33,7 @@ class Merch < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
-	gets_activities
+	searchable_on [ :title ]
 	
 	attr_accessor	:price
 	
@@ -46,6 +46,11 @@ class Merch < ActiveRecord::Base
 	def review_average
 		return avg = self.reviews.average( :score ).to_f
 	end
+	
+	def sku
+		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
+	end
+	
 	
 	def is_a_book?
 		self.merch_type == 'hardcover' || self.merch_type == 'trade paperback' || self.merch_type == 'paperback'

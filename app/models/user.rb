@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
 
 	validates	:email, :uniqueness => true, 
 						:length => {:minimum => 3, :maximum => 254},
-						:email => true,
+					#	:email => true,
 						:if => :has_email?
 
 	validates	:name, :uniqueness => true, 

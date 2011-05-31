@@ -3,9 +3,16 @@ class BooksController < ApplicationController
 	before_filter :require_author_or_admin, :except => [ :index, :show ]
 	layout 'authors', :only => [ :index, :show, :mockup ]
 	
+	helper_method	:sort_column, :sort_dir
+	
 	def mockup
 		@book = @author.books.first
 		@reviewable = @book
+	end
+	
+	def admin
+		@books = @current_author.books.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '2col'
 	end
 	
 	def digital_assets
@@ -78,6 +85,7 @@ class BooksController < ApplicationController
 	end
 	
 	def new
+		@book = Book.new
 		render :layout => '2col'
 	end
 	
@@ -93,7 +101,7 @@ class BooksController < ApplicationController
 		else
 			pop_flash 'Oooops, Book not updated...', :error, @book
 		end
-		redirect_to new_author_book_path( @current_author ) 
+		redirect_to admin_author_books_path( @current_author )
 	end
 	
 	def create
@@ -104,12 +112,22 @@ class BooksController < ApplicationController
 			@book = Book.new params[:book]
 			if @author.books << @book
 				pop_flash 'Book saved!', 'success'
-				redirect_to edit_author_book_path( @author, @book )
+				redirect_to admin_author_books_path( @current_author )
 			else
 				pop_flash 'Book could not be saved.', 'error', @book
-				redirect_to new_author_book_path( @author )
+				redirect_to new_author_book_path( @current_author )
 			end
 		
 		end
+	end
+	
+	private
+	
+	def sort_column
+		Book.column_names.include?( params[:sort] ) ? params[:sort] : 'title'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 end

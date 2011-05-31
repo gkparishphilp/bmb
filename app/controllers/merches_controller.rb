@@ -1,10 +1,25 @@
 class MerchesController < ApplicationController
+	
+	before_filter	:get_owner
+	
+	helper_method	:sort_column, :sort_dir
+	
+	
+	def admin
+		if @book
+			@merches = @book.merches.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		else
+			@merches = @current_author.merches.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		end
+		render :layout => '2col'
+	end
+	
 	def new
 		@merch = Merch.new
 		@books = @current_author.books
-		@book = Book.find params[:book_id] if params[:book_id]
-		if @book || params[:merch_type]
-			@merch_title = @book.title + ' (' + params[:merch_type].capitalize + ' edition)'
+
+		if @book
+			@merch_title = @book.title
 		end
 		render :layout => '2col'
 	end
@@ -32,8 +47,9 @@ class MerchesController < ApplicationController
 
 
 	def create
-		@merch = Merch.new params[:merch]
+		@merch = Merch.new( params[:merch] )
 		@merch.owner = @current_author
+		@merch.book_id = @book.id if @book
 		if @merch.save
 			process_attachments_for( @merch )
 			if @merch.price.to_i > 0
@@ -42,11 +58,15 @@ class MerchesController < ApplicationController
 			end
 			
 			pop_flash 'Merchandise saved!'
+			
+			redirect_to admin_author_merches_path( @current_author, :book_id => @book )
+			
 		else
 			pop_flash 'Merchandise could not be saved.', :error, @merch
+			redirect_to :back
 		end
 		
-		redirect_to :back
+		
 	
 	end
 
@@ -70,6 +90,20 @@ class MerchesController < ApplicationController
 		@merch = Merch.find(params[:id])
 		@merch.destroy
 		redirect_to :back
+	end
+	
+	private
+	
+	def get_owner
+		@book = Book.find( params[:book_id] ) if params[:book_id]
+	end
+	
+	def sort_column
+		Merch.column_names.include?( params[:sort] ) ? params[:sort] : 'title'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 
 

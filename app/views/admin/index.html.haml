@@ -19,10 +19,19 @@
 	- elsif !@current_author.has_valid_subscription?( Subscription.first )
 		.outline
 			.highlight
-				Get the most out of BackMyBook, and super-charge your store... Upgrade to the Author Platform Builder Account.
+				Get the most out of BackMyBook and super-charge your store... 
+				%br
+				Upgrade to the Author Platform Builder Account.
 			.get_started{ :style => 'text-align:center;margin-top:20px;' }
 				= link_to image_tag( "get_started_button.png" ), new_order_path( :sku => 16 )
 		%br
+	- if @current_author.books.empty?
+		.outline
+			%center
+				%h3 You haven't added any books yet.  
+				.buttons{ :style => 'width:120px' }
+					= link_to image_tag( 'add.png', :width => 16 ), new_author_book_url( @current_author )
+					= link_to "Add a Book", new_author_book_url( @current_author )
 	- unless @recent_orders.empty?
 		%br
 		%h3 Last Ten Sales

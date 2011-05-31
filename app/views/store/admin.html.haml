@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	.form_group
 		= form_for @current_author do |f|
-			%h3 Store Promo (appears on top of SKU listings)
+			%h3 Store Promo (appears on top of Store listings)
 
 			= f.text_area :promo, :class => 'editor'
 			= f.submit "Update Promo", :class => :buttons
