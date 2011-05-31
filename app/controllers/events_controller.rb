@@ -7,7 +7,7 @@ class EventsController < ApplicationController
 
 	def admin
 		@events = @admin.events.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def index
@@ -22,13 +22,13 @@ class EventsController < ApplicationController
 	
 	def new
 		@event = Event.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
 		@event = Event.find params[:id]
 		verify_author_permissions( @event )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 

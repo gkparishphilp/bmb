@@ -6,7 +6,7 @@ class SitesController < ApplicationController
 		@site = Site.new
 		@site.name = "#{@current_author.pen_name} Site"
 		# require subscription author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -15,7 +15,7 @@ class SitesController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def create

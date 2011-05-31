@@ -2,7 +2,7 @@
 	- unless @recent_posts.empty?
 		.sidebar_sections
 			%h3 Recent Posts
-			.recent_posts
+			.pad
 				- for article in @recent_posts
 					.recent_title
 						= link_to article.title, blog_link( article )
@@ -11,7 +11,7 @@
 - unless @topics.empty?
 	.sidebar_sections
 		%h3 Topics
-		.recent_posts
+		.pad
 			- for topic in @topics
 				.recent_title
 					= link_to topic.name.capitalize, blog_index_link( :topic => topic.name )
@@ -21,7 +21,7 @@
 - unless @archives.empty?
 	.sidebar_sections
 		%h3 Archives
-		.recent_posts
+		.pad
 			- for archive in @archives
 				.recent_title
 					= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
@@ -29,7 +29,7 @@
 - unless @links.nil? || @links.empty?
 	.sidebar_sections
 		%h3 Links
-		.recent_posts
+		.pad
 			- for link in @links
 				.recent_title
 					= link_to link.title, link.url

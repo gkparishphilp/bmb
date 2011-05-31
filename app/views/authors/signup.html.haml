@@ -12,10 +12,15 @@
 			
 			= label_tag 'Pen Name:'
 			= text_field_tag :pen_name, "", :class => 'register_field'
-			
-			= label_tag 'Website: (optional)'
-			= text_field_tag :website, "", :class => 'register_field'
-			
+			%br
+			= check_box_tag :agreement
+			I agree to the
+			= link_to Contract.first.name, Contract.first, :target => '_new'
+			.tiny
+				( You must agree to the 
+				= Contract.first.name
+				to use the BackMyBook store
+				)
 			.clear
 			= submit_tag 'Register', :class => 'buttons'
 		

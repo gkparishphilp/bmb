@@ -15,9 +15,11 @@ class UsersController < ApplicationController
 
 		# first things first, public or private?
 		if @user == @current_user
-			@activities = Activity.feed @user
-			@actiities = @activities[0..19]
-			render :private
+			if @user.author?
+				render :private_author, :layout => '2col'
+			else
+				render :private
+			end
 		else 
 			if @user.author?
 				redirect_to author_url( @user.author )

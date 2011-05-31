@@ -40,7 +40,7 @@ class ReportsController < ApplicationController
 			end
 		end
 		
-		render :layout  => 'reports'
+		render :layout  => '2col'
 	
 	end
 

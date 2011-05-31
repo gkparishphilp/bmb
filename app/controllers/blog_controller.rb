@@ -12,7 +12,7 @@ class BlogController < ApplicationController
 	
 	def admin
 		@articles = @admin.articles.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def index
@@ -31,12 +31,12 @@ class BlogController < ApplicationController
 	
 	def new
 		@article = Article.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
 		@article = @current_author.articles.find( params[:id] )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 

@@ -19,7 +19,6 @@
 			%b= link_to "Register", new_user_url + "?dest=" + new_forum_topic_url( @forum )
 			to post a topic
 		-else
-			.new_button
-				= link_to image_tag( 'add.png', :width => 16 ), new_forum_topic_link( @forum )
-				%b= link_to "Post a Topic", new_forum_topic_link( @forum )
+			.button
+				= link_to "Post a Topic", new_forum_topic_link( @forum )
 %br.clear

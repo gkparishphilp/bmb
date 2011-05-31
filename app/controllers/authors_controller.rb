@@ -8,7 +8,7 @@ class AuthorsController < ApplicationController
 	
 	def platform_builder
 		@author = @current_author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	
@@ -57,19 +57,33 @@ class AuthorsController < ApplicationController
 	def edit
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
-		render :layout => '3col'
+		render :layout => '2col'
 		
 	end
 	
 	def edit_profile
 		@author = @current_author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def newsletter_signup
 		@author = Author.find( params[:id] )
-		pop_flash "#{params[:email]} signed up for #{@author.pen_name}"
+		
+		user = User.find_or_initialize_by_email( params[:email] )
+		user.name = params[:name].gsub( /\W/, "_" )
+
+		if user.save
+			subscribing = EmailSubscribing.find_or_create_subscription( @author, user)  
+			subscribing.update_attributes :status => 'subscribed' 
+		else
+			pop_flash 'There was an error: ', :error, user
+			redirect_to :back
+			return false
+		end
+		
+		pop_flash "Thank you for signing up for the #{@author.pen_name} newsletter!"
 		redirect_to :back
+		
 	end
 	
 	def update
@@ -126,10 +140,9 @@ class AuthorsController < ApplicationController
 			if @user.hashed_password.blank?
 				@user.attributes = { :password => params[:password], 
 										:password_confirmation => params[:password_confirmation],
-										:display_name => params[:pen_name], 
 										:name => params[:pen_name].gsub(/\W/, "_") }
 			end
-			
+
 			@user.orig_ip = request.ip
 
 			@user.status = 'pending'
@@ -146,11 +159,19 @@ class AuthorsController < ApplicationController
 				login( @user )
 				
 				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
-				pop_flash "Something Good."
+				
+				if params[:agreement]
+					contract = Contract.first
+					agreement = ContractAgreement.new :author => author, :contract => contract
+					agreement.save
+				end
+				
+				pop_flash "Thank you for registering."
 
 				redirect_to admin_index_url
 			else
 				pop_flash "There was a problem", :error, @user
+				redirect_to :back
 			end
 
 		else

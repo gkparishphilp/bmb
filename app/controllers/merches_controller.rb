@@ -6,7 +6,7 @@ class MerchesController < ApplicationController
 		if @book || params[:merch_type]
 			@merch_title = @book.title + ' (' + params[:merch_type].capitalize + ' edition)'
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -17,7 +17,7 @@ class MerchesController < ApplicationController
 			return false
 		end
 		@books = @current_author.books
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def show

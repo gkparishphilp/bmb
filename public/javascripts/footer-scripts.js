@@ -17,7 +17,7 @@ function setupLabel() {
 		dateFormat: 'yy-mm-dd'
 	});
 	$("#accordion").accordion({ header: "h3",autoHeight: false });
-	$("input.button").button();
+
 	// Tabs
 	// $('#tabs').tabs();
 	

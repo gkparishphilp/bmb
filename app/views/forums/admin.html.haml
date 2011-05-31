@@ -1,11 +1,15 @@
 - content_for :left_column do
 	= render 'admin/nav'
 - content_for :middle_column do
-	%h1.admin_header
-		Forum Admin 
-	.new_button
-		= link_to image_tag( 'add.png', :width => 16 ), new_forum_url
-		%b= link_to "New Forum", new_forum_url
+	.admin_header
+		.admin_title
+			%h3
+				Forum Admin 
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_forum_url
+			= link_to "New Forum", new_forum_url
+		.clear
+	
 	
 	%table{ :style => 'width:600px;' }
 		%thead

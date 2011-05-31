@@ -1,6 +1,6 @@
 class ManageController < ApplicationController
 	# for managing the site
-	layout '3col'
+	layout '2col'
 	# make sure @current_user is an admin -- set @admin = @current_site 
 	before_filter :require_admin 
 	

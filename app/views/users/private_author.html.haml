@@ -1,4 +1,6 @@
 - content_for :left_column do
+	= render 'admin/nav'
+- content_for :middle_column do
 	%h1
 		= @user.name
 		Home
@@ -96,6 +98,3 @@
 	%p
 		For assistance please 
 		%b= link_to "contact us", new_contact_url
-		
-	
-	

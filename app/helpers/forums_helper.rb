@@ -2,9 +2,11 @@ module ForumsHelper
 
 	def custom_post_link( forum, topic, post )
 
-		path = author_forum_topic_path( topic.forum.owner, forum, post ) if topic.nil?
-		
-		path = author_forum_topic_path( topic.forum.owner, topic.forum, topic )
+		if topic.nil?
+			path = author_forum_topics_path( topic.forum.owner, forum, post ) 
+		else
+			path = author_forum_topic_path( topic.forum.owner, topic.forum, topic )
+		end
 
 		path += "?page=" + topic.posts.last.paginated_page( topic ).to_s + 
 					"#post_" + topic.posts.last.id.to_s

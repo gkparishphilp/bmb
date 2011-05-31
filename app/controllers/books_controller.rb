@@ -15,7 +15,7 @@ class BooksController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def physical_assets
@@ -25,7 +25,7 @@ class BooksController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def index
@@ -58,9 +58,9 @@ class BooksController < ApplicationController
 
 		if @amzn_response.empty?
 			@book = @author.books.create :title => @title
-			redirect_to edit_author_book_path( @current_author, @book ), :layout => '3col'
+			redirect_to edit_author_book_path( @current_author, @book ), :layout => '2col'
 		else
-			render :layout => '3col'
+			render :layout => '2col'
 		end
 	end
 	
@@ -74,11 +74,11 @@ class BooksController < ApplicationController
 		@genres = [Genre.new( :id => nil, :name => "Please Select a Genre")]
 		@genres += Genre.find_by_name( 'fiction' ).children
 		@genres += Genre.find_by_name( 'non fiction' ).children
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def update

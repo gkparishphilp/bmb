@@ -8,7 +8,7 @@
 	= file_field_tag :attached_avatar_file
 .order_label
 	= f.label 'Your Author Bio:'
-.order_field
-	= f.text_area :bio, :class => 'editor_small'
+%br.clear
+= f.text_area :bio, :class => 'editor'
 .clear
 = f.submit 'Update', :class => 'buttons'

@@ -1,6 +1,6 @@
 class AssetsController < ApplicationController
 	before_filter   :get_parent, :except => :deliver
-	layout			'3col'
+	layout			'2col'
 	
 	def new
 		@type = params[:type]
