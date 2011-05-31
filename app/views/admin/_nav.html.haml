@@ -48,11 +48,11 @@
 			#admin_hd Blog
 			%li.vspaced= link_to 'Manage Blog', admin_blog_index_path
 	
-		-if @current_author.has_valid_subscription?( Subscription.first )
-			#admin_hd Messaging
-			%li.vspaced= link_to 'Newsletters', admin_email_messages_url
-			%li.vspaced= link_to 'Email Lists', admin_list_email_messages_url
-			-#%li= link_to 'Templates', admin_email_templates_url
+		-#if @current_author.has_valid_subscription?( Subscription.first )
+		#admin_hd Messaging
+		%li.vspaced= link_to 'Newsletters', admin_email_messages_url
+		%li.vspaced= link_to 'Email Lists', admin_list_email_messages_url
+		-#%li= link_to 'Templates', admin_email_templates_url
 		 
 
 	

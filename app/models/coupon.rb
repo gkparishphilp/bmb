@@ -24,6 +24,7 @@ class Coupon < ActiveRecord::Base
 	belongs_to 	:owner, :polymorphic => true
 	belongs_to 	:sku
 	belongs_to 	:user
+	attr_accessor :expiration_type
 
 	
 	def is_valid?( sku )

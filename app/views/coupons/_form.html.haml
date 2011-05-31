@@ -1,0 +1,25 @@
+= f.label 'Coupon Code:'
+= f.text_field :code
+= f.label 'Type of Discount'
+= f.select :discount_type, [['Percent','percent'], ['Dollars off'], 'cents']
+TODO: insert nifty javascript here to select between dollars and percent off fields based on selection
+= f.label 'Dollars Off ($):'
+= f.text_field :discount, :value => cents_to_dollars( @sku.price )
+= f.select :expiration_type, [['Date', 'date'], ['Redemptions', 'redemptions']]
+= f.text_field :redemptions_allowed
+= f
+
+%br
+%br
+= f.label 'Coupon is for SKU:'
+= f.collection_select :sku_id, @skus, :id, :title
+= f.label 'Available in store?'
+= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']], :selected => @sku.status
+%br
+%br
+= f.label 'Description:'
+= f.text_area :description, :class => 'editor_small'
+%br
+= f.submit "Save", :class => 'buttons'
+|
+= link_to 'Cancel', :back

@@ -5,7 +5,7 @@ class EmailMessagesController < ApplicationController
 		@num_subscribers = @current_author.email_subscribings.count
 		
 		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
-		render :layout => '2col'
+		render :layout => '3col'
 	end
 	
 	def admin_list
