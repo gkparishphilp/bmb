@@ -140,10 +140,9 @@ class AuthorsController < ApplicationController
 			if @user.hashed_password.blank?
 				@user.attributes = { :password => params[:password], 
 										:password_confirmation => params[:password_confirmation],
-										:display_name => params[:pen_name], 
 										:name => params[:pen_name].gsub(/\W/, "_") }
 			end
-			
+
 			@user.orig_ip = request.ip
 
 			@user.status = 'pending'
@@ -160,11 +159,19 @@ class AuthorsController < ApplicationController
 				login( @user )
 				
 				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
-				pop_flash "Something Good."
+				
+				if params[:agreement]
+					contract = Contract.first
+					agreement = ContractAgreement.new :author => author, :contract => contract
+					agreement.save
+				end
+				
+				pop_flash "Thank you for registering."
 
 				redirect_to admin_index_url
 			else
 				pop_flash "There was a problem", :error, @user
+				redirect_to :back
 			end
 
 		else

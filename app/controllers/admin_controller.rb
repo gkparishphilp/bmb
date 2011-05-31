@@ -22,7 +22,9 @@ class AdminController < ApplicationController
 	end
 	
 	def index
-		@contract = Contract.last unless @current_author.agreed_to?( Contract.last )
+		if  @current_author.skus.present? 
+			@contract = Contract.first unless @current_author.agreed_to?( Contract.first )
+		end
 		
 		@orders = Order.for_author( @current_author )		
 		@recent_orders = @orders.successful.order('created_at desc').limit( 10 )
