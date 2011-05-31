@@ -24,8 +24,7 @@ class Coupon < ActiveRecord::Base
 	belongs_to 	:owner, :polymorphic => true
 	belongs_to 	:sku
 	belongs_to 	:user
-	attr_accessor :expiration_type
-
+	validates	:code, :uniqueness => { :scope => [:owner_id, :owner_type, :sku_id] }
 	
 	def is_valid?( sku )
 		if self.already_redeemed?

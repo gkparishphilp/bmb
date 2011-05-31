@@ -1,5 +1,47 @@
 class CouponsController < ApplicationController
 
+	def new
+		@coupon = Coupon.new
+		@skus = @current_author.skus
+		render :layout =>'2col'
+	end
+	
+	def edit
+		@coupon = Coupon.find params[:id]
+	end
+	
+	def create
+		@coupon = Coupon.new( params[:coupon])
+		@coupon.code = @coupon.code.to_lowercase
+		@coupon.discount = params[:coupon][:discount].to_f * 100
+		@coupon.owner = @current_author
+		@coupon.expiration_date = @coupon.expiration_date.end_of_day
+
+		if @coupon.save
+			pop_flash 'Coupon was successfully created.'
+			redirect_to :back
+		else
+			pop_flash 'Oooops, coupon not saved...', :error, @coupon
+			redirect_to :back
+		end
+	end
+	
+	def update
+		@coupon = Coupon.new( params[:coupon] )
+		
+		if @coupon.update_attributes
+			pop_flash 'Coupon was successfully updated.'
+			redirect_to :back
+		else
+			pop_flash 'Oooops, coupon not saved...', :error, @coupon
+			redirect_to :back
+		end
+	end
+	
+	def show
+		@coupon = Coupon.find params[:id]
+	end
+	
 	def redeem
 		@coupon = params[:coupon]
 		@coupon.redeem

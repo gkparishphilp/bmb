@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
 	before_filter   :get_commentable
-	
+		
 	def new
 		@comment = Comment.new
 	end

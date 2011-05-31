@@ -4,5 +4,5 @@
 	.form_group
 		%h1 
 			New Coupon
-		-form_for @coupon, :html => { :multipart => true } do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+		-form_for [@current_author, @coupon] do |f|
+			= render 'form', :f => f

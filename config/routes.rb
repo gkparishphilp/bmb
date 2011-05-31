@@ -51,6 +51,7 @@ Backmybook::Application.routes.draw do
 			end
 			resources :reviews
 		end
+		resources :coupons
 		resources :email_campaigns do
 			resources :email_messages 
 		end

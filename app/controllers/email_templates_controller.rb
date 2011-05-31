@@ -2,7 +2,7 @@ class EmailTemplatesController < ApplicationController
 
 	def admin
 		params[:email_template] ? @email_template = EmailTemplate.find(params[:email_template]) : @email_template = EmailTemplate.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 
 	def new
