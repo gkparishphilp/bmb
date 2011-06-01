@@ -1,16 +1,17 @@
 class AuthorsController < ApplicationController
-	cache_sweeper :author_sweeper, :only => [:create, :update, :destroy]
-	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
+	before_filter	:require_login, :except => [ :index, :show, :bio, :help, :signup ]
 	before_filter	:get_form_data, :only => [:new, :edit]
 	
 	def index
 		@author = Author.last
 	end
 	
-	def site_config
+	def platform_builder
 		@author = @current_author
-		render :layout => '3col'
+		render :layout => '2col'
 	end
+	
+	
 
 	def manage
 		@author = @current_user.author
@@ -55,8 +56,33 @@ class AuthorsController < ApplicationController
 	
 	def edit
 		@author = @current_author
-		@billing_address = @current_author.user.billing_address
+		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
 		render :layout => '2col'
+		
+	end
+	
+	def edit_profile
+		@author = @current_author
+		render :layout => '2col'
+	end
+	
+	def newsletter_signup
+		@author = Author.find( params[:id] )
+		
+		user = User.find_or_initialize_by_email( params[:email] )
+		user.name = params[:name].gsub( /\W/, "_" )
+
+		if user.save
+			subscribing = EmailSubscribing.find_or_create_subscription( @author, user)  
+			subscribing.update_attributes :status => 'subscribed' 
+		else
+			pop_flash 'There was an error: ', :error, user
+			redirect_to :back
+			return false
+		end
+		
+		pop_flash "Thank you for signing up for the #{@author.pen_name} newsletter!"
+		redirect_to :back
 		
 	end
 	
@@ -100,6 +126,57 @@ class AuthorsController < ApplicationController
 	def help
 		@author = Author.find params[:id] if @author.nil?
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
+	def signup
+		if request.post?
+			if params[:email].blank?
+				pop_flash "Email is required", :error
+				redirect_to :back
+				return false
+			end
+			@user = User.find_or_initialize_by_email params[:email]
+			# todo - catch users who already have pws?
+			if @user.hashed_password.blank?
+				@user.attributes = { :password => params[:password], 
+										:password_confirmation => params[:password_confirmation],
+										:name => params[:pen_name].gsub(/\W/, "_") }
+			end
+
+			@user.orig_ip = request.ip
+
+			@user.status = 'pending'
+			@user.site = @current_site
+			
+			@user.website_url = params[:website] unless params[:website].blank?
+	
+			if @user.save
+			
+				@user.create_activation_code
+				@user.reload
+			
+				#email = UserMailer.author_welcome( @user, @current_site ).deliver
+				login( @user )
+				
+				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
+				
+				if params[:agreement]
+					contract = Contract.first
+					agreement = ContractAgreement.new :author => author, :contract => contract
+					agreement.save
+				end
+				
+				pop_flash "Thank you for registering."
+
+				redirect_to admin_index_url
+			else
+				pop_flash "There was a problem", :error, @user
+				redirect_to :back
+			end
+
+		else
+			render :layout => 'application'
+		end
 	end
 	
 	private
