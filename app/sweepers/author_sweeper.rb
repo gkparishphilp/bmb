@@ -15,6 +15,7 @@ class AuthorSweeper < ActionController::Caching::Sweeper
 
 	def expire_cache( author )
 		expire_fragment( "store_sku_listing_#{author.id}" )
+		expire_fragment( "author_sku_listing_#{author.id}")
 	end
 	
 end
