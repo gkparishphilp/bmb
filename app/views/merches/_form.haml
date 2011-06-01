@@ -1,4 +1,4 @@
-= f.hidden_field :book_id, :value => @book.id
+= f.hidden_field :book_id, :value => @book.id if @book
 = f.label 'Name:'
 = f.text_field :title, :value => @merch_title, :class => 'book_title_field'
 

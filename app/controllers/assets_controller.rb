@@ -13,7 +13,7 @@ class AssetsController < ApplicationController
 	def new
 		@type = params[:type]
 		@asset = Asset.new
-		@asset.title = "#{@book.title} (#{@type})"
+		@asset.title = @book.title
 	end
 	
 	def edit
