@@ -111,6 +111,7 @@ class BooksController < ApplicationController
 		else
 			@book = Book.new params[:book]
 			if @author.books << @book
+				process_attachments_for( @book )
 				pop_flash 'Book saved!', 'success'
 				redirect_to admin_author_books_path( @current_author )
 			else

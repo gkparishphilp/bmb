@@ -1,66 +1,30 @@
 = f.label 'Title'
 = f.text_field :title, :class => 'title_field'
 
-= hidden_field_tag :type, @type
+= f.label 'Asset Type'
+= f.select :type, [['Ebook', 'etext'], ['AudioBook', 'audio']]
 
-= f.label :description
-= f.text_area :description, :class => 'editor_small'
-%br
-- case @type
-- when 'etext'
-	%p
-		= f.label 'File to upload(epub, mobi, lrf, pdf max 100 MB)'
-		= file_field_tag :attached_document_file
-	
-	%p
-		= f.label "Pricing Type"
-		= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
+= f.label 'File to upload (epub, mobi, lrf, pdf, txt max 500 MB)'
+= file_field_tag :attached_document_file
 
-		- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
-			#price
-				= f.label "Price ($)"
-				= f.text_field :price
+= f.label "Pricing Type"
+= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
-		#unlock_req
-			= f.label "Unlock Requirement"
-			= f.text_field :unlock_requirement
+- if @book.ebook_sku.nil?
+	#price
+		= f.label "Price ($)"
+		= f.text_field :price
 		
-- when 'pdf'
-	= f.label 'File (pdf, max 100 MB)'
-	= file_field_tag :attached_document_file
-	
-	= f.label "Pricing Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
-
-	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
-
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
-		
-		
-- when 'audio'
-	= f.label 'File (mp3, aac, ogg, wav, zip max 500 MB)'
-	= file_field_tag :attached_document_file
+#audio_fields{ :style => 'display:none;' }	
 	= f.label 'Duration:'
 	= f.text_field :duration
 	= f.label 'Bitrate:'
 	= f.text_field :bitrate
-	
-	= f.label "Pricing Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
 
-	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
+= f.label :description
+= f.text_area :description, :class => 'editor_small'
+%br
 
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
 
 %p
 	= f.label "Availability"

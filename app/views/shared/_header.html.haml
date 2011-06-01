@@ -1,4 +1,16 @@
 #hd
 	.wrapper
 		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_url( :host => @current_site.domain )
-			
+		%ul.top_user_menu
+			- if @current_user.anonymous?
+				%li= link_to "Login", login_url
+				%li= link_to "Register", register_url
+			- else
+				%li
+					- if @current_user.admin?( @current_site )
+						%li.admin
+							= image_tag( 'admin.png', :width => 20 )
+					%li.user
+						= link_to avatar_tag( @current_user, :tiny, :width => 20 ), user_url( @current_user ), :class=>'avatar'
+						= link_to @current_user.name, user_url( @current_user ), :class=>'username'
+					%li= link_to "Logout", logout_url + '?dest=' + request.fullpath

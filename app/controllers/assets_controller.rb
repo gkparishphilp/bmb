@@ -31,33 +31,36 @@ class AssetsController < ApplicationController
 	end
 	
 	def create
-		case params[:type]
-		when 'etext'
-			@asset = @book.etexts.new params[:asset]
-		when 'pdf'
-			@asset = @book.pdfs.new params[:asset]
-		when 'audio'
-			@asset = @book.audios.new params[:asset]
+		if params[:attached_document_file].blank?
+			pop_flash 'Please select a file to upload', :error
+			redirect_to :back
+			return false
+		end
+		
+		if params[:asset][:type] == 'etext'
+			@asset = @book.etexts.new( params[:asset] )
 		else
-			@asset = @book.assets.new params[:asset]
+			@asset = @book.audios.new( params[:asset] )
 		end
 		
 		@asset.price = params[:asset][:price].to_f * 100 if params[:asset][:price]
 		
 		if @asset.save
 			# Check sku if type is sale
-			create_asset_sku if @asset.asset_type == 'sale'
+			@asset.create_sku( @asset.type ) if @asset.asset_type == 'sale'
 			process_attachments_for( @asset )
 			@asset.reload # to bring the new attachemnt into the @asset model
 			@asset.update_attributes :title => @asset.title.gsub( /etext/i, "#{@asset.document.format}" )
-			pop_flash 'Asset saved!', 'success'
+			pop_flash 'Asset saved!'
+
+			redirect_to admin_author_book_assets_path( @current_author, @book )
+			
 		else
 			pop_flash 'Asset could not be saved.', :error, @asset
+			redirect_to :back
 		end
-
-		redirect_to digital_assets_author_book_path( @current_author, @book ) 
-
 	end
+	
 	
 	def update
 		@asset = Asset.find params[:id]
@@ -149,25 +152,6 @@ class AssetsController < ApplicationController
 		@book = Book.find params[:book_id]
 	end
 	
-	def create_asset_sku
-		if params[:type] == 'etext' || params[:type] == 'pdf'
-			sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'ebook' )
-			if sku.present?
-				sku.add_item( @asset )
-			else
-				sku = @current_author.skus.create :sku_type => 'ebook', :title => "#{@asset.book.title} (eBook)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price 
-				sku.add_item( @asset )
-			end
-		elsif params[:type] == 'audio'
-			sku = @current_author.skus.find_by_book_id_and_sku_type( @asset.book.id, 'audio_book' )
-			if sku.present?
-				sku.add_item( @asset )
-			else
-				sku = @current_author.skus.create :sku_type => 'audio_book', :title => "#{@asset.book.title} (Audio Book)", :description => @asset.description, :book_id => @asset.book.id, :price => @asset.price
-				sku.add_item( @asset )
-			end
-		end
-	end
 	
 	def sort_column
 		Asset.column_names.include?( params[:sort] ) ? params[:sort] : 'title'

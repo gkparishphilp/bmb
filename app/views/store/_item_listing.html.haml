@@ -2,7 +2,7 @@
 	.listing_avatar
 		- if sku.avatar.present?
 			= link_to avatar_tag( sku, :thumb, :width => 64 ), new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
-		- else
+		- elsif sku.book.present?
 			= link_to avatar_tag( sku.book, :thumb, :width => 64 ), new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 	.listing_data.clearfix
 		.listing_title

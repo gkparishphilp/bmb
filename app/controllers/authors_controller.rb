@@ -135,6 +135,17 @@ class AuthorsController < ApplicationController
 				redirect_to :back
 				return false
 			end
+			if params[:pen_name].blank?
+				pop_flash "Pen Name is required", :error
+				redirect_to :back
+				return false
+			end
+			if params[:password].blank?
+				pop_flash "Password is required", :error
+				redirect_to :back
+				return false
+			end
+
 			@user = User.find_or_initialize_by_email params[:email]
 			# todo - catch users who already have pws?
 			if @user.hashed_password.blank?

@@ -65,6 +65,15 @@ $(document).ready(function(){
 		}
 	});
 	
+	$("#asset_type").change(function (){
+		if( $(this).attr('value').match("audio") != null ) {
+			$('#audio_fields').show("slow");
+		}
+		else {
+			$('#audio_fields').hide("slow");
+		}
+	});
+	
 	
 	///////////////////// Admins //////////////////////////
 	$('#admin_table th a, #admin_table .pagination a').live('click', function() {

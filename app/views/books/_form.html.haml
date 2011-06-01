@@ -4,6 +4,9 @@
 = f.label 'Subtitle:'
 = f.text_field :subtitle
 
+%br
+= avatar_tag( @book, :thumb, :width => 64 )
+%br
 = f.label 'Select Cover Art'
 = file_field_tag :attached_avatar_file
 %br

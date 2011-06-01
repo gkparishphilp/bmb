@@ -57,10 +57,10 @@ class Article < ActiveRecord::Base
 	}
 	
 	def related_articles
-		return [] if self.keywords.empty?
-		articles = Article.published.tagged_with( self.keywords, :any => true ).all
-		articles.delete( self )
-		return articles
+	#	return [] if self.keywords.empty?
+	#	articles = Article.published.tagged_with( self.keywords, :any => true ).all
+	#	articles.delete( self )
+	#	return articles
 	end
 	
 	def comments_allowed?
