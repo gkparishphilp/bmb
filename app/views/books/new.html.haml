@@ -2,37 +2,6 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 New Book - Enter Title
-
-		= form_tag confirm_author_books_url( @current_author ) do
-			= text_field_tag :title, "", :class => :book_title_field
-			%br
-			= submit_tag "Submit", :class => 'buttons'
-	%br
-	- if @current_author.books.present?
-		.form_group
-			%h1 Existing Books
-			%table.admin_table
-				%th Title
-				%th Action
-				%th Digital Assets
-				%th Physical Assets
-
-				- for book in @current_author.books
-					%tr
-						%td= book.title
-						%td
-							= link_to '[edit metadata]', edit_author_book_url( @author, book )
-						%td= link_to '[edit]', digital_assets_author_book_path( @author, book )
-						%td= link_to '[edit]', physical_assets_author_book_path( @author, book )
-					
-
-					
-- content_for :right_column do
-	= render 'shared/help'
-	%hr
-	%h3 Tips
-	-unless @current_author.has_valid_subscription?( Subscription.first )
-		%p 
-			Sign up for a 
-			= link_to 'Platform Builder Account!', platform_builder_authors_path
+		%h1 New Book
+		= form_for [ @author, @book ], :html => { :multipart => true } do |f|
+			= render 'form', :f => f, :m => 'Create Book'

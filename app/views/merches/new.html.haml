@@ -2,34 +2,16 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		-if @book
-			%br
-			%h1 
-				Enter metadata for 
-				= @book.title
-			%h3
-				= params[:merch_type].capitalize 
-				edition
-		-else
-			%h1 New Merchandise
+
+		%h3 
+			New Merchandise
+			= 'For ' + @book.title if @book
 				
 		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 	%br
 	
-	- if @current_author.merches.not_books.present?
-		.form_group
-			%h1 Existing Merchandise
-			%table.admin_table
-				%th Title
-				%th Action
-			
-				- for merch in @current_author.merches.not_books
-					%tr
-						%td= merch.title
-						%td
-							= link_to '[edit]', edit_author_merch_path( @current_author, merch )
-		
+
 - content_for :right_column do
 	= render 'shared/help'
 	%hr 

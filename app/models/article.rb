@@ -30,9 +30,8 @@ class Article < ActiveRecord::Base
     
 	has_friendly_id :title, :use_slug => :true
 	acts_as_taggable_on	:topics
-	acts_as_taggable_on	:keywords
+
 	acts_as_followed
-	gets_activities
 	
 	searchable_on [ :title ]
 	

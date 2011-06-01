@@ -34,19 +34,22 @@ Backmybook::Application.routes.draw do
 		get 'help', :on => :member
 		get 'platform_builder', :on => :collection
 		get 'edit_profile', :on => :member
+		
 		resources :blog do
 			get 'admin', :on => :collection
 		end
 		resources :books do
-			get 'mockup', :on => :collection
-			post 'confirm', :on => :collection
-			get 'digital_assets', :on => :member
-			get 'physical_assets', :on => :member
+			get 'admin', :on => :collection
+		
+			get 'digital_assets', :on => :member # todo -- kill these
+			get 'physical_assets', :on => :member # todo -- kill these
+			
 			# all these routes just to edit STI resource on books
 			resources :etext, :controller => :assets
 			resources :pdf, :controller => :assets
 			resources :audio, :controller => :assets
 			resources :assets do
+				get 'admin', :on => :collection
 				get 'download', :on => :member
 			end
 			resources :reviews
@@ -80,9 +83,12 @@ Backmybook::Application.routes.draw do
 				resources :comments
 			end
 		end
+		
 		resources :merches do
 			resources :reviews
+			get 'admin', :on => :collection
 		end
+		
 		resources :skus do
 			put 'add_item', :on => :member
 			get 'sort', :on => :collection
@@ -90,6 +96,7 @@ Backmybook::Application.routes.draw do
 			get 'manage_items', :on => :member
 			post 'remove_item', :on => :member
 		end
+		
 		resources :store do
 			get 'admin', :on => :collection
 			get 'faq', :on => :collection
@@ -257,8 +264,8 @@ Backmybook::Application.routes.draw do
 	match '/register' => 'sessions#register', :as => 'register'
 	match '/reset' => 'users#reset_password', :as => 'reset'
 	match '/logo/:code', :to => 'email_deliveries#process_open', :as => 'logo' 
-	
-	
+
+		
 	match '/redeem_code/:code', :to => 'coupons#redeem_code', :as => 'redeem_code'
 	match 'coupons/validate/:sku_id/:code', :to => 'coupons#validate', :as => 'validate_coupon'
 	

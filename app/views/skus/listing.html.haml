@@ -1,37 +1,47 @@
 - content_for :left_column do
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
-	.form_group
-		%h2 SKU Listing
-		%div{ :style => 'width:500px' }
-			.sort_avatar{ :style => 'margin-left:30px;' }
-				&nbsp;
-			.sort_title
-				%b Title
-			.sort_price
-				%b Price
-			.sort_status
-				%b Status
-			.sort_action
+	.admin_header
+		.admin_title
+			%h3
+				Store Listing
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_path( @current_author )
+			= link_to "Add an Item", new_author_sku_path( @current_author )
+		%br
 		%br.clear
-		%ul#sortable
-			- for sku in @current_author.skus
-				%li.ui-state-default[sku]
-					%span.ui-icon.ui-icon-arrowthick-2-n-s
-					.sort_avatar
-						- if sku.avatar.present?
-							= avatar_tag( sku, :thumb, :width => 50 )
-						- else
-							= avatar_tag( sku.book, :thumb, :width => 50 )
-					.sort_title
-						= sku.title
-					.sort_price
-						= format_price( sku.price )
-					.sort_status
-						= format_status( sku.status )
-					.sort_action
-						= link_to '[edit]', edit_author_sku_path( @current_author, sku )
-					.clear
+		- if @current_author.skus.empty?
+			No Items
+		- else
+			%div{ :style => 'width:700px;margin-top15px;margin-bottom:5px;' }
+				.sort_avatar{ :style => 'margin-left:30px;' }
+					&nbsp;
+				.sort_title
+					%b Title
+				.sort_price
+					%b Price
+				.sort_status
+					%b Status
+				.sort_action
+			%br.clear
+			%ul#sortable
+				- for sku in @current_author.skus
+					%li.ui-state-default[sku]
+						%span.ui-icon.ui-icon-arrowthick-2-n-s
+						.sort_avatar
+							- if sku.avatar.present?
+								= avatar_tag( sku, :thumb, :width => 50 )
+							- else
+								= avatar_tag( sku.book, :thumb, :width => 50 )
+						.sort_title
+							= sku.title
+						.sort_price
+							= format_price( sku.price )
+						.sort_status
+							= format_status( sku.status )
+						.sort_action
+							= link_to '[edit]', edit_author_sku_path( @current_author, sku )
+						.clear
 
 
 
