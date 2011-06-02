@@ -16,7 +16,7 @@ class EventsController < ApplicationController
 		elsif @year = params[:year]
 			@events = @owner.events.published.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@events = @owner.events.upcomming.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+			@events = @owner.events.upcoming.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
 	end
 	
@@ -80,7 +80,7 @@ private
 	end
 
 	def get_sidebar_data
-		@upcomming_events = @owner.events.upcomming.published
+		@upcoming_events = @owner.events.upcoming.published
 	end
 	
 	def set_layout

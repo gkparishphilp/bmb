@@ -27,13 +27,13 @@
 		#admin_hd Your Store
 		%li.vspaced= link_to "Store Promo", admin_author_store_index_url( @current_author )
 		%li.vspaced= link_to 'Store Listing', listing_author_skus_path( @current_author )
-		%li.vspaced= link_to 'Coupons', "todo"
+		%li.vspaced= link_to 'Create Coupons', admin_author_coupons_path( @current_author)
 		%li.vspaced= link_to 'Merchandise', new_author_merch_path( @current_author )
 		
 		#admin_hd Reports
 		- if @current_author.has_valid_subscription?( Subscription.first )
 		%li.vspaced= link_to 'Sales', report_path( 'sales' )
-		%li.vspaced= link_to "Coupons", report_path( 'redemptions' )
+		%li.vspaced= link_to "Coupon Redemptions", report_path( 'redemptions' )
 		%li.vspaced= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
 		- if @current_author.has_merch?
 			%li.vspaced= link_to "Inventory", report_path( 'inventory' )
