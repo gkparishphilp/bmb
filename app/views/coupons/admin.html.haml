@@ -12,7 +12,7 @@
 			= link_to "New Coupon", new_author_coupon_url
 		.clear
 	
-	= form_tag admin_events_path, :method => :get, :id => 'search_form' do		
+	= form_tag admin_author_coupons_path, :method => :get, :id => 'search_form' do		
 		
 		= text_field_tag :q, params[:q]
 		= submit_tag 'Search', :class => 'buttons'

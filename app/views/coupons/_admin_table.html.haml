@@ -13,6 +13,12 @@
 					= coupon.code
 				%td.small= coupon.sku.title
 				%td.small= coupon.expiration_date
+				%td.small
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_author_coupon_path( @admin, coupon ) 
+					= link_to 'edit', edit_author_coupon_path( @admin, coupon ) 
+				%td.small
+					= link_to image_tag( 'trash.png', :width => 20 ), author_coupon_path( @admin, coupon ), :method => 'delete', :class => 'confirm'
+					= link_to 'delete', author_coupon_path( @admin, coupon ), :method => 'delete', :class => 'confirm'
 	- unless @coupons.total_pages < 2
 		.pagination
 			.page_info

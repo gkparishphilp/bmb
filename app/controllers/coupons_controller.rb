@@ -22,13 +22,15 @@ class CouponsController < ApplicationController
 	
 	def edit
 		@coupon = Coupon.find params[:id]
+		@skus = @current_author.skus
+		render :layout => '2col'
 	end
 	
 	def create
 		@coupon = Coupon.new( params[:coupon])
 		@coupon.code.downcase!
 		@coupon.discount = params[:coupon][:discount].to_f * 100
-		@coupon.owner = @current_author
+		@coupon.owner = @admin
 		@coupon.expiration_date = @coupon.expiration_date.end_of_day
 
 		if @coupon.save
@@ -41,7 +43,10 @@ class CouponsController < ApplicationController
 	end
 	
 	def update
-		@coupon = Coupon.new( params[:coupon] )
+		@coupon = Coupon.find( params[:id] )
+		#@coupon.owner = @admin
+		#@coupon.discount = params[:coupon][:discount].to_f * 100
+		#@coupon.expiration_date = @coupon.expiration_date.end_of_day 
 		
 		if @coupon.update_attributes
 			pop_flash 'Coupon was successfully updated.'
