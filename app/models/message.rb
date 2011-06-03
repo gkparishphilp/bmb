@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110602204757
+# Schema version: 20110602231354
 #
 # Table name: messages
 #

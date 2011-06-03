@@ -9,7 +9,7 @@
 		#admin_hd Your Store
 		%li.vspaced= link_to "Store Promo", promo_author_store_index_url( @current_author )
 		%li.vspaced= link_to 'Store Items', admin_author_store_index_path( @current_author )
-		%li.vspaced= link_to 'Coupons', "todo"
+		%li.vspaced= link_to 'Coupons', admin_author_coupons_path( @current_author )
 	
 		#admin_hd  Your Site
 		%li.vspaced= link_to 'View Your Site', @current_author

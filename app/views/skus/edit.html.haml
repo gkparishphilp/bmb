@@ -3,12 +3,13 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			Edit Sku
+			Edit Store Item:
+			= @sku.title
 		- if @sku.sku_items.count == 0
 			.warning
 				Warning!  SKU has no items associated with it! Please add an item at the bottom of this page.
 		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
+			= render :partial => 'edit_form', :locals => {:f => f, :m => 'Update'}
 	%br	
 	.form_group
 		= render :partial => 'sku_item_listing'
