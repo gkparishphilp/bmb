@@ -48,15 +48,15 @@
 					= link_to link.title, link.url
 					.small= link.description
 					%br
-- unless @author.events.upcomming.empty?
+- unless @author.events.upcoming.empty?
 	.sidebar_sections
 		%h3 
 			Events
 		.pad
-			- if @author.events.upcomming.empty?
+			- if @author.events.upcoming.empty?
 				No Upcomming Events
 			- else
-				- for event in @author.events.upcomming
+				- for event in @author.events.upcoming
 					= link_to event.title, author_event_url( @author, event )
 					.small
 						%br

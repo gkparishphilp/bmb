@@ -1,10 +1,12 @@
 class EmailMessagesController < ApplicationController
+	before_filter	:get_owner, :get_admin
+	layout			:set_layout
+	helper_method	:sort_column, :sort_dir
 	
 	def admin
 		@campaign = @current_author.email_campaigns.find_by_title('Default')
+		@email_messages = @admin.email_campaigns.first.email_messages.order('created_at desc' ).paginate( :per_page => 10, :page => params[:page] )
 		@num_subscribers = @current_author.email_subscribings.count
-		
-		params[:email_message] ? @email_message = EmailMessage.find(params[:email_message]) : @email_message = EmailMessage.new
 		render :layout => '2col'
 	end
 	
@@ -15,10 +17,14 @@ class EmailMessagesController < ApplicationController
 	end
 	
 	def new
+		@email_message = EmailMessage.new
+		render :layout => '2col'
+		
 	end
 
 	def edit
 		@email_message = EmailMessage.find params[:id]
+		render :layout => '2col'
 	end
 
 	def create
@@ -29,13 +35,15 @@ class EmailMessagesController < ApplicationController
 			@email_message.source = @current_author.email_campaigns.find_by_title('Default')
 			@email_message.save
 			pop_flash 'Email message saved!'
-			redirect_to admin_email_messages_path
-			
-		else @email_message.email_type == 'shipping'
-			
+			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first )
+
+		elsif @email_message.email_type == 'shipping'
 			@email_message.save
 			pop_flash 'Email message saved!'
-			redirect_to admin_get_merch_orders_email_messages_path
+			redirect_to admin_get_merch_orders_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first )
+
+		else
+			pop_flash 'Error saving message', :error
 		end
 
 	end
@@ -44,10 +52,10 @@ class EmailMessagesController < ApplicationController
 		@email_message = EmailMessage.find params[:id] 
 
 		if @email_message.update_attributes(params[:email_message])
-			pop_flash 'Email Message was successfully updated.', 'success'
-			redirect_to admin_email_messages_path
+			pop_flash 'Message was successfully updated.', 'success'
+			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
 		else
-			pop_flash 'Oooops, EmailMessage not updated...', 'error', @email_message
+			pop_flash 'Oooops, Message not updated...', 'error', @email_message
 			render :action => :edit
 		end
 	end
@@ -56,7 +64,7 @@ class EmailMessagesController < ApplicationController
 		@email_message = EmailMessage.find params[:id] 
 		@email_message.destroy
 		pop_flash 'Email message was successfully deleted', 'success'
-		redirect_to admin_email_messages_path
+		redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
 	end
 	
 	############################################
@@ -64,7 +72,7 @@ class EmailMessagesController < ApplicationController
 	############################################
 	
 	def send_to_self
-		@message = EmailMessage.find( params[:email_message] )
+		@message = EmailMessage.find( params[:id] )
 		#if Delayed::Job.enqueue( SendEmailJob.new(@current_author.user, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject} (Test Message)", html_body) )
 		#	pop_flash( 'Test email sent' )
 		#else
@@ -74,7 +82,7 @@ class EmailMessagesController < ApplicationController
 		
 	end
 	
-	def send_test_email
+	def deliver_test_email
 		@email = params[:email]
 		@message = EmailMessage.find( params[:email_message_id])
 		html_body = @message.build_html_email(:test => true)
@@ -86,46 +94,53 @@ class EmailMessagesController < ApplicationController
 			pop_flash 'Error sending test email'
 		end
 		
-		redirect_to admin_email_messages_path
+		redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
 		
 	end
 	
-	def send_to_subscriber
-		@message = EmailMessage.find( params[:email_message] )
+	def send_to_subscriber		
+		@message = EmailMessage.find( params[:id] )
 		@subscriptions = @current_author.email_subscribings.subscribed
-		count = 0
-		# Check and see how much quota we've got left and break it up according to quota
-		# todo - this needs to be refactored for when multiple authors are sending newsletters
-		# Need to look at the delayed_job queues and see how many email slots are open for that day
 		
-		quota_remaining = EmailDelivery.quota_remaining
+		# Check author's quota
+		if @current_author.has_email_quota_remaining?
+			count = 0
+			# Check and see how much quota we've got left on Amazon SES and break it up according to quota
+			# todo - this needs to be refactored for when multiple authors are sending newsletters
+			# Need to look at the delayed_job queues and see how many email slots are open for that day
+		
+			quota_remaining = EmailDelivery.quota_remaining
 
-		for @subscription in @subscriptions
+			for @subscription in @subscriptions
 			
-			# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
-			@delivery_record = @subscription.email_deliveries.create
-			@delivery_record.update_delivery_record_for( @message, 'created' )
+				# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
+				@delivery_record = @subscription.email_deliveries.create
+				@delivery_record.update_delivery_record_for( @message, 'created' )
 			
-			# Create HTML email message to be sent through AWS SES
-			html_body = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
+				# Create HTML email message to be sent through AWS SES
+				html_body = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
 			
-			#Calulate n days away we can schedule the send based on quota availability
-			n = count.divmod( quota_remaining).first.to_i
+				#Calculate n days away we can schedule the send based on quota availability
+				n = count.divmod( quota_remaining).first.to_i
 			
-			# Kick it to delayed_job to manage the send time and send load
-			if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
-				@delivery_record.update_attributes :status => 'sent'
-			else 
-				pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
-			end
+				# Kick it to delayed_job to manage the send time and send load
+				if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
+					@delivery_record.update_attributes :status => 'sent'
+				else 
+					pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
+				end
 	
-			count += 1
+				count += 1
 			
-		end
-		pop_flash( "Your newsletter has been successfully queued for delivery!")
-		@message.update_attributes :status => "Sent #{Time.now.to_date}"
-		redirect_to admin_email_messages_path
+			end
+			pop_flash( "Your newsletter has been successfully queued for delivery!")
+			@message.update_attributes :status => "Sent #{Time.now.to_date}"
+			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
 		
+		else
+			pop_flash "You've run out of email sends for this month!  Please contact us for assistance.", :error
+			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
+		end
 	end
 	
 	#######################################################
@@ -134,13 +149,13 @@ class EmailMessagesController < ApplicationController
 	
 	def admin_get_merch_orders
 		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.reverse.paginate( :page => params[:page], :per_page => 10 )
-				render :layout  => '2col'
+		render :layout  => '2col'
 	end
 
 	def admin_edit_shipping_email
 		@order = Order.find params[:order_id]
 		@email_message = retrieve_shipping_email(@order)
-		render :layout  => '2col'
+		render :layout => '2col'
 	end
 	
 	def admin_send_shipping_email
@@ -177,7 +192,26 @@ class EmailMessagesController < ApplicationController
 		return email_message
 	end
 	
-	def get_parent
-		@campaign = @current_author.email_campaigns.find_by_title('Default')
+
+	def get_owner
+		@owner = @current_author ? @current_author : @author 
 	end
+
+	def get_admin
+		@admin = @current_author ? @current_author : @current_site
+		require_contributor if @admin == @current_site
+	end
+
+	def set_layout
+		@author ? "authors" : "application"
+	end
+
+	def sort_column
+		EmailMessage.column_names.include?( params[:sort] ) ? params[:sort] : 'subject'
+	end
+
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
+	end
+	
 end

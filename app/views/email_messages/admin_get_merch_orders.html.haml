@@ -27,9 +27,9 @@
 							Sent
 							= format_date_only( order.email_messages.shipping.last.email_deliveries.last.created_at )
 						-else
-							=link_to "Send", admin_send_shipping_email_email_messages_path(:order_id => order.id)
+							=link_to "Send", admin_send_shipping_email_author_email_campaign_email_messages_path(:order_id => order.id)
 							|
-							=link_to "Edit" , admin_edit_shipping_email_email_messages_path(:order_id => order.id)
+							=link_to "Edit" , admin_edit_shipping_email_author_email_campaign_email_messages_path(:order_id => order.id)
 
 		- unless @orders.total_pages < 2
 			.pagination

@@ -14,7 +14,7 @@ class AuthorAdminController < ApplicationController
 	
 	def events
 		@event = params[:event_id] ? ( Event.find params[:event_id] ) : Event.new
-		@events = @admin.events.upcomming
+		@events = @admin.events.upcoming
 	end
 	
 	def forums

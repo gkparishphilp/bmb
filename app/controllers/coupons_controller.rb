@@ -1,35 +1,53 @@
 class CouponsController < ApplicationController
+	before_filter	:get_owner, :get_admin
+	layout			:set_layout
+	helper_method	:sort_column, :sort_dir
 
+	def admin
+		@coupons = @admin.coupons.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '2col'
+	end
+	
+	
 	def new
 		@coupon = Coupon.new
 		@skus = @current_author.skus
-		render :layout =>'2col'
+		if @skus.empty?
+			pop_flash "You don't have any items to create coupons for!", :error
+			redirect_to admin_author_coupons_path( @current_author)
+		else
+			render :layout =>'2col'
+		end
 	end
 	
 	def edit
 		@coupon = Coupon.find params[:id]
+		@skus = @current_author.skus
+		render :layout => '2col'
 	end
 	
 	def create
 		@coupon = Coupon.new( params[:coupon])
-		@coupon.code = @coupon.code.to_lowercase
+		@coupon.code.downcase!
 		@coupon.discount = params[:coupon][:discount].to_f * 100
-		@coupon.owner = @current_author
+		@coupon.owner = @admin
 		@coupon.expiration_date = @coupon.expiration_date.end_of_day
 
 		if @coupon.save
 			pop_flash 'Coupon was successfully created.'
-			redirect_to :back
 		else
 			pop_flash 'Oooops, coupon not saved...', :error, @coupon
-			redirect_to :back
 		end
+		redirect_to admin_author_coupons_path( @current_author )
+		
 	end
 	
 	def update
-		@coupon = Coupon.new( params[:coupon] )
+		@coupon = Coupon.find( params[:id] )
+		@coupon.discount = params[:coupon][:discount].to_f * 100
+		@coupon.expiration_date = @coupon.expiration_date.end_of_day 
 		
-		if @coupon.update_attributes
+		if @coupon.update_attributes( params[:coupon])
 			pop_flash 'Coupon was successfully updated.'
 			redirect_to :back
 		else
@@ -90,6 +108,42 @@ class CouponsController < ApplicationController
 		render :layout => false
 		
 	end
+	
+	def destroy
+		@coupon = Coupon.find params[:id]
+		@coupon.destroy
+		pop_flash 'Coupon was successfully deleted.'
+		redirect_to admin_author_coupons_path( @admin )
+	end
+	
+private
+	
+	def get_owner
+		@owner = @current_author ? @current_author : @author 
+	end
+
+	def get_admin
+		@admin = @current_author ? @current_author : @current_site
+		require_contributor if @admin == @current_site
+	end
+
+	def get_sidebar_data
+		@upcoming_events = @owner.events.upcoming.published
+	end
+	
+	def set_layout
+		@author ? "authors" : "application"
+	end
+	
+	def sort_column
+		Coupon.column_names.include?( params[:sort] ) ? params[:sort] : 'code'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
+	end
+
+
 
 end
 

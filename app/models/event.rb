@@ -27,7 +27,7 @@ class Event < ActiveRecord::Base
 	
 	scope :published, where( "status = 'publish'" )
 	
-	scope :upcomming, where( "ends_at >= ?", Time.now.getutc )
+	scope :upcoming, where( "ends_at >= ?", Time.now.getutc )
 		
 	scope :next, lambda { |*args|
 		limit( args.first || 5 )

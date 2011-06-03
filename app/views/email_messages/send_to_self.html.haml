@@ -2,7 +2,7 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	%h4 Enter an email address for test delivery:
-	= form_tag send_test_email_email_messages_path do
+	= form_tag deliver_test_email_author_email_campaign_email_messages_path do
 		=text_field_tag	:email
 		=hidden_field_tag :email_message_id, @message.id
 		=submit_tag "Send Test"

@@ -25,6 +25,8 @@ class Coupon < ActiveRecord::Base
 	belongs_to 	:sku
 	belongs_to 	:user
 	validates	:code, :uniqueness => { :scope => [:owner_id, :owner_type, :sku_id] }
+
+	searchable_on [ :code ]
 	
 	def is_valid?( sku )
 		if self.already_redeemed?

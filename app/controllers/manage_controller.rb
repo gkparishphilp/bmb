@@ -14,7 +14,7 @@ class ManageController < ApplicationController
 	end
 	
 	def events
-		@events = @admin.events.upcomming
+		@events = @admin.events.upcoming
 	end
 	
 	def forums

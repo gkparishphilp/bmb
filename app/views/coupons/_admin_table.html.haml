@@ -1,0 +1,26 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @coupons.empty?
+	No Coupons
+- else
+	%table.admin_table
+		%th= sortable 'code'
+		%th= 'sku'
+		%th= 'expiration_date'
+		- for coupon in @coupons
+			%tr
+				%td( style = 'width:200px;' )
+					= coupon.code
+				%td.small= coupon.sku.title
+				%td.small= coupon.expiration_date
+				%td.small
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_author_coupon_path( @admin, coupon ) 
+					= link_to 'edit', edit_author_coupon_path( @admin, coupon ) 
+				%td.small
+					= link_to image_tag( 'trash.png', :width => 20 ), author_coupon_path( @admin, coupon ), :method => 'delete', :class => 'confirm'
+					= link_to 'delete', author_coupon_path( @admin, coupon ), :method => 'delete', :class => 'confirm'
+	- unless @coupons.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @coupons
+			= will_paginate @coupons

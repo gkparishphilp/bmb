@@ -1,5 +1,12 @@
-%h1 
-	Editing Email Message For
-	= @current_author.pen_name
--form_for [ @current_author, @campaign, @email_message ]  do |f|
-	=render :partial => 'add_edit_form', :locals => {:f => f, :m => 'Create'}
+- content_for :left_column do
+	= render 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h1 
+			Edit Newsletter
+		= form_for [ @admin, @admin.email_campaigns.first, @email_message ] do |f|
+			= render 'add_edit_form', :f => f, :m => 'Update'
+		
+- content_for :right_column do
+	= render 'shared/help'
+
