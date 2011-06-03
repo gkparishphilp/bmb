@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: authors
 #
@@ -16,6 +16,7 @@
 #  updated_at       :datetime
 #  contact_email    :string(255)
 #  contact_phone    :string(255)
+#  faq              :text
 #
 
 class Author < ActiveRecord::Base
@@ -64,6 +65,11 @@ class Author < ActiveRecord::Base
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
 	liquid_methods :pen_name, :contact_email, :contact_phone
 		
+	
+	def featured_books
+		self.books.where( 'featured is true' )
+	end
+	
 	# todo return effective royalty rate depending on author's subscriptions
 	def current_royalty_rate
 		# todo fix this ghetto shit!!!!!!

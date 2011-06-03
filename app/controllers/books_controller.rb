@@ -89,6 +89,12 @@ class BooksController < ApplicationController
 		render :layout => '2col'
 	end
 	
+	def preview
+		@book = Book.find( params[:id] )
+		send_file @book.preview.location( nil, :full => true ), :disposition  => 'attachment', 
+						:filename => @book.title + "_preview." + @book.preview.format
+	end
+	
 	def update
 		@book = Book.find params[:id] 
 		unless @book.author == @current_author

@@ -3,6 +3,11 @@ class StoreController < ApplicationController
 	layout 'authors'
 	
 	def admin
+		@skus = @current_author.skus.order( 'listing_order asc' )
+		render :layout => '2col'
+	end
+	
+	def promo
 		render :layout => '2col'
 	end
 	

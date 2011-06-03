@@ -23,8 +23,7 @@
 		%h3 Archives
 		.pad
 			- for archive in @archives
-				.recent_title
-					= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
+				= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
 
 - unless @links.nil? || @links.empty?
 	.sidebar_sections

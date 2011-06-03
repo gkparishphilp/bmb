@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: books
 #
@@ -18,6 +18,7 @@
 #  cached_slug    :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  featured       :boolean(1)
 #
 
 require 'amazon/ecs'
@@ -46,6 +47,8 @@ class Book < ActiveRecord::Base
 	has_many	:merches
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
+	
+	has_attached	:preview, :private => true
 	
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags

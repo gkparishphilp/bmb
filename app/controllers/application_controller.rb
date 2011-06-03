@@ -87,6 +87,7 @@ protected
 		for key in params.keys do
 			if key =~ /attached_(.+)_/
 				next if params[key].blank?
+				next unless obj.respond_to? $1
 				resource = params[key]
 				if ( eval "obj.#{$1}" ) && !( eval "obj.#{$1}.respond_to? 'each'" )
 					# the object has an attachemnt of that type in the attachemnts_table and the 

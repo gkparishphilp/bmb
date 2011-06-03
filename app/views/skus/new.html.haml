@@ -2,10 +2,17 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 
-			New Sku
-		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+		- if @current_author.books.empty?
+			%h1 You haven't added any books
+			%p
+				Please
+				= link_to 'Add a Book', new_author_book_path( @current_author )
+				to begin using your store.
+		- else
+			%h1 
+				Add An Item to Your Store
+			- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
+				= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 		
 - content_for :right_column do
 	= render 'shared/help'

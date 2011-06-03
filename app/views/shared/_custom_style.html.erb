@@ -56,11 +56,24 @@ h1, h2, h3{
 	background-color: <%= @theme.nav_bg %>;
 }
 .sidebar_sections a{
-	color: <%= @theme.header_color %>;
+	color: <%= @theme.link_color %>;
 }
 
 .sidebar_sections .pad{
 	background-color: <%= @theme.content_bg_color %>;
+}
+
+
+.article_header h2 {
+	color: <%= @theme.title_color %>;
+}
+
+.article_header h2 a{
+	color: <%= @theme.title_color %>;
+}
+
+.article_meta a{
+	color: <%= @theme.link_color %>;
 }
 
 

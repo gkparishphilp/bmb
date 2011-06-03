@@ -48,25 +48,21 @@ $(document).ready(function(){
 		$('.show_edit_title').show();
 	});
 	
-	///////////////////////   Stuff For Book Asset Page  ///////////////////
+	///////////////////////   Stuff For Sku New Page  ///////////////////
 	
-	$("#asset_asset_type").change(function (){
-		if( $(this).attr('value').match("sale") != null  && !$("#price").is(':visible') ) {
-			$('#price').show("slow");
-			$('#unlock_req').hide();
+	$("#sku_sku_type").change(function (){
+		if( $(this).attr('value').match("merch") != null ) {
+			$('#merch_fields').show("slow");
+			$('book_asset_fields').hide("slow");
 		}
-		if( $(this).attr('value').match("giveaway") != null  && !$("#unlock_req").is(':visible') ) {
-			$('#unlock_req').show("slow");
-			$('#price').hide();
-		}
-		if( $(this).attr('value').match("free") != null ) {
-			$('#unlock_req').hide();
-			$('#price').hide();
+		else {
+			$('#merch_fields').hide("slow");
+			$('book_asset_fields').show("slow");
 		}
 	});
 	
-	$("#asset_type").change(function (){
-		if( $(this).attr('value').match("audio") != null ) {
+	$("#sku_sku_type").change(function (){
+		if( $(this).attr('value').match("audio_book") != null ) {
 			$('#audio_fields').show("slow");
 		}
 		else {

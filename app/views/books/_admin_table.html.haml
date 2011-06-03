@@ -4,19 +4,21 @@
 	No Books
 - else
 	%table.admin_table
+		%th
 		%th= sortable 'Title'
 		%th= sortable 'Published'
-		%th Digital Assets
-		%th Merchandise
+		-# %th Digital Assets
+		-# %th Merchandise
 
 		- for book in @books
 			%tr
+				%td= avatar_tag( book, :thumb, :width => 32 )
 				%td= book.title
 				%td= format_date_only book.created_at
-				%td
+				-#%td
 					= link_to ( pluralize book.assets.count, 'Asset' ), admin_author_book_assets_path( @author, book )
 				
-				%td
+				-#%td
 					= link_to ( pluralize book.merches.count, 'Item' ), admin_author_merches_path( @author, :book_id => book )
 					
 				%td

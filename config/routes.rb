@@ -40,9 +40,12 @@ Backmybook::Application.routes.draw do
 		end
 		resources :books do
 			get 'admin', :on => :collection
+			
 		
 			get 'digital_assets', :on => :member # todo -- kill these
 			get 'physical_assets', :on => :member # todo -- kill these
+			
+			get 'preview', :on => :member
 			
 			# all these routes just to edit STI resource on books
 			resources :etext, :controller => :assets
@@ -92,7 +95,6 @@ Backmybook::Application.routes.draw do
 		resources :skus do
 			put 'add_item', :on => :member
 			get 'sort', :on => :collection
-			get 'listing', :on => :collection
 			get 'manage_items', :on => :member
 			post 'remove_item', :on => :member
 		end
@@ -100,6 +102,7 @@ Backmybook::Application.routes.draw do
 		resources :store do
 			get 'admin', :on => :collection
 			get 'faq', :on => :collection
+			get 'promo', :on => :collection
 		end
 		
 		resources :sites

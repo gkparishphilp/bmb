@@ -10,14 +10,14 @@
 - if true # todo if @author.has_subscription?( email )
 	.sidebar_sections
 		%h3 
-			=link_to 'Newsletter Signup','#'
+			Newsletter Signup
 		.pad
 			Sign up for 
 			= possessize @author.pen_name
 			free newsletter to keep in touch.
 			
 			
-			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do #todo author_newsletter_signup_path
+			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do
 				%b Name:
 				= text_field_tag :name
 				%br
@@ -29,20 +29,17 @@
 				= @author.pen_name
 				respect your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
 
-- if @theme.nil? || !@theme.book_site
+- unless @author.featured_books.empty?
 	.sidebar_sections
 		%h3 
-			=link_to 'Featured books','#'
+			Featured books
 		.pad
-			- if @author.books.published.empty?
-				No Books
-			- else
-				= render @author.books.published.reverse
+			= render @author.featured_books.published.reverse
 
 - unless @author.links.empty?
 	.sidebar_sections
 		%h3 
-			=link_to 'Links','#'
+			Links
 		.pad
 			- if @author.links.empty?
 				No Links
@@ -54,7 +51,7 @@
 - unless @author.events.upcomming.empty?
 	.sidebar_sections
 		%h3 
-			=link_to 'Events', author_events_path( @author )
+			Events
 		.pad
 			- if @author.events.upcomming.empty?
 				No Upcomming Events

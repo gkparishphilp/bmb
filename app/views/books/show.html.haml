@@ -4,10 +4,10 @@
 			.book_thumb
 				= avatar_tag( @book, :profile, :width => 150 )
 			
-			- for asset in @book.assets.free do
+			- unless @book.preview.nil?
 				%li
 					.button
-						= link_to "Free Sample", download_author_book_asset_url( @author, @book, asset )
+						= link_to "Free Sample", preview_author_book_url( @author, @book )
 			
 			- unless @book.ebook_sku.nil?
 				%li

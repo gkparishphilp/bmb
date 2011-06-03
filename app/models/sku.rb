@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: skus
 #
@@ -18,7 +18,6 @@
 #  international_shipping_price :integer(4)      default(0)
 #  allow_comment                :boolean(1)
 #  listing_order                :integer(4)
-#  show_inventory               :boolean(1)
 #
 
 class Sku < ActiveRecord::Base
@@ -75,7 +74,11 @@ class Sku < ActiveRecord::Base
 	}
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
+	
 	liquid_methods :title, :owner, :sku_items
+	
+	accepts_nested_attributes_for	:merches
+	
 
 	def assign_listing_order
 		for sku in self.owner.skus

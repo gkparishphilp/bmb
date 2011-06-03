@@ -59,13 +59,20 @@
 			= link_to image_tag( 'twitter.jpg' ), "http://twitter.com/backmybook"
 			= link_to image_tag( 'facebook.jpg' ), "http://www.facebook.com/pages/BackMyBook/129259667097024"
 			= link_to image_tag( 'rss.jpg',:alt=>'rss feed' ), "http://feeds.feedburner.com/TheBackmybookBlog"
-			= link_to image_tag( 'mail.jpg',:alt=>'contact author', :class => :toggle_contact_form ), ""
-		#contact_form
+	.follow-me.ui-helper-clearfix
+		%h3 Join our newsletter
+		= image_tag( 'mail.jpg' )
+		#newsletter_form
 			%br.clear
-			= form_for Contact.new do |f|
-				= f.label "Email:"
-				= f.text_field :email
-				= f.submit 'Submit'
+			= form_tag root_path, :style => 'margin:10px 0px 5px 5px;' do
+				Email:
+				= text_field_tag :email
+				%br
+				Name:
+				= text_field_tag :name
+				= submit_tag 'Submit', :class => 'buttons'
+			.tiny{ :style => 'padding:5px;' }
+				BackMyBook respects your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
 	
 	%div
 		- unless @current_site.podcasts.empty?
@@ -77,9 +84,10 @@
 						= image_tag "podcast_icon.png", :width => 20
 						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 			
-	%div.blog-entries
+	.follow-me.ui-helper-clearfix
 		%h3 
 			Recent Blog Articles
+		= image_tag 'blog_title_icon.png'
 		.recent_posts
 			- for article in @recent_blog_posts
 				.text

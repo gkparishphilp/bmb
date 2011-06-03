@@ -3,7 +3,8 @@ class SkusController < ApplicationController
 	before_filter :get_items, :only => [:edit, :manage_items]
 
 	def create
-		@sku = Sku.new params[:sku]
+
+		@sku = Sku.new( params[:sku] )
 
 		@sku.price = params[:sku][:price].to_f * 100 if params[:sku][:price]
 		@sku.domestic_shipping_price = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
@@ -11,8 +12,32 @@ class SkusController < ApplicationController
 		
 		if @current_author.skus << @sku
 			process_attachments_for @sku
+			
+			
+			if @sku.sku_type == 'merch'
+				merch = Merch.new :owner => @current_author, :title => @sku.title, 
+									:description => @sku.description, :book_id => @sku.book_id
+				merch.attributes = params[:merches]
+				
+				merch.save
+			
+				@sku.add_item( merch )
+			else
+				if @sku.sku_type == 'ebook'
+					asset = @sku.book.etexts.new :title => @sku.title
+				else # it's an audiobook
+					asset = @sku.book.audios.new :title => @sku.title, :duration => params[:duration], 
+													:bitrate => params[:bitrate]
+				end
+				if asset.save
+					process_attachments_for( asset )
+				end
+				
+				@sku.add_item( asset )
+			end
+			
 			pop_flash 'Sku saved!'
-			redirect_to manage_items_author_sku_path( @current_author, @sku)
+			redirect_to admin_author_store_index_path( @current_author )
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
 			redirect_to edit_author_sku_path( @current_author, @sku )
@@ -111,6 +136,7 @@ class SkusController < ApplicationController
 	end
 	
 	def listing
+		@skus = @current_author.skus.order( 'listing_order asc' )
 		render :layout => '2col'
 	end
 

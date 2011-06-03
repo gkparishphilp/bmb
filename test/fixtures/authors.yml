@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: authors
 #
@@ -16,6 +16,7 @@
 #  updated_at       :datetime
 #  contact_email    :string(255)
 #  contact_phone    :string(255)
+#  faq              :text
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

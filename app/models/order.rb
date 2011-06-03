@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: orders
 #
@@ -19,6 +19,7 @@
 #  shipping_amount         :integer(4)
 #  total                   :integer(4)
 #  comment                 :text
+#  sku_quantity            :integer(4)      default(1)
 #
 
 class Order < ActiveRecord::Base

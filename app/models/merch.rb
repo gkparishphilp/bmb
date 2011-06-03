@@ -1,19 +1,21 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602204757
 #
 # Table name: merches
 #
-#  id                :integer(4)      not null, primary key
-#  owner_id          :integer(4)
-#  owner_type        :string(255)
-#  title             :string(255)
-#  description       :text
-#  inventory_count   :integer(4)      default(-1)
-#  status            :string(255)     default("publish")
-#  created_at        :datetime
-#  updated_at        :datetime
-#  inventory_warning :integer(4)      default(-1)
-#  merch_type        :text
+#  id                      :integer(4)      not null, primary key
+#  owner_id                :integer(4)
+#  owner_type              :string(255)
+#  title                   :string(255)
+#  description             :text
+#  inventory_count         :integer(4)      default(-1)
+#  status                  :string(255)     default("publish")
+#  created_at              :datetime
+#  updated_at              :datetime
+#  inventory_warning       :integer(4)      default(-1)
+#  merch_type              :text
+#  show_inventory_count_at :integer(4)      default(0)
+#  book_id                 :integer(4)
 #
 
 class Merch < ActiveRecord::Base

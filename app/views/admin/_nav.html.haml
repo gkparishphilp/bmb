@@ -6,6 +6,10 @@
 		%li.vspaced= link_to 'Author Settings', edit_author_url( @current_author )
 		%li.vspaced= link_to 'User Settings', @current_user
 	
+		#admin_hd Your Store
+		%li.vspaced= link_to "Store Promo", promo_author_store_index_url( @current_author )
+		%li.vspaced= link_to 'Store Items', admin_author_store_index_path( @current_author )
+		%li.vspaced= link_to 'Coupons', "todo"
 	
 		#admin_hd  Your Site
 		%li.vspaced= link_to 'View Your Site', @current_author
@@ -20,15 +24,7 @@
 			%li.vspaced= link_to 'Podcast', admin_author_podcasts_path( @current_author )
 		- if true #todo @current_author.has_valid_subscription?( Subscription.first )
 			%li.vspaced= link_to "Theme", admin_themes_url
-		-# %li= link_to "Featured Items"
 
-	
-
-		#admin_hd Your Store
-		%li.vspaced= link_to "Store Promo", admin_author_store_index_url( @current_author )
-		%li.vspaced= link_to 'Store Listing', listing_author_skus_path( @current_author )
-		%li.vspaced= link_to 'Coupons', "todo"
-		%li.vspaced= link_to 'Merchandise', new_author_merch_path( @current_author )
 		
 		#admin_hd Reports
 		- if @current_author.has_valid_subscription?( Subscription.first )
