@@ -58,8 +58,22 @@ Backmybook::Application.routes.draw do
 			get 'admin', :on => :collection
 		end
 		resources :email_campaigns do
-			resources :email_messages 
+			resources :email_messages do
+				get 'admin', :on => :collection
+				get 'send_to_self', :on => :member
+				get 'send_to_subscriber', :on => :member
+				get 'admin_get_merch_orders', :on  => :collection
+				get 'admin_edit_shipping_email', :on => :collection
+				get 'admin_send_shipping_email', :on => :collection
+				get 'admin_list', :on => :collection
+				post 'deliver_test_email', :on => :collection
+			end
 		end
+		
+		resources :email_templates do
+			get 'admin', :on => :collection
+		end
+		
 		resources :events do
 			get 'admin', :on => :collection
 		end
@@ -129,13 +143,6 @@ Backmybook::Application.routes.draw do
 	
 	resources :email_messages do
 		get 'admin', :on => :collection
-		get 'admin_list', :on => :collection
-		get 'send_to_self', :on => :collection
-		get 'send_to_subscriber', :on => :collection
-		get 'admin_get_merch_orders', :on  => :collection
-		get 'admin_edit_shipping_email', :on => :collection
-		get 'admin_send_shipping_email', :on => :collection
-		post 'send_test_email', :on => :collection
 	end
 	
 	resources :email_templates do

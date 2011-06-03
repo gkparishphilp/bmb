@@ -118,6 +118,29 @@ class Author < ActiveRecord::Base
 		
 	end
 	
+	def has_email_quota_remaining?
+		# Get the author's quota
+		subs = self.user.subscriptions
+		quota = 0
+		for sub in subs
+			quota += sub.monthly_email_limit
+		end	
+		
+		# Determine how many emails he's sent this month
+		sent_msg = 0
+		subscribings = self.email_subscribings
+		for subscribing in subscribings
+			sent_msg += subscribing.email_deliveries.dated_between( Time.now.getutc.at_beginning_of_month, Time.now.getutc.at_end_of_month ).count
+		end
+		
+		# Quota remaining?
+		if quota > sent_msg 
+			return true
+		else
+			return false
+		end
+	end
+	
 	def promo_content
 		#if self.promo =~ "book_1" #use book_bookid
 		#podcast_1

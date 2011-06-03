@@ -4,7 +4,7 @@
 = f.text_area :description
 = f.hidden_field :discount_type, :value => 'cents'
 = f.label 'Dollars Off ($):'
-= f.text_field :discount
+= f.text_field :discount, :value => cents_to_dollars( @coupon.discount )
 = f.label 'Expiration Date'
 = f.text_field :expiration_date,  :class => 'datepicker'
 

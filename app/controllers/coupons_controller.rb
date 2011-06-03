@@ -44,11 +44,10 @@ class CouponsController < ApplicationController
 	
 	def update
 		@coupon = Coupon.find( params[:id] )
-		#@coupon.owner = @admin
-		#@coupon.discount = params[:coupon][:discount].to_f * 100
-		#@coupon.expiration_date = @coupon.expiration_date.end_of_day 
+		@coupon.discount = params[:coupon][:discount].to_f * 100
+		@coupon.expiration_date = @coupon.expiration_date.end_of_day 
 		
-		if @coupon.update_attributes
+		if @coupon.update_attributes( params[:coupon])
 			pop_flash 'Coupon was successfully updated.'
 			redirect_to :back
 		else
@@ -108,6 +107,13 @@ class CouponsController < ApplicationController
 		
 		render :layout => false
 		
+	end
+	
+	def destroy
+		@coupon = Coupon.find params[:id]
+		@coupon.destroy
+		pop_flash 'Coupon was successfully deleted.'
+		redirect_to admin_author_coupons_path( @admin )
 	end
 	
 private
