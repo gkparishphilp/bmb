@@ -1,5 +1,5 @@
 - content_for :left_column do
-	- cache( "blog_article_#{@author.id}_#{@article.id}" ) do 
+	- cache( "blog_article_#{@article.owner.class.name}_#{@article.owner.id}_#{@article.id}" ) do 
 	
 		#article_list
 			.article_header

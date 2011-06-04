@@ -1,5 +1,5 @@
 - content_for :left_column do
-	- cache( "blog_index_#{@author.id}" ) do 
+	- cache( "blog_index_#{@owner.id}" ) do 
 	
 		- if @topic
 			%h4

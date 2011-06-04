@@ -1,5 +1,4 @@
-class MerchesController < ApplicationController
-	
+class MerchesController < ApplicationController	
 	before_filter	:get_owner
 	
 	helper_method	:sort_column, :sort_dir

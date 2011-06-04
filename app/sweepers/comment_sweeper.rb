@@ -15,8 +15,8 @@ class CommentSweeper < ActionController::Caching::Sweeper
 
 	def expire_cache( comment )
 		if comment.commentable.is_a? Article
-			expire_fragment( "blog_index_#{comment.commentable.owner.id}" )
-			expire_fragment( "blog_article_#{comment.commentable.owner.id}_#{comment.commentable.id}")
+			expire_fragment( "blog_index_#{comment.commentable.owner.class.name}_#{comment.commentable.owner.id}" )
+			expire_fragment( "blog_article_#{comment.commentable.owner.class.name}_#{comment.commentable.owner.id}_#{comment.commentable.id}")
 		end
 	end
 	

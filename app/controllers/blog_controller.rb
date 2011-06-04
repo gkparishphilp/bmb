@@ -1,8 +1,7 @@
 class BlogController < ApplicationController
 	# owner is to set the display properly -- use author template when author_id
 	# use site template otherwise
-	before_filter	:get_owner, :get_sidebar_data
-	
+	before_filter	:get_owner, :get_sidebar_data	
 	# admin is the person who can administer the blog.  Set to @current_author if there
 	# is one, otherwise site admin
 	before_filter	:get_admin, :only => :admin
@@ -49,9 +48,7 @@ class BlogController < ApplicationController
 		@commentable = @article
 		
 		@current_user.did_read @article unless @current_user.anonymous?
-		@article.raw_stats.create :name =>'view', :ip => request.ip 
-		
-		
+		@article.raw_stats.create :name =>'view', :ip => request.ip 		
 	end
 
 
@@ -85,5 +82,8 @@ private
 	def set_layout
 		@author ? "authors" : "application"
 	end
+	
+
+	
 	
 end
