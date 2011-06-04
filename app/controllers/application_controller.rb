@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
 	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
-	cache_sweeper :activity_sweeper
 	
 	# so, we set these application-level global instance vars:
 	# @current_site -- the site we're on -- basically the domain the app is running on

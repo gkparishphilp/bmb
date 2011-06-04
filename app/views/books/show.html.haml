@@ -62,7 +62,7 @@
 				%hr.divider
 				%h3
 					Reviews
-				= render @book.reviews
+				= render @book.reviews.order(' created_at desc')
 			
 			.clear
 	
