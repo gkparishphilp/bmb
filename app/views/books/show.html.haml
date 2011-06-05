@@ -35,7 +35,7 @@
 									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 						
 		.right_col.text
-			- cache( :controller => 'books', :action => 'show', :action_suffix => 'book_description') do 
+			- cache("book_description_#{@book.author.id}_#{@book.id}") do 
 				%h1= @book.title
 				.book-meta.clearfix
 					-#

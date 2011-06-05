@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	.form_group
 		%h2 FAQ Entries
-		%p Enter any additional FAQ text below. 
+		%p Your FAQ contains the default entries.  Enter additional, custom FAQ text below. 
 		= form_for @current_author do |f|
 			= f.text_area :faq, :class => 'editor'
 			= f.submit "Update FAQ", :class => :buttons

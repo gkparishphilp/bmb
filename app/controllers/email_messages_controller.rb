@@ -5,7 +5,7 @@ class EmailMessagesController < ApplicationController
 	
 	def admin
 		@campaign = @current_author.email_campaigns.find_by_title('Default')
-		@email_messages = @admin.email_campaigns.first.email_messages.order('created_at desc' ).paginate( :per_page => 10, :page => params[:page] )
+		@email_messages = @admin.email_campaigns.first.email_messages.order('created_at desc' ).paginate(  :page => params[:page], :per_page => 10 )
 		@num_subscribers = @current_author.email_subscribings.count
 		render :layout => '2col'
 	end

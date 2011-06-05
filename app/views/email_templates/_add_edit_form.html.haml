@@ -12,7 +12,7 @@ Subject:
 = f.text_area :content, :class => 'editor'
 
 %br
-= f.hidden_field :template_type, :value => 'custom'
-= f.submit 'Save' , :class => 'buttons'
+= f.hidden_field :template_type, :value => @email_template.template_type
+= f.submit 'Save' 
 |
 = link_to 'Cancel', :back

@@ -8,8 +8,7 @@
 		- if @author.has_bio?
 			%li= current_page?( bio_author_url( @author ) ) ? ( link_to "Bio", bio_author_url( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_url( @author ) )
 
-		- if @author.has_faq?
-			%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
+		%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
 
 
 		- if @author.has_forum?
