@@ -203,6 +203,14 @@ class Author < ActiveRecord::Base
 		return self.forums.present?
 	end
 	
+	def has_books?
+		return self.books.published.present?
+	end
+	
+	def has_store?
+		return self.skus.published.present?
+	end
+	
 	private
 	
 	def book_promo

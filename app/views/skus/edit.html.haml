@@ -5,14 +5,33 @@
 		%h1 
 			Edit Store Item:
 			= @sku.title
-		- if @sku.sku_items.count == 0
-			.warning
-				Warning!  SKU has no items associated with it! Please add an item at the bottom of this page.
-		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
+		- if true #something like @sku.unsold
+			.float_left
+				Add Existing Assets to this Item:
+				= form_tag add_item_author_sku_path( @current_author, @sku ) do
+					= select_tag :item, options_for_select( @items )
+					= submit_tag 'Add Item'
+			.new_button
+				= link_to 'New File', new_author_sku_asset_path( @current_author, @sku )
+			.new_button
+				= link_to 'New Merch', new_author_sku_merch_path( @current_author, @sku )
+			%table.admin_table
+				%th Title
+				%th Type
+				%th Action
+
+				- for item in @sku.items
+					%tr
+						%td= item.title
+						%td
+							= item.class.name
+						- unless @sku.has_sales?
+							%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
+		
+		- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
 			= render :partial => 'edit_form', :locals => {:f => f, :m => 'Update'}
 	%br	
-	.form_group
-		= render :partial => 'sku_item_listing'
+
 		
 - content_for :right_column do
 	= render 'shared/help'

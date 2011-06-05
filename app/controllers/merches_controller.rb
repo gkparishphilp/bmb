@@ -1,6 +1,6 @@
 class MerchesController < ApplicationController
 	
-	before_filter	:get_owner
+	before_filter	:get_parents
 	
 	helper_method	:sort_column, :sort_dir
 	
@@ -16,6 +16,7 @@ class MerchesController < ApplicationController
 	
 	def new
 		@merch = Merch.new
+		@sku = Sku.find_by_id( params[:sku_id] )
 		@books = @current_author.books
 
 		if @book
@@ -52,14 +53,11 @@ class MerchesController < ApplicationController
 		@merch.book_id = @book.id if @book
 		if @merch.save
 			process_attachments_for( @merch )
-			if @merch.price.to_i > 0
-				sku = @current_author.skus.create :title => @merch.title, :description => @merch.description, :price => @merch.price, :book_id => @merch.book_id, :sku_type => 'merch'
-				sku.add_item @merch
-			end
+			@sku.add_item( @merch )
 			
 			pop_flash 'Merchandise saved!'
 			
-			redirect_to admin_author_merches_path( @current_author, :book_id => @book )
+			redirect_to edit_author_sku_path( @current_author, @sku )
 			
 		else
 			pop_flash 'Merchandise could not be saved.', :error, @merch
@@ -94,8 +92,9 @@ class MerchesController < ApplicationController
 	
 	private
 	
-	def get_owner
-		@book = Book.find( params[:book_id] ) if params[:book_id]
+	def get_parents
+		@book = Book.find_by_id( params[:book_id] )
+		@sku = Sku.find_by_id( params[:sku_id] )
 	end
 	
 	def sort_column

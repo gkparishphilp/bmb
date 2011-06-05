@@ -4,16 +4,9 @@
 = f.label 'Asset Type'
 = f.select :type, [['Ebook', 'etext'], ['AudioBook', 'audio']]
 
-= f.label 'File to upload (epub, mobi, lrf, pdf, txt max 500 MB)'
+= f.label 'File to upload (max 500 MB)'
 = file_field_tag :attached_document_file
 
-= f.label "Pricing Type"
-= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ] ]
-
-- if @book.ebook_sku.nil?
-	#price
-		= f.label "Price ($)"
-		= f.text_field :price
 		
 #audio_fields{ :style => 'display:none;' }	
 	= f.label 'Duration:'

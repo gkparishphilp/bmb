@@ -15,6 +15,7 @@
 = f.label 'Status'
 = f.select :status, [['Publish', 'publish'], ['Draft', 'unpublish']], :selected => @sku.status
 
+
 = f.label 'Description:'
 = f.text_area :description, :class => 'editor_small'
 %br

@@ -1,5 +1,5 @@
 class AssetsController < ApplicationController
-	before_filter   :get_parent, :except => :deliver
+	before_filter   :get_parents, :except => :deliver
 	layout			'2col'
 	
 	helper_method	:sort_column, :sort_dir
@@ -13,7 +13,7 @@ class AssetsController < ApplicationController
 	def new
 		@type = params[:type]
 		@asset = Asset.new
-		@asset.title = @book.title
+		@asset.title = @book.title if @book
 	end
 	
 	def edit
@@ -38,22 +38,26 @@ class AssetsController < ApplicationController
 		end
 		
 		if params[:asset][:type] == 'etext'
-			@asset = @book.etexts.new( params[:asset] )
+			@asset = @sku.book.etexts.new( params[:asset] )
 		else
-			@asset = @book.audios.new( params[:asset] )
+			@asset = @sku.book.audios.new( params[:asset] )
 		end
 		
 		@asset.price = params[:asset][:price].to_f * 100 if params[:asset][:price]
 		
 		if @asset.save
-			# Check sku if type is sale
-			@asset.create_sku( @asset.type ) if @asset.asset_type == 'sale'
 			process_attachments_for( @asset )
 			@asset.reload # to bring the new attachemnt into the @asset model
 			@asset.update_attributes :title => @asset.title.gsub( /etext/i, "#{@asset.document.format}" )
 			pop_flash 'Asset saved!'
-
-			redirect_to admin_author_book_assets_path( @current_author, @book )
+			sku = Sku.find_by_id( params[:sku_id] )
+			if sku.nil?
+				sku =  @asset.create_sku( @asset.type ) if @asset.asset_type == 'sale'
+			else
+				sku.add_item( @asset )
+			end
+			
+			redirect_to edit_author_sku_path( @current_author, sku )
 			
 		else
 			pop_flash 'Asset could not be saved.', :error, @asset
@@ -148,8 +152,9 @@ class AssetsController < ApplicationController
 	
 	private
 	
-	def get_parent
-		@book = Book.find params[:book_id]
+	def get_parents
+		@book = Book.find_by_id( params[:book_id] )
+		@sku = Sku.find_by_id( params[:sku_id] )
 	end
 	
 	

@@ -7,7 +7,7 @@
 			New Merchandise
 			= 'For ' + @book.title if @book
 				
-		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
+		- form_for [ @current_author, @sku, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 	%br
 	

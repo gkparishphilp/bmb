@@ -110,8 +110,9 @@ class SkusController < ApplicationController
 	
 	
 	def add_item
+
 		@sku = Sku.find params[:id]
-		type, id = params[:sku][:item].split(/_/)
+		type, id = params[:item].split(/_/)
 		# let's go Meta, Baby!!!
 		@item = eval "#{type}.find #{id}"
 		if @sku_item = @sku.add_item( @item )

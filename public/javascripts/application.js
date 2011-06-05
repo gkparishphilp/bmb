@@ -48,16 +48,26 @@ $(document).ready(function(){
 		$('.show_edit_title').show();
 	});
 	
+	
+	$("#asset_type").change(function (){
+		if( $(this).attr('value').match("audio") != null ) {
+			$('#audio_fields').show("slow");
+		}
+		else{
+			$('#audio_fields').hide("slow");
+		}
+	});
+	
 	///////////////////////   Stuff For Sku New Page  ///////////////////
 	
 	$("#sku_sku_type").change(function (){
 		if( $(this).attr('value').match("merch") != null ) {
 			$('#merch_fields').show("slow");
-			$('book_asset_fields').hide("slow");
+			$('#book_asset_fields').hide("slow");
 		}
 		else {
 			$('#merch_fields').hide("slow");
-			$('book_asset_fields').show("slow");
+			$('#book_asset_fields').show("slow");
 		}
 	});
 	
@@ -70,6 +80,18 @@ $(document).ready(function(){
 		}
 	});
 	
+	
+	$('#unlimited_inventory').click( function(){
+		$('#merch_inventory_count').toggle(1000);
+	});
+	
+	$('#never_email').click( function(){
+		$('#merch_inventory_warning').toggle(1000);
+	});
+	
+	$('#never_show').click( function(){
+		$('#merch_show_inventory_count_at').toggle(1000);
+	});
 	
 	///////////////////// Admins //////////////////////////
 	$('#admin_table th a, #admin_table .pagination a').live('click', function() {
