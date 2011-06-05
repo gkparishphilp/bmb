@@ -5,16 +5,18 @@
 		%h1 
 			Edit Store Item:
 			= @sku.title
-		- if true #something like @sku.unsold
+		- unless @sku.has_sales?
 			.float_left
 				Add Existing Assets to this Item:
 				= form_tag add_item_author_sku_path( @current_author, @sku ) do
 					= select_tag :item, options_for_select( @items )
-					= submit_tag 'Add Item'
+					= submit_tag 'Add Item', :class => 'buttons'
 			.new_button
 				= link_to 'New File', new_author_sku_asset_path( @current_author, @sku )
 			.new_button
 				= link_to 'New Merch', new_author_sku_merch_path( @current_author, @sku )
+			%br
+			%br
 			%table.admin_table
 				%th Title
 				%th Type
@@ -27,7 +29,9 @@
 							= item.class.name
 						- unless @sku.has_sales?
 							%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
-		
+			%br
+			%hr
+			%br
 		- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
 			= render :partial => 'edit_form', :locals => {:f => f, :m => 'Update'}
 	%br	
