@@ -14,8 +14,9 @@ class ArticleSweeper < ActionController::Caching::Sweeper
 	end
 
 	def expire_cache( article )
-		expire_fragment( "blog_index_#{article.owner.id}" )
-		expire_fragment( "blog_article_#{article.owner.id}_#{article.id}")
+		expire_fragment( "blog_index_#{article.owner.class.name}_#{article.owner.id}" )
+		expire_fragment( "blog_article_#{article.owner.class.name}_#{article.owner.id}_#{article.id}")
+		
 	end
 	
 end

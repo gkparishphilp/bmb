@@ -7,7 +7,7 @@
 			= image_tag('facebook.jpg')
 			= image_tag('rss.jpg',:alt=>'rss feed')
 
-- if true # todo if @author.has_subscription?( email )
+- if @author.has_valid_subscription?( Subscription.first )
 	.sidebar_sections
 		%h3 
 			Newsletter Signup

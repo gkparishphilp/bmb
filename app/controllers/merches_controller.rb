@@ -1,6 +1,11 @@
+<<<<<<< HEAD:app/controllers/merches_controller.rb
 class MerchesController < ApplicationController
 	
 	before_filter	:get_parents
+=======
+class MerchesController < ApplicationController	
+	before_filter	:get_owner
+>>>>>>> 6443a1d3a59c576b8537c717338af6a517af8589:app/controllers/merches_controller.rb
 	
 	helper_method	:sort_column, :sort_dir
 	

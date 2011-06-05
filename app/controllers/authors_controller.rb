@@ -1,4 +1,5 @@
 class AuthorsController < ApplicationController
+	cache_sweeper :author_sweeper, :only => [:create, :update, :destroy]
 	before_filter	:require_login, :except => [ :index, :show, :bio, :help, :signup ]
 	before_filter	:get_form_data, :only => [:new, :edit]
 	

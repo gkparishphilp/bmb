@@ -1,5 +1,7 @@
 class ForumsController < ApplicationController
 	before_filter	:get_owner, :get_sidebar_data
+	before_filter	:check_permissions, :only => [:admin, :new, :edit]
+
 	layout			:set_layout
 	
 	def admin
@@ -77,5 +79,13 @@ private
 	def set_layout
 		@author ? "authors" : "application"
 	end
+	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.first)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
+	end
+	
 	
 end

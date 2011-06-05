@@ -103,7 +103,7 @@ class BooksController < ApplicationController
 		end
 		if @book.update_attributes params[:book]
 			process_attachments_for( @book )
-			pop_flash 'Book was successfully updated.  Add assets next.'
+			pop_flash 'Book was successfully updated.'
 		else
 			pop_flash 'Oooops, Book not updated...', :error, @book
 		end
