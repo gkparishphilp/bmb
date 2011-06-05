@@ -5,6 +5,8 @@ class BlogController < ApplicationController
 	# admin is the person who can administer the blog.  Set to @current_author if there
 	# is one, otherwise site admin
 	before_filter	:get_admin, :only => :admin
+	before_filter	:check_permissions, :only => [:admin, :new, :edit]
+	
 	helper_method	:sort_column, :sort_dir
 	
 	layout			:set_layout
@@ -83,6 +85,12 @@ private
 		@author ? "authors" : "application"
 	end
 	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.first)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
+	end
 
 	
 	

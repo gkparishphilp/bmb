@@ -24,8 +24,6 @@
 			%li.vspaced= link_to "Theme", admin_themes_url
 		- if false # todo
 			%li.vspaced= link_to 'Podcast', admin_author_podcasts_path( @current_author )
-		- if @current_author.has_valid_subscription?( Subscription.first )
-
 		%li.vspaced= link_to "Help and FAQ", faq_author_store_index_url( @current_author)
 
 		

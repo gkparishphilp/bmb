@@ -1,6 +1,7 @@
 class ThemesController < ApplicationController
 	
 	before_filter :require_author
+	before_filter :check_permissions, :only => [:admin, :new, :edit]
 	
 	def admin
 		@default_themes = Theme.default - @current_author.themes
@@ -84,5 +85,11 @@ class ThemesController < ApplicationController
 
 private
 
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.first)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
+	end
 
 end

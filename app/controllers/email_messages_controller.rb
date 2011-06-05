@@ -2,6 +2,8 @@ class EmailMessagesController < ApplicationController
 	before_filter	:get_owner, :get_admin
 	layout			:set_layout
 	helper_method	:sort_column, :sort_dir
+	before_filter	:check_permissions, :only => [:admin, :admin_list, :new, :edit]
+	
 	
 	def admin
 		@campaign = @current_author.email_campaigns.find_by_title('Default')
@@ -212,6 +214,13 @@ class EmailMessagesController < ApplicationController
 
 	def sort_dir
 		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
+	end
+	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.first)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
 	end
 	
 end
