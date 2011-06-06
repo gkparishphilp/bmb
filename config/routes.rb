@@ -34,6 +34,7 @@ Backmybook::Application.routes.draw do
 		get 'help', :on => :member
 		get 'platform_builder', :on => :collection
 		get 'edit_profile', :on => :member
+		get 'contact', :on => :member
 		
 		resources :blog do
 			get 'admin', :on => :collection
@@ -259,6 +260,7 @@ Backmybook::Application.routes.draw do
 	match '/site-admin/blog' => 'site_admin#blog', :as => :site_admin_blog
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
 	
+	match '/author:author_id/search/(:term)' => 'authors#search', :as => 'search_author'
 		
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

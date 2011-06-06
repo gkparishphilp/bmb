@@ -17,7 +17,7 @@ $(document).ready(function(){
 	var editor_small_opts = {
 		lang			: 'en',   // set your language
 		styleWithCSS	: false,
-		width			: 400, 
+		width			: 600, 
 		height			: 200,
 		fmAllow			: true,
 		toolbar			: 'compact'

@@ -1,7 +1,12 @@
 class AuthorsController < ApplicationController
 	cache_sweeper :author_sweeper, :only => [:create, :update, :destroy]
-	before_filter	:require_login, :except => [ :index, :show, :bio, :help, :signup ]
+	before_filter	:require_login, :except => [ :index, :show, :bio, :help, :signup, :contact, :search ]
 	before_filter	:get_form_data, :only => [:new, :edit]
+	
+	
+	def contact
+		@author = Author.find( params[:id] )
+	end
 	
 	def index
 		@author = Author.last
@@ -12,7 +17,12 @@ class AuthorsController < ApplicationController
 		render :layout => '2col'
 	end
 	
-	
+	def search
+		@term = params[:q]
+		@articles = @author.articles.search( @term ).published
+		@skus = @author.skus.search( @term ).published
+		
+	end
 
 	def manage
 		@author = @current_user.author

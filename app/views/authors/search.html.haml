@@ -1,0 +1,20 @@
+- content_for :left_column do
+	%h1
+		= pluralize @articles.count + @skus.count, 'result'
+		For
+		'
+		= @term
+		'
+	- unless @skus.empty?
+		%h3 Store Items:
+		- for sku in @skus
+			= render 'store/item_listing', :sku => sku
+	- unless @articles.empty?
+		%h3 Articles:
+		= render @articles
+	- if @skus.empty? && @articles.empty?
+		%h3 Search Again
+		= form_tag search_author_path( @author )
+		= text_field_tag :q
+		= submit_tag 'Search', :class => 'button'
+	

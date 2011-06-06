@@ -19,3 +19,5 @@
 		- if @author.has_faq? || @author.has_store?
 			%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )
 			
+		%li= current_page?( contact_author_path( @author ) ) ? ( link_to 'Contact', contact_author_path( @author ), :class => 'selected' ) : ( link_to 'Contact', contact_author_path( @author ) )
+		

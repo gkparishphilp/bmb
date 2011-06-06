@@ -25,13 +25,6 @@
 			- for archive in @archives
 				= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
 
-- unless @links.nil? || @links.empty?
-	.sidebar_sections
-		%h3 Links
-		.pad
-			- for link in @links
-				.recent_title
-					= link_to link.title, link.url
 
 - unless @tweets.nil? || @tweets.first.nil?
 	.sidebar_sections

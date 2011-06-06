@@ -53,6 +53,10 @@ class Merch < ActiveRecord::Base
 		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
 	end
 	
+	def formatted_title
+		"Merch (#{self.merch_type.capitalize})"
+	end
+	
 	
 	def is_a_book?
 		self.merch_type == 'hardcover' || self.merch_type == 'trade paperback' || self.merch_type == 'paperback'

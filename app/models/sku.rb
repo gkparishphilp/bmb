@@ -75,6 +75,8 @@ class Sku < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
+	searchable_on [ :title, :sku_type ]
+	
 	liquid_methods :title, :owner, :sku_items
 	
 	accepts_nested_attributes_for	:merches

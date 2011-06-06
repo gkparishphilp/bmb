@@ -54,6 +54,10 @@ class Asset < ActiveRecord::Base
 		return self.book.author
 	end
 	
+	def formatted_title
+		"#{self.type.capitalize} (#{self.document.format.capitalize})"
+	end
+	
 	def create_sku( type='etext' )
 		if type == 'etext'
 			sku = self.owner.skus.find_by_book_id_and_sku_type( self.book.id, 'ebook' )

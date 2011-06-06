@@ -5,33 +5,50 @@
 		%h1 
 			Edit Store Item:
 			= @sku.title
+			
+		%b Associated with Book:
+		= @sku.book.title
+		%br
+		%b Item Type:
+		= @sku.sku_type
+		%br
+		%br.clear
+		
 		- unless @sku.has_sales?
-			.float_left
-				Add Existing Assets to this Item:
-				= form_tag add_item_author_sku_path( @current_author, @sku ) do
-					= select_tag :item, options_for_select( @items )
-					= submit_tag 'Add Item', :class => 'buttons'
-			.new_button
-				= link_to 'New File', new_author_sku_asset_path( @current_author, @sku )
-			.new_button
-				= link_to 'New Merch', new_author_sku_merch_path( @current_author, @sku )
-			%br
-			%br
-			%table.admin_table
-				%th Title
-				%th Type
-				%th Action
+			%h3
+				Assets for this item:
+			.outline
+				.float_left
+					Add Existing Assets to this Item:
+					= form_tag add_item_author_sku_path( @current_author, @sku ) do
+						= select_tag :item, options_for_select( @items )
+						= submit_tag 'Add Item', :class => 'buttons'
+				.float_left{ :style => 'margin-left:30px;' }
+					Add new Assets to this item:
+					%br
+					.new_button{ :style => 'margin-top:8px;' }
+						= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_asset_path( @current_author, @sku )
+						= link_to 'New File', new_author_sku_asset_path( @current_author, @sku )
+					.new_button{ :style => 'margin-top:8px;' }
+						= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_merch_path( @current_author, @sku )
+						= link_to 'New Merch', new_author_sku_merch_path( @current_author, @sku )
+				%br.clear
+				%table.admin_table
+					%th Title
+					%th Type
+					%th Action
 
-				- for item in @sku.items
-					%tr
-						%td= item.title
-						%td
-							= item.class.name
-						- unless @sku.has_sales?
-							%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
-			%br
+					- for item in @sku.items
+						%tr
+							%td= item.title
+							%td
+								= item.formatted_title
+							- unless @sku.has_sales?
+								%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
+				%br
 			%hr
-			%br
+		%h3
+			Item Details:
 		- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
 			= render :partial => 'edit_form', :locals => {:f => f, :m => 'Update'}
 	%br	

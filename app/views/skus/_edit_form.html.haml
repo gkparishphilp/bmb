@@ -1,10 +1,4 @@
 
-%b Associated with Book:
-= @sku.book.title
-%br
-%b Item Type:
-= @sku.sku_type
-
 = f.label 'Price ($):'
 = f.text_field :price, :value => cents_to_dollars( @sku.price )
 
