@@ -1,20 +1,11 @@
 
-- if false # TODO - implement someday
+- if false # TODO - implement
 	.sidebar_sections
 		%h3 Follow Me
 		.pad
 			= image_tag('twitter.jpg')
 			= image_tag('facebook.jpg')
 			= image_tag('rss.jpg',:alt=>'rss feed')
-			
-- if @author.has_valid_subscription?( Subscription.platform_builder  )
-	.sidebar_sections
-		%h3 Search
-		.pad
-			= form_tag search_author_path( @author ) do
-				= text_field_tag :q
-				= submit_tag 'Search', :class => 'button'
-					
 
 - if @author.has_valid_subscription?( Subscription.platform_builder )
 	.sidebar_sections
@@ -25,7 +16,7 @@
 			= possessize @author.pen_name
 			free newsletter to keep in touch.
 			
-			%br
+			
 			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do
 				%b Name:
 				= text_field_tag :name
@@ -42,36 +33,35 @@
 	.sidebar_sections
 		%h3 
 			Featured books
-		= render @author.featured_books.published.reverse
+		.pad
+			= render @author.featured_books.published.reverse
 
-- if @author.has_valid_subscription?( Subscription.platform_builder  )
-	- unless @author.links.empty?
-		.sidebar_sections
-			%h3 
-				Links
-			.pad
-				- if @author.links.empty?
-					No Links
-				- else
-					- for link in @author.links
-						= link_to link.title, link.url
-						.small= link.description
+- unless @author.links.empty?
+	.sidebar_sections
+		%h3 
+			Links
+		.pad
+			- if @author.links.empty?
+				No Links
+			- else
+				- for link in @author.links
+					= link_to link.title, link.url
+					.small= link.description
+					%br
+- unless @author.events.upcoming.empty?
+	.sidebar_sections
+		%h3 
+			Events
+		.pad
+			- if @author.events.upcoming.empty?
+				No Upcomming Events
+			- else
+				- for event in @author.events.upcoming
+					= link_to event.title, author_event_url( @author, event )
+					.small
 						%br
-
-	- unless @author.events.upcoming.empty?
-		.sidebar_sections
-			%h3 
-				Events
-			.pad
-				- if @author.events.upcoming.empty?
-					No Upcoming Events
-				- else
-					- for event in @author.events.upcoming
-						= link_to event.title, author_event_url( @author, event )
-						.small
-							%br
-							On:
-							= format_date event.starts_at
-							%br
-							At: 
-							= event.location
+						On:
+						= format_date event.starts_at
+						%br
+						At: 
+						= event.location
