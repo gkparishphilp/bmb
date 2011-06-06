@@ -7,6 +7,8 @@ class CreateContracts < ActiveRecord::Migration
 
       t.timestamps
     end
+
+	add_index :contracts, :name
   end
 
   def self.down

@@ -26,6 +26,10 @@ class Subscription < ActiveRecord::Base
 	has_many	:sku_items, :as => :item
 	has_many	:skus, :through => :sku_items
 	
+	def self.platform_builder
+		self.find_by_name( 'platform_builder' )
+	end
+	
 	def sku
 		self.skus.first
 	end

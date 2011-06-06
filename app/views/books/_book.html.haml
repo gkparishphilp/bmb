@@ -4,8 +4,8 @@
 	.listing_data.clearfix
 		.listing_title
 			= link_to book.title, author_book_url( @author, book )
-			.book-meta.clearfix
-				-#
+			-#
+				.book-meta.clearfix
 					.ratings
 						%ul.star-rating
 							%li.current-rating{ :style => "width:#{ ( book.review_average * 125 ) / 5 }px;" }
@@ -20,7 +20,7 @@
 				.listing_buy
 					= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
 		.listing_description
-			= snip( book.description.html_safe, 140 )
+			= snip( book.description.html_safe, 300 )
 				
 	.clear
 	
