@@ -27,7 +27,7 @@ class EmailMessage < ActiveRecord::Base
 	#Scopes 
 
 	scope :created, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'created'" )
-	scope :sent, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'sent'" )
+	scope :delivered, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'sent'" )
 	scope :opened, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'opened'" )
 	scope :bounced, joins( "join email_deliveries on email_deliveries.email_message_id = email_messages.id" ).where( "email_deliveries.status = 'bounced'" )
 	
@@ -45,8 +45,12 @@ class EmailMessage < ActiveRecord::Base
 		self.email_deliveries.find(:all, :conditions  => "status = 'bounced'")
 	end
 
-	def sends
+	def deliveries
 		self.email_deliveries.find(:all, :conditions  => "status = 'sent'")
+	end
+	
+	def sent?
+		self.status.match(/sent/i)
 	end
 	
 	def build_html_email( args={})  #test, unsubscribe_code, #delivery_code
