@@ -23,7 +23,7 @@
 		%h3 Archives
 		.pad
 			- for archive in @archives
-				= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
+				%li= link_to "#{Date::MONTHNAMES[archive.month.to_i]} #{archive.year} ", blog_index_link + "/archive/#{archive.year}/#{archive.month}"
 
 
 - unless @tweets.nil? || @tweets.first.nil?

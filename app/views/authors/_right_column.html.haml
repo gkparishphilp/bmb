@@ -23,16 +23,14 @@
 		.pad
 			Sign up for 
 			= possessize @author.pen_name
-			free newsletter to keep in touch.
-			
-			
+			free newsletter:
+			%br
 			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do
 				%b Name:
 				= text_field_tag :name
 				%br
 				%b Email:
 				= text_field_tag :email
-				%br
 				= submit_tag "Join", :class => 'button'
 			.tiny
 				BackMyBook and 
