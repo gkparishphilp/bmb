@@ -12,7 +12,7 @@
 	= render 'shared/help'
 	%hr
 	%h3 Tips
-	-unless @current_author.has_valid_subscription?( Subscription.first )
+	-unless @current_author.has_valid_subscription?( Subscription.platform_builder )
 		%p 
 			Sign up for a 
 			= link_to 'Platform Builder Account!', platform_builder_authors_path

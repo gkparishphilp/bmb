@@ -9,7 +9,7 @@
 		.outline
 			.highlight
 				Please Agree to the
-				= link_to @contract.name, @contract, :target => '_new'
+				= link_to @contract.title, @contract, :target => '_new'
 				to activate your store.
 			= form_tag agree_contract_path( @contract ) do |f|
 				%b Your Name: 
@@ -72,7 +72,7 @@
 	= render 'shared/help'
 	%hr
 	%h3 Tips
-	- unless @current_author.has_valid_subscription?( Subscription.first )
+	- unless @current_author.has_valid_subscription?( Subscription.platform_builder )
 		%p 
 			Sign up for a 
 			= link_to 'Platform Builder Account!', platform_builder_authors_path

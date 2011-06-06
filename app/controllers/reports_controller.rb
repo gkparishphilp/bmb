@@ -127,7 +127,7 @@ class ReportsController < ApplicationController
 	private
 	
 	def check_permissions
-		unless @admin.has_valid_subscription?( Subscription.first)
+		unless @admin.has_valid_subscription?( Subscription.platform_builder)
 			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
 			redirect_to admin_index_path
 		end
