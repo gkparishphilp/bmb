@@ -58,6 +58,7 @@ private
 
 	def get_owner
 		@owner = @current_author ? @current_author : @author 
+		@owner = @current_site if @owner.nil?
 	end
 	
 	def get_admin
