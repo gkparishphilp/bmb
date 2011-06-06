@@ -3,7 +3,7 @@
 	%head
 		= render 'layouts/meta'
 		- if @theme
-			= render 'shared/custom_style'
+			= render( 'shared/custom_style').gsub( /\n/,"" )
 	%body
 		= render 'layouts/noscript_alert'
 		#container

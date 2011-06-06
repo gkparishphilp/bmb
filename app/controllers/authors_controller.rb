@@ -4,9 +4,6 @@ class AuthorsController < ApplicationController
 	before_filter	:get_form_data, :only => [:new, :edit]
 	
 	
-	def contact
-		@author = Author.find( params[:id] )
-	end
 	
 	def index
 		@author = Author.last
@@ -130,6 +127,11 @@ class AuthorsController < ApplicationController
 	
 	def bio
 		@author = Author.find params[:id] if @author.nil?
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
+	def contact
+		@author = Author.find( params[:id] )
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 	end
 	
