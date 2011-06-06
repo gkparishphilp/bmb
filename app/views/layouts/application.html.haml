@@ -8,9 +8,10 @@
 			= render 'shared/header'
 			#bd
 				.column1
-					.pad_content
-						= render 'shared/flash', :flash => flash
-						= yield :left_column
+					.author_bd
+						#inner-content-wrapper
+							= render 'shared/flash', :flash => flash
+							= yield :left_column
 				.column2
 					.pad_content
 						= yield :right_column
