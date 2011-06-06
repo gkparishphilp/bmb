@@ -32,7 +32,7 @@
 			%li.vspaced= link_to 'Sales', report_path( 'sales' )
 			%li.vspaced= link_to "Coupon Redemptions", report_path( 'redemptions' )
 		%li.vspaced= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
-		- if @current_author.has_merch?
+		- if @current_author.has_merch?.present?
 			%li.vspaced= link_to "Inventory", report_path( 'inventory' )
 			%li.vspaced= link_to "Shipping Info", report_path( 'shipping' )
 			%li.vspaced= link_to 'Shipping Notice', admin_get_merch_orders_author_email_campaign_email_messages_path( @current_author, @current_author.email_campaigns.first)

@@ -81,6 +81,10 @@ class Order < ActiveRecord::Base
 		# meaning, no merch
 		return self.sku.contains_etext? || self.sku.contains_audio?
 	end
+	
+	def contains_merch?
+		return self.sku.contains_merch?
+	end
 
 	def self.search( term )
 		if term

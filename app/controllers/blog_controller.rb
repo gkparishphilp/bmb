@@ -1,10 +1,9 @@
 class BlogController < ApplicationController
 	# owner is to set the display properly -- use author template when author_id
 	# use site template otherwise
-	before_filter	:get_owner, :get_sidebar_data	
+	before_filter	:get_owner, :get_admin, :get_sidebar_data	
 	# admin is the person who can administer the blog.  Set to @current_author if there
 	# is one, otherwise site admin
-	before_filter	:get_admin, :only => :admin
 	before_filter	:check_permissions, :only => [:admin, :new, :edit]
 	
 	helper_method	:sort_column, :sort_dir

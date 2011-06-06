@@ -63,7 +63,7 @@ class ReportsController < ApplicationController
 		
 		@emails = EmailMessage.for_author( @current_author )
 		@bounces = @emails.bounced.count
-		@sends = @emails.sent.count
+		@sends = @emails.delivered.count
 		@opens = @emails.opened.count
 	end
 	

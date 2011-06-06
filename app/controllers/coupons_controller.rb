@@ -32,7 +32,11 @@ class CouponsController < ApplicationController
 		@coupon.code.downcase!
 		@coupon.discount = params[:coupon][:discount].to_f * 100
 		@coupon.owner = @admin
-		@coupon.expiration_date = @coupon.expiration_date.end_of_day
+		if params[:coupon][:expiration_date].blank? 
+			@coupon.expiration_date = Time.now + 20.years 
+		else
+			@coupon.expiration_date = @coupon.expiration_date.end_of_day
+		end
 
 		if @coupon.save
 			pop_flash 'Coupon was successfully created.'
@@ -43,10 +47,16 @@ class CouponsController < ApplicationController
 		
 	end
 	
+	
 	def update
 		@coupon = Coupon.find( params[:id] )
 		@coupon.discount = params[:coupon][:discount].to_f * 100
-		@coupon.expiration_date = @coupon.expiration_date.end_of_day 
+		
+		if params[:coupon][:expiration_date].blank? 
+			@coupon.expiration_date = Time.now + 20.years 
+		else
+			@coupon.expiration_date = @coupon.expiration_date.end_of_day
+		end	
 		
 		if @coupon.update_attributes( params[:coupon])
 			pop_flash 'Coupon was successfully updated.'
