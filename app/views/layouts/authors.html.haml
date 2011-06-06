@@ -24,7 +24,8 @@
 							= yield :left_column
 				.column2
 					.author_photo
-						= avatar_tag( @author, nil, :width => 250 )
+						- if @author.avatar.present?
+							= avatar_tag( @author, nil, :width => 250 )
 					= yield :right_column
 					= render 'authors/right_column'
 			= render 'shared/footer'

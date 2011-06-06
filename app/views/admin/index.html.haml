@@ -16,7 +16,7 @@
 				= text_field_tag :sig
 				= submit_tag 'I Agree', :class => 'buttons'
 		%br
-	- elsif !@current_author.has_valid_subscription?( Subscription.first )
+	- elsif !@current_author.has_valid_subscription?( Subscription.platform_builder )
 		.outline
 			.highlight
 				Get the most out of BackMyBook and super-charge your store... 
@@ -30,6 +30,7 @@
 		.outline
 			%center
 				%h3 You haven't added any books yet.  
+				Please add at least one book to activate your site.
 				.buttons{ :style => 'width:120px' }
 					= link_to image_tag( 'add.png', :width => 16 ), new_author_book_url( @current_author )
 					= link_to "Add a Book", new_author_book_url( @current_author )

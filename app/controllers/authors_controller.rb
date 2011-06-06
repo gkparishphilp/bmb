@@ -117,11 +117,21 @@ class AuthorsController < ApplicationController
 			redirect_to root_path
 		end
 		
-		@skus = @author.skus.order( 'listing_order asc' )
+		@skus = @author.skus.order( 'listing_order asc' ).limit( 3 )
 		
 		set_meta @author.pen_name, @author.bio
 		
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+		
+		if @author.books.published.empty?
+			render 'under_construction' 
+			return false
+		elsif @author.skus.empty?
+			redirect_to author_books_path( @author )
+			return_false
+		else
+			redirect_to author_store_index_path( @author )
+		end
 		
 	end
 	
