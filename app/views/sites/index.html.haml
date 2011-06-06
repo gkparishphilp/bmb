@@ -74,10 +74,10 @@
 		#newsletter_form
 			%br.clear
 			= form_tag site_newsletter_signup_path, :style => 'margin:10px 0px 5px 5px;' do
-				Name:
+				%b Name:
 				= text_field_tag :name
 				%br
-				Email:
+				%b Email:
 				= text_field_tag :email
 				
 				= submit_tag 'Submit', :class => 'buttons'
