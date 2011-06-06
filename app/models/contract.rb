@@ -13,4 +13,9 @@
 
 class Contract < ActiveRecord::Base
 	has_many	:contract_agreements
+	
+	def self.reseller
+		self.find_by_name( 'reseller' )
+	end
+	
 end

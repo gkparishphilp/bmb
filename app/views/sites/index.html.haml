@@ -73,12 +73,13 @@
 		= image_tag( 'mail.jpg' )
 		#newsletter_form
 			%br.clear
-			= form_tag root_path, :style => 'margin:10px 0px 5px 5px;' do
-				Email:
-				= text_field_tag :email
-				%br
-				Name:
+			= form_tag site_newsletter_signup_path, :style => 'margin:10px 0px 5px 5px;' do
+				%b Name:
 				= text_field_tag :name
+				%br
+				%b Email:
+				= text_field_tag :email
+				
 				= submit_tag 'Submit', :class => 'buttons'
 			.tiny{ :style => 'padding:5px;' }
 				BackMyBook respects your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
@@ -105,6 +106,7 @@
 						.recent_title
 							= link_to article.title, blog_link( article )
 						= snip article.content.html_safe, 140
+				%hr
 
 
 		

@@ -1,5 +1,5 @@
 
-- if false # TODO - implement
+- if false # TODO - implement someday
 	.sidebar_sections
 		%h3 Follow Me
 		.pad
@@ -7,7 +7,7 @@
 			= image_tag('facebook.jpg')
 			= image_tag('rss.jpg',:alt=>'rss feed')
 			
-- if @author.has_valid_subscription?( Subscription.first )
+- if @author.has_valid_subscription?( Subscription.platform_builder  )
 	.sidebar_sections
 		%h3 Search
 		.pad
@@ -16,7 +16,7 @@
 				= submit_tag 'Search', :class => 'button'
 					
 
-- if @author.has_valid_subscription?( Subscription.first )
+- if @author.has_valid_subscription?( Subscription.platform_builder )
 	.sidebar_sections
 		%h3 
 			Newsletter Signup
@@ -42,36 +42,36 @@
 	.sidebar_sections
 		%h3 
 			Featured books
-		.pad
-			= render @author.featured_books.published.reverse
+		= render @author.featured_books.published.reverse
 
-- unless @author.links.empty?
-	.sidebar_sections
-		%h3 
-			Links
-		.pad
-			- if @author.links.empty?
-				No Links
-			- else
-				- for link in @author.links
-					= link_to link.title, link.url
-					.small= link.description
-					%br
+- if @author.has_valid_subscription?( Subscription.platform_builder  )
+	- unless @author.links.empty?
+		.sidebar_sections
+			%h3 
+				Links
+			.pad
+				- if @author.links.empty?
+					No Links
+				- else
+					- for link in @author.links
+						= link_to link.title, link.url
+						.small= link.description
+						%br
 
-- unless @author.events.upcoming.empty?
-	.sidebar_sections
-		%h3 
-			Events
-		.pad
-			- if @author.events.upcoming.empty?
-				No Upcoming Events
-			- else
-				- for event in @author.events.upcoming
-					= link_to event.title, author_event_url( @author, event )
-					.small
-						%br
-						On:
-						= format_date event.starts_at
-						%br
-						At: 
-						= event.location
+	- unless @author.events.upcoming.empty?
+		.sidebar_sections
+			%h3 
+				Events
+			.pad
+				- if @author.events.upcoming.empty?
+					No Upcoming Events
+				- else
+					- for event in @author.events.upcoming
+						= link_to event.title, author_event_url( @author, event )
+						.small
+							%br
+							On:
+							= format_date event.starts_at
+							%br
+							At: 
+							= event.location

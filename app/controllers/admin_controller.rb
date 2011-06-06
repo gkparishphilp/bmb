@@ -5,45 +5,18 @@ class AdminController < ApplicationController
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
 	
-	def site
-		if Contract.last.nil?
-			@contract = Contract.new
-		else
-			@contract = Contract.last
-		end
-	end
 	
-	def books
-		@books = @admin.books
-	end
-	
-	def blog
-		@articles = @admin.articles
-	end
 	
 	def index
 		if  @current_author.skus.present? 
-			@contract = Contract.first unless @current_author.agreed_to?( Contract.first )
+			@contract = Contract.reseller unless @current_author.agreed_to?( Contract.reseller )
 		end
 		
 		@orders = Order.for_author( @current_author )		
 		@recent_orders = @orders.successful.order('created_at desc').limit( 10 )
 	end
 	
-	def podcast
-		@podcasts = @admin.podcasts
-	end
-	
-	def events
-		@event = params[:event_id] ? ( Event.find params[:event_id] ) : Event.new
-		@events = @admin.events.upcoming
-	end
-	
-	def forums
-		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
-		@forums = @admin.forums
-	end
-	
+
 	def site_config
 		@author = @current_author
 		if @author.has_valid_subscription?( Subscription.first )
@@ -52,11 +25,6 @@ class AdminController < ApplicationController
 			pop_flash 'Please upgrade to access site customization options.', :error
 			redirect_to :admin_index
 		end
-	end
-	
-	def store
-		@skus = @admin.skus
-		@sku = Sku.new
 	end
 	
 	def faq

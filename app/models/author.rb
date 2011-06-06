@@ -60,6 +60,8 @@ class Author < ActiveRecord::Base
 	has_many	:email_messages, :as => :sender
 	has_many	:contract_agreements
 	
+	has_many	:faqs
+	
 	does_activities
 	
 	has_friendly_id	:pen_name, :use_slug => true

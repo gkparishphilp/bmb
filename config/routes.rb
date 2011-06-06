@@ -118,6 +118,7 @@ Backmybook::Application.routes.draw do
 		end
 		
 		resources :sites
+		
 		resources :themes do
 			post 'activate', :on => :collection
 		end
@@ -261,6 +262,8 @@ Backmybook::Application.routes.draw do
 	match '/site-admin' => 'site#admin', :as => 'site_admin'
 	
 	match '/author:author_id/search/(:term)' => 'authors#search', :as => 'search_author'
+	
+	match '/site/newsletter_signup' => 'sites#newsletter_signup', :as => 'site_newsletter_signup'
 		
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

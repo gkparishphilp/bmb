@@ -9,6 +9,25 @@ class SitesController < ApplicationController
 		render :layout => '2col'
 	end
 	
+	def newsletter_signup
+		
+		user = User.find_or_initialize_by_email( params[:email] )
+		user.name = params[:name].gsub( /\W/, "_" )
+
+		if user.save
+			subscribing = EmailSubscribing.find_or_create_subscription( @current_site, user)  
+			subscribing.update_attributes :status => 'subscribed' 
+		else
+			pop_flash 'There was an error: ', :error, user
+			redirect_to :back
+			return false
+		end
+		
+		pop_flash "Thank you for signing up for the BackMyBook newsletter!"
+		redirect_to :back
+		
+	end
+	
 	def edit
 		@site = Site.find params[:id]
 		unless author_owns( @asset )

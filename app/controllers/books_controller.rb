@@ -36,7 +36,7 @@ class BooksController < ApplicationController
 	end
 	
 	def index
-		@books = @author.books #.published
+		@books = @author.books.published
 	end
 	
 	def show
