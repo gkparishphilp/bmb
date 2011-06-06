@@ -11,9 +11,9 @@
 	.sidebar_sections
 		%h3 Search
 		.pad
-			= form_tag search_author_path( @author )
-			= text_field_tag :q
-			= submit_tag 'Search', :class => 'button'
+			= form_tag search_author_path( @author ) do
+				= text_field_tag :q
+				= submit_tag 'Search', :class => 'button'
 					
 
 - if @author.has_valid_subscription?( Subscription.first )
@@ -25,7 +25,7 @@
 			= possessize @author.pen_name
 			free newsletter to keep in touch.
 			
-			
+			%br
 			= form_tag newsletter_signup_author_path( @author ), :style => 'margin-top:10px;' do
 				%b Name:
 				= text_field_tag :name
@@ -57,13 +57,14 @@
 					= link_to link.title, link.url
 					.small= link.description
 					%br
+
 - unless @author.events.upcoming.empty?
 	.sidebar_sections
 		%h3 
 			Events
 		.pad
 			- if @author.events.upcoming.empty?
-				No Upcomming Events
+				No Upcoming Events
 			- else
 				- for event in @author.events.upcoming
 					= link_to event.title, author_event_url( @author, event )

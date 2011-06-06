@@ -21,7 +21,6 @@ class AuthorsController < ApplicationController
 		@term = params[:q]
 		@articles = @author.articles.search( @term ).published
 		@skus = @author.skus.search( @term ).published
-		
 	end
 
 	def manage
