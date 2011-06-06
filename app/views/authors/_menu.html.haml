@@ -4,7 +4,7 @@
 			%li= controller.controller_name == 'blog' ? ( link_to "Blog", author_blog_index_url( @author ), :class => 'selected' ) : ( link_to "Blog", author_blog_index_url( @author ) )	
 			
 		- if @author.has_store?
-			%li= controller.controller_name == 'store' ? ( link_to "Store", author_url( @author ), :class => 'selected' ) : ( link_to "Store", author_url( @author ) )
+			%li= controller.controller_name == 'store' ? ( link_to "Store", author_store_index_url( @author ), :class => 'selected' ) : ( link_to "Store", author_store_index_url( @author ) )
 
 		- if @author.has_bio?
 			%li= current_page?( bio_author_url( @author ) ) ? ( link_to "Bio", bio_author_url( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_url( @author ) )

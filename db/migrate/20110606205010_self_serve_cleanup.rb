@@ -15,10 +15,14 @@ class SelfServeCleanup < ActiveRecord::Migration
 		add_index	:subscriptions, :name
 		add_index	:faqs, [ :author_id, :listing_order ]
 		
+		add_index	:themes, :name
+		
 	end
 
 	def self.down
 		remove_column	:subscriptions, :name
 		drop_table		:faqs
+		remove_column :contracts, :title
+		
 	end
 end

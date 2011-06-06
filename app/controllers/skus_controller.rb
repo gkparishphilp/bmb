@@ -39,7 +39,7 @@ class SkusController < ApplicationController
 			redirect_to admin_author_store_index_path( @current_author )
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
-			redirect_to edit_author_sku_path( @current_author, @sku )
+			redirect_to :back
 		end
 	end
 	

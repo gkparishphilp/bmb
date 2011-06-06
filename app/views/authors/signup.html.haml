@@ -15,10 +15,10 @@
 			%br
 			= check_box_tag :agreement
 			I agree to the
-			= link_to Contract.first.name, Contract.first, :target => '_new'
+			= link_to Contract.reseller.title, Contract.reseller, :target => '_new'
 			.tiny
 				( You must agree to the 
-				= Contract.first.name
+				= Contract.reseller.title
 				to use the BackMyBook store
 				)
 			.clear

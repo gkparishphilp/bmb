@@ -31,6 +31,8 @@ class Sku < ActiveRecord::Base
 
 	after_create :assign_listing_order
 	
+	validates	:price, :numericality => { :greater_than => 298, :message => "must be $2.99 or greater." }
+	
 	has_many :coupons
 	has_many :orders
 
