@@ -1,6 +1,7 @@
 class SelfServeCleanup < ActiveRecord::Migration
 	def self.up
 		add_column	:subscriptions, :name, :string
+		add_column	:contracts, :title, :string
 		
 		create_table	:faqs do |t|
 			t.references	:author
