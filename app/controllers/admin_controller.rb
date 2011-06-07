@@ -23,7 +23,7 @@ class AdminController < ApplicationController
 	
 	def index
 		if  @current_author.skus.present? 
-			@contract = Contract.first unless @current_author.agreed_to?( Contract.reseller )
+			@contract = Contract.reseller unless @current_author.agreed_to?( Contract.reseller )
 		end
 		
 		@orders = Order.for_author( @current_author )		
