@@ -6,5 +6,11 @@
 		%li= link_to "Terms", "/terms"
 		%li= link_to "Privacy", "/privacy"
 		%li= link_to "Contact Us", new_contact_url
+		
+		- if @current_author
+			%li= link_to "Author Admin", admin_index_url
 	%ul.author_copy
-		%li= link_to "&copy; #{Time.now.year} BackMyBook".html_safe, root_url( :host => @current_site.domain )
+		- if @author
+			%li= link_to "&copy; #{Time.now.year} #{@author.pen_name}".html_safe, root_url( :host => @current_site.domain )
+		- else
+			%li= link_to "&copy; #{Time.now.year} BackMyBook".html_safe, root_url( :host => @current_site.domain )

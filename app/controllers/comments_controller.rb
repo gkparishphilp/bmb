@@ -1,6 +1,7 @@
 class CommentsController < ApplicationController
 	before_filter   :get_commentable
-	
+	cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
+		
 	def new
 		@comment = Comment.new
 	end
@@ -23,7 +24,7 @@ class CommentsController < ApplicationController
 				else 
 					pop_flash "There was a problem with your comment", :error, user
 					if ( @commentable.is_a? Article )
-						redirect_to blog_path @commentable
+						redirect_to author_blog_path( @commentable.owner, @commentable)
 					else
 						redirect_to polymorphic_path [ @commentable_parent, @commentable ] 
 					end
@@ -55,7 +56,7 @@ class CommentsController < ApplicationController
 		# But the site blog is a special case since it uses a different controller
 		# from the resource name
 		if ( @commentable.is_a? Article )
-			redirect_to blog_path @commentable
+			redirect_to author_blog_path( @commentable.owner, @commentable )
 		else
 			redirect_to polymorphic_path [ @commentable_parent, @commentable ] 
 		end

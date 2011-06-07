@@ -1,8 +1,9 @@
 class SkusController < ApplicationController
 	cache_sweeper :sku_sweeper, :only => [:create, :update, :destroy, :update_sort]
 
+
 	def create
-		@sku = Sku.new params[:sku]
+		@sku = Sku.new( params[:sku] )
 
 		@sku.price = params[:sku][:price].to_f * 100 if params[:sku][:price]
 		@sku.domestic_shipping_price = params[:sku][:domestic_shipping_price].to_f * 100 if params[:sku][:domestic_shipping_price]
@@ -10,11 +11,36 @@ class SkusController < ApplicationController
 		
 		if @current_author.skus << @sku
 			process_attachments_for @sku
+			
+			
+			if @sku.sku_type == 'merch'
+				merch = Merch.new :owner => @current_author, :title => @sku.title, 
+									:description => @sku.description, :book_id => @sku.book_id
+				merch.attributes = params[:merches]
+				
+				merch.save
+			
+				@sku.add_item( merch )
+			else
+				if @sku.sku_type == 'ebook'
+					asset = @sku.book.etexts.new :title => @sku.title
+				else # it's an audiobook
+					asset = @sku.book.audios.new :title => @sku.title, :duration => params[:duration], 
+													:bitrate => params[:bitrate]
+				end
+				if asset.save
+					process_attachments_for( asset )
+				end
+				
+				@sku.add_item( asset )
+			end
+			
 			pop_flash 'Sku saved!'
+			redirect_to admin_author_store_index_path( @current_author )
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
+			redirect_to :back
 		end
-		redirect_to edit_author_sku_path( @current_author, @sku )
 	end
 	
 	def update
@@ -35,13 +61,15 @@ class SkusController < ApplicationController
 		else
 			pop_flash 'Sku could not be saved.', :error, @sku
 		end
-		redirect_to :back
+		redirect_to admin_author_store_index_path(@current_author)
 	end
+	
 	
 	def show
 		@sku = Sku.find params[:id]
 		render :layout => 'authors'
 	end
+	
 	
 	def edit
 		@sku = Sku.find params[:id]
@@ -50,22 +78,26 @@ class SkusController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		@books = @current_author.books
-		@items = @current_author.merches.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
-		@items += @current_author.assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
-		render :layout => '3col'
+		
+		@items = @current_author.merches.published.map{ |m| [ "#{m.title} (#{m.class.name})", "#{m.class.name}_#{m.id}"] }
+		@items += @current_author.published_assets.map{ |a| [ "#{a.title} (#{a.class.name})", "#{a.class.name}_#{a.id}"] }
+		
+		render :layout => '2col'
 	end
+	
 	
 	def new
 		@sku = Sku.new
-		@books = @current_author.books
-		render :layout => '3col'
+		@books = @current_author.books.published
+		render :layout => '2col'
 	end
+	
 	
 	def sort
 		@skus = @current_author.skus.published.order( 'listing_order asc' )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
+	
 	
 	def update_sort
 		ids = params[:newOrder].split(/,/).collect{ |elem| elem.split(/_/).last }
@@ -76,9 +108,11 @@ class SkusController < ApplicationController
 		redirect_to sort_author_skus_path( @current_author )
 	end
 	
+	
 	def add_item
+
 		@sku = Sku.find params[:id]
-		type, id = params[:sku][:item].split(/_/)
+		type, id = params[:item].split(/_/)
 		# let's go Meta, Baby!!!
 		@item = eval "#{type}.find #{id}"
 		if @sku_item = @sku.add_item( @item )
@@ -88,5 +122,18 @@ class SkusController < ApplicationController
 		end
 		redirect_to :back
 	end
+	
+	def remove_item
+		@sku = Sku.find params[:id]
+		@item = SkuItem.find_by_sku_id_and_item_id_and_item_type(@sku.id, params[:item_id], params[:item_type] )
+		if @sku.remove_item( @item )
+			pop_flash "Item removed"
+		else
+			pop_flash "Could not remove item", :error
+		end
+		redirect_to :back
+			 
+	end
+
 
 end

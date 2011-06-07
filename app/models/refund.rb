@@ -1,3 +1,21 @@
+# == Schema Information
+# Schema version: 20110602231354
+#
+# Table name: refunds
+#
+#  id              :integer(4)      not null, primary key
+#  order_id        :integer(4)
+#  item_amount     :integer(4)      default(0)
+#  shipping_amount :integer(4)      default(0)
+#  tax_amount      :integer(4)      default(0)
+#  total           :integer(4)      default(0)
+#  params          :string(255)
+#  comment         :string(255)
+#  status          :boolean(1)
+#  created_at      :datetime
+#  updated_at      :datetime
+#
+
 class Refund < ActiveRecord::Base
 	belongs_to :order
 	serialize :params

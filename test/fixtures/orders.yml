@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: orders
 #
@@ -19,6 +19,7 @@
 #  shipping_amount         :integer(4)
 #  total                   :integer(4)
 #  comment                 :text
+#  sku_quantity            :integer(4)      default(1)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: books
 #
@@ -18,6 +18,7 @@
 #  cached_slug    :string(255)
 #  created_at     :datetime
 #  updated_at     :datetime
+#  featured       :boolean(1)
 #
 
 require 'amazon/ecs'
@@ -43,17 +44,21 @@ class Book < ActiveRecord::Base
 	has_one		:upload_file
 	has_many	:raw_stats, :as => :statable
 	has_many	:skus
+	has_many	:merches
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
-	gets_activities
+	has_attached	:preview, :private => true
+	
 	has_friendly_id			:title, :use_slug => :true
 	acts_as_taggable_on		:tags
+	
+	searchable_on [ :title ]
 	
 	attr_accessor :asin
 	
 	scope :published, where( "status = 'publish'" )
-		
+
 	# class_methods
 	def self.find_on_amazon( title )
 		Amazon::Ecs.item_search( title, :response_group => 'Medium', :search_index => 'Books' ).items
@@ -90,6 +95,15 @@ class Book < ActiveRecord::Base
 		# for permissions
 		return self.author
 	end
+	
+	def physical_assets
+		a = Array.new
+		for merch in self.merches
+			a << merch if merch.is_a_book?
+		end
+		return a		
+	end
+	
 	
 	def ebook_sku
 		self.skus.ebook.first

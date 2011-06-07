@@ -1,7 +1,6 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
 	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
-	cache_sweeper :activity_sweeper
 	
 	# so, we set these application-level global instance vars:
 	# @current_site -- the site we're on -- basically the domain the app is running on
@@ -87,6 +86,7 @@ protected
 		for key in params.keys do
 			if key =~ /attached_(.+)_/
 				next if params[key].blank?
+				next unless obj.respond_to? $1
 				resource = params[key]
 				if ( eval "obj.#{$1}" ) && !( eval "obj.#{$1}.respond_to? 'each'" )
 					# the object has an attachemnt of that type in the attachemnts_table and the 

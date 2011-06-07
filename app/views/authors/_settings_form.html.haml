@@ -1,0 +1,18 @@
+
+.order_label
+	= f.label 'Contact Email'
+.order_field
+	= f.text_field :contact_email
+.order_label
+	= f.label 'Contact Phone'
+.order_field
+	= f.text_field :contact_phone
+.clear
+%br
+%hr
+%h3 Your Business Address (required to sell merchandise)
+%br
+= fields_for :billing_address do |addr_form|
+	= render 'geo_addresses/address_fields', :addr_form => addr_form, :addr => @billing_address
+
+= f.submit 'Update', :class => 'buttons'

@@ -1,0 +1,11 @@
+%div[event]
+	%h3
+		= event.title
+	Starts:
+	= format_date event.starts_at
+	%br
+	Ends:
+	= format_date event.ends_at
+	%p.small
+		= snip event.description.html_safe, 200
+	%hr

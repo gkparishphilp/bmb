@@ -1,9 +1,10 @@
 class LinksController < ApplicationController
 	
 	before_filter	:get_admin
+	before_filter	:check_permissions, :only => [:admin, :new, :edit]
 	helper_method	:sort_column, :sort_dir
 	
-	layout '3col'
+	layout '2col'
 
 	def admin
 		@links = @admin.links.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
@@ -66,5 +67,10 @@ private
 		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'asc'
 	end
 	
-	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.platform_builder)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
+	end
 end

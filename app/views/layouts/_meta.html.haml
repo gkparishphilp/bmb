@@ -2,8 +2,7 @@
 
 
 = stylesheet_link_tag 'screen.css', :media => 'screen, projection'
-= stylesheet_link_tag 'colorpicker'
-= include_tiny_mce_if_needed
+= stylesheet_link_tag "elrte/elrte.min", :media => 'screen, projection'
 
 -#= stylesheet_link_tag 'print.css', :media => 'print'
 -#= stylesheet_link_tag 'http://fonts.googleapis.com/css?family=Cantarell:regular,bold&subset=latin'
@@ -16,7 +15,7 @@
 = javascript_include_tag "#{request.protocol}ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/jquery-ui.min.js"
 
 -# local javascripts
-= javascript_include_tag 'rails', 'colorpicker', 'application', 'jquery.rating.min'
+= javascript_include_tag 'rails', 'colorpicker', 'application', 'timepicker.jquery', 'jquery.rating.min', 'elrte.min'
 
 = csrf_meta_tag
 

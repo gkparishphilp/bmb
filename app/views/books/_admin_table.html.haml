@@ -1,0 +1,35 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @books.empty?
+	No Books
+- else
+	%table.admin_table
+		%th
+		%th= sortable 'Title'
+		%th= sortable 'Published'
+		-# %th Digital Assets
+		-# %th Merchandise
+
+		- for book in @books
+			%tr
+				%td= avatar_tag( book, :thumb, :width => 32 )
+				%td= book.title
+				%td= format_date_only book.created_at
+				-#%td
+					= link_to ( pluralize book.assets.count, 'Asset' ), admin_author_book_assets_path( @author, book )
+				
+				-#%td
+					= link_to ( pluralize book.merches.count, 'Item' ), admin_author_merches_path( @author, :book_id => book )
+					
+				%td
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_author_book_url( @author, book )
+					.name= link_to 'edit', edit_author_book_url( @author, book )
+				%td
+					= link_to image_tag( 'trash.png', :width => 20 ), author_book_url( @author, book ), :method => 'delete', :class => 'confirm'
+					.name= link_to 'delete', author_book_url( @author, book ), :method => 'delete', :class => 'confirm'
+				
+	- unless @books.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @books
+			= will_paginate @books

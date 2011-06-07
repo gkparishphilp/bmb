@@ -1,0 +1,51 @@
+- content_for :left_column do
+	%h1 Let's Get Started!
+	.form_group
+		%h3 First, Please Create an Account:
+		= form_tag author_signup_path do
+			= label_tag 'Email Address:'
+			= text_field_tag :email, "", :class => 'register_field'
+			= label_tag 'Password:'
+			= password_field_tag :password, "", :class => 'register_field'
+			= label_tag 'Confirm Password:'
+			= password_field_tag :password_confirmation, "", :class => 'register_field'
+			
+			= label_tag 'Pen Name:'
+			= text_field_tag :pen_name, "", :class => 'register_field'
+			%br
+			= check_box_tag :agreement
+			I agree to the
+			= link_to Contract.reseller.title, Contract.reseller, :target => '_new'
+			.tiny
+				( You must agree to the 
+				= Contract.reseller.title
+				to use the BackMyBook store
+				)
+			.clear
+			= submit_tag 'Register', :class => 'buttons'
+		
+- content_for :right_column do
+	#sidebar_promo
+		%h3
+			BackMyBook Free Features
+		%ul
+			%li Your own Online store
+			%li Industry-leading 85/15 royalties
+			%li We support <b>any</b> book format including audio-books and even hardcovers and merchandise
+			%li Detailed reporting
+		%h3 
+			Upgrade to Platform Builder
+		%ul
+			%li Email marketing -- sign-up your readers and send newsletters plus personalized fulfillment emails and auto-responders
+			%li Your Brand -- Custom themes, colors, and graphics
+			%li Community features -- Blogs, forums, event calendar
+			%li Create custom promotion codes and coupons to power your marketing
+			%li Pro Reporting -- trending and analysis at your fingertips
+			%br
+			
+			= link_to 'Learn More', platform_builder_authors_path, :class => 'buttons', :style => 'margin-top:10px;'
+		%h3
+			Try us risk free
+		%ul
+			%li Cancel Anytime -- no obligations or exclusivity
+			%li Personalized service and support

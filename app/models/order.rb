@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: orders
 #
@@ -19,6 +19,7 @@
 #  shipping_amount         :integer(4)
 #  total                   :integer(4)
 #  comment                 :text
+#  sku_quantity            :integer(4)      default(1)
 #
 
 class Order < ActiveRecord::Base
@@ -70,6 +71,7 @@ class Order < ActiveRecord::Base
 	def successful?
 		self.order_transaction.success ? (return true) : (return false) 
 	end
+	
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner
@@ -78,6 +80,10 @@ class Order < ActiveRecord::Base
 	def contains_files?
 		# meaning, no merch
 		return self.sku.contains_etext? || self.sku.contains_audio?
+	end
+	
+	def contains_merch?
+		return self.sku.contains_merch?
 	end
 
 	def self.search( term )
@@ -182,7 +188,7 @@ class Order < ActiveRecord::Base
 
 	def purchase_subscription
 		if self.total > 0
-			response = GATEWAY.recurring(price, credit_card, options_recurring)
+			response = GATEWAY.recurring(self.total, credit_card, options_recurring)
 			OrderTransaction.create!(	:action => "subscription",
 			 							:order_id => self.id,
 										:price => self.total, 
@@ -197,7 +203,7 @@ class Order < ActiveRecord::Base
 				#todo check the subscription_id setting
 				Subscribing.create!(	:user_id => self.user.id,
 										:order_id => self.id,
-										:subscription_id  => self.sku.item.first.id,
+										:subscription_id  => self.sku.sku_items.first.item.id,
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
 										:origin => 'paid'
@@ -276,11 +282,17 @@ class Order < ActiveRecord::Base
 	end
 
 	def send_customer_emails
-		UserMailer.bought_sku( self, self.user ).deliver 
+		if self.sku.sku_type == 'subscription'
+			UserMailer.bought_subscription( self, self.user ).deliver
+		else
+			UserMailer.bought_sku( self, self.user ).deliver 
+		end
 	end
 
 	def calculate_royalties
-		self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.total * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+		unless self.sku.owner_type == 'Site'	
+			self.royalties.create :author_id => self.sku.owner.id, :amount => ( self.total * ( self.sku.owner.current_royalty_rate.to_f / 100 ) ).round
+		end
 	end
 
 	def update_backings
@@ -356,15 +368,15 @@ class Order < ActiveRecord::Base
 	
 	#Set up options hash for Paypal subscription gateway call
 	def options_recurring
-		if self.sku.item.first.periodicity == 'daily'
+		if self.sku.sku_items.first.item.periodicity == 'daily'
 			period = :daily
-		elsif self.sku.item.first.periodicity == 'weekly'
+		elsif self.sku.sku_items.first.item.periodicity == 'weekly'
 			period  = :weekly
-		elsif self.sku.item.first.periodicity == 'monthly'
+		elsif self.sku.sku_items.first.item.periodicity == 'monthly'
 			period = :monthly
-		elsif self.sku.item.first.periodicity == 'yearly'
+		elsif self.sku.sku_items.first.item.periodicity == 'yearly'
 			period = :yearly
-		elsif self.sku.item.first.periodicity == 'quarterly'
+		elsif self.sku.sku_items.first.item.periodicity == 'quarterly'
 			period = :quarterly
 		else
 			period = :monthly

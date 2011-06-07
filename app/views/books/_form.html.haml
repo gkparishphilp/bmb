@@ -1,0 +1,36 @@
+%p
+	= f.label 'Title'
+	= f.text_field :title, :class => 'book_title_field'
+
+	= f.label 'Subtitle:'
+	= f.text_field :subtitle
+	%br
+	= f.check_box :featured, :checked => true
+	Feature this book? (Featured books appear in the sidebar)
+
+%p.outline
+	%b Cover
+	%br
+	%br
+	= avatar_tag( @book, :thumb, :width => 64 )
+	= f.label 'Select Cover Art (gif, jpg, png files accepted)'
+	= file_field_tag :attached_avatar_file
+	
+%p.outline
+	%b Preview
+	%br
+	%br
+	= @book.preview ? ( @book.preview.name + "." + @book.preview.format ) : "No Preview"
+	= f.label 'Upload a Preview or Sample (epub, mobi, txt, pdf files accepted)'
+	= file_field_tag :attached_preview_file
+	
+
+
+%br
+= f.label "Description:"
+= f.text_area :description, :class => 'editor'
+%br
+= f.submit m, :class => 'buttons'
+|
+= link_to 'Cancel', :back
+

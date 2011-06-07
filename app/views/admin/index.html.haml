@@ -6,14 +6,41 @@
 		Admin Area
 	%br
 	- if @contract.present?
-		Please Agree to the
-		= link_to @contract.name, @contract
-		to activate your store.
-		= form_tag agree_contract_path( @contract ) do |f|
-			%b Your Name: 
-			= text_field_tag :sig
-			= submit_tag 'Agree'
+		.outline
+			.highlight
+				Please Agree to the
+				= link_to @contract.title, @contract, :target => '_new'
+				to activate your store.
+			= form_tag agree_contract_path( @contract ) do |f|
+				%b Your Name: 
+				= text_field_tag :sig
+				= submit_tag 'I Agree', :class => 'buttons'
 		%br
+	- elsif !@current_author.has_valid_subscription?( Subscription.platform_builder )
+		.outline
+			.highlight
+				Get the most out of BackMyBook and super-charge your store... 
+				%br
+				Upgrade to the 
+				= link_to 'Author Platform Builder Account.', platform_builder_authors_path, :target => '_new'
+			.get_started{ :style => 'text-align:center;margin-top:20px;' }
+				= link_to image_tag( "get_started_button.png" ), new_order_path( :sku => 25 )
+		%br
+	- if @current_author.books.empty?
+		.outline
+			%center
+				%h3 You haven't added any books yet.  
+				Please add at least one book to activate your site.
+				.buttons{ :style => 'width:120px' }
+					= link_to image_tag( 'add.png', :width => 16 ), new_author_book_url( @current_author )
+					= link_to "Add a Book", new_author_book_url( @current_author )
+	- if @current_author.bio.blank?
+		.outline
+			%center
+				%h3 You haven't added an Author Bio yet.  
+				.buttons{ :style => 'width:120px' }
+					= link_to image_tag( 'add.png', :width => 16 ), edit_profile_author_url( @current_author )
+					= link_to "Edit Profile", edit_profile_author_url( @current_author )
 	- unless @recent_orders.empty?
 		%br
 		%h3 Last Ten Sales
@@ -36,8 +63,6 @@
 					%td= order.sku.title
 					%td= order.sku_quantity
 					%td= format_price( order.total )
-	- else
-		No Recent Sales
 
 
 
@@ -45,3 +70,10 @@
 
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 Tips
+	- unless @current_author.has_valid_subscription?( Subscription.platform_builder )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path
+		

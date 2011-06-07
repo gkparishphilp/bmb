@@ -1,6 +1,7 @@
 class PostsController < ApplicationController
 	before_filter :require_login
 	before_filter :get_parent
+	before_filter :set_layout
 	
 	def new
 		@post = Post.new
@@ -35,10 +36,10 @@ class PostsController < ApplicationController
 			@forum.posts << @post
 			@current_user.did_post_in_the_forums @post
 			pop_flash "Post added"
-			redirect_to forum_topic_path( @forum, @topic)
+			redirect_to author_forum_topic_path( @forum.owner, @forum, @topic)
 		else
  			pop_flash 'Post not saved. ', :error, @post
-			redirect_to forum_topic_path( @topic.forum, @topic )
+			redirect_to author_forum_topic_path( @forum.owner, @topic.forum, @topic )
 		end
 	end
 	
@@ -48,4 +49,8 @@ private
 		@forum = Forum.find params[:forum_id] if params[:forum_id]
 		@topic = Topic.find params[:topic_id] if params[:topic_id]
 	end 
+	
+	def set_layout
+		@author ? "authors" : "application"
+	end
 end

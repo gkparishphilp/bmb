@@ -1,0 +1,22 @@
+= f.label "Title:"
+= f.text_field :title, :class => 'title_field'
+%br
+= f.text_area :content, :class => 'editor'
+%br
+
+= f.label "Publish On:"
+= f.text_field :publish_at, :class => 'datepicker'
+%br
+= f.label 'Topics:'
+= f.text_field :topic_list
+
+%br
+= f.check_box :comments_allowed, {}, 'true', 'false'
+Allow Comments
+= f.label "Status:"
+= f.select :status, [ ['Publish',  'publish'], ['Draft', 'draft'] ]
+
+%br
+= f.submit "Enter", :class => 'buttons'
+|
+= link_to "Cancel", :back

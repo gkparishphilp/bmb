@@ -1,0 +1,21 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				Admin Merchandise for
+				= @book ? @book.title : @current_author.pen_name
+		.new_button
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_merch_url( @current_author, :book_id => @book )#, :type => 'etext' )
+			= link_to "Add Item", new_author_merch_url( @current_author, :book_id => @book )#, :type => 'etext' )
+		.clear
+	
+	= form_tag admin_author_merches_path( @current_author ), :method => :get, :id => 'search_form' do
+
+		= text_field_tag :q, params[:q]
+		= submit_tag 'Search', :class => 'buttons'
+		|
+		= link_to 'Clear', :sort => params[:sort], :dir => params[:dir], :q => nil
+		#admin_table= render 'admin_table'

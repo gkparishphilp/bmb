@@ -2,10 +2,32 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 
-			New Physical Book / Merchandise
-		- form_for [ @current_author, @merch ], :html => { :multipart => true } do |f|
+
+		%h3 
+			New Merchandise
+			= 'For ' + @book.title if @book
+				
+		- form_for [ @current_author, @sku, @merch ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
-		
+	%br
+	
+
 - content_for :right_column do
 	= render 'shared/help'
+	%hr 
+	%h3 Tips
+
+	%p Include the edition (ie. Hardcover/Paperback/etc) in the item Name and Description so your buyers will quickly know what edition they are purchasing.
+	%p 
+		%b Inventory remaining 
+		is the # of units available for sale.
+	%p
+		The system can send an email to 
+		= @current_author.contact_email
+		when the 
+		%b low inventory 
+		threshold is crossed.
+	%p
+		A " XX remaining " prompt will show up on your store so buyers will see that the item is in low supply.  This prompt appears when the inventory count is lower than the  
+		%b show remaining inventory count
+		threshold.

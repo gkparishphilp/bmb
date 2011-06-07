@@ -1,68 +1,28 @@
-= f.label 'Asset Name'
+= f.label 'Title'
 = f.text_field :title, :class => 'title_field'
 
-= hidden_field_tag :type, @type
+= f.label 'Asset Type'
+= f.select :type, [['Ebook', 'etext'], ['AudioBook', 'audio']]
 
-= f.label :description
-= f.text_area :description
-%br
-- case @type
-- when 'etext'
-	= f.label 'File (txt, doc, html, htm, odt, max 100 MB)'
-	= file_field_tag :attached_document_file
-	
-	= f.label "Asset Type"
-	= f.select :asset_type, [  [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
+= f.label 'File to upload (max 500 MB)'
+= file_field_tag :attached_document_file
 
-	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
-
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
 		
-- when 'pdf'
-	= f.label 'File (pdf, max 100 MB)'
-	= file_field_tag :attached_document_file
-	
-	= f.label "Asset Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
-
-	- if @book.ebook_sku.nil? # Todo - clean this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
-
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
-		
-		
-- when 'audio'
-	= f.label 'File (mp3, aac, ogg, wav, zip max 500 MB)'
-	= file_field_tag :attached_document_file
+#audio_fields{ :style => 'display:none;' }	
 	= f.label 'Duration:'
 	= f.text_field :duration
 	= f.label 'Bitrate:'
 	= f.text_field :bitrate
-	
-	= f.label "Asset Type"
-	= f.select :asset_type, [ [ 'Free/Sample/Preview', 'free' ], [ 'For Sale', 'sale' ], [ 'Giveaway', 'giveaway' ] ]
 
-	- if @book.audio_book_sku.nil? # Todo - claen this so it applies to audiobook as well
-		#price
-			= f.label "Price ($)"
-			= f.text_field :price
-
-	#unlock_req
-		= f.label "Unlock Requirement"
-		= f.text_field :unlock_requirement
-
-
+= f.label :description
+= f.text_area :description, :class => 'editor_small'
 %br
-%br
-= f.submit m, :class => :button
+
+
+%p
+	= f.label "Availability"
+	= f.select :status, [['Available', 'publish'], ['Unavailable', 'unpublish']]
+
+= f.submit m, :class => :buttons
 |
 = link_to 'Cancel', :back

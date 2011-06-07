@@ -1,0 +1,21 @@
+
+= f.label 'Price ($):'
+= f.text_field :price, :value => cents_to_dollars( @sku.price )
+
+= f.label "Picture:"
+= image_tag @sku.avatar.location('thumb'), :width => @sku.avatar.thumb_width if @sku.has_attached_avatar?
+= file_field_tag :attached_avatar_file
+
+= f.label 'Availability'
+= f.select :status, [['Available', 'publish'], ['Unavailable', 'unpublish']], :selected => @sku.status
+
+
+= f.label 'Description:'
+= f.text_area :description, :class => 'editor_small'
+%br
+
+
+= f.submit "Save", :class => 'buttons'
+|
+= link_to 'Cancel', :back
+

@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: email_deliveries
 #
@@ -15,6 +15,10 @@
 class EmailDelivery < ActiveRecord::Base
 	belongs_to	:email_subscribing
 	belongs_to	:email_message
+	
+	scope :dated_between, lambda { |*args| 
+		where( "created_at between ? and ?", (args.first || Time.now.getutc.at_beginning_of_month), (args.second || Time.now.getutc.at_end_of_month) ) 
+	}
 	
 	def self.quota_remaining
 		aws_ses = AWS::SES::Base.new(:access_key_id => AWS_ID, :secret_access_key => AWS_SECRET)

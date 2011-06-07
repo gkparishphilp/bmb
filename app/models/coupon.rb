@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: coupons
 #
@@ -24,7 +24,9 @@ class Coupon < ActiveRecord::Base
 	belongs_to 	:owner, :polymorphic => true
 	belongs_to 	:sku
 	belongs_to 	:user
+	validates	:code, :uniqueness => { :scope => [:owner_id, :owner_type, :sku_id] }
 
+	searchable_on [ :code ]
 	
 	def is_valid?( sku )
 		if self.already_redeemed?

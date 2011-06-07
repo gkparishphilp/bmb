@@ -13,6 +13,6 @@
 - unless @current_user.human?
 	Please type the words you see below:
 	= recaptcha_tags( :display => { :theme=>"clean" } ).html_safe
-= f.submit 'Enter', :class=>'buttons'
+= f.submit 'Enter', :class=>'button'
 |
 = link_to "Cancel", root_url

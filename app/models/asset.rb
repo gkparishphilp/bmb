@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: assets
 #
@@ -37,9 +37,14 @@ class Asset < ActiveRecord::Base
 	
 	has_many	:owners, :through => :ownings
 	
+	has_attached :document, :private => true
+	
+	searchable_on [ :title ]
+	
 	attr_accessor :price
 	
 	scope :free, where( "asset_type = 'free'" )
+	scope :published, where("status = 'publish'")
 	
 	def sku
 		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
@@ -47,6 +52,32 @@ class Asset < ActiveRecord::Base
 	
 	def owner
 		return self.book.author
+	end
+	
+	def formatted_title
+		title = "#{self.type.capitalize}"
+		title += "(#{self.document.format.capitalize})" if self.document.present?
+		return title
+	end
+	
+	def create_sku( type='etext' )
+		if type == 'etext'
+			sku = self.owner.skus.find_by_book_id_and_sku_type( self.book.id, 'ebook' )
+			if sku.present?
+				sku.add_item( self )
+			else
+				sku = self.owner.skus.create :sku_type => 'ebook', :title => "#{self.book.title} (eBook)", :description => self.description, :book_id => self.book.id, :price => self.price 
+				sku.add_item( self )
+			end
+		else 
+			sku = self.owner.skus.find_by_book_id_and_sku_type( self.book.id, 'audio_book' )
+			if sku.present?
+				sku.add_item( self )
+			else
+				sku = self.owner.skus.create :sku_type => 'audio_book', :title => "#{self.book.title} (Audio Book)", :description => self.description, :book_id => self.book.id, :price => self.price
+				sku.add_item( self )
+			end
+		end
 	end
 	
 	def generate_secure_url

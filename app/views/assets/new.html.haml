@@ -3,16 +3,20 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			New Asset for
-			= @book.title
-		= form_for [ @author, @book, @asset ], :html => { :multipart => true } do |f|
+			New Asset
+			- if @book
+				for:
+				= @book.title
+			
+		= form_for [ @current_author, @sku, @asset ], :html => { :multipart => true } do |f|
 			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 		
 - content_for :right_column do
-	= render 'shared/help'
-	%h3 Notice
-	By uploading content to BackMyBook, you agree to our 
-	= link_to "terms of service", "/terms", :target => "_blank"
-	and our 
-	= link_to "content publishing agreement", "/content", :target => "_blank"
-	&#46;
+
+	%h3 
+		Upload eBook Tips
+	%p
+		Replace etext in the Title with the format (epub/mobi/etc.) or the ereader version (iPad/Nook/Kindle/etc.).
+	%p
+		Select the correct 'Pricing Type'.  If this is the first ebook format uploaded for a Title, selecting 'For Sale' will allow you to enter a price for the eBook edition.
+	

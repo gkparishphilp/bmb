@@ -1,5 +1,4 @@
 class EmailDeliveriesController < ApplicationController
-	uses_tiny_mce
 
 	def process_open
 		@email_delivery = EmailDelivery.find_by_code( params[:code] )

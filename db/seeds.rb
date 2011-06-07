@@ -103,6 +103,9 @@ GeoState.create :country => 'US', :name => 'West Virginia', :abbrev => 'WV'
 GeoState.create :country => 'US', :name => 'Wisconsin', :abbrev => 'WI'
 GeoState.create :country => 'US', :name => 'Wyoming', :abbrev => 'WY'
 
+c = Contract.create :name => 'BackMyBook Resale Agreement'
+s = Subscription.create :title => 'Platform Builder Subscription', :price => 1999, :owner_id => 1, :owner_type => 'Site'
+
 # Populate the tax rate table abbreviations from the geo_states table.  Don't really use geo_states since the address refactor
 TaxRate.all.each do |state|
 	state.geo_state_abbrev = state.geo_state.abbrev

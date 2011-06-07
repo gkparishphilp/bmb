@@ -3,18 +3,64 @@
 - content_for :middle_column do
 	.form_group
 		%h1 
-			Edit Sku
-		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Update'}
+			Edit Store Item:
+			= @sku.title
+			
+		%b Associated with Book:
+		= @sku.book.title
 		%br
+		%b Item Type:
+		= @sku.sku_type
+		%br
+		%br.clear
+		
+		%h3
+			Assets for this item:
+		.outline
+			.float_left
+				Add Existing Assets to this Item:
+				= form_tag add_item_author_sku_path( @current_author, @sku ) do
+					= select_tag :item, options_for_select( @items )
+					= submit_tag 'Add Item', :class => 'buttons'
+			.float_left{ :style => 'margin-left:30px;' }
+				Add new Assets to this item:
+				%br
+				.new_button{ :style => 'margin-top:8px;' }
+					= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_asset_path( @current_author, @sku )
+					= link_to 'New File', new_author_sku_asset_path( @current_author, @sku )
+				.new_button{ :style => 'margin-top:8px;' }
+					= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_merch_path( @current_author, @sku )
+					= link_to 'New Merch', new_author_sku_merch_path( @current_author, @sku )
+			%br.clear
+			%br
+			%table.admin_table
+				%th Title
+				%th Type
+				%th Action
+
+				- for item in @sku.items
+					%tr
+						%td= item.title
+						%td
+							= item.formatted_title
+						- unless @sku.has_sales?
+							%td= link_to '[remove]', remove_item_author_sku_path( @current_author, @sku, :item_id => item.id, :item_type => item.class.name ), :method => :post, :confirm => "Are you sure you want to remove #{item.title}?"
+			%br
 		%hr
-		%h3 Items in this Sku
-		- for item in @sku.items
-			= item.title
-			%hr
-		= form_for [ @current_author, @sku ], :url => { :action => :add_item }  do |f|
-			= f.select :item, @items
-			= f.submit 'Add Item'
+		%h3
+			Item Details:
+		- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
+			= render :partial => 'edit_form', :locals => {:f => f, :m => 'Update'}
+	%br	
+
 		
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 Tips
+	%p Only SKUs with physical goods should have a shipping amount.
+	%p Add the format (ie. Hardcover/Kindle/etc) in the SKU Name and Description fields so buyer can easily distinguish the formats.
+	%p Associating the SKU with a title makes it appear on the sidebar of that title's description page. 
+	%p Make sure to add at least one item into the SKU.
+	%p You can add or remove a SKU item only if the SKU hasn't been purchased.
+	

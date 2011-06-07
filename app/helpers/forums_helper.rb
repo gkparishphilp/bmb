@@ -1,13 +1,11 @@
 module ForumsHelper
 
-	def custom_post_path( forum, topic, post )
+	def custom_post_link( forum, topic, post )
 
-		return forum_topic_path( forum, post ) if topic.nil?
-		
-		if forum.owner.is_a? Author
-			path = author_forum_topic_path( forum.owner, forum, topic )
+		if topic.nil?
+			path = author_forum_topics_path( topic.forum.owner, forum, post ) 
 		else
-			path = forum_topic_path( forum, topic )
+			path = author_forum_topic_path( topic.forum.owner, topic.forum, topic )
 		end
 
 		path += "?page=" + topic.posts.last.paginated_page( topic ).to_s + 
@@ -16,35 +14,19 @@ module ForumsHelper
 	end
 	
 	def forum_topics_link( forum )
-		if forum.owner.is_a? Author
-			author_forum_topics_path( forum.owner, forum )
-		else
-			forum_topics_path( forum )
-		end
+		author_forum_topics_path( forum.owner, forum )
 	end
 	
 	def forum_topic_link( topic )
-		if topic.forum.owner.is_a? Author
-			author_forum_topic_path( topic.forum.owner, topic.forum, topic )
-		else
-			forum_topic_path( topic.forum, topic )
-		end
+		author_forum_topic_path( topic.forum.owner, topic.forum, topic )
 	end
 	
 	def forums_link
-		if @forum.owner.is_a? Author
-			author_forums_path( @forum.owner )
-		else
-			forums_path
-		end
+		author_forums_path( @forum.owner )
 	end
 	
 	def new_forum_topic_link( forum )
-		if forum.owner.is_a? Author
-			new_author_forum_topic_path( forum.owner, forum )
-		else
-			new_forum_topic_path( forum )
-		end
+		new_author_forum_topic_path( forum.owner, forum )
 	end
 		
 end

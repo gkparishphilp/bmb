@@ -1,8 +1,19 @@
 - content_for :left_column do
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
-	%h2 FAQ Entries
-	%p Enter any additional FAQ text below. 
-	= form_for @current_author do |f|
-		= f.text_area :faq, :class => 'mceEditor'
-		= f.submit "Update FAQ", :class => :buttons
+	.form_group
+		%h2 FAQ Entries
+		%p Your FAQ contains the default entries.  Enter additional, custom FAQ text below. 
+		= form_for @current_author do |f|
+			= f.text_area :faq, :class => 'editor'
+			= f.submit "Update FAQ", :class => :buttons
+	%br.clear
+	
+- content_for :right_column do
+	= render 'shared/help'
+	%hr
+	%h3 Tips
+	-unless @current_author.has_valid_subscription?( Subscription.platform_builder )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path

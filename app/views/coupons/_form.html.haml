@@ -1,0 +1,18 @@
+= f.label 'Coupon Code:'
+= f.text_field :code
+= f.label 'Description'
+= f.text_area :description
+= f.hidden_field :discount_type, :value => 'cents'
+= f.label 'Dollars Off ($):'
+= f.text_field :discount, :value => cents_to_dollars( @coupon.discount )
+= f.label 'Expiration Date'
+= f.text_field :expiration_date,  :class => 'datepicker'
+
+%br
+%br
+= f.label 'Coupon is for item:'
+= f.collection_select :sku_id, @skus, :id, :title
+%br
+= f.submit "Save", :class => 'buttons'
+|
+= link_to 'Cancel', :back

@@ -1,5 +1,7 @@
 class ReportsController < ApplicationController
 	require 'csv'
+	before_filter	:get_admin
+	before_filter	:check_permissions, :only => [:sales, :redemptions]
 	
 	def sales
 		#todo - wow, this has grown pretty heinous.  Move into a model and clean up 
@@ -62,7 +64,7 @@ class ReportsController < ApplicationController
 		
 		@emails = EmailMessage.for_author( @current_author )
 		@bounces = @emails.bounced.count
-		@sends = @emails.sent.count
+		@sends = @emails.delivered.count
 		@opens = @emails.opened.count
 	end
 	
@@ -121,6 +123,24 @@ class ReportsController < ApplicationController
 		@royalty = Report.calculate_current_quarter_royalty( @orders )
 		
 		render :layout => '2col'
+	end
+	
+	private
+	
+	def get_admin
+		if @current_author
+			@admin = @current_author
+		else
+			require_admin
+			@admin = @current_site
+		end
+	end
+	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.platform_builder)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
 	end
 	
 end

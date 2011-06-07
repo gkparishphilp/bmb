@@ -11,13 +11,15 @@ function setupLabel() {
   jQuery(document).ready(function($) {
 	// Accordion
     $('body').addClass('has-js');
-	$( '.datepicker' ).datepicker( {
+
+	$( '.datepicker' ).datetimepicker( {
 		changeMonth: true,
 		changeYear: true,
 		dateFormat: 'yy-mm-dd'
 	});
+	
 	$("#accordion").accordion({ header: "h3",autoHeight: false });
-	$("input.button").button();
+
 	// Tabs
 	// $('#tabs').tabs();
 	

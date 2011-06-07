@@ -13,6 +13,30 @@ $(document).ready(function(){
 	});
 	
 	
+	//////////////////// Jquery Editor /////////////////////
+	var editor_small_opts = {
+		lang			: 'en',   // set your language
+		styleWithCSS	: false,
+		width			: 600, 
+		height			: 200,
+		fmAllow			: true,
+		toolbar			: 'compact'
+	}
+	
+	var editor_opts = {
+		lang			: 'en',   // set your language
+		styleWithCSS	: false,
+		width			: 600, 
+		height			: 400,
+		fmAllow			: true,
+		toolbar			: 'complete'
+	};
+	// create editor
+	$('.editor').elrte(editor_opts);
+	$('.editor_small').elrte(editor_small_opts);
+	
+	
+	
 	///////////////////////  Stuff For Edit Book Page  //////////////////////
 	
 	$('.show_edit_title').click( function() {
@@ -24,23 +48,59 @@ $(document).ready(function(){
 		$('.show_edit_title').show();
 	});
 	
-	///////////////////////   Stuff For Book Asset Page  ///////////////////
 	
-	$("#asset_asset_type").change(function (){
-		if( $(this).attr('value').match("sale") != null  && !$("#price").is(':visible') ) {
-			$('#price').show("slow");
-			$('#unlock_req').hide();
+	$("#asset_type").change(function (){
+		if( $(this).attr('value').match("audio") != null ) {
+			$('#audio_fields').show("slow");
 		}
-		if( $(this).attr('value').match("giveaway") != null  && !$("#unlock_req").is(':visible') ) {
-			$('#unlock_req').show("slow");
-			$('#price').hide();
-		}
-		if( $(this).attr('value').match("free") != null ) {
-			$('#unlock_req').hide();
-			$('#price').hide();
+		else{
+			$('#audio_fields').hide("slow");
 		}
 	});
 	
+	///////////////////////   Stuff For Sku New Page  ///////////////////
+	
+	$("#sku_sku_type").change(function (){
+		if( $(this).attr('value').match("merch") != null ) {
+			$('#merch_fields').show("slow");
+			$('#book_asset_fields').hide("slow");
+		}
+		else {
+			$('#merch_fields').hide("slow");
+			$('#book_asset_fields').show("slow");
+		}
+	});
+	
+	$("#sku_sku_type").change(function (){
+		if( $(this).attr('value').match("audio_book") != null ) {
+			$('#audio_fields').show("slow");
+		}
+		else {
+			$('#audio_fields').hide("slow");
+		}
+	});
+	
+	
+	$('#unlimited_inventory').click( function(){
+		$('.inventory').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.inventory').attr('value', -1);
+		} 
+	});
+	
+	$('#never_email').click( function(){
+		$('.inventory_warning').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.inventory_warning').attr('value', -1);
+		} 
+	});
+	
+	$('#never_show').click( function(){
+		$('.show_inventory_count_at').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.show_inventory_count_at').attr('value', 0);
+		} 
+	});
 	
 	///////////////////// Admins //////////////////////////
 	$('#admin_table th a, #admin_table .pagination a').live('click', function() {

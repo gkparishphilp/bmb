@@ -1,32 +1,35 @@
 class EventsController < ApplicationController
 	before_filter	:get_owner, :get_admin, :get_sidebar_data
+	before_filter	:check_permissions, :only => [:admin, :new, :edit]
 	
-	layout			:set_layout, :only => [ :index, :show ]
-	layout			"3col", :only => [ :admin, :edit, :new ]
+	layout			:set_layout
 	
 	helper_method	:sort_column, :sort_dir
 
 	def admin
 		@events = @admin.events.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		render :layout => '2col'
 	end
 
 	def index
 		if ( @month = params[:month] ) && ( @year = params[:year] )
-			@events = @owner.events.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@events = @owner.events.published.month_year( params[:month], params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		elsif @year = params[:year]
-			@events = @owner.events.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
+			@events = @owner.events.published.year( params[:year] ).published.paginate :page => params[:page], :per_page => 10
 		else
-			@events = @owner.events.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
+			@events = @owner.events.upcoming.published.paginate :page => params[:page], :order => 'created_at desc', :per_page => 10
 		end
 	end
 	
 	def new
 		@event = Event.new
+		render :layout => '2col'
 	end
 	
 	def edit
 		@event = Event.find params[:id]
 		verify_author_permissions( @event )
+		render :layout => '2col'
 	end
 
 
@@ -69,16 +72,16 @@ class EventsController < ApplicationController
 private
 	
 	def get_owner
-		@owner = @author ? @author : @current_site
+		@owner = @current_author ? @current_author : @author 
 	end
 	
 	def get_admin
 		@admin = @current_author ? @current_author : @current_site
-		require_admin if @admin == @current_site
+		require_contributor if @admin == @current_site
 	end
 
 	def get_sidebar_data
-		@upcomming_events = @owner.events.upcomming.published
+		@upcoming_events = @owner.events.upcoming.published
 	end
 	
 	def set_layout
@@ -91,6 +94,13 @@ private
 	
 	def sort_dir
 		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
+	end
+	
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.platform_builder)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
 	end
 	
 end

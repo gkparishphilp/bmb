@@ -1,9 +1,23 @@
 class AuthorsController < ApplicationController
-	before_filter	:require_login, :except => [ :index, :show, :bio, :help ]
+	cache_sweeper :author_sweeper, :only => [:create, :update, :destroy]
+	before_filter	:require_login, :only => [ :edit, :edit_profile, :update ]
 	before_filter	:get_form_data, :only => [:new, :edit]
+	
+	
 	
 	def index
 		@author = Author.last
+	end
+	
+	def platform_builder
+		@author = @current_author
+		render :layout => '2col'
+	end
+	
+	def search
+		@term = params[:q]
+		@articles = @author.articles.search( @term ).published
+		@skus = @author.skus.search( @term ).published
 	end
 
 	def manage
@@ -49,8 +63,33 @@ class AuthorsController < ApplicationController
 	
 	def edit
 		@author = @current_author
-		@billing_address = @current_author.user.billing_address
+		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
 		render :layout => '2col'
+		
+	end
+	
+	def edit_profile
+		@author = @current_author
+		render :layout => '2col'
+	end
+	
+	def newsletter_signup
+		@author = Author.find( params[:id] )
+		
+		user = User.find_or_initialize_by_email( params[:email] )
+		user.name = params[:name].gsub( /\W/, "_" )
+
+		if user.save
+			subscribing = EmailSubscribing.find_or_create_subscription( @author, user)  
+			subscribing.update_attributes :status => 'subscribed' 
+		else
+			pop_flash 'There was an error: ', :error, user
+			redirect_to :back
+			return false
+		end
+		
+		pop_flash "Thank you for signing up for the #{@author.pen_name} newsletter!"
+		redirect_to :back
 		
 	end
 	
@@ -78,22 +117,103 @@ class AuthorsController < ApplicationController
 			redirect_to root_path
 		end
 		
-		@skus = @author.skus.order( 'listing_order asc' )
+		@skus = @author.skus.order( 'listing_order asc' ).limit( 3 )
 		
 		set_meta @author.pen_name, @author.bio
 		
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		
+		if @author.books.published.empty? && @author.articles.published.empty?
+			render 'under_construction' 
+			return false
+		end
+		
+		if @author.skus.present?
+			redirect_to author_store_index_path( @author )
+		elsif @author.articles.published.present?
+			redirect_to author_blog_index_path( @author )
+		else
+			redirect_to author_books_path( @author )
+		end
+		
 	end
+	
 	
 	def bio
 		@author = Author.find params[:id] if @author.nil?
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 	end
 	
+	def contact
+		@author = Author.find( params[:id] )
+		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
 	def help
 		@author = Author.find params[:id] if @author.nil?
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
+	end
+	
+	def signup
+		if request.post?
+			if params[:email].blank?
+				pop_flash "Email is required", :error
+				redirect_to :back
+				return false
+			end
+			if params[:pen_name].blank?
+				pop_flash "Pen Name is required", :error
+				redirect_to :back
+				return false
+			end
+			if params[:password].blank?
+				pop_flash "Password is required", :error
+				redirect_to :back
+				return false
+			end
+
+			@user = User.find_or_initialize_by_email params[:email]
+			# todo - catch users who already have pws?
+			if @user.hashed_password.blank?
+				@user.attributes = { :password => params[:password], 
+										:password_confirmation => params[:password_confirmation],
+										:name => params[:pen_name].gsub(/\W/, "_") }
+			end
+
+			@user.orig_ip = request.ip
+
+			@user.status = 'pending'
+			@user.site = @current_site
+			
+			@user.website_url = params[:website] unless params[:website].blank?
+	
+			if @user.save
+			
+				@user.create_activation_code
+				@user.reload
+			
+				#email = UserMailer.author_welcome( @user, @current_site ).deliver
+				login( @user )
+				
+				author = Author.create :user_id => @user.id, :pen_name => params[:pen_name]
+				
+				if params[:agreement]
+					contract = Contract.first
+					agreement = ContractAgreement.new :author => author, :contract => contract
+					agreement.save
+				end
+				
+				pop_flash "Thank you for registering."
+
+				redirect_to admin_index_url
+			else
+				pop_flash "There was a problem", :error, @user
+				redirect_to :back
+			end
+
+		else
+			render :layout => 'application'
+		end
 	end
 	
 	private

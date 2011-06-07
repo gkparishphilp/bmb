@@ -43,10 +43,39 @@ h1, h2, h3{
 	background-color: <%= @theme.nav_bg %>;
 }
 
+.post_header{
+	color: <%= @theme.header_color %>;
+	background-color: <%= @theme.nav_bg %>;
+}
 
 .ui-accordion .ui-accordion-content{
 	background-color: <%= @theme.content_bg_color %>;
 } 
+
+.sidebar_sections h3{
+	background-color: <%= @theme.nav_bg %>;
+}
+.sidebar_sections a{
+	color: <%= @theme.link_color %>;
+}
+
+.sidebar_sections .pad{
+	background-color: <%= @theme.content_bg_color %>;
+}
+
+
+.article_header h2 {
+	color: <%= @theme.title_color %>;
+}
+
+.article_header h2 a{
+	color: <%= @theme.title_color %>;
+}
+
+.article_meta a{
+	color: <%= @theme.link_color %>;
+}
+
 
 .ui-accordion .ui-accordion-content a{
 	color: <%= @theme.link_color %>;
@@ -85,13 +114,28 @@ ul.author_copy li a{
 
 .button a{
 	background-color: <%= @theme.nav_bg %>;
-	border: 3px solid <%= @theme.nav_bg_selected %>;
+	border: 2px solid <%= @theme.nav_bg_selected %>;
+	color: <%= @theme.header_color %>;
 }
 
 .button a:hover{
 	background-color: <%= @theme.nav_bg_selected %>;
-	border: 3px solid <%= @theme.nav_bg %>;
+	border: 2px solid <%= @theme.nav_bg %>;
 }
+
+input.button{
+	background-color: <%= @theme.nav_bg %>;
+	border: 2px solid <%= @theme.nav_bg_selected %>;
+	color: <%= @theme.header_color %>;
+}
+
+input.button:hover{
+	background-color: <%= @theme.nav_bg_selected %>;
+	border: 2px solid <%= @theme.nav_bg %>;
+}
+
+
+
 
 ul.main-menu li a.selected{
 	background-color: <%= @theme.nav_bg_selected %>

@@ -1,5 +1,4 @@
 class EmailTemplatesController < ApplicationController
-	uses_tiny_mce
 
 	def admin
 		params[:email_template] ? @email_template = EmailTemplate.find(params[:email_template]) : @email_template = EmailTemplate.new

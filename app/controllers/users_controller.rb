@@ -15,9 +15,11 @@ class UsersController < ApplicationController
 
 		# first things first, public or private?
 		if @user == @current_user
-			@activities = Activity.feed @user
-			@actiities = @activities[0..19]
-			render :private
+			if @user.author?
+				render :private_author, :layout => '2col'
+			else
+				render :private
+			end
 		else 
 			if @user.author?
 				redirect_to author_url( @user.author )
@@ -53,6 +55,7 @@ class UsersController < ApplicationController
 	end
 
 	def create
+
 		@user = User.find_or_initialize_by_email params[:user][:email]
 		if @user.hashed_password.present?
 			pop_flash "An account exists for this email -- please login", :notice

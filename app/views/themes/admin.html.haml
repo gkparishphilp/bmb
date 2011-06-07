@@ -55,7 +55,7 @@
 						- if theme.creator == @current_author
 							%td
 								= link_to 'edit', edit_author_theme_url( @current_author, theme )
-			= submit_tag 'Activate'
+			= submit_tag 'Activate', :class => 'buttons'
 			
 - content_for :right_column do
 	= render 'shared/help'

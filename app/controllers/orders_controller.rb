@@ -8,13 +8,13 @@ class OrdersController < ApplicationController
 	
 	def admin
 		@orders = Order.for_author( @current_author ).successful.search( params[:q] ).order( "created_at desc" ).paginate( :page => params[:page], :per_page => 10 )
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def inspect
 		@order = Order.find( params[:id] )
 		if @order.sku.owner == @current_author
-			render :layout => '3col'
+			render :layout => '2col'
 		else
 			pop_flash "Not your order", :error
 			redirect_to :back
@@ -215,6 +215,9 @@ class OrdersController < ApplicationController
 
 			if @author.present?
 				redirect_to author_order_url( @author, @order, :protocol => SSL_PROTOCOL )
+				
+			elsif @current_author
+				redirect_to admin_index_url
 			else
 				redirect_to @order
 			end

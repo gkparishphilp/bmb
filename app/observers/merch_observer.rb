@@ -1,6 +1,6 @@
 class MerchObserver < ActiveRecord::Observer
-	# Need this observer instead of a sweeper because this operates across models and expires sku fragments
-	# Should probably migrate all cache sweeping actions to observers
+	# Need this observer instead of a sweeper because merch inventory count gets updated by the sku model directly, and not through the merch_controller.  
+	# Therefore, the merch sweeper is not activated to clear out merch.inventory display in the cached sku_listing fragment when an order is made. 
 	
 	observe Merch
 	

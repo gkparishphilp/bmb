@@ -1,26 +1,38 @@
+= f.hidden_field :book_id, :value => @book.id if @book
 = f.label 'Name:'
-= f.text_field :title
+= f.text_field :title, :value => @merch_title, :class => 'book_title_field'
 
--# Disabling uploading of pictures until has_attachments is fixed
-	%p
-		= f.label 'Picture:'
-		%br
-		= image_tag @merch.avatar.location('thumb'), :width => @merch.avatar.thumb_width if @merch.has_attached_avatar?
-		%br
-		= file_field_tag :attached_avatar_file
+= f.label 'Item type:'
+= f.select :merch_type, [['Hardcover','hardcover'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc'] ], :selected => params[:merch_type]
+
+
+= f.label 'Picture:'
+= image_tag @merch.avatar.location('thumb'), :width => @merch.avatar.thumb_width if @merch.has_attached_avatar?
+%br
+= file_field_tag :attached_avatar_file
 
 = f.label 'Description:'
-= f.text_area :description
-= f.label 'Item type'
-= f.select :merch_type, [['Hardcover','hardcover'], ['Trade Paperback','trade_paperback'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc']]
-= f.label "Inventory Remaining: (-1 for infinite inventory)"
-= f.text_field :inventory_count
-= f.label "Send low inventory email at: ( -1 to never send email)"
-= f.text_field :inventory_warning
-= f.label "Show remaining inventory count in store at: ( 0 to never show inventory )"
-= f.text_field :show_inventory_count_at
+= f.text_area :description, :class => 'editor_small'
+
+	
+= f.label "Inventory:"
+= f.text_field :inventory_count, :class => 'inventory', :style => 'display:none;'
+= check_box_tag :unlimited_inventory, -1, 1
+Unlimited Inventory
+
+= f.label "Send low inventory email at:"
+= f.text_field :inventory_warning, :class => 'inventory_warning', :style => 'display:none;'
+= check_box_tag :never_email, 0, 1
+Never Email
+
+= f.label "Show remaining inventory count in store at:"
+= f.text_field :show_inventory_count_at, :class => 'show_inventory_count_at', :style => 'display:none;'
+= check_box_tag :never_show, 0, 1
+Never Show
+
+
 %p
-	= f.submit m
+	= f.submit 'Submit', :class => 'buttons'
 	| 
 	= link_to "Cancel", :back
 	

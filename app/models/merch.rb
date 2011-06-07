@@ -1,19 +1,21 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: merches
 #
-#  id                :integer(4)      not null, primary key
-#  owner_id          :integer(4)
-#  owner_type        :string(255)
-#  title             :string(255)
-#  description       :text
-#  inventory_count   :integer(4)      default(-1)
-#  status            :string(255)     default("publish")
-#  created_at        :datetime
-#  updated_at        :datetime
-#  inventory_warning :integer(4)      default(-1)
-#  merch_type        :text
+#  id                      :integer(4)      not null, primary key
+#  owner_id                :integer(4)
+#  owner_type              :string(255)
+#  title                   :string(255)
+#  description             :text
+#  inventory_count         :integer(4)      default(-1)
+#  status                  :string(255)     default("publish")
+#  created_at              :datetime
+#  updated_at              :datetime
+#  inventory_warning       :integer(4)      default(-1)
+#  merch_type              :text
+#  show_inventory_count_at :integer(4)      default(0)
+#  book_id                 :integer(4)
 #
 
 class Merch < ActiveRecord::Base
@@ -21,7 +23,8 @@ class Merch < ActiveRecord::Base
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
-	scope   :published, where( "status = 'publish'" )
+	scope :published, where( "status = 'publish'" )
+	scope :not_books, where("(merch_type <> 'hardcover' and merch_type <> 'trade paperback' and merch_type <> 'paperback') or merch_type is null")
 	
 	belongs_to	:book #sometimes.... not necessarily
 	
@@ -32,9 +35,9 @@ class Merch < ActiveRecord::Base
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
 	
-	gets_activities
+	searchable_on [ :title ]
 	
-	attr_accessor	:price, :book_id
+	attr_accessor	:price
 	
 	liquid_methods :title, :inventory_count, :inventory_warning
 
@@ -44,6 +47,19 @@ class Merch < ActiveRecord::Base
 	
 	def review_average
 		return avg = self.reviews.average( :score ).to_f
+	end
+	
+	def sku
+		SkuItem.where("item_id = #{self.id} and item_type = '#{self.class.name}'").first.sku
+	end
+	
+	def formatted_title
+		"Merch (#{self.merch_type.capitalize})"
+	end
+	
+	
+	def is_a_book?
+		self.merch_type == 'hardcover' || self.merch_type == 'trade paperback' || self.merch_type == 'paperback'
 	end
 
 end

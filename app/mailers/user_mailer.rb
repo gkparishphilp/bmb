@@ -19,6 +19,13 @@ class UserMailer < ActionMailer::Base
 		@user = user
 		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
+
+	def bought_subscription( order, user )
+		@order = order
+		@user = user
+		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
+	end
+
 	
 	def fulfill_order( order, user )
 		@order = order

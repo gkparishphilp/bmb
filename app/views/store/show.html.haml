@@ -14,7 +14,7 @@
 					Sold Out :(
 			- else
 				.button
-					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'dark-gray'
+					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'button'
 
 			.also-available
 				%h3 Contains
@@ -28,7 +28,8 @@
 						- else
 							%li
 								= link_to item.title, "", :class => 'main' 
-								%em= link_to item.type, "" if item.respond_to? 'type'
+								%em
+									= link_to item.class.name, "" 
 
 
 			- unless @sku.book.custom_skus.empty? && @sku.book.merch_skus.empty?

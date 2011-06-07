@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: articles
 #
@@ -30,9 +30,8 @@ class Article < ActiveRecord::Base
     
 	has_friendly_id :title, :use_slug => :true
 	acts_as_taggable_on	:topics
-	acts_as_taggable_on	:keywords
+
 	acts_as_followed
-	gets_activities
 	
 	searchable_on [ :title ]
 	
@@ -58,10 +57,10 @@ class Article < ActiveRecord::Base
 	}
 	
 	def related_articles
-		return [] if self.keywords.empty?
-		articles = Article.published.tagged_with( self.keywords, :any => true ).all
-		articles.delete( self )
-		return articles
+	#	return [] if self.keywords.empty?
+	#	articles = Article.published.tagged_with( self.keywords, :any => true ).all
+	#	articles.delete( self )
+	#	return articles
 	end
 	
 	def comments_allowed?

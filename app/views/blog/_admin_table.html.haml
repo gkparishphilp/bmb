@@ -9,14 +9,13 @@
 		%th= sortable 'status'
 		- for article in @articles
 			%tr
-				%td( style = 'width:200px;' )
-					= link_to image_tag( 'view.png', :width => 20 ), blog_path( article )
-					= link_to article.title, blog_path( article )
-				%td.small= format_date_only article.publish_at
-				%td.small= article.status
+				%td( style = 'width:300px;' )
+					= link_to article.title, author_blog_path( article.owner, article )
+				%td.tiny= format_date_only article.publish_at
+				%td.tiny= article.status
 				%td.small
-					= link_to image_tag( 'edit.png', :width => 20 ), edit_article_path( article ) 
-					= link_to 'edit', edit_article_path( article )
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_author_blog_path( article.owner, article ) 
+					= link_to 'edit', edit_author_blog_path( article.owner, article )
 				%td.small
 					= link_to image_tag( 'trash.png', :width => 20 ), article, :method => 'delete', :class => 'confirm'
 					= link_to 'delete', article, :method => 'delete', :class => 'confirm'

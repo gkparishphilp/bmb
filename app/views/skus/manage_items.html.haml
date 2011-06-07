@@ -1,0 +1,12 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+
+- content_for :middle_column do
+	= render :partial => 'sku_item_listing'
+
+- content_for :right_column do
+	= render 'shared/help'
+	%hr
+	%h3 Tips
+	%p SKUs must contain at least one item in order to be valid.
+

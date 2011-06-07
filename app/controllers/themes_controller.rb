@@ -1,15 +1,20 @@
 class ThemesController < ApplicationController
-	
-	before_filter :require_author
+	before_filter :require_author, :get_admin
+	before_filter :check_permissions, :only => [:admin, :new, :edit]
 	
 	def admin
 		@default_themes = Theme.default - @current_author.themes
-		render :layout => '3col'
+		if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			render :layout => '2col'
+		else
+			pop_flash 'Please upgrade to access site customization options.', :error
+			redirect_to :admin_index
+		end
 	end
 	
 	def new
 		@edit_theme = Theme.new
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -19,7 +24,7 @@ class ThemesController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def activate
@@ -79,5 +84,20 @@ class ThemesController < ApplicationController
 
 private
 
+	def get_admin
+		if @current_author
+			@admin = @current_author
+		else
+			require_admin
+			@admin = @current_site
+		end
+	end
+
+	def check_permissions
+		unless @admin.has_valid_subscription?( Subscription.platform_builder)
+			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
+			redirect_to admin_index_path
+		end
+	end
 
 end

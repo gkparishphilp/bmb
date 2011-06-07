@@ -3,7 +3,7 @@
 - content_for :middle_column do
 	%h1 
 		Editing Confirmation Email 
-	= form_for EmailMessage.new do |f|
+	= form_for [@admin, @admin.email_campaigns.first, EmailMessage.new] do |f|
 		%br
 		Subject:
 		%br
@@ -11,7 +11,7 @@
 		%br
 
 		%br
-		= f.text_area :content, :class => 'mceEditor', :value => @email_message.content
+		= f.text_area :content, :class => 'editor', :value => @email_message.content
 
 		%br
 		

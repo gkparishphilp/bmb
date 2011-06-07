@@ -1,23 +1,68 @@
 = f.label 'Name:'
-= f.text_field :title
+= f.text_field :title, :class => 'book_title_field'
+
+= f.label 'Associate with Book:'
+= f.collection_select :book_id, @books, :id, :title
+
+= f.label 'Item Type'
+= f.select :sku_type, [ ['Ebook', 'ebook'], ['Audiobook', 'audio_book'], ['Physical Book', 'merch'], ['Merchandise', 'merch'] ]
+
 = f.label 'Price ($):'
 = f.text_field :price, :value => cents_to_dollars( @sku.price )
-= f.label 'Domestic Shipping Amount ($):'
-= f.text_field :domestic_shipping_price, :value => cents_to_dollars( @sku.domestic_shipping_price )
-= f.label 'International Shipping Amount ($):'
-= f.text_field :international_shipping_price, :value => cents_to_dollars( @sku.international_shipping_price )
-= f.label 'Item Type'
-= f.select :sku_type, [ ['Physical Book', 'merch'], ['Merchandise', 'merch'], ['Ebook', 'ebook'], ['Audiobook', 'audio_book'], ['Multiple items', 'custom'] ]
+
+
+#merch_fields{ :style => 'display:none;' }
+	#shipping_fields
+		= f.label 'Domestic Shipping Amount ($):'
+		= f.text_field :domestic_shipping_price, :value => cents_to_dollars( @sku.domestic_shipping_price )
+		= f.label 'International Shipping Amount ($):'
+		= f.text_field :international_shipping_price, :value => cents_to_dollars( @sku.international_shipping_price )
+	
+	= fields_for :merches do |mf|
+		= mf.label "Inventory:"
+		= mf.text_field :inventory_count, :class => 'inventory', :style => 'display:none;'
+		= check_box_tag :unlimited_inventory, -1, 1
+		Unlimited Inventory
+		
+
+		= mf.label "Send low inventory email at:"
+		= mf.text_field :inventory_warning, :class => 'inventory_warning', :style => 'display:none;'
+		= check_box_tag :never_email, 0, 1
+		Never Email
+		
+
+		= mf.label "Show remaining inventory count in store at:"
+		= mf.text_field :show_inventory_count_at, :class => 'show_inventory_count_at', :style => 'display:none;'
+		= check_box_tag :never_show, 0, 1
+		Never Show
+		
+		
+#book_asset_fields
+	= f.label 'File to upload (max 500 MB)'
+	= file_field_tag :attached_document_file
+
+#audio_fields{ :style => 'display:none;' }
+	= f.label 'Duration:'
+	= text_field_tag :duration
+	= f.label 'Bitrate:'
+	= text_field_tag :bitrate
+
+
+
 = f.label "Picture:"
 = image_tag @sku.avatar.location('thumb'), :width => @sku.avatar.thumb_width if @sku.has_attached_avatar?
 = file_field_tag :attached_avatar_file
-= f.label 'Associate with title:'
-= f.collection_select :book_id, @books, :id, :title
-= f.label 'Available in store?'
-= f.select :status, [['Yes', 'publish'], ['No', 'unpublish']]
+
+
+= f.label 'Status'
+= f.select :status, [['Publish', 'publish'], ['Draft', 'unpublish']], :selected => @sku.status
+
 = f.label 'Description:'
-= f.text_area :description
+= f.text_area :description, :class => 'editor_small'
 %br
-%br
-= f.submit "Save"
+
+
+= f.submit "Save", :class => 'buttons'
+|
+= link_to 'Cancel', :back
 

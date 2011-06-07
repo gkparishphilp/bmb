@@ -1,7 +1,7 @@
 module ApplicationHelper
 	
 	def avatar_tag( obj, style=nil, opts={} )
-		tag = "No Avatar"
+		tag = "No Image"
 		if style
 			style = style.to_s
 			tag = image_tag( obj.avatar.location( style ), :width => opts[:width] ) if obj.attachments.by_type( 'avatar' ).count > 0 
@@ -30,6 +30,14 @@ module ApplicationHelper
 	
 	def dollars_to_cents( amount )
 		return (amount * 100).round
+	end
+	
+	def format_status( status )
+		if status == 'publish'
+			return 'Available'
+		else
+			return 'Unavailable'
+		end
 	end
 	
 	def get_title

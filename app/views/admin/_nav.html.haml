@@ -1,26 +1,49 @@
 - if @current_author
-	#admin_hd  Display
-	%li= link_to "Promo", admin_author_store_index_url( @current_author )
-	%li= link_to "FAQ", faq_author_store_index_url( @current_author)
-	-# %li= link_to "Sidebar Items"
-	-# %li= link_to "Featured Items"
-	%li= link_to "Theme", admin_themes_url
-	-#%li= link_to "Links", admin_links_url
-	%li= link_to "Sort Skus", sort_author_skus_path( @current_author )
-
-	#admin_hd Reports
-	%li= link_to 'Sales', report_path( 'sales' )
-	%li= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
-	%li= link_to "Inventory", report_path( 'inventory' )
-	%li= link_to "Coupons", report_path( 'redemptions' )
-	%li= link_to "Ship Info", report_path( 'shipping' )
-	-#%li= link_to "Emails", reports_emails_path
-
-	#admin_hd Messaging
-	%li= link_to 'Newsletters', admin_email_messages_url
-	%li= link_to 'Email Lists', admin_list_email_messages_url
-	-#%li= link_to 'Templates', admin_email_templates_url
-	%li= link_to 'Ship Notice', admin_get_merch_orders_email_messages_url 
+	.admin_nav
+		= render 'shared/help'
+		#admin_hd  Account Info
+		%li.vspaced= link_to 'Admin Home', admin_index_url
+		%li.vspaced= link_to 'Author Settings', edit_author_url( @current_author )
+		%li.vspaced= link_to 'User Settings', @current_user
 	
-	#admin_hd Profiles
-	%li= link_to 'Author Info', edit_author_url( @current_author )
+		#admin_hd Your Store
+		%li.vspaced= link_to "Store Promo", promo_author_store_index_url( @current_author )
+		%li.vspaced= link_to 'Store Items', admin_author_store_index_path( @current_author )
+		- if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			%li.vspaced= link_to 'Coupons', admin_author_coupons_path( @current_author )
+	
+		#admin_hd  Your Site
+		%li.vspaced= link_to 'View Your Site', @current_author
+		%li.vspaced= link_to 'Author Profile', edit_profile_author_url( @current_author )
+		%li.vspaced= link_to 'Books', admin_author_books_path( @current_author )
+		- if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			%li.vspaced= link_to "Blog", admin_author_blog_index_url( @current_author)
+			%li.vspaced= link_to 'Events', admin_author_events_path( @current_author )
+			%li.vspaced= link_to 'Forums', admin_author_forums_path( @current_author )
+			%li.vspaced= link_to 'Links', admin_author_links_path( @current_author )
+			%li.vspaced= link_to "Theme", admin_themes_url
+		- if false # todo
+			%li.vspaced= link_to 'Podcast', admin_author_podcasts_path( @current_author )
+		%li.vspaced= link_to "Help and FAQ", faq_author_store_index_url( @current_author)
+
+		
+		#admin_hd Reports
+		- if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			%li.vspaced= link_to 'Sales', report_path( 'sales' )
+			%li.vspaced= link_to "Coupon Redemptions", report_path( 'redemptions' )
+		%li.vspaced= link_to "Orders", admin_orders_url( :protocol => SSL_PROTOCOL )
+		- if @current_author.has_merch?.present?
+			%li.vspaced= link_to "Inventory", report_path( 'inventory' )
+			%li.vspaced= link_to "Shipping Info", report_path( 'shipping' )
+			%li.vspaced= link_to 'Shipping Notice', admin_get_merch_orders_author_email_campaign_email_messages_path( @current_author, @current_author.email_campaigns.first)
+		-#%li= link_to "Emails", reports_emails_path
+	
+		-if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			#admin_hd Messaging
+			%li.vspaced= link_to 'Newsletters', admin_author_email_campaign_email_messages_path( @current_author, @current_author.email_campaigns.first)
+			%li.vspaced= link_to 'Email Lists', admin_list_author_email_campaign_email_messages_url( @current_author, @current_author.email_campaigns.first )
+			-#%li= link_to 'Templates', admin_email_templates_url
+
+		 
+
+	

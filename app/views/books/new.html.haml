@@ -2,18 +2,7 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 Add a Title
+		%h1 New Book
+		= form_for [ @author, @book ], :html => { :multipart => true } do |f|
+			= render 'form', :f => f, :m => 'Create Book'
 
-		= form_tag confirm_author_books_url( @current_author ) do
-			%h3 What is the title?
-			= text_field_tag :title, "", :class => :book_title_field
-			%br
-			= check_box_tag :amazon
-			My Book is on Amazon
-			(
-			= link_to "What's this?", '/faq'
-			)
-			%br
-			= submit_tag "Enter"
-- content_for :right_column do
-	= render 'shared/help'

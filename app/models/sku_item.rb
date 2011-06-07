@@ -1,11 +1,13 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: sku_items
 #
+#  id         :integer(4)      not null, primary key
 #  sku_id     :integer(4)
 #  item_id    :integer(4)
 #  item_type  :string(255)
+#  status     :string(255)
 #  created_at :datetime
 #  updated_at :datetime
 #

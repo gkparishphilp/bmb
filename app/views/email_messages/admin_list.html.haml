@@ -9,12 +9,12 @@
 		-form_for [ @current_author, UploadEmailList.new ], :html => {:multipart => :true} do |f|
 			= f.file_field :file_name
 			= f.hidden_field :list_type, :value => "newsletter"
-			= f.submit "Upload"
+			= f.submit "Upload", :class => 'buttons'
 			%p Comma separated value (.csv) file with name and email columns only.  
 		
 		%br
 		%br
-	
+	%br 
 	.form_group
 		%h3 
 			Your Subscriber List (

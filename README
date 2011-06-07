@@ -1,12 +1,40 @@
 
+- 6/6/11
+	- Fix inventory checkboxes to reset form fields when checked
+	- break out author faqs into real tables
+	- triple check custom styles applying to forums, blogs, events, etc
+	- css fix on featured books
+
+
+	
+LATER
+	
+	- Podcasting + podcasting Subscription
+	- Custom Domains
+	- Shopping cart
+	- Custom Sidebar Sections( + sort )
+	- 
+
+
 - Processing JS image on order submit
 - Retain fields on order error?????
 - Triple-check country stuff
 
 
 
+DONE/BUMP
+
+- 5/29/11
+
+	- Author Platform Upsell Page
+	- swap out elrte
+	- nuke 2col layout
+	- Forum Links / QA
+	- Newsletter Signup Form
+	- Email Subscription?
 
 
+Add feature? bool to books for featured books sidebar - DONE
 
 
 Site Article no longer static page, now article.

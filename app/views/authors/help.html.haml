@@ -3,15 +3,9 @@
 		= @author.pen_name
 		Help and 
 		= link_to "FAQs", "#faq"
-	.form_group
-		%h3
-			If you have any questions about ordering my books, please send us a note below and we’ll sort it out.
-		= form_for Contact.new do |f|
-			= f.hidden_field :author_id, :value => @author.id
-			= render 'contacts/form', :f => f
 		
 	%br	
-	= render 'default_faq'	
+	= render 'default_faq'	if @author.skus.published.count > 0
 	= @author.faq.html_safe if @author.faq
 	- content_for :right_column do
 		&nbsp;

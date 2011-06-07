@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: users
 #
@@ -69,6 +69,9 @@ class User < ActiveRecord::Base
 	accepts_nested_attributes_for	:billing_address, :shipping_addresses
 	
 	has_one		:author
+	accepts_nested_attributes_for	:author
+	
+	
 	has_many	:orders
 	has_many	:reviews
 	has_many	:subscribings

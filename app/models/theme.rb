@@ -1,27 +1,30 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: themes
 #
-#  id               :integer(4)      not null, primary key
-#  creator_id       :integer(4)
-#  name             :string(255)
-#  status           :string(255)     default("active")
-#  show_pen_name    :boolean(1)      default(TRUE)
-#  bg_color         :string(255)
-#  bg_repeat        :string(255)
-#  banner_bg_color  :string(255)     default("#ffffff")
-#  banner_repeat    :string(255)
-#  header_color     :string(255)
-#  content_bg_color :string(255)     default("#ffffff")
-#  title_color      :string(255)
-#  text_color       :string(255)
-#  link_color       :string(255)
-#  hover_color      :string(255)
-#  book_site        :boolean(1)
-#  public           :boolean(1)
-#  created_at       :datetime
-#  updated_at       :datetime
+#  id                :integer(4)      not null, primary key
+#  creator_id        :integer(4)
+#  name              :string(255)
+#  status            :string(255)     default("active")
+#  show_pen_name     :boolean(1)      default(TRUE)
+#  bg_color          :string(255)
+#  bg_repeat         :string(255)
+#  banner_bg_color   :string(255)     default("#ffffff")
+#  banner_repeat     :string(255)
+#  header_color      :string(255)
+#  content_bg_color  :string(255)     default("#ffffff")
+#  title_color       :string(255)
+#  text_color        :string(255)
+#  link_color        :string(255)
+#  hover_color       :string(255)
+#  book_site         :boolean(1)
+#  public            :boolean(1)
+#  created_at        :datetime
+#  updated_at        :datetime
+#  nav_bg            :string(255)
+#  nav_bg_selected   :string(255)
+#  page_border_color :string(255)
 #
 
 

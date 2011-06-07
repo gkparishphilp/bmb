@@ -18,12 +18,12 @@ class UploadEmailListsController < ApplicationController
 			flash[:success] = 'Email list was successfully imported.'
 			if @author
 				if params[:upload_email_list][:list_type] == 'giveaway'
-					redirect_to admin_list_email_messages_path
+					redirect_to admin_list_author_email_campaign_email_messages_path( @author, @author.email_campaigns.first)
 				elsif params[:upload_email_list][:list_type] == 'newsletter'
-					redirect_to admin_list_email_messages_path
+					redirect_to admin_list_author_email_campaign_email_messages_path( @author, @author.email_campaigns.first)
 				end
 			else
-				redirect_to admin_list_email_messages_path
+				redirect_to admin_list_author_email_campaign_email_messages_path( @author, @author.email_campaigns.first)
 			end
 		else
 			flash[:error] = 'Oooops, UploadEmailList not saved...'
@@ -61,5 +61,7 @@ class UploadEmailListsController < ApplicationController
 		#@author = Author.find params[:author_id] if params[:author_id]
 		@author = @current_user.author
 	end
+	
+	
 
 end

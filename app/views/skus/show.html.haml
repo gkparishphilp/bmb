@@ -2,7 +2,7 @@
 	= image_tag( @sku.avatar.location( :thumb ), :width => @sku.avatar.thumb_width ) if @sku.has_attached_avatar?
 	%h1= @sku.title
 
-	= @sku.description
+	= @sku.description.html_safe
 	%br
 	- unless @sku.items.empty?
 		%h3 Items

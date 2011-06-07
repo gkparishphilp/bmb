@@ -1,0 +1,8 @@
+- content_for :left_column do
+	.form_group
+		%h3
+			Contact
+			= @author.pen_name
+		= form_for Contact.new do |f|
+			= f.hidden_field :author_id, :value => @author.id
+			= render 'contacts/form', :f => f

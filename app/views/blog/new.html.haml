@@ -1,0 +1,25 @@
+- content_for :left_column do
+	= render 'admin/nav'
+	
+- content_for :middle_column do
+	.form_group
+		%h1 
+			New Blog Article
+		= form_for [ @admin, @article ], :html => { :multipart => true } do |f|
+			= render 'form', :f => f, :m => 'Create'
+		
+- content_for :right_column do
+	= render 'shared/help'
+	%h2 Notice
+	By uploading content to BackMyBook, you agree to our 
+	= link_to "terms of service", "/terms", :target => "_blank"
+	and our 
+	= link_to "content publishing agreement", "/content", :target => "_blank"
+	&#46;
+	%hr
+	%h3 Tips
+	-unless @current_author.has_valid_subscription?( Subscription.platform_builder )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path
+

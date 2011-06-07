@@ -1,0 +1,35 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @email_messages.empty?
+	No Newsletters
+- else
+	%table.admin_table
+		%th Subject
+		%th Status
+		%th Created At
+		%th Actions
+
+		- for newsletter in @email_messages
+			%tr
+				%td( style = 'width:200px;' )
+					= newsletter.subject
+				%td.small= newsletter.status
+				%td.small= format_date newsletter.created_at
+				%td.small
+					-unless newsletter.sent?
+						= link_to image_tag( 'edit.png', :width => 20 ), edit_author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter ) 
+						= link_to 'edit', edit_author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter ) 
+						|
+						= link_to image_tag( 'trash.png', :width => 20 ), author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter ), :method => 'delete', :confirm => "Are you sure you want to delete this newsletter?"
+						= link_to 'delete', author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter ), :method => 'delete', :confirm => "Are you sure you want to delete this newsletter?"
+						|
+						= link_to 'test', send_to_self_author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter )
+						|
+						= link_to 'send', send_to_subscriber_author_email_campaign_email_message_path( @admin, @admin.email_campaigns.first, newsletter ), :confirm => "Are you sure you want to send to your #{@num_subscribers} subscribers?"
+
+					
+	- unless @email_messages.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @email_messages
+			= will_paginate @email_messages

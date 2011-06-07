@@ -1,8 +1,27 @@
 class MerchesController < ApplicationController
+	
+	before_filter	:get_parents
+	helper_method	:sort_column, :sort_dir
+	
+	
+	def admin
+		if @book
+			@merches = @book.merches.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		else
+			@merches = @current_author.merches.search( params[:q] ).order( sort_column + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		end
+		render :layout => '2col'
+	end
+	
 	def new
 		@merch = Merch.new
+		@sku = Sku.find_by_id( params[:sku_id] )
 		@books = @current_author.books
-		render :layout => '3col'
+
+		if @book
+			@merch_title = @book.title
+		end
+		render :layout => '2col'
 	end
 	
 	def edit
@@ -13,7 +32,7 @@ class MerchesController < ApplicationController
 			return false
 		end
 		@books = @current_author.books
-		render :layout => '3col'
+		render :layout => '2col'
 	end
 	
 	def show
@@ -28,21 +47,23 @@ class MerchesController < ApplicationController
 
 
 	def create
-		@merch = Merch.new params[:merch]
+		@merch = Merch.new( params[:merch] )
 		@merch.owner = @current_author
+		@merch.book_id = @book.id if @book
 		if @merch.save
 			process_attachments_for( @merch )
-			if @merch.price.to_i > 0
-				sku = @current_author.skus.create :title => @merch.title, :description => @merch.description, :price => @merch.price, :book_id => @merch.book_id, :sku_type => 'merch'
-				sku.add_item @merch
-			end
+			@sku.add_item( @merch )
 			
 			pop_flash 'Merchandise saved!'
+			
+			redirect_to edit_author_sku_path( @current_author, @sku )
+			
 		else
 			pop_flash 'Merchandise could not be saved.', :error, @merch
+			redirect_to :back
 		end
 		
-		redirect_to admin_index_path
+		
 	
 	end
 
@@ -66,6 +87,21 @@ class MerchesController < ApplicationController
 		@merch = Merch.find(params[:id])
 		@merch.destroy
 		redirect_to :back
+	end
+	
+	private
+	
+	def get_parents
+		@book = Book.find_by_id( params[:book_id] )
+		@sku = Sku.find_by_id( params[:sku_id] )
+	end
+	
+	def sort_column
+		Merch.column_names.include?( params[:sort] ) ? params[:sort] : 'title'
+	end
+	
+	def sort_dir
+		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
 	end
 
 

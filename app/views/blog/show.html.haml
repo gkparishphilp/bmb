@@ -1,36 +1,33 @@
 - content_for :left_column do
-	#article_list
-		.article_header
-			%h2.text
-				= @article.title
+	- cache( "blog_article_#{@article.owner.class.name}_#{@article.owner.id}_#{@article.id}" ) do 
+	
+		#article_list
+			.article_header
+				%h2.text
+					= @article.title
 
-			%span.article_meta
-				- if @article.comments_allowed?
-					= link_to pluralize( @article.comments.count, "Comment" ), blog_link( @article ) + "#comment"
-				%br
-				- unless @article.topics.empty?
-					#article_topics
-						Filed under:
-						- for topic in @article.topics
-							= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
+				%span.article_meta
+					- if @article.comments_allowed?
+						= link_to pluralize( @article.comments.count, "Comment" ), blog_link( @article ) + "#comment"
+					%br
+					- unless @article.topics.empty?
+						#article_topics
+							Filed under:
+							- for topic in @article.topics
+								= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
 
-		.article_content.text
-			= @article.content.html_safe
+			.article_content.text
+				= @article.content.html_safe
 		
-		- unless @article.related_articles.empty?
-			#related
-				%h3 Related Posts
-				- for article in @article.related_articles
-					= link_to article.title, blog_url( article )
-		%br
-		%br
-		- if @article.comments_allowed?
-			#comment
-				= render :partial=>'comments/new'
-			- unless @article.comments.empty?
-				#comments
-					%h3 Comments
-					= render :partial => 'comments/comment', :collection => @article.comments
+			%br
+			%br
+			- if @article.comments_allowed?
+				#comment
+					= render :partial=>'comments/new'
+				- unless @article.comments.empty?
+					#comments
+						%h3 Comments
+						= render :partial => 'comments/comment', :collection => @article.comments.order('created_at desc')
 	
 - content_for :right_column do
 	= render :partial => 'sidebar'

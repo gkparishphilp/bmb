@@ -8,8 +8,6 @@
 			Member Since: 
 			%br
 			= format_date_only post.user.created_at
-		.post_count
-			= pluralize post.user.posts.count, 'post'
 	.post_body
 		.post_header
 			%span.post_subject
@@ -17,10 +15,11 @@
 			%span.post_meta
 				Posted:
 				= format_date post.created_at
-			-if post.user == @current_user
-				%span.edit_post
-					= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_topic_post_url( @forum, post.topic, post)
-					= link_to "Edit", edit_forum_topic_post_url( @forum, post.topic, post)
+			-#
+				- if post.user == @current_user
+					%span.edit_post
+						= link_to image_tag( 'edit.png', :width => 20 ), edit_forum_topic_post_url( @forum, post.topic, post)
+						= link_to "Edit", edit_forum_topic_post_url( @forum, post.topic, post)
 		.post_content
 			= post.content
 %br.clear

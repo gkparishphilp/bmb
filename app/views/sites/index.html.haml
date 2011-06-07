@@ -12,7 +12,7 @@
 				We make it easy and economical to create lasting relationships with your customers through your own online bookstore.
 				
 			.get_started
-				= link_to image_tag( "get_started_button.png" ), 'get-started'
+				= link_to image_tag( "get_started_button.png" ), author_signup_path
 			-#= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
 
 			%h2
@@ -24,23 +24,32 @@
 				%li Email marketing -- sign-up your readers and send newsletters
 			%h2
 				= image_tag( "trial_icon.png" )
-				Try us <span class="green">Risk Free</span>
+				Upgrade to the <span class="green">Author Platform Builder Account</span>
 
 			%ul
-				%li Free branded store setup and customization
+				%li We'll take care of your website and let you get back to writing
+				%li Email marketing -- sign-up your readers and send newsletters plus personalized fulfillment emails and auto-responders
+				%li Your Brand -- Custom themes, colors, and graphics
+				%li Community features -- Blogs, forums, event calendar
+				%li Create custom promotion codes and coupons to power your marketing
+				%li Pro Reporting -- trending and analysis at your fingertips
 				%li Free consultation to get you started
 				%li Personalized service and support
-				%li Cancel at any time in the first 3 months with no obligation
+				%li Cancel at any time with no obligation
+				%br
+				
+				= link_to 'Learn More', platform_builder_authors_path, :class => 'buttons', :style => 'margin-top:10px;'
+				
 				
 			%h2
 				= image_tag( "cost_icon.png" )
 				How much does it cost?
 			%ul
-				%li The BackMyBook service is <span class="green">FREE</span> to use! No upfront fees or charges 
-				%li When you sell a book, you keep 86% of the revenue, we keep 14%
+				%li The BackMyBook basic store service is <span class='green'>Free</span>.  When you sell a book, you keep 85% of the revenue, we keep 15%  No upfront fees, charges, or minimums.
+				%li  The Author Platform Builder Account is $19.99 per month.
 			
 			.get_started
-				= link_to image_tag( "get_started_button.png" ), 'get-started'
+				= link_to image_tag( "get_started_button.png" ), author_signup_path
 			
 			%br
 			%br.clear
@@ -59,13 +68,21 @@
 			= link_to image_tag( 'twitter.jpg' ), "http://twitter.com/backmybook"
 			= link_to image_tag( 'facebook.jpg' ), "http://www.facebook.com/pages/BackMyBook/129259667097024"
 			= link_to image_tag( 'rss.jpg',:alt=>'rss feed' ), "http://feeds.feedburner.com/TheBackmybookBlog"
-			= link_to image_tag( 'mail.jpg',:alt=>'contact author', :class => :toggle_contact_form ), ""
-		#contact_form
+	.follow-me.ui-helper-clearfix
+		%h3 Join our newsletter
+		= image_tag( 'mail.jpg' )
+		#newsletter_form
 			%br.clear
-			= form_for Contact.new do |f|
-				= f.label "Email:"
-				= f.text_field :email
-				= f.submit 'Submit'
+			= form_tag site_newsletter_signup_path, :style => 'margin:10px 0px 5px 5px;' do
+				%b Name:
+				= text_field_tag :name
+				%br
+				%b Email:
+				= text_field_tag :email
+				
+				= submit_tag 'Submit', :class => 'buttons'
+			.tiny{ :style => 'padding:5px;' }
+				BackMyBook respects your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
 	
 	%div
 		- unless @current_site.podcasts.empty?
@@ -77,9 +94,11 @@
 						= image_tag "podcast_icon.png", :width => 20
 						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
 			
-	%div.blog-entries
+	.follow-me.ui-helper-clearfix
 		%h3 
 			Recent Blog Articles
+		= image_tag 'blog_title_icon.png'
+		%br.clear
 		.recent_posts
 			- for article in @recent_blog_posts
 				.text
@@ -87,6 +106,7 @@
 						.recent_title
 							= link_to article.title, blog_link( article )
 						= snip article.content.html_safe, 140
+				%hr
 
 
 		

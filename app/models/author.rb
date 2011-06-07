@@ -1,21 +1,23 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: authors
 #
-#  id               :integer(4)      not null, primary key
-#  user_id          :integer(4)
-#  featured_book_id :integer(4)
-#  pen_name         :string(255)
-#  promo            :text
-#  subdomain        :string(255)
-#  bio              :text
-#  score            :integer(4)
-#  cached_slug      :string(255)
-#  created_at       :datetime
-#  updated_at       :datetime
-#  contact_email    :string(255)
-#  contact_phone    :string(255)
+#  id                     :integer(4)      not null, primary key
+#  user_id                :integer(4)
+#  featured_book_id       :integer(4)
+#  pen_name               :string(255)
+#  promo                  :text
+#  subdomain              :string(255)
+#  bio                    :text
+#  score                  :integer(4)
+#  cached_slug            :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  contact_email          :string(255)
+#  contact_phone          :string(255)
+#  faq                    :text
+#  emails_sent_this_month :integer(4)      default(0)
 #
 
 class Author < ActiveRecord::Base
@@ -58,12 +60,19 @@ class Author < ActiveRecord::Base
 	has_many	:email_messages, :as => :sender
 	has_many	:contract_agreements
 	
+	has_many	:faqs
+	
 	does_activities
 	
 	has_friendly_id	:pen_name, :use_slug => true
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :profile => "250", :thumb => "64", :tiny => "20" }}
 	liquid_methods :pen_name, :contact_email, :contact_phone
 		
+	
+	def featured_books
+		self.books.where( 'featured is true' )
+	end
+	
 	# todo return effective royalty rate depending on author's subscriptions
 	def current_royalty_rate
 		# todo fix this ghetto shit!!!!!!
@@ -82,9 +91,9 @@ class Author < ActiveRecord::Base
 		return self.pen_name
 	end
 	
-	def assets
-		# return all assets for all books for the author
-		self.books.collect{ |b| b.assets }.flatten
+	def published_assets
+		# return all published assets for all books for the author
+		self.books.collect{ |b| b.assets.published }.flatten
 	end
 	
 	def set_subdomain
@@ -106,6 +115,39 @@ class Author < ActiveRecord::Base
 			<p>If you have any questions, please <a href='http://backmybook.com/contacts/new?subject=Refund Question'>contact us</a> at http://backmybook.com/contacts/new.</p>
 			<p>Best regards,</p>
 			<p>{{refund.order.sku.owner.pen_name}} and BackMyBook.com</p>"
+	end
+	
+	def has_valid_subscription?( subscription )
+		sub = Subscription.find (subscription.id)
+		if subscribing = self.user.subscribings.find_by_subscription_id(sub.id)
+			subscribing.status == 'ActiveProfile' ? (return true) : (return false)
+		else
+			return false
+		end
+		
+	end
+	
+	def has_email_quota_remaining?
+		# Get the author's quota
+		subs = self.user.subscriptions
+		quota = 0
+		for sub in subs
+			quota += sub.monthly_email_limit
+		end	
+		
+		# Determine how many emails he's sent this month
+		sent_msg = 0
+		subscribings = self.email_subscribings
+		for subscribing in subscribings
+			sent_msg += subscribing.email_deliveries.dated_between( Time.now.getutc.at_beginning_of_month, Time.now.getutc.at_end_of_month ).count
+		end
+		
+		# Quota remaining?
+		if quota > sent_msg 
+			return true
+		else
+			return false
+		end
 	end
 	
 	def promo_content
@@ -139,6 +181,38 @@ class Author < ActiveRecord::Base
 		return tax
 	end
 	
+	def has_blog?
+		return self.articles.published.present?
+	end
+
+	def has_store?
+		return self.skus.published.present?
+	end
+	
+	def has_merch?
+		self.skus.has_merch
+	end
+	
+	def has_faq?
+		return self.faq.present?
+	end
+	
+	def has_bio?
+		return self.bio.present?
+	end
+	
+	def has_forum?
+		return self.forums.present?
+	end
+	
+	def has_books?
+		return self.books.published.present?
+	end
+	
+	def has_store?
+		return self.skus.published.present?
+	end
+	
 	private
 	
 	def book_promo
@@ -155,6 +229,8 @@ class Author < ActiveRecord::Base
 			return false
 		end
 	end
+	
+
 	
 	
 end

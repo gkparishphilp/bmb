@@ -2,10 +2,25 @@
 	= render :partial => 'admin/nav'
 - content_for :middle_column do
 	.form_group
-		%h1 
-			New Sku
-		-form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
-			= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
+		- if @current_author.books.empty?
+			%h1 You haven't added any books
+			%p
+				Please
+				= link_to 'Add a Book', new_author_book_path( @current_author )
+				to begin using your store.
+		- else
+			%h1 
+				Add An Item to Your Store
+			- form_for [ @current_author, @sku ], :html => { :multipart => true } do |f|
+				= render :partial => 'form', :locals => {:f => f, :m => 'Create'}
 		
 - content_for :right_column do
 	= render 'shared/help'
+	%hr
+	%h3 Tips
+	%p Only SKUs with physical goods should have a shipping amount.
+	%p Add the format (ie. Hardcover/Kindle/etc) in the SKU Name and Description fields so buyer can easily distinguish the formats.
+	%p Associating the SKU with a title makes it appear on the sidebar of that title's description page. 
+	%p Make sure to add at least one item into the SKU.
+	%p You can add or remove a SKU item only if the SKU hasn't been purchased.
+	%p If you want to change the items in an existing SKU, set the original SKU unavailable and rename it with a version number.  Then created a new SKU with the same name and add the items you want to the new SKU.  Previous purchasers will have access to the old SKU version, new purchases will get the new SKU.  

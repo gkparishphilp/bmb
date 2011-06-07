@@ -1,11 +1,9 @@
 class AdminController < ApplicationController
 	# for author admin
-	layout '3col'
-	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin
+	layout '2col'
+
 	before_filter :require_author, :except => [:site] 
 	before_filter :require_admin, :only => [:site]
-	
-	uses_tiny_mce
 	
 	def site
 		if Contract.last.nil?
@@ -14,6 +12,7 @@ class AdminController < ApplicationController
 			@contract = Contract.last
 		end
 	end
+	
 	def books
 		@books = @admin.books
 	end
@@ -23,7 +22,9 @@ class AdminController < ApplicationController
 	end
 	
 	def index
-		@contract = Contract.last unless @current_author.agreed_to?( Contract.last )
+		if  @current_author.skus.present? 
+			@contract = Contract.reseller unless @current_author.agreed_to?( Contract.reseller )
+		end
 		
 		@orders = Order.for_author( @current_author )		
 		@recent_orders = @orders.successful.order('created_at desc').limit( 10 )
@@ -35,12 +36,22 @@ class AdminController < ApplicationController
 	
 	def events
 		@event = params[:event_id] ? ( Event.find params[:event_id] ) : Event.new
-		@events = @admin.events.upcomming
+		@events = @admin.events.upcoming
 	end
 	
 	def forums
 		@forum = params[:forum_id] ? ( Forum.find params[:forum_id] ) : Forum.new
 		@forums = @admin.forums
+	end
+	
+	def site_config
+		@author = @current_author
+		if @author.has_valid_subscription?( Subscription.platform_builder )
+			render :layout => '2col'
+		else
+			pop_flash 'Please upgrade to access site customization options.', :error
+			redirect_to :admin_index
+		end
 	end
 	
 	def store
@@ -93,6 +104,10 @@ class AdminController < ApplicationController
 			@download_url = @asset.generate_secure_url
 		end
 	end
+	
+	protected
+	
+
 
 end
 

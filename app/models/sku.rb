@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: skus
 #
@@ -18,7 +18,6 @@
 #  international_shipping_price :integer(4)      default(0)
 #  allow_comment                :boolean(1)
 #  listing_order                :integer(4)
-#  show_inventory               :boolean(1)
 #
 
 class Sku < ActiveRecord::Base
@@ -31,6 +30,8 @@ class Sku < ActiveRecord::Base
 	#end
 
 	after_create :assign_listing_order
+	
+	validates	:price, :numericality => { :greater_than => 298, :message => "must be $2.99 or greater." }
 	
 	has_many :coupons
 	has_many :orders
@@ -75,7 +76,13 @@ class Sku < ActiveRecord::Base
 	}
 	
 	has_attached	:avatar, :formats => ['jpg', 'gif', 'png'], :process => { :resize => { :large => "300", :profile => "150", :thumb => "64", :tiny => "40"}}
+	
+	searchable_on [ :title, :sku_type ]
+	
 	liquid_methods :title, :owner, :sku_items
+	
+	accepts_nested_attributes_for	:merches
+	
 
 	def assign_listing_order
 		for sku in self.owner.skus
@@ -141,7 +148,12 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def add_item( item )
-		return self.sku_items.create :item_id => item.id, :item_type => item.class.name
+		return self.sku_items.create :item_id => item.id, :item_type => item.class.name, :status => 'active'
+	end
+	
+	def remove_item( item )
+		#todo need to figure out why the join table entry isn't deleted, the sku_id is only set to NULL.  Is it because of the item polymorphism
+		return self.sku_items.delete item
 	end
 	
 	def merch_sku?
@@ -179,6 +191,14 @@ class Sku < ActiveRecord::Base
 			return true if sku_item.item_type == 'Audio'
 		end
 		return false
+	end
+	
+	def has_sales?
+		if Order.for_sku( self ).count > 0 
+			return true
+		else
+			return false
+		end
 	end
 	
 	def decrement_inventory_by( quantity )

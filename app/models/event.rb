@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110327221930
+# Schema version: 20110602231354
 #
 # Table name: events
 #
@@ -25,9 +25,11 @@ class Event < ActiveRecord::Base
 	
 	searchable_on [ :title, :location ]
 	
-	scope :published, where( "ends_at <= ? and status = 'publish'", Time.now.getutc )
+	scope :published, where( "status = 'publish'" )
+	
+	scope :upcoming, where( "ends_at >= ?", Time.now.getutc )
 		
-	scope :upcomming, lambda { |*args|
+	scope :next, lambda { |*args|
 		limit( args.first || 5 )
 		order( 'starts_at desc' )
 	}

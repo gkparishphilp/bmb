@@ -1,5 +1,6 @@
 - content_for :left_column do
-	&nbsp;
+	= render :partial => 'admin/nav'
+
 - content_for :middle_column do
 	.admin_header
 		.admin_title
@@ -8,8 +9,8 @@
 				= possessize @admin.name
 				Blog
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_article_url
-			= link_to "New Article", new_article_url
+			= link_to image_tag( 'add.png', :width => 16 ), new_author_blog_url( @current_author )
+			= link_to "New Article", new_author_blog_url( @current_author )
 		.clear
 	
 	= form_tag admin_blog_index_path, :method => :get, :id => 'search_form' do
@@ -23,4 +24,10 @@
 		
 		
 - content_for :right_column do
-	&nbsp;
+	= render 'shared/help'
+	%hr
+	%h3 Tips
+	-unless @current_author.has_valid_subscription?( Subscription.platform_builder )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path

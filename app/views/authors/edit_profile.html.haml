@@ -1,0 +1,18 @@
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+	
+- content_for :middle_column do
+	.form_group
+		%h1 Edit an Author Profile
+		= form_for @author, :html => { :multipart => true } do |f|
+			= render :partial => 'profile_form', :locals => {:f => f}
+		%br.clear
+		
+- content_for :right_column do
+	= render 'shared/help'
+	%hr
+	%h3 Tips
+	-unless @current_author.has_valid_subscription?( Subscription.platform_builder )
+		%p 
+			Sign up for a 
+			= link_to 'Platform Builder Account!', platform_builder_authors_path

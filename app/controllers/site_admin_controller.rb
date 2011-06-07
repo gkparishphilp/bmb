@@ -1,7 +1,7 @@
 class SiteAdminController < ApplicationController
 	# for managing the site - blog posts, customer service, etc.
 	
-	layout '3col'
+	layout '2col'
 	# make sure @current_user is an author or admin -- set @admin = @current_site or @admin
 	before_filter	:require_admin 
 	helper_method	:sort_column, :sort_dir

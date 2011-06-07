@@ -1,0 +1,28 @@
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
+- if @merches.empty?
+	No Items
+- else
+	%table.admin_table
+		%th= sortable 'Title'
+		%th= sortable 'Published'
+		%th= sortable 'Type'
+
+		- for merch in @merches
+			%tr
+				%td= merch.title
+				%td= format_date_only merch.created_at
+				%td= merch.merch_type
+					
+				%td
+					= link_to image_tag( 'edit.png', :width => 20 ), ''
+					.name= link_to 'edit', ''
+				%td
+					= link_to image_tag( 'trash.png', :width => 20 ), '', :method => 'delete', :class => 'confirm'
+					.name= link_to 'delete', '', :method => 'delete', :class => 'confirm'
+				
+	- unless @merches.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @merches
+			= will_paginate @merches
