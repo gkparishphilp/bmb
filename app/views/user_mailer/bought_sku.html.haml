@@ -54,7 +54,7 @@ Hi
 - if not( @order.sku.merch_sku? ) 
 	You can download digital items using the links below. After downloading one of the items, you may be prompted to register or login to BackMyBook.com to download the remaining items.  This is to protect the author from digital piracy.  Your email address will not be shared with any other parties.
 	%p
-		- for item in @order.sku.sku_items
+		- for item in @order.sku.items
 			- if item.respond_to? 'document'
 				= link_to item.title, deliver_asset_url( item, :order_id => @order.id )
 				%br
@@ -64,7 +64,7 @@ Hi
 		The following items will be delivered by the author:
 		= @order.sku.owner.pen_name
 		%br
-		- for item in @order.sku.sku_items
+		- for item in @order.sku.items
 			- if item.is_a? Merch
 				= item.title 
 				%br
