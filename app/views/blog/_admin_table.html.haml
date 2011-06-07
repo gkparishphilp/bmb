@@ -17,8 +17,8 @@
 					= link_to image_tag( 'edit.png', :width => 20 ), edit_author_blog_path( article.owner, article ) 
 					= link_to 'edit', edit_author_blog_path( article.owner, article )
 				%td.small
-					= link_to image_tag( 'trash.png', :width => 20 ), article, :method => 'delete', :class => 'confirm'
-					= link_to 'delete', article, :method => 'delete', :class => 'confirm'
+					= link_to image_tag( 'trash.png', :width => 20 ), article, :method => 'delete', :confirm => 'Are you sure you want to delete this article?'
+					= link_to 'delete', article, :method => 'delete', :confirm => 'Are you sure you want to delete this article?'
 	- unless @articles.total_pages < 2
 		.pagination
 			.page_info
