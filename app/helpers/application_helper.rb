@@ -61,8 +61,7 @@ module ApplicationHelper
 		
 		return "&nbsp;" if text.nil?
 		
-		#Taking out this so snips can retain formatting.  Hopefully, nothing serious breaks!@!@	
-		#text.gsub!(%r{</?[^>]+?>}, '') #remove html tags?
+		text.gsub!(%r{</?[^>]+?>}, '') #remove html tags?
 		text.size <= snip_at ? text : text[0..snip_at] + "..."
 
 	end 
