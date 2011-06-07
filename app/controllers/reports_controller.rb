@@ -1,6 +1,7 @@
 class ReportsController < ApplicationController
 	require 'csv'
 	before_filter	:check_permissions, :only => [:sales, :redemptions]
+	before_filter	:get_admin
 	
 	def sales
 		#todo - wow, this has grown pretty heinous.  Move into a model and clean up 
@@ -125,6 +126,15 @@ class ReportsController < ApplicationController
 	end
 	
 	private
+	
+	def get_admin
+		if @current_author
+			@admin = @current_author
+		else
+			require_admin
+			@admin = @current_site
+		end
+	end
 	
 	def check_permissions
 		unless @admin.has_valid_subscription?( Subscription.platform_builder)
