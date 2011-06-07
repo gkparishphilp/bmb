@@ -146,10 +146,34 @@ ul.main-menu li a:hover{
 }
 
 .form_group{
-	background-color: <%= @theme.nav_bg_selected %>;
+	background-color: <%= @theme.header_color %>;
+}
+
+.form_group a{
+	color: <%= @theme.link_color %>;
+}
+
+td a{
+	color: <%= @theme.link_color %>;
+}
+
+.breadcrumb a{
+	color: <%= @theme.link_color %>;
+}
+
+.also-available a{
+	color: <%= @theme.title_color %>;
+}
+
+.also-available em a{
+	color: <%= @theme.link_color %>;
 }
 
 #bd{
+	border-color: <%= @theme.page_border_color %>;
+}
+
+#ft{
 	border-color: <%= @theme.page_border_color %>;
 }
 
