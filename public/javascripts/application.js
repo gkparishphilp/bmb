@@ -82,15 +82,24 @@ $(document).ready(function(){
 	
 	
 	$('#unlimited_inventory').click( function(){
-		$('#merch_inventory_count').toggle(1000);
+		$('.inventory').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.inventory').attr('value', -1);
+		} 
 	});
 	
 	$('#never_email').click( function(){
-		$('#merch_inventory_warning').toggle(1000);
+		$('.inventory_warning').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.inventory_warning').attr('value', -1);
+		} 
 	});
 	
 	$('#never_show').click( function(){
-		$('#merch_show_inventory_count_at').toggle(1000);
+		$('.show_inventory_count_at').toggle(1000);
+		if( $(this).is(':checked') ){
+			$('.show_inventory_count_at').attr('value', 0);
+		} 
 	});
 	
 	///////////////////// Admins //////////////////////////
