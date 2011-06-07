@@ -1,11 +1,10 @@
 class ThemesController < ApplicationController
-	
-	before_filter :require_author
+	before_filter :require_author, :get_admin
 	before_filter :check_permissions, :only => [:admin, :new, :edit]
 	
 	def admin
 		@default_themes = Theme.default - @current_author.themes
-		if true # todo @current_author.has_valid_subscription?( @marketing_subscription )
+		if @current_author.has_valid_subscription?( Subscription.platform_builder )
 			render :layout => '2col'
 		else
 			pop_flash 'Please upgrade to access site customization options.', :error
@@ -84,6 +83,15 @@ class ThemesController < ApplicationController
 	end
 
 private
+
+	def get_admin
+		if @current_author
+			@admin = @current_author
+		else
+			require_admin
+			@admin = @current_site
+		end
+	end
 
 	def check_permissions
 		unless @admin.has_valid_subscription?( Subscription.platform_builder)

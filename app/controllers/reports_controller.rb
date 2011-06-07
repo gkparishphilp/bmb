@@ -1,7 +1,7 @@
 class ReportsController < ApplicationController
 	require 'csv'
-	before_filter	:check_permissions, :only => [:sales, :redemptions]
 	before_filter	:get_admin
+	before_filter	:check_permissions, :only => [:sales, :redemptions]
 	
 	def sales
 		#todo - wow, this has grown pretty heinous.  Move into a model and clean up 
