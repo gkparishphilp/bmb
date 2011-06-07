@@ -55,7 +55,9 @@ class Asset < ActiveRecord::Base
 	end
 	
 	def formatted_title
-		"#{self.type.capitalize} (#{self.document.format.capitalize})"
+		title = "#{self.type.capitalize}"
+		title += "(#{self.document.format.capitalize})" if self.document.present?
+		return title
 	end
 	
 	def create_sku( type='etext' )

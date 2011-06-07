@@ -123,17 +123,21 @@ class AuthorsController < ApplicationController
 		
 		@theme = @author.active_theme if @theme.nil? unless @author.nil? || @author.active_theme.nil?
 		
-		if @author.books.published.empty?
+		if @author.books.published.empty? && @author.articles.published.empty?
 			render 'under_construction' 
 			return false
-		elsif @author.skus.empty?
-			redirect_to author_books_path( @author )
-			return_false
-		else
+		end
+		
+		if @author.skus.present?
 			redirect_to author_store_index_path( @author )
+		elsif @author.articles.published.present?
+			redirect_to author_blog_index_path( @author )
+		else
+			redirect_to author_books_path( @author )
 		end
 		
 	end
+	
 	
 	def bio
 		@author = Author.find params[:id] if @author.nil?
