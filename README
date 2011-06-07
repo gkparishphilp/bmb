@@ -3,7 +3,7 @@
 	- Fix inventory checkboxes to reset form fields when checked
 	- break out author faqs into real tables
 	- triple check custom styles applying to forums, blogs, events, etc
-	- css fix on featured books
+	
 
 
 	
@@ -23,6 +23,10 @@ LATER
 
 
 DONE/BUMP
+
+
+- css fix on featured books
+
 
 - 5/29/11
 
