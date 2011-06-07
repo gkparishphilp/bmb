@@ -54,7 +54,8 @@ class Merch < ActiveRecord::Base
 	end
 	
 	def formatted_title
-		"Merch (#{self.merch_type.capitalize})"
+		title = "Merch "
+		title += "(#{self.merch_type.capitalize})" if self.merch_type
 	end
 	
 	
