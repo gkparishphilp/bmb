@@ -3,7 +3,7 @@ module ForumsHelper
 	def custom_post_link( forum, topic, post )
 
 		if topic.nil?
-			path = author_forum_topics_path( topic.forum.owner, forum, post ) 
+			path = author_forum_topics_path( forum.owner, forum, post ) 
 		else
 			path = author_forum_topic_path( topic.forum.owner, topic.forum, topic )
 		end
