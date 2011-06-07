@@ -6,15 +6,17 @@
 		- if @author.has_store?
 			%li= controller.controller_name == 'store' ? ( link_to "Store", author_store_index_url( @author ), :class => 'selected' ) : ( link_to "Store", author_store_index_url( @author ) )
 
+		- if @author.has_books?
+			-# TODO -- make CSS Dropdown conatining book titles
+			%li= ( controller.controller_name == 'books' ) ? ( link_to "Books", author_books_url( @author ), :class => 'selected' ) : ( link_to "Books", author_books_url( @author ) )
+
+
 		- if @author.has_bio?
 			%li= current_page?( bio_author_url( @author ) ) ? ( link_to "Bio", bio_author_url( @author ), :class => 'selected' ) : ( link_to "Bio", bio_author_url( @author ) )
 
 		- if @author.has_forum?
 			%li= ( controller.controller_name == 'forums' || controller.controller_name == 'topics' ) ? ( link_to "Forums", author_forums_url( @author ), :class => 'selected' ) : ( link_to "Forums", author_forums_url( @author ) )
 			
-		- if @author.has_books?
-			-# TODO -- make CSS Dropdown conatining book titles
-			%li= ( controller.controller_name == 'books' ) ? ( link_to "Books", author_books_url( @author ), :class => 'selected' ) : ( link_to "Books", author_books_url( @author ) )
 			
 		- if @author.has_faq? || @author.has_store?
 			%li= current_page?( help_author_url( @author ) ) ? ( link_to "Help", help_author_url( @author ), :class => 'selected' ) : ( link_to "Help", help_author_url( @author ) )

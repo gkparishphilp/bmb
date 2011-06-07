@@ -54,8 +54,8 @@
 = file_field_tag :attached_avatar_file
 
 
-= f.label 'Status'
-= f.select :status, [['Publish', 'publish'], ['Draft', 'unpublish']], :selected => @sku.status
+= f.label 'Availability'
+= f.select :status, [['Available', 'publish'], ['Unavailable', 'unpublish']], :selected => @sku.status
 
 = f.label 'Description:'
 = f.text_area :description, :class => 'editor_small'
