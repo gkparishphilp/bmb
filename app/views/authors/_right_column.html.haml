@@ -7,6 +7,16 @@
 			= image_tag('facebook.jpg')
 			= image_tag('rss.jpg',:alt=>'rss feed')
 
+
+- if @author.has_valid_subscription?( Subscription.platform_builder )
+	.sidebar_sections
+		%h3 
+			Search
+		.pad
+			= form_tag search_author_path( @author )
+				= text_field_tag :q
+				= submit_tag 'Search', :class => 'buttons'
+
 - if @author.has_valid_subscription?( Subscription.platform_builder )
 	.sidebar_sections
 		%h3 

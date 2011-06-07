@@ -56,11 +56,13 @@ class ThemesController < ApplicationController
 			process_attachments_for( @theme )
 			@theme.activate_for( @current_author )
 			pop_flash 'Theme saved!'
+			redirect_to admin_themes_path
 		else
 			pop_flash 'Theme could not be saved.', :error, @theme
+			redirect_to :back
 		end
 		
-		redirect_to admin_index_path
+		
 
 	end
 	
@@ -78,7 +80,7 @@ class ThemesController < ApplicationController
 			pop_flash 'Theme could not be saved.', :error, @theme
 		end
 		
-		redirect_to admin_index_path
+		redirect_to admin_themes_path
 
 	end
 
