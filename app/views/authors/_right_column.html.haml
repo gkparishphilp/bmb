@@ -15,7 +15,7 @@
 		.pad
 			= form_tag search_author_path( @author ) do
 				= text_field_tag :q
-				= submit_tag 'Search', :class => 'buttons'
+				= submit_tag 'Search', :class => 'button'
 
 - if @author.has_valid_subscription?( Subscription.platform_builder )
 	.sidebar_sections
