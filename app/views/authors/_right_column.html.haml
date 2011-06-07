@@ -13,7 +13,7 @@
 		%h3 
 			Search
 		.pad
-			= form_tag search_author_path( @author )
+			= form_tag search_author_path( @author ) do
 				= text_field_tag :q
 				= submit_tag 'Search', :class => 'buttons'
 
