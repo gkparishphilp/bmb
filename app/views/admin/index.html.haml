@@ -24,7 +24,7 @@
 				Upgrade to the 
 				= link_to 'Author Platform Builder Account.', platform_builder_authors_path, :target => '_new'
 			.get_started{ :style => 'text-align:center;margin-top:20px;' }
-				= link_to image_tag( "get_started_button.png" ), new_order_path( :sku => 25 )
+				= link_to image_tag( "get_started_button.png" ), new_order_path( :sku => Subscription.platform_builder.skus.first )
 		%br
 	- if @current_author.books.empty?
 		.outline

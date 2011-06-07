@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110602231354
+# Schema version: 20110606205010
 #
 # Table name: subscriptions
 #
@@ -17,6 +17,7 @@
 #  status                      :string(255)     default("publish")
 #  created_at                  :datetime
 #  updated_at                  :datetime
+#  name                        :string(255)
 #
 
 class Subscription < ActiveRecord::Base
