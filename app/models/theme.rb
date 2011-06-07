@@ -40,10 +40,6 @@ class Theme < ActiveRecord::Base
 	scope :public, where( "public = true" )
 	scope :default, where( "creator_id is null" )
 	
-	def self.default
-		self.find_by_name( 'default' )
-	end
-	
 	def owner
 		return self.creator
 	end
