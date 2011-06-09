@@ -230,14 +230,14 @@ $(document).ready(function(){
 					}
 					
 					
-					$('#order_price').html( "$" + new_unit_price + " x " + quantity + ": " + "$" + ( new_unit_price * quantity ).toFixed(2) );
+					$('#order_price').html( "$" + new_unit_price );
 					$('#order_price').attr( 'price', new_unit_price * 100 );
 					$('#valid_coupon').html('Valid Coupon Code Entered');
 					$('#price_div').effect("highlight", {}, 3000);
 					$('#valid_coupon_div').effect("highlight", {}, 3000);
 				}
 				else{
-					$('#order_price').html( "$" + ( original_unit_price / 100 ) + " x " + quantity + ": " + "$" + (( original_unit_price * quantity ) / 100).toFixed(2) );
+					$('#order_price').html( "$" + ( original_unit_price / 100 ) );
 					$('#order_price').attr('price', original_unit_price );
 					$('#valid_coupon').html('');
 				}
