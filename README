@@ -1,9 +1,12 @@
 
 - 6/6/11
-	- Fix inventory checkboxes to reset form fields when checked
+	
 	- break out author faqs into real tables
+	- Fix inventory checkboxes -- make sure inventory fields can't be nil
+	- check forum deep link helper bug ( topic with no reply posts?)
+	
 	- triple check custom styles applying to forums, blogs, events, etc
-	- css fix on featured books
+
 
 
 	
@@ -24,6 +27,8 @@ LATER
 
 DONE/BUMP
 
+
+	- css fix on featured books
 - 5/29/11
 
 	- Author Platform Upsell Page

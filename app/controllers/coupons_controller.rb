@@ -1,6 +1,7 @@
 class CouponsController < ApplicationController
-	before_filter	:get_owner, :get_admin
-	before_filter	:check_permissions, :only => [:admin, :new, :edit]
+	before_filter	:get_owner
+	before_filter	:get_admin, :only => [ :admin, :new, :edit ]
+	before_filter	:check_permissions, :only => [ :admin, :new, :edit ]
 	layout			:set_layout
 	helper_method	:sort_column, :sort_dir
 
@@ -155,7 +156,7 @@ private
 	end
 
 	def check_permissions
-		unless @admin.has_valid_subscription?( Subscription.platform_builder)
+		unless @admin.has_valid_subscription?( Subscription.platform_builder )
 			pop_flash "Update to the Author Platform Builder Account to access this feature!", :error
 			redirect_to admin_index_path
 		end
