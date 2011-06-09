@@ -19,7 +19,7 @@
 				- else
 					.button
 						- if Rails.env.production?
-							= link_to "Buy It #{format_price( sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders.new?sku=#{sku.id}"
+							= link_to "Buy It #{format_price( sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders/new?sku=#{sku.id}"
 						- else
 							= link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
 		.listing_description
