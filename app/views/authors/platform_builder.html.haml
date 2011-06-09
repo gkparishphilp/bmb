@@ -42,7 +42,7 @@
 	%br.clear
 	
 	.get_started{ :style => 'text-align:center;margin-top:20px;' }
-		= link_to image_tag( "get_started_button.png" ), new_order_path( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
+		= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
 
 	%br
 	%br
