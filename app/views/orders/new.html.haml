@@ -84,3 +84,29 @@
 			-else
 				= link_to image_tag( 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' ), go_paypal_orders_url(:sku => @sku, :protocol => SSL_PROTOCOL), :id => :paypal_btn
 				
+- content_for :right_column do
+	- if @sku.owner == Site.first
+		%h4{ :style => 'margin-top:15px;' }
+			Everything you need to take your on-line presence to a professional level:
+		%ul
+			%li.bulleted
+				Customizable Author website'
+			%li.bulleted
+				Fully built professional Author Blog
+			%li.bulleted
+				Reader Forums
+			%li.bulleted
+				Event Calendar 
+			%li.bulleted
+				Seamlessly integrated with the BackMyBook Store
+			%li.bulleted
+				Coupons and Discount Codes
+			%li.bulleted
+				Newsletter engine: unlimited subscribers and up to 1000 sends per month
+			%li.bulleted
+				Pro Reporting
+
+		%h4{ :style => 'margin-top:15px;' }
+			No risk --can be cancelled at any time without obligation
+		%h4{ :style => 'margin-top:15px;' }
+			Sell $200 of merchandise in any month, and that month is free!
