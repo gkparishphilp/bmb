@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110602231354
+# Schema version: 20110606205010
 #
 # Table name: merches
 #
@@ -20,9 +20,14 @@
 
 class Merch < ActiveRecord::Base
 	validates	:title, :uniqueness => { :scope => [ :owner_id, :owner_type ] }
+	
+	before_save	:sanitize_inventory
+	
 	#todo need to check these ownership relationships to make sure they don't conflict since they both use 'owners'
 	belongs_to :owner, :polymorphic => true
 	has_many :owners, :through => :ownings
+	
+	
 	scope :published, where( "status = 'publish'" )
 	scope :not_books, where("(merch_type <> 'hardcover' and merch_type <> 'trade paperback' and merch_type <> 'paperback') or merch_type is null")
 	
@@ -61,6 +66,12 @@ class Merch < ActiveRecord::Base
 	
 	def is_a_book?
 		self.merch_type == 'hardcover' || self.merch_type == 'trade paperback' || self.merch_type == 'paperback'
+	end
+	
+	def sanitize_inventory
+		self.inventory_count = -1 if self.inventory_count.nil?
+		self.inventory_warning = 0 if self.inventory_warning.nil?
+		self.show_inventory_count_at = -1 if self.show_inventory_count_at.nil?
 	end
 
 end

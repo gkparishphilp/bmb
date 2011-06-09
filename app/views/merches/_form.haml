@@ -3,7 +3,7 @@
 = f.text_field :title, :value => @merch_title, :class => 'book_title_field'
 
 = f.label 'Item type:'
-= f.select :merch_type, [['Hardcover','hardcover'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc'] ], :selected => params[:merch_type]
+= f.select :merch_type, [['Hardcover','hardcover'], ['Paperback','paperback'], ['Apparel','apparel'], ['Misc','misc'] ], :selected => @merch.merch_type
 
 
 = f.label 'Picture:'
@@ -17,17 +17,17 @@
 	
 = f.label "Inventory:"
 = f.text_field :inventory_count, :class => 'inventory', :style => 'display:none;'
-= check_box_tag :unlimited_inventory, -1, 1
+= check_box_tag :unlimited_inventory, 1, @merch.inventory_count == -1
 Unlimited Inventory
 
 = f.label "Send low inventory email at:"
 = f.text_field :inventory_warning, :class => 'inventory_warning', :style => 'display:none;'
-= check_box_tag :never_email, 0, 1
+= check_box_tag :never_email, 1, @merch.inventory_warning == 0
 Never Email
 
 = f.label "Show remaining inventory count in store at:"
 = f.text_field :show_inventory_count_at, :class => 'show_inventory_count_at', :style => 'display:none;'
-= check_box_tag :never_show, 0, 1
+= check_box_tag :never_show, 1, @merch.show_inventory_count_at == -1
 Never Show
 
 

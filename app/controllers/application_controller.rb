@@ -47,6 +47,7 @@ protected
 		@domain = request.domain
 		@current_site = Site.find_by_domain( @domain ) || Site.first
 		@author = @current_site.author
+		@theme = @author.active_theme unless @author.nil? || @author.active_theme.nil?
 	end
 	
 	# simply sets session cookie for passed-in user

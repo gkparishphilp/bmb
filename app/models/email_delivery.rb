@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110602231354
+# Schema version: 20110606205010
 #
 # Table name: email_deliveries
 #
