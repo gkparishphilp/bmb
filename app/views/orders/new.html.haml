@@ -64,8 +64,9 @@
 					= render 'shipping_form', :f => f
 				%br
 				- if @author
-					Subscribe to #{@author.pen_name}'s newsletter (come on, you know you want it!)
 					= f.check_box :subscribe_to_author, {:checked => true}, 'true', 'false'
+					Subscribe to #{@author.pen_name}'s newsletter (come on, you know you want it!)
+					
 					%br
 				-if @sku.allow_comment?
 					%h3 Special Order Instructions

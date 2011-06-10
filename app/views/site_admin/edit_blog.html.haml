@@ -1,0 +1,6 @@
+- content_for :middle_column do
+	.form_group
+		%h1 
+			Edit Blog Article
+		= form_for [ @admin, @article ], :html => { :multipart => true } do |f|
+			= render 'blog/form', :f => f, :m => 'Update'

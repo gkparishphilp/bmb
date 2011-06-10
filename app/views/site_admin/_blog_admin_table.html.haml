@@ -1,33 +1,26 @@
-= form_tag site_admin_blog_path, :method => :get, :id => 'search_form' do
-	= hidden_field_tag :dir, params[:dir]
-	= hidden_field_tag :sort, params[:sort]
-	= text_field_tag :q, params[:q]
-	= submit_tag 'Search', :class => 'buttons'
-	|
-	= link_to 'Clear', :sort => params[:sort], :dir => params[:dir], :q => nil
-
+= hidden_field_tag :dir, params[:dir]
+= hidden_field_tag :sort, params[:sort]
 - if @articles.empty?
 	No Articles
 - else
 	%table.admin_table
-		%th= sortable Article, 'title'
-		%th= sortable Article, 'publish_at', "Publish Date"
-		%th= sortable Article, 'status'
-		- for article in @articles
+		%th= 'Title'
+		%th= "Publish Date"
+		%th= 'Status'
+		- for article in @articles.reverse
 			%tr
-				%td( style = 'width:200px;' )
-					= link_to image_tag( 'view.png', :width => 20 ), blog_path( article )
-					= link_to article.title, blog_path( article )
-				%td.small= format_date_only article.publish_at
-				%td.small= article.status
+				%td( style = 'width:300px;' )
+					= link_to article.title, author_blog_path( article.owner, article )
+				%td.tiny= format_date_only article.publish_at
+				%td.tiny= article.status
 				%td.small
-					= link_to image_tag( 'edit.png', :width => 16 ), edit_article_path( article ) 
-					= link_to 'edit', edit_article_path( article )
+					= link_to image_tag( 'edit.png', :width => 20 ), edit_blog_site_admin_index_path( :article_id => article ) 
+					= link_to 'edit', edit_blog_site_admin_index_path( :article_id => article )
 				%td.small
-					= link_to image_tag( 'trash.png', :width => 16 ), ""
-					= link_to 'delete', ""
-	
-	.pagination
-		.page_info
-			= page_entries_info @articles
-		= will_paginate @articles
+					= link_to image_tag( 'trash.png', :width => 20 ), article, :method => 'delete', :confirm => 'Are you sure you want to delete this article?'
+					= link_to 'delete', article, :method => 'delete', :confirm => 'Are you sure you want to delete this article?'
+	- unless @articles.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @articles
+			= will_paginate @articles

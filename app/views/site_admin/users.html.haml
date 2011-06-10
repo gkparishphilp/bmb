@@ -1,0 +1,22 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				User Quickview
+		.clear
+	%table.admin_table
+		%th Email
+		%th Author?
+		%th Joined
+		%th Last IP
+
+		- for user in @users
+			%tr
+				%td= user.email
+				%td
+					= user.author? ? ( link_to user.author.pen_name, user.author ) : ( "Nope" )
+				%td= format_date user.created_at
+				%td= user.last_ip
+		

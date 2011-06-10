@@ -6,21 +6,31 @@ class SiteAdminController < ApplicationController
 	before_filter	:require_admin 
 	helper_method	:sort_column, :sort_dir
 	
+	def index
+		
+	end
 	
 	def blog
 		@article = Article.new
-		@articles = @current_site.articles.search( params[:q] ).order( sort_column( Article ) + " " + sort_dir ).paginate( :per_page => 10, :page => params[:page] )
+		@articles = @current_site.articles.search( params[:q] ).order( 'publish_at desc' ).paginate( :per_page => 10, :page => params[:page] )
 	end
 	
-	private
-	
-	def sort_column( obj_type )
-		obj_type.column_names.include?( params[:sort] ) ? params[:sort] : 'publish_at'
+	def new_blog
+		@article = Site.first.articles.new
+		@admin = @current_site
 	end
 	
-	def sort_dir
-		%w[ asc desc ].include?( params[:dir] ) ? params[:dir] : 'desc'
+	def edit_blog
+		@article = Article.find( params[:article_id] )
+		@admin = @current_site
 	end
+	
+	def users
+		@users = User.order( 'created_at desc' ).limit( 50 )
+	end
+	
+
+	
 end
 
 

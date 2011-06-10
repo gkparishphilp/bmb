@@ -8,8 +8,8 @@
 				= @current_site.name
 				Blog
 		.new_button
-			= link_to image_tag( 'add.png', :width => 16 ), new_article_path
-			= link_to "New Article", new_article_path
+			= link_to image_tag( 'add.png', :width => 16 ), new_blog_site_admin_index_path
+			= link_to "New Article", new_blog_site_admin_index_path
 		.clear
 	
 	#blog_admin_table= render 'blog_admin_table'

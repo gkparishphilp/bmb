@@ -17,9 +17,13 @@ class ArticlesController < ApplicationController
 		@article = Article.new params[:article]
 
 		if @admin.articles << @article
-			@admin == @current_author ? ( @admin.do_activity( "write", @article ) ) : ( @current_user.do_activity( "write", @article ) )
 			pop_flash 'Article was successfully created.'
-			redirect_to admin_blog_index_url
+			
+			if @admin == @current_author
+				redirect_to admin_blog_index_url
+			else
+				redirect_to blog_site_admin_index_path
+			end
 		else
 			pop_flash 'Oooops, Article not saved...', :error, @article
 			render :action => :new
@@ -32,7 +36,13 @@ class ArticlesController < ApplicationController
 
 		if @article.update_attributes params[:article]
 			pop_flash 'Article was successfully updated.'
-			redirect_to admin_blog_index_url
+			
+			if @admin == @current_author
+				redirect_to admin_blog_index_url
+			else
+				redirect_to blog_site_admin_index_path
+			end
+
 		else
 			pop_flash 'Oooops, Article not updated...', :error, @article
 			render :action => :edit

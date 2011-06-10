@@ -2,12 +2,14 @@
 - 6/6/11
 	
 	- break out author faqs into real tables
-	- Fix inventory checkboxes -- make sure inventory fields can't be nil
-	- check forum deep link helper bug ( topic with no reply posts?)
 	
+	- add author session/login/etc. screens
+	
+	- test tru-domain onprod
 	- triple check custom styles applying to forums, blogs, events, etc
-
-
+	
+	- be able to edit site pages
+	- just general site-admin
 
 	
 LATER
@@ -16,7 +18,6 @@ LATER
 	- Custom Domains
 	- Shopping cart
 	- Custom Sidebar Sections( + sort )
-	- 
 
 
 - Processing JS image on order submit
@@ -27,6 +28,10 @@ LATER
 
 DONE/BUMP
 
+- fix checkbox position on orders/new for newsletter sub
+- be able to edit site blog
+- check forum deep link helper bug ( topic with no reply posts?)
+Fix inventory checkboxes -- make sure inventory fields can't be nil
 
 - 5/29/11
 
