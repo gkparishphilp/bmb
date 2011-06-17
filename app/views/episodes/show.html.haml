@@ -35,7 +35,7 @@
 
 	%h3 Comments
 
-	= render :partial => "/comments/comment", :collection => @episode.comments
+	= render :partial => "/comments/comment", :collection => @episode.comments.published
 	= render :partial=>'comments/new'
 
 - content_for :right_column do
