@@ -12,7 +12,7 @@ class SiteAdminController < ApplicationController
 	
 	def blog
 		@article = Article.new
-		@articles = @current_site.articles.search( params[:q] ).order( 'publish_at desc' ).paginate( :per_page => 5, :page => params[:page] )
+		@articles = @current_site.articles.search( params[:q] ).order( 'publish_at desc' ).paginate( :per_page => 10, :page => params[:page] )
 	end
 	
 	def new_blog
@@ -30,7 +30,7 @@ class SiteAdminController < ApplicationController
 	end
 	
 	def comments
-		@comments = Comment.all.paginate(:per_page => 10, :page => params[:page])
+		@comments = Comment.all.paginate(:per_page => 5, :page => params[:page])
 		render :layout => '2col'
 	end
 
