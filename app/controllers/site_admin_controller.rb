@@ -29,6 +29,10 @@ class SiteAdminController < ApplicationController
 		@users = User.order( 'created_at desc' ).limit( 50 )
 	end
 	
+	def comments
+		@comments = Comment.all.paginate(:per_page => 10, :page => params[:page])
+		render :layout => '2col'
+	end
 
 	
 end

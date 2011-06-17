@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-	before_filter   :get_commentable
+	before_filter   :get_commentable, :except => [:mark_as_spam]
 	cache_sweeper :comment_sweeper, :only => [:create, :update, :destroy]
 		
 	def new
@@ -83,6 +83,12 @@ class CommentsController < ApplicationController
 		@comment.destroy
 		pop_flash 'Comment was successfully deleted.'
 		redirect_to polymorphic_url @commentable
+	end
+	
+	def mark_as_spam
+		@comment = Comment.find( params[:id])
+		@comment.update_attributes :status => 'spam'
+		redirect_to :back
 	end
 	
 private 

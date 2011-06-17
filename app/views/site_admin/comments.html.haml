@@ -1,0 +1,34 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3 Comments 
+		.clear
+	%table.admin_table
+		%th Action
+		%th User / IP
+		%th Parent
+		%th Content
+
+		- for comment in @comments
+			%tr
+				%td
+					- if comment.status != 'spam'
+						= link_to "Mark as Spam", mark_as_spam_comment_path( comment )
+					- else
+						= comment.status.capitalize
+
+				%td
+					= comment.user.email
+					%br
+					= comment.ip
+				%td= comment.commentable.title if comment.commentable
+				%td= comment.content
+
+	- unless @comments.total_pages < 2
+		.pagination
+			.page_info
+				= page_entries_info @comments
+			= will_paginate @comments
+	

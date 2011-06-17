@@ -133,6 +133,10 @@ Backmybook::Application.routes.draw do
 	
 	resources :books
 	
+	resources :comments do
+		get 'mark_as_spam', :on => :member
+	end
+	
 	resources :contacts
 	
 	resources :contracts do
@@ -220,6 +224,7 @@ Backmybook::Application.routes.draw do
 		get :new_blog, :on => :collection
 		get :edit_blog, :on => :collection
 		get :users, :on => :collection
+		get :comments, :on => :collection
 	end
 	
 	resources :static_pages do
