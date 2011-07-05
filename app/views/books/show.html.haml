@@ -12,12 +12,12 @@
 			- unless @book.ebook_sku.nil?
 				%li
 					.button
-						=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", new_author_order_url( @author, :sku => @book.ebook_sku, :protocol => SSL_PROTOCOL )
+						=link_to "Buy E-book #{format_price( @book.ebook_sku.price )}", buy_path( @author, @book.ebook_sku )
 			
 			- unless @book.audio_book_sku.nil?
 				%li
 					.button
-						=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", new_author_order_url( @author, :sku => @book.audio_book_sku, :protocol => SSL_PROTOCOL )
+						=link_to "Buy Audio Book #{format_price( @book.audio_book_sku.price )}", buy_path( @author, @book.audio_book_sku )
 			
 			- unless @book.custom_skus.empty? && @book.merch_skus.empty?
 				.also-available
@@ -27,12 +27,12 @@
 							- unless sku.sold_out?
 								%li
 									= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
-									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+									%em= link_to "#{format_price( sku.price )} buy", buy_path( @author, sku )
 						- for sku in @book.custom_skus.published
 							- unless sku.sold_out?
 								%li
 									= link_to sku.title, author_store_url( @author, sku ), :class => 'main' 
-									%em= link_to "#{format_price( sku.price )} buy", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+									%em= link_to "#{format_price( sku.price )} buy", buy_path( @author, sku )
 						
 		.right_col.text
 			- cache("book_description_#{@book.author.id}_#{@book.id}") do 

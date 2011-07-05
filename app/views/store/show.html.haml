@@ -14,7 +14,7 @@
 					Sold Out :(
 			- else
 				.button
-					=link_to "Buy It #{format_price( @sku.price )}", new_author_order_url( @author, :sku => @sku, :protocol => SSL_PROTOCOL ), :class=>'button'
+					=link_to "Buy It #{format_price( @sku.price )}", buy_path( @author, @sku ), :class=>'button'
 
 			.also-available
 				%h3 Contains

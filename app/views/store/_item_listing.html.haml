@@ -1,9 +1,9 @@
 .listing.store
 	.listing_avatar
 		- if sku.avatar.present?
-			= link_to avatar_tag( sku, :thumb, :width => 64 ), new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+			= link_to avatar_tag( sku, :thumb, :width => 64 ), buy_path( @author, sku )
 		- elsif sku.book.present?
-			= link_to avatar_tag( sku.book, :thumb, :width => 64 ), new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+			= link_to avatar_tag( sku.book, :thumb, :width => 64 ), buy_path( @author, sku )
 	.listing_data.clearfix
 		.listing_title
 			= link_to sku.title, author_store_url( @author, sku )
@@ -18,10 +18,7 @@
 						Sold Out :(
 				- else
 					.button
-						- if Rails.env.production?
-							= link_to "Buy It #{format_price( sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders/new?sku=#{sku.id}"
-						- else
-							= link_to "Buy It #{format_price( sku.price )}", new_author_order_url( @author, :sku => sku, :protocol => SSL_PROTOCOL )
+						= link_to "Buy It #{format_price( sku.price )}", buy_path( @author, sku )
 		.listing_description
 			= snip( sku.description.html_safe, 140 )
 	.clear

@@ -12,6 +12,14 @@ module ApplicationHelper
 		return tag
 	end
 	
+	def buy_path( author, sku )
+		if Rails.env.production?
+			return "https://backmybook.com/authors/#{author.id}/orders/new?sku=#{sku.id}"
+		else
+			return new_author_order_url( author, :sku => sku, :protocol => SSL_PROTOCOL )
+		end
+	end
+	
 	def format_date( date )
 		date.strftime("%b %d, %Y @ %l:%M%p")
 	end

@@ -12,22 +12,13 @@
 		.book-info
 			- unless book.merch_skus.published.empty? || book.merch_skus.published.first.sold_out?
 				.listing_buy
-					- if Rails.env.production?
-						= link_to "Buy Book #{format_price( book.hardcover_sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders/new?sku=#{book.hardcover_sku.id}"
-					- else
-						= link_to "Buy Book #{format_price( book.hardcover_sku.price )}", new_author_order_url( @author, :sku => book.hardcover_sku, :protocol => SSL_PROTOCOL ) 
+					= link_to "Buy Book #{format_price( book.hardcover_sku.price )}", buy_path( @author, book.hardcover_sku )
 			- unless book.skus.published.ebook.first.nil?
 				.listing_buy
-					- if Rails.env.production?
-						= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders/new?sku=#{book.ebook_sku.id}"
-					- else
-						= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", new_author_order_url( @author, :sku => book.ebook_sku, :protocol => SSL_PROTOCOL )
+					= link_to "Buy Ebook #{format_price( book.ebook_sku.price )}", buy_path( @author, book.ebook_sku )
 			- unless book.skus.published.audio_book.first.nil?
 				.listing_buy
-					- if Rails.env.production?
-						= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", "https://backmybook.com/authors/#{@author.id}/orders/new?sku=#{book.audio_book_sku.id}"
-					- else
-						= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", new_author_order_url( @author, :sku => book.audio_book_sku, :protocol => SSL_PROTOCOL )
+					= link_to "Buy Audio Book #{format_price( book.audio_book_sku.price )}", buy_path( @author, book.audio_book_sku )
 		.listing_description
 			= snip( book.description.html_safe, 300 )
 				
