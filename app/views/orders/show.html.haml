@@ -116,11 +116,7 @@
 					with the Order ID # and Confirmation # shown above. 
 				
 				%p
-					%b
-						- if @order.owner.is_a?( Author) && @order.owner.sites.first.present?
-							= link_to "Back to #{@order.owner.name}", "http://#{@order.owner.sites.first.domain}"
-						- else
-							= link_to "Back to #{@order.owner.name}", @order.owner
+					%b= link_to "Back to #{@order.owner.name}", @order.owner
 				
 			
 			-else 
