@@ -11,135 +11,125 @@
 		%br
 		%br
 		We apologize for the inconvenience and will get it sorted out as quickly as possible.
-
 	-else
-		-if @current_user.anonymous?
-			%h2
-				Thank you for purchasing:
-				= @order.sku.title
-				(Quantity:
-				= @order.sku_quantity
-				)
-			%p
-				If you purchased an ebook or audio book, a download link has been sent to the email address you provided.
-			%p
-				If you purchased a physical book or merchandise, the author will ship it to you.
-			%p 
-				= link_to "Please contact us ", new_contact_url
-				if you have any questions.
-			%p
-				Thanks for your order!
-			%p
-				The BackMyBook Team
-				
-			%p
-				%b= link_to "Back to #{@order.owner.name}", @order.owner
-		-else
-		
-			-#------------------------------------------
-			-# Show order results when item is a book or merchandise
-			-#------------------------------------------
-			- if @order.sku.sku_type != 'subscription'
-				%h1
-					Thank you for your purchase! 
+	
+		-#------------------------------------------
+		-# Show order results when item is a book or merchandise
+		-#------------------------------------------
+		- if @order.sku.sku_type != 'subscription'
+			%h1
+				Thank you for your purchase! 
+			%br
+			%h4 
+				A purchase confirmation email has been sent to:
+				= @order.email
 				%br
-				%h4 
-					A purchase confirmation email has been sent to:
-					= @order.email
-					%br
-					
-					
-				.listing( style = 'margin-left:30px;' )
-					.listing_avatar
-						- if @order.sku.avatar.present?
-							= avatar_tag( @order.sku, :thumb, :width => 64 )
-						- else
-							= avatar_tag( @order.sku.book, :thumb, :width => 64 )
-					.listing_data
-						.listing_title
-							= @order.sku.title
+				
+				
+			.listing( style = 'margin-left:30px;' )
+				.listing_avatar
+					- if @order.sku.avatar.present?
+						= avatar_tag( @order.sku, :thumb, :width => 64 )
+					- else
+						= avatar_tag( @order.sku.book, :thumb, :width => 64 )
+				.listing_data
+					.listing_title
+						= @order.sku.title
 
-						-if @order.contains_files?
-							%b
-								Files in this order:
-							.listing_buy
-								- for item in @order.sku.items
+					-if @order.contains_files?
+						%b
+							Files in this order:
+						.listing_buy
+							- for item in @order.sku.items
+								- if @order.user.anonymous?
+									%div[item]
+										= item.document.format
+										File
+										= number_to_human_size( item.document.filesize )
+									Links to these files will be emailed to you.
+								- else
 									%div[item]
 										= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
 
-					.clear
-					%br
-					-if @order.sku.contains_merch?
-						- if @order.sku.owner.is_a? Author
-							The following items will be delivered by the author:
-							= @order.sku.owner.pen_name
+				.clear
+				%br
+				-if @order.sku.contains_merch?
+					- if @order.sku.owner.is_a? Author
+						The following items will be delivered by the author:
+						= @order.sku.owner.pen_name
+						%br
+						%br
+						- for sku_item in @order.sku.sku_items
+							= sku_item.item.title if sku_item.item_type == 'Merch'
 							%br
-							%br
-							- for sku_item in @order.sku.sku_items
-								= sku_item.item.title if sku_item.item_type == 'Merch'
-								%br
+		
+			%p
+				Order ID:
+				= @order.id
+			%p
+				Order Confirmation Number:
+				=  @order.order_transaction.reference
+			%table.admin_table
+				%tr
+					%td 
+						%b Item
+					%td 
+						%b Amount
+
+				%tr
+					%td
+						= @order.sku.title
+						Quantity: 
+						= @order.sku_quantity
+					%td= format_price( @order.sku.price * @order.sku_quantity )
+				-if @order.tax_amount.present?
+					%tr
+						%td Tax
+						%td= format_price( @order.tax_amount )
+				-if @order.shipping_amount.present?
+					%tr
+						%td Shipping
+						%td= format_price( @order.shipping_amount )
+				%tr
+					%td Total
+					%td= format_price( @order.total )
+
+			%p
+				If you have any questions, 
+				= link_to "please contact us", new_contact_url 
+				with the Order ID # and Confirmation # shown above. 
 			
-				%p
-					Order ID:
-					= @order.id
-				%p
-					Order Confirmation Number:
-					=  @order.order_transaction.reference
-				%table.admin_table
-					%tr
-						%td 
-							%b Item
-						%td 
-							%b Amount
-
-					%tr
-						%td
-							= @order.sku.title
-							Quantity: 
-							= @order.sku_quantity
-						%td= format_price( @order.sku.price * @order.sku_quantity )
-					-if @order.tax_amount.present?
-						%tr
-							%td Tax
-							%td= format_price( @order.tax_amount )
-					-if @order.shipping_amount.present?
-						%tr
-							%td Shipping
-							%td= format_price( @order.shipping_amount )
-					%tr
-						%td Total
-						%td= format_price( @order.total )
-
-				%p
-					If you have any questions, 
-					= link_to "please contact us", new_contact_url 
-					with the Order ID # and Confirmation # shown above. 
-				
+			- if @order.owner.present? && @order.owner.name.present?
 				%p
 					%b= link_to "Back to #{@order.owner.name}", @order.owner
-				
 			
-			-else 
-				-#-------------------------------------------------
-				-# Show order results when item is a subscription
-				-#-------------------------------------------------
-				%h1 
-					Thank you for your Subscription
-
-				%table
-					%tr
-						%td Order ID
-						%td Confirmation #
-						%td Price
-
-					%tr
-						%td= @order.id
-						%td= @order.order_transaction.params["profile_id"]
-						%td= number_to_currency(@order.total.to_f / 100)
-
-				%br
-				If you have any questions, 
-				= link_to "please contact us", new_contact_url
-				with the Order ID # and Confirmation # shown above. 
 		
+		-else 
+			-#-------------------------------------------------
+			-# Show order results when item is a subscription
+			-#-------------------------------------------------
+			%h1 
+				Thank you for your Subscription
+
+			%table
+				%tr
+					%td Order ID
+					%td Confirmation #
+					%td Price
+
+				%tr
+					%td= @order.id
+					%td= @order.order_transaction.params["profile_id"]
+					%td= number_to_currency(@order.total.to_f / 100)
+
+			%br
+			If you have any questions, 
+			= link_to "please contact us", new_contact_url
+			with the Order ID # and Confirmation # shown above. 
+			
+			%p
+				Thank You!
+				%br
+				The BackMyBook Team
+	
 
