@@ -8,7 +8,7 @@
 
 				%span.article_meta
 					- if @article.comments_allowed?
-						= link_to pluralize( @article.comments.count, "Comment" ), blog_link( @article ) + "#comment"
+						= link_to pluralize( @article.comments.published.count, "Comment" ), blog_link( @article ) + "#comment"
 					%br
 					- unless @article.topics.empty?
 						#article_topics
@@ -24,7 +24,7 @@
 			- if @article.comments_allowed?
 				#comment
 					= render :partial=>'comments/new'
-				- unless @article.comments.empty?
+				- unless @article.comments.published.empty?
 					#comments
 						%h3 Comments
 						= render :partial => 'comments/comment', :collection => @article.comments.published.order('created_at desc')

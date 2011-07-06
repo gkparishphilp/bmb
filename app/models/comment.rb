@@ -20,6 +20,7 @@ class Comment < ActiveRecord::Base
 	belongs_to  :user
 
 	validates_presence_of :content, :message => "You really should have to have something to say to post a comment :)"
+	
 	scope :published, where("status = 'publish'")
 	
 	acts_as_followed
