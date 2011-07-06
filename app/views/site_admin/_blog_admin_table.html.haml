@@ -7,7 +7,7 @@
 		%th= 'Title'
 		%th= "Publish Date"
 		%th= 'Status'
-		- for article in @articles.reverse
+		- for article in @articles
 			%tr
 				%td( style = 'width:300px;' )
 					= link_to article.title, author_blog_path( article.owner, article )
