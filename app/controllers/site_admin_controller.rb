@@ -12,7 +12,7 @@ class SiteAdminController < ApplicationController
 	
 	def blog
 		@article = Article.new
-		@articles = @current_site.articles.order( 'publish_at desc' ).search( params[:q] ).paginate( :per_page => 10, :page => params[:page] )
+		@articles = @current_site.articles.order( 'publish_at desc' ).paginate( :per_page => 50, :page => params[:page] )
 	end
 	
 	def new_blog

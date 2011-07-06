@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 	protect_from_forgery
-	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user
+	before_filter :fetch_site, :fetch_author, :fetch_logged_in_user, :http_auth
 	
 	# so, we set these application-level global instance vars:
 	# @current_site -- the site we're on -- basically the domain the app is running on
@@ -11,8 +11,10 @@ class ApplicationController < ActionController::Base
 
 protected
 	def http_auth
-		authenticate_or_request_with_http_basic do |name, pass|
-			name == 'admin' && pass == 'gr0undsw3ll'
+		if Rails.env.staging?
+			authenticate_or_request_with_http_basic do |name, pass|
+				name == 'admin' && pass == 'letmein'
+			end
 		end
 	end
 
