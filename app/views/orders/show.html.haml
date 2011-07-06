@@ -40,16 +40,17 @@
 						%b
 							Files in this order:
 						.listing_buy
-							- for item in @order.sku.items
-								- if @current_user.anonymous?
+							- if @current_user.anonymous?
+								- for item in @order.sku.items
 									%div[item]
 										= item.document.format
 										File
 										= number_to_human_size( item.document.filesize )
-									Links to these files will be emailed to you.
+								Links to these files will be emailed to you.
 								- else
-									%div[item]
-										= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
+									- for item in @order.sku.items
+										%div[item]
+											= link_to "Download  #{item.document.format} File (#{number_to_human_size( item.document.filesize )})", deliver_asset_url( item, :order_id => @order.id ) if item.respond_to? 'document'
 
 				.clear
 				%br
