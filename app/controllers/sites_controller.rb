@@ -2,6 +2,12 @@ class SitesController < ApplicationController
 	#before_filter	:require_admin, :except => :index
 	layout 'home', :only => :index
 	
+	def admin
+		@site = @current_author.sites.first
+		@site ||= @current_author.sites.new :name => "#{@current_author.pen_name} Site"
+		render :layout => '2col'
+	end
+	
 	def new
 		@site = Site.new
 		@site.name = "#{@current_author.pen_name} Site"
@@ -30,7 +36,7 @@ class SitesController < ApplicationController
 	
 	def edit
 		@site = Site.find params[:id]
-		unless author_owns( @asset )
+		unless @site.author == @current_author
 			redirect_to root_path
 			return false
 		end
@@ -49,7 +55,7 @@ class SitesController < ApplicationController
 	
 	def update
 		@site = Site.find params[:id] 
-		unless author_owns( @asset )
+		unless @site.author == @current_author
 			redirect_to root_path
 			return false
 		end

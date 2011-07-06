@@ -117,7 +117,9 @@ Backmybook::Application.routes.draw do
 			get 'promo', :on => :collection
 		end
 		
-		resources :sites
+		resources :sites do
+			get 'admin', :on => :collection
+		end
 		
 		resources :themes do
 			post 'activate', :on => :collection

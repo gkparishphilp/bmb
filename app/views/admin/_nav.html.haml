@@ -17,6 +17,7 @@
 		%li.vspaced= link_to 'Author Profile', edit_profile_author_url( @current_author )
 		%li.vspaced= link_to 'Books', admin_author_books_path( @current_author )
 		- if @current_author.has_valid_subscription?( Subscription.platform_builder )
+			%li.vspaced= link_to "URL", admin_author_sites_path( @current_author )
 			%li.vspaced= link_to "Blog", admin_author_blog_index_url( @current_author)
 			%li.vspaced= link_to 'Events', admin_author_events_path( @current_author )
 			%li.vspaced= link_to 'Forums', admin_author_forums_path( @current_author )

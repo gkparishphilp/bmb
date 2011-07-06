@@ -15,6 +15,8 @@ module ApplicationHelper
 	def buy_path( author, sku )
 		if Rails.env.production?
 			return "https://backmybook.com/authors/#{author.id}/orders/new?sku=#{sku.id}"
+		elsif Rails.env.staging?
+			return "https://rippleread.com/authors/#{author.id}/orders/new?sku=#{sku.id}"
 		else
 			return new_author_order_url( author, :sku => sku, :protocol => SSL_PROTOCOL )
 		end

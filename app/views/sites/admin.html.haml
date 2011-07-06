@@ -1,33 +1,17 @@
-%h1 
-	Site Settings Admin
+- content_for :left_column do
+	= render :partial => 'admin/nav'
+- content_for :middle_column do
+	.form_group
+		%h1 
+			Site URL
+		
+		= form_for [ @current_author, @site ] do |f|
+			= f.label 'Domain:'
+			= f.text_field :domain
+			= f.label 'Name:'
+			= f.text_field :name
+			%br
+			= f.submit 'Enter', :class => 'buttons'
+
 	
-%h3 Twitter Account:
-- unless @current_site.twitter_accounts.empty?
-	The Site is broadcasting on Twitter User(s):
-	%br
-	- for acct in @current_site.twitter_accounts
-		%b= acct.name
-		%br
-%br
-Add New Twitter Account:
-= form_tag go_site_twitter_sessions_url do
-	= image_submit_tag 'twitter_button.png'
 	
-	
-	
-	
-- for acct in @current_site.facebook_accounts
-	Facebook:
-	= acct.name
-	%br
-	- for fbpg in acct.facebook_pages
-		&nbsp;&nbsp;&nbsp;&nbsp;
-		= fbpg.page_type
-		= fbpg.name
-		%br
-	%hr
-	
-Add a Facebook Account
-#facebook
-	= form_tag go_site_facebook_sessions_url do
-		= image_submit_tag 'facebook_connect.png'
