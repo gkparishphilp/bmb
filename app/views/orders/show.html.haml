@@ -118,7 +118,7 @@
 				%p
 					%b
 						- if @order.owner.is_a?( Author) && @order.owner.sites.first.present?
-							= link_to "Back to #{@order.owner.name}", "http://#{@order.owner.sites.first.domain}
+							= link_to "Back to #{@order.owner.name}", "http://#{@order.owner.sites.first.domain}"
 						- else
 							= link_to "Back to #{@order.owner.name}", @order.owner
 				
