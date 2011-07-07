@@ -23,7 +23,7 @@
 					= select_tag :item, options_for_select( @items )
 					= submit_tag 'Add Item', :class => 'buttons'
 			.float_left{ :style => 'margin-left:30px;' }
-				Add new Assets to this item:
+				Add New Assets to this item:
 				%br
 				.new_button{ :style => 'margin-top:8px;' }
 					= link_to image_tag( 'add.png', :width => 16 ), new_author_sku_asset_path( @current_author, @sku )

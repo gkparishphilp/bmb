@@ -72,6 +72,10 @@ class Order < ActiveRecord::Base
 		self.order_transaction.success ? (return true) : (return false) 
 	end
 	
+	def author_subscription?
+		self.sku == Subscription.platform_builder.sku
+	end
+	
 	def owner
 		# aliases back to the owner of the stuff that was sold e.g. the author
 		return self.sku.items.first.owner

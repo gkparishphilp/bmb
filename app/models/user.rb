@@ -221,6 +221,10 @@ class User < ActiveRecord::Base
 		r = Role.create :user_id => self.id, :site_id => site.id, :role => role
 	end
 	
+	def make_author
+		author = Author.create :user_id => self.id, :pen_name => self.name
+	end
+	
 	# Stuff for Social Media ---------------------------------------------
 		# Facebook -------------------------------------------------
 	def facebook_user?

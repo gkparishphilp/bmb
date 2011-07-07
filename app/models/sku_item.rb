@@ -20,6 +20,7 @@ class SkuItem < ActiveRecord::Base
 	belongs_to	:item, :polymorphic => true
 	belongs_to	:asset, :class_name => 'Asset', :foreign_key => 'item_id'
 	belongs_to	:merch, :class_name => 'Merch', :foreign_key => 'item_id'
+	belongs_to  :subscription, :class_name => 'Subscription', :foreign_key => 'item_id'
 	
 	liquid_methods :title, :sku, :merch, :item
 	

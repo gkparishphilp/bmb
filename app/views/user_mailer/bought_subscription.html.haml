@@ -1,9 +1,31 @@
 Hi
 = @user.name
 , 
+
+
+%p 
+	Welcome to the BackMyBook community.  We're here to help you at any time.  Give us a call at 858-208-0080, or drop us an email at support@backmybook.com if you have any questions or problems.
+
+- if @user.registered?
+	Let's get started!  Log into your account using your email and password.  You'll see the author navigation pane on the left.  From there, you can access all of the functions to upload, market, and sell your book.
+
+- else
+	%p 
+		%b Let's get started!  
+	%p 
+		The first thing you'll want to do is to register.  Simply go to the
+		= link_to 'registration page', register_path
+		at http://backmybook.com/register and enter in the email that you used on this order, along with your desired username and password.
+	%p
+		Once you log in, you'll see the author navigation pane on your left.  From there, you can access all of the functions to upload, market, and sell your book.
+
+%p 
+	We suggest that you start your journey by reading the 
+	= link_to 'Author Admin FAQ', "http://backmybook.com/admin_faq"
+	, which details the process of setting up your BackMyBook site.
+
 %p
-	This email confirms your purchase of 
-	= @order.sku.title
+	Here are the details of your purchase, for your records: 
 
 %table.admin_table
 	%tr
@@ -48,12 +70,10 @@ Hi
 	Your confirmation number is:
 	= @order.order_transaction.reference
 	%br
-	Please use it in all correspondence regarding this order.
-	
-
+	Please refer to this number in your correspondence.
 
 %p
-	If you have further questions or issues, please contact us at: http://backmybook.com/contacts/new.  		
+	If you have further questions or issues, please contact us at support@backmybook.com.  		
 
 %p
 	Best Regards,

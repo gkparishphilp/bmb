@@ -144,7 +144,7 @@ class Sku < ActiveRecord::Base
 	end
 	
 	def items
-		self.etexts + self.pdfs + self.audios + self.merches
+		self.etexts + self.pdfs + self.audios + self.merches + self.subscriptions
 	end
 	
 	def add_item( item )

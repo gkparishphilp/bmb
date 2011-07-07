@@ -239,6 +239,11 @@ class OrdersController < ApplicationController
 			subscribing.update_attributes :status => 'subscribed'  # Since the user didn't affirmatively opt-out, set his status to true
 		end
 		
+		# Make user an author if he's purchased an author subscription
+		if @order.author_subscription?
+			@order.user.make_author
+		end
+		
 		# Decrement inventory
 		@order.sku.decrement_inventory_by( @order.sku_quantity ) if @order.order_transaction.present?
 	end

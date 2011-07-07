@@ -31,6 +31,7 @@ class Site < ActiveRecord::Base
 	has_many :links, :as => :owner
 	has_many :twitter_accounts, :as => :owner
 	has_many :facebook_accounts, :as => :owner
+	has_many :subscriptions, :as => :owner
 	
 	has_many :users
 	has_many :static_pages
