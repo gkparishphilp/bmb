@@ -42,7 +42,7 @@ class OrdersController < ApplicationController
 
 		if @sku.published? && !@sku.sold_out?
 			# set order fields if in Dev environment
-			if Rails.env.development?
+			if Rails.env.development? || Rails.env.staging?
 				@order.card_number = '4411037113154626'
 				@order.card_cvv = '123'
 				@order.card_exp_year = '2013'
