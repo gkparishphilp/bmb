@@ -14,7 +14,7 @@
 						#article_topics
 							Filed under:
 							- for topic in @article.topics
-								= link_to separated_list( @article.topics, topic.name, "," ), blog_index_url( :topic => topic.name )
+								= link_to separated_list( @article.topics, topic.name, "," ), blog_index_link( :topic => topic.name )
 
 			.article_content.text
 				= @article.content.html_safe
