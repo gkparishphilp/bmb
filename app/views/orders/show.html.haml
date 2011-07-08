@@ -46,7 +46,7 @@
 										= item.document.format
 										File
 										= number_to_human_size( item.document.filesize )
-								Links to these files will be emailed to you.
+								%b Links to these files will be emailed to you.
 								- else
 									- for item in @order.sku.items
 										%div[item]

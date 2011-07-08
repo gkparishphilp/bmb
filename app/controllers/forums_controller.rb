@@ -74,7 +74,7 @@ private
 
 	def get_admin
 		@admin = @current_author ? @current_author : @current_site
-		require_contributor if @admin == @current_site
+		# require_contributor if @admin == @current_site
 	end
 
 	def get_sidebar_data
