@@ -14,7 +14,7 @@
 					.listing_avatar
 						- if order.sku.avatar.present?
 							= avatar_tag( order.sku, :thumb, :width => 64 )
-						- else
+						- elsif order.sku.book.present?
 							= avatar_tag( order.sku.book, :thumb, :width => 64 )
 					.listing_data
 						.listing_title
@@ -30,7 +30,7 @@
 										- else
 											= order.owner.name
 											will ship this item.
-						- else
+						- elsif order.owner.is_a? Author
 							%b
 								= order.owner.name
 								will ship this item.
