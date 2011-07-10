@@ -10,7 +10,7 @@ class ReportsController < ApplicationController
 		@end_date = params[:end_date] || Time.now.getutc 
 		@week_ending = params[:week_ending] || Time.now.beginning_of_week
 		
-		@orders = Order.for_author( @current_author )
+		@orders = Order.for_author( @current_author ).not_refunded
 		# Active relation just passes in the day, starting at midnight.  So forwarding the end date by 1 day to capture today's purchases
 		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day ).successful.order('created_at desc')
 		@orders_for_period = @orders.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
@@ -91,25 +91,28 @@ class ReportsController < ApplicationController
 			@orders_for_sku = Order.for_author( @current_author ).for_sku( @sku.id )
 			@orders_for_period = @orders_for_sku.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful.order( "created_at desc")
 
-			csv_string = CSV.generate do |csv|
-				#header row
-				csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
-				@orders_for_period.each do |order|
-					order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
-					if order.shipping_address.present?
-						shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
-					else
-						shipping_address = ""
+			if params[:download_csv]
+				csv_string = CSV.generate do |csv|
+					#header row
+					csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
+					@orders_for_period.each do |order|
+						order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
+						if order.shipping_address.present?
+							shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
+						else
+							shipping_address = ""
+						end
+				
+						csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
+				
 					end
-				
-					csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
-				
 				end
-			end
 	
-			#send_data csv_string,
-			#	:type => 'text/csv; charset=iso-8859-1; header=present',
-			#	:disposition => "attachment; filename = shipping_list.csv"
+				send_data csv_string,
+					:type => 'text/csv; charset=iso-8859-1; header=present',
+					:disposition => "attachment; filename = shipping_list.csv"
+			end
+			
 		end
 
 	end

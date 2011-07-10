@@ -56,7 +56,11 @@ class Order < ActiveRecord::Base
 		where("sku_id = ?", args)
 	}
 	
-	scope :has_shipping_amount, where("shipping_amount > 0")
+	scope :has_shipping_amount, where("orders.shipping_amount > 0")
+	
+	scope :not_refunded, where("orders.status <> 'refunded' ")
+	
+	scope :to_be_shipped, where("orders.shipping_amount > 0 and orders.status <> 'refunded'")
 	
 #---------------------------------------------------------------
 # Validations

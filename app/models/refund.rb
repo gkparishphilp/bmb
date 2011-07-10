@@ -28,7 +28,12 @@ class Refund < ActiveRecord::Base
 
 		self.params = response.params
 		status = self.params.fetch("ack")
-		status.match(/success/i) ? self.status = true : self.status = false	
+		if status.match(/success/i) 
+			self.status = true 
+			self.order.update_attributes :status => 'refunded'
+		else
+			 self.status = false
+		end	
 		self.save
 		
 		return self.status

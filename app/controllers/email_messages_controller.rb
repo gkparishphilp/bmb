@@ -150,7 +150,7 @@ class EmailMessagesController < ApplicationController
 	#######################################################
 	
 	def admin_get_merch_orders
-		@orders = Order.for_author( @current_author ).successful.has_shipping_amount.reverse.paginate( :page => params[:page], :per_page => 10 )
+		@orders = Order.for_author( @current_author ).successful.to_be_shipped.reverse.paginate( :page => params[:page], :per_page => 10 )
 		render :layout  => '2col'
 	end
 

@@ -14,7 +14,9 @@
 			= text_field_tag :end_date, @end_date, :size => 10, :class => 'datepicker'
 			%p
 				= select("sku","id", @author_skus )
-
+				%br
+				Download CSV file
+				= check_box_tag :download_csv, 1, false
 			= submit_tag 'Submit', :class => 'buttons'
 		%hr
 		%br
