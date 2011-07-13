@@ -94,16 +94,10 @@ class ReportsController < ApplicationController
 			if params[:download_csv]
 				csv_string = CSV.generate do |csv|
 					#header row
-					csv << ["Date","Customer Name", "Quantity", "Shipping Address", "Personalization"]
+					csv << ["Date","Time","Customer Name", "Quantity", "Street", "City", "State/Province", "Zip/Postal Code","Country", "Personalization"]
 					@orders_for_period.each do |order|
-						order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name
-						if order.shipping_address.present?
-							shipping_address = order.shipping_address.name + "\r" + order.shipping_address.full_street + "\r" + order.shipping_address.city_st_zip 
-						else
-							shipping_address = ""
-						end
-				
-						csv << [order.created_at.to_date, name, order.sku_quantity, shipping_address, order.comment]
+						order.billing_address.present? ? name = order.billing_address.name : name = order.shipping_address.name				
+						csv << [order.created_at.strftime("%m/%d/%y"),order.created_at.strftime("%l:%M:%S %p"), name, order.sku_quantity, order.shipping_address.street, order.shipping_address.city, order.shipping_address.state, order.shipping_address.zip, order.shipping_address.country, order.comment]
 				
 					end
 				end
