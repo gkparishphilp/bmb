@@ -192,6 +192,10 @@ class User < ActiveRecord::Base
 		self.hashed_password.present?
 	end
 	
+	def spammer?
+		self.status == 'spammer'
+	end
+	
 	def validated?
 		!self.email.blank? && !self.activated_at.nil?
 	end

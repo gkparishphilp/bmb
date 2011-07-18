@@ -33,6 +33,8 @@ class CommentsController < ApplicationController
 			end
 		else 
 			@comment.user = @current_user
+			# for now, just auto-tag comment as spam if user is known spammer
+			@comment.status = 'spam' if @current_user.spammer? 	
 		end
 		#need to bypass recaptcha is current_user is logged in or human....
 		if @current_user.anonymous? && !@current_user.human?
