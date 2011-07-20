@@ -214,7 +214,8 @@ class Order < ActiveRecord::Base
 										:subscription_id  => self.sku.sku_items.first.item.id,
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
-										:origin => 'paid'
+										:origin => 'paid',
+										:start_date => options_recurring[:starting_at]
 									)
 			end
 
@@ -390,12 +391,19 @@ class Order < ActiveRecord::Base
 			period = :monthly
 		end
 		
+		#Determine end of trial period/first time subscription is billed
+		if self.sku.items.first.trial_length_in_days
+			start_time = (Time.now + self.sku.items.first.trial_length_in_days.days).utc
+		else
+			start_time = Time.now.utc
+		end
+		
 		@options = {
 			:ip => ip,
 			:periodicity => period,
 			:email => self.email,
 			:comment => self.sku.description,
-			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+			:starting_at => start_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
 				:name => self.billing_address.name,
 				:address1 => self.billing_address.street,
