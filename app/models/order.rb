@@ -215,7 +215,7 @@ class Order < ActiveRecord::Base
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
 										:origin => 'paid',
-										:start_date => options_recurring[:starting_at]
+										:trial_end_date => options_recurring[:starting_at]
 									)
 			end
 

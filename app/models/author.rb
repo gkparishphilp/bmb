@@ -124,7 +124,6 @@ class Author < ActiveRecord::Base
 		else
 			return false
 		end
-		
 	end
 	
 	def has_email_quota_remaining?

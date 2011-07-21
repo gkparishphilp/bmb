@@ -29,10 +29,20 @@ class Subscribing < ActiveRecord::Base
 			return true if self.order.cancel_paypal_subscription
 		else
 			return false
-		end
-		
+		end	
 	end
-
+	
+	def active?
+		self.status == 'ActiveProfile'
+	end
+	
+	def trial?
+		if self.trial_end_date.present? 
+			self.trial_end_date > Time.now
+		else
+			return false
+		end
+	end
 end
 
 

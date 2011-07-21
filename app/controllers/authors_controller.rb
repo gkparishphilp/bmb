@@ -64,6 +64,7 @@ class AuthorsController < ApplicationController
 	def edit
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
+		@subscriptions = @current_author.user.subscribings.active
 		render :layout => '2col'
 		
 	end
