@@ -167,6 +167,10 @@ class Sku < ActiveRecord::Base
 		end
 	end
 	
+	def subscription_sku?
+		self.sku_type == 'subscription' ? true : false
+	end
+	
 	def book_sku?
 		# either ebook or audiobook, not merch or bundle
 		return self.sku_type == 'ebook' || self.sku_type == 'audio_book'

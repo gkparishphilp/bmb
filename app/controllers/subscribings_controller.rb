@@ -8,7 +8,7 @@ class SubscribingsController < ApplicationController
 			pop_flash 'Subscription not cancelled', 'error', @subscribing
 		end
 		
-		redirect_to admin_authors_path
+		redirect_to edit_author_path
 	end
 	
 end

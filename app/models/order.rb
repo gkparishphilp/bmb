@@ -446,12 +446,12 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_unique_order
-		# of course, only do this for digital orders.  Folks can buy all the t-shirts they want
-		unless self.sku.merch_sku?
+		# of course, only do this for non-subscription digital orders.  Folks can buy all the t-shirts they want
+		unless self.sku.merch_sku? || self.sku.subscription_sku?
 			if self.user.orders.present? && self.user.orders.successful.present?
 				if existing_order = self.user.orders.successful.find_by_sku_id( self.sku_id )
 					txn_number = existing_order.order_transaction.reference
-					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by logging in or registering an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='contacts/new'>contact support</a>." 
+					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by logging in or registering an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='/contacts/new'>contact support</a>." 
 					errors.add_to_base message
 				end
 			end
