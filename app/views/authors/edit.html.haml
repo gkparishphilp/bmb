@@ -26,7 +26,7 @@
 							%td= subscribing.status
 						%td
 							-if subscribing.active?
-								=link_to 'Cancel', cancel_subscribing_path( subscribing ), :confirm => "Are you sure you want to cancel your #{subscribing.subscription.title}?" 
+								=link_to 'Cancel', cancel_subscribing_path( subscribing ), :confirm => "Canceling your subscription is effective IMMEDIATELY and there are NO PARTIAL MONTH REFUNDS given.  Are you sure you want to cancel your #{subscribing.subscription.title}? " 
 - content_for :right_column do
 	= render 'shared/help'
 	%hr

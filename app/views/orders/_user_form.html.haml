@@ -1,0 +1,16 @@
+.order_label
+	Email
+.order_field
+	= f.text_field :email, :class => 'required_email'
+.order_label
+	User Name
+.order_field
+	= f.text_field :name
+.order_label
+	Password
+.order_field
+	= f.password_field :password
+.order_label
+	Confirm Password
+.order_field
+	= f.password_field :password_confirmation

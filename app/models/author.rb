@@ -119,7 +119,7 @@ class Author < ActiveRecord::Base
 	
 	def has_valid_subscription?( subscription )
 		sub = Subscription.find (subscription.id)
-		if subscribing = self.user.subscribings.find_by_subscription_id(sub.id)
+		if subscribing = self.user.subscribings.find_all_by_subscription_id(sub.id).last
 			subscribing.status == 'ActiveProfile' ? (return true) : (return false)
 		else
 			return false

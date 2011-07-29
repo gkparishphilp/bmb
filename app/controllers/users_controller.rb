@@ -55,7 +55,6 @@ class UsersController < ApplicationController
 	end
 
 	def create
-
 		@user = User.find_or_initialize_by_email params[:user][:email]
 		if @user.hashed_password.present?
 			pop_flash "An account exists for this email -- please login", :notice
@@ -76,9 +75,7 @@ class UsersController < ApplicationController
 			
 			@user.create_activation_code
 			@user.reload
-			
-			#email = UserMailer.welcome( @user, @current_site ).deliver
-			
+						
 			pop_flash "User was successfully created."
 			
 			@user.did_join @current_site

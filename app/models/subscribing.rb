@@ -24,9 +24,15 @@ class Subscribing < ActiveRecord::Base
 	
 	def cancel
 		if !self.order and self.status == 'ActiveProfile'
-			return true if self.update_attributes! :status => 'CancelledProfile' 
+			if self.update_attributes! :status => 'CancelledProfile' 
+				UserMailer.cancel_subscription( self.order, self.user ).deliver
+				return true 
+			end
 		elsif self.order and self.status == 'ActiveProfile'
-			return true if self.order.cancel_paypal_subscription
+			if self.order.cancel_paypal_subscription
+				UserMailer.cancel_subscription( self.order, self.user ).deliver
+				return true 
+			end
 		else
 			return false
 		end	
