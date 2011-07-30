@@ -120,15 +120,15 @@ class OrdersController < ApplicationController
 		# setup the order user -- current_user or initialize from email from the user form or the order form
 		if @current_user.anonymous?
 			#this is a monkey patch for when there is a platform subscription order
-			if params[:user][:email] 
-				if params[:user][:password] == params[:user][:password_confirmation] #because User.initialize doesn't go through validations
+			if params[:user]
+				if params[:user][:password] == params[:user][:password_confirmation] 
 					user = User.find_or_initialize_by_email(:email => params[:user][:email], :name =>  "#{params[:user][:name]}", :password => "#{params[:user][:password]}")
 					@order.email = params[:user][:email]
 				else
-					pop_flash "Password and Password Confirmation do not match.  ", :error
+					pop_flash "Password and Password Confirmation do not match.", :error
 					redirect_to new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
+					return false
 				end
-				return false
 			else
 				user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:name]}" )
 			end
