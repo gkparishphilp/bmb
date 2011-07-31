@@ -68,5 +68,38 @@ class EmailMessage < ActiveRecord::Base
 		
 		return message
 	end
+	
+	def deliver_to( subscriptions )
+		count = 0
+		
+		# Check and see how much quota we've got left on Amazon SES and break it up according to quota
+		# todo - this needs to be refactored for when multiple authors are sending newsletters
+		# Need to look at the delayed_job queues and see how many email slots are open for that day
+	
+		quota_remaining = EmailDelivery.quota_remaining
+		for subscription in subscriptions
+			
+			# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
+			# todo - make the creation of the tracking code an after create filter for the delivery record
+			delivery_record = subscription.email_deliveries.create
+			delivery_record.update_delivery_record_for( self, 'created')
+			
+			# Create HTML email message to be sent through AWS SES
+			html_body = self.build_html_email(:unsubscribe_code => subscription.unsubscribe_code, :delivery_code => delivery_record.code)
+
+			#Calculate n days away we can schedule the send based on Amazon SES quota availability
+			n = count.divmod( quota_remaining).first.to_i
+			
+			# Kick it to delayed_job to manage the send time and send load
+			if Delayed::Job.enqueue( SendEmailJob.new(subscription.subscriber, "#{self.sender.pen_name} <donotreply@backmybook.com>", "#{self.subject}", html_body), 0 , n.days.from_now.getutc )
+				delivery_record.update_attributes :status => 'sent'
+			else
+				delivery_record.update_attributes :status => 'error : could not put into delayed job queue' 
+			end
+			
+			count += 1
+		end
+		self.update_attributes :status => "Sent #{Time.now.to_date}"
+	end
 
 end
