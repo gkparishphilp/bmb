@@ -4,7 +4,7 @@ Hi
 
 
 %p 
-	Welcome to the BackMyBook community.  We're here to help you at any time.  Give us a call at 858-208-0080, or drop us an email at support@backmybook.com if you have any questions or problems.
+	Welcome to the BackMyBook author community.  We're here to help you at any time.  Give us a call at 858-208-0080, or drop us an email at support@backmybook.com if you have any questions or problems.
 
 - if @user.registered?
 	Let's get started!  Log into your account using your email and password.  You'll see the author navigation pane on the left.  From there, you can access all of the functions to upload, market, and sell your book.
@@ -66,12 +66,20 @@ Hi
 		%td Total
 		%td= number_to_currency( @order.total.to_f / 100 )
 
-%p
-	Your confirmation number is:
-	= @order.order_transaction.reference
-	%br
-	Please refer to this number in your correspondence.
-
+- if @order.order_transaction.reference.present?
+	%p
+		Your confirmation number is:
+		= @order.order_transaction.reference
+		%br
+		Please refer to this number in your correspondence.
+		
+- elsif @order.order_transaction.params["profile_id"].present?
+	%p
+		Your subscription confirmation number is:
+		= @order.order_transaction.params["profile_id"]
+		%br
+		Please refer to this number in your correspondence.
+	
 %p
 	If you have further questions or issues, please contact us at support@backmybook.com.  		
 

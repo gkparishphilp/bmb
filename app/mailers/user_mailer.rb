@@ -26,6 +26,11 @@ class UserMailer < ActionMailer::Base
 		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Your purchase of #{@order.sku.title}" )
 	end
 
+	def cancel_subscription( order, user)
+		@order = order
+		@user = user
+		mail( :from => "orders@backmybook.com", :to => @user.email, :subject => "Cancellation of #{@order.sku.title}" )
+	end
 	
 	def fulfill_order( order, user )
 		@order = order

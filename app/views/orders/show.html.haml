@@ -129,7 +129,12 @@
 			
 			- if @order.user.registered?
 				%b Let's get started!  
-				Log into your account using your email and password.  You'll see the author navigation pane on the left.  From there, you can access all of the functions to upload, market, and sell your book.
+				%p
+					Click 
+					= link_to 'here', admin_index_path
+					to go to your Author Admin Console so you can fill out your author profile and upload your first book.
+				%p
+					From the Author Admin Console, you can access all of the functions to upload, market, and sell your book.
 
 			- else
 				%p 
@@ -142,7 +147,7 @@
 					Once you log in, you'll see the author navigation pane on your left.  From there, you can access all of the functions to upload, market, and sell your book.
 
 			%p 
-				We suggest that you start your journey by reading the 
+				We suggest that you also read the 
 				= link_to 'Author Admin FAQ', "/admin_faq"
 				, which details the process of setting up your BackMyBook site.
 			

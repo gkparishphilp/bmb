@@ -68,7 +68,7 @@ class Order < ActiveRecord::Base
 	validate_on_create	:validate_card, :validate_billing_address
 	
 	# adding for 12/4 fixpass....
-	validate_on_create :validate_unique_order, :validate_available_quantity
+	validate_on_create :validate_unique_order, :validate_available_quantity, :validate_unique_subscription
 	
 	validates :email, :presence => true, :format => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i 
 	
@@ -214,7 +214,8 @@ class Order < ActiveRecord::Base
 										:subscription_id  => self.sku.sku_items.first.item.id,
 										:status => 'ActiveProfile',
 										:profile_id => self.order_transaction.params["profile_id"],
-										:origin => 'paid'
+										:origin => 'paid',
+										:trial_end_date => options_recurring[:starting_at]
 									)
 			end
 
@@ -390,12 +391,19 @@ class Order < ActiveRecord::Base
 			period = :monthly
 		end
 		
+		#Determine end of trial period/first time subscription is billed
+		if self.sku.items.first.trial_length_in_days
+			start_time = (Time.now + self.sku.items.first.trial_length_in_days.days).utc
+		else
+			start_time = Time.now.utc
+		end
+		
 		@options = {
 			:ip => ip,
 			:periodicity => period,
 			:email => self.email,
 			:comment => self.sku.description,
-			:starting_at => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ"),
+			:starting_at => start_time.strftime("%Y-%m-%dT%H:%M:%SZ"),
 			:billing_address => {
 				:name => self.billing_address.name,
 				:address1 => self.billing_address.street,
@@ -438,14 +446,23 @@ class Order < ActiveRecord::Base
 	end
 	
 	def validate_unique_order
-		# of course, only do this for digital orders.  Folks can buy all the t-shirts they want
-		unless self.sku.merch_sku?
+		# of course, only do this for non-subscription digital orders.  Folks can buy all the t-shirts they want
+		unless self.sku.merch_sku? || self.sku.subscription_sku?
 			if self.user.orders.present? && self.user.orders.successful.present?
 				if existing_order = self.user.orders.successful.find_by_sku_id( self.sku_id )
 					txn_number = existing_order.order_transaction.reference
-					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by logging in or registering an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='contacts/new'>contact support</a>." 
+					message = "You have already purchased this item.  The transaction number your previous order was <b>#{txn_number}</b>.  <br>You can access your files by logging in or registering an account using the email #{existing_order.user.email}.<br> If you are having problems with this order, or if you would like to purchase this item again, please <a href='/contacts/new'>contact support</a>." 
 					errors.add_to_base message
 				end
+			end
+		end
+	end
+	
+	def validate_unique_subscription
+		if self.sku.subscription_sku? && self.user.author.present?
+			if self.user.author.has_valid_subscription?( self.sku.items.first )
+				message = "You are already subscribed."
+				errors.add_to_base message
 			end
 		end
 	end

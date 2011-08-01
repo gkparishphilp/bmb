@@ -10,7 +10,8 @@
 				%span#orig_price( price="#{@sku.price}" )
 				%span#order_price( price="#{@sku.price}" )
 					= number_to_currency @sku.price.to_f / 100
-
+				-if @sku.subscription_sku?
+					per month
 			-if @sku.contains_merch?		
 				%b 
 					Shipping & handling fee of 
@@ -30,10 +31,16 @@
 		= form_for @order do |f|
 			= f.hidden_field :sku_id, :value => @sku.id
 			= hidden_field_tag :author_id, @author.id if params[:author_id] # todo make this part of the form_for
+
+			-if @sku.items.first == Subscription.platform_builder && @current_user.anonymous?
+				%h3 Enter Account Information
+				=fields_for :user do |f|
+					=render 'orders/user_form', :f => f
 			%h3
 				- if @sku.contains_merch?
 					Select Quantity:
 					= f.select :sku_quantity, [1,2,3,4,5,6,7,8,9,10]
+					
 			%h3 Payment Information
 			%br.clear
 			#coupon_code
@@ -50,7 +57,7 @@
 				%br.clear
 				%h3
 					Billing Information
-				- if @current_user.anonymous?
+				- if @current_user.anonymous? && !@sku.subscription_sku?
 					.order_label
 						E-mail:
 					.order_field
@@ -109,5 +116,4 @@
 
 		%h4{ :style => 'margin-top:15px;' }
 			No risk --can be cancelled at any time without obligation
-		%h4{ :style => 'margin-top:15px;' }
-			Sell $200 of merchandise in any month, and that month is free!
+

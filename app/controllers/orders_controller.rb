@@ -37,7 +37,6 @@ class OrdersController < ApplicationController
 
 	def new
 		@order = Order.new
-		
 		@coupon_code = params[:coupon_code]
 
 		if @sku.published? && !@sku.sold_out?
@@ -118,9 +117,22 @@ class OrdersController < ApplicationController
 		@order.ip = request.remote_ip
 		@order.total = Sku.find(params[:order][:sku_id]).price * @order.sku_quantity
 		
-		# setup the order user -- current_user or initialize from email
-		if @current_user.anonymous? 
-			user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:name]}" )
+		# setup the order user -- current_user or initialize from email from the user form or the order form
+		if @current_user.anonymous?
+			#this is a monkey patch for when there is a platform subscription order
+			if params[:user]
+				if params[:user][:password] == params[:user][:password_confirmation] 
+					user = User.find_or_initialize_by_email(:email => params[:user][:email], :name =>  "#{params[:user][:name]}", :password => "#{params[:user][:password]}")
+					@order.email = params[:user][:email]
+				else
+					pop_flash "Password and Password Confirmation do not match.", :error
+					redirect_to new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
+					return false
+				end
+			else
+				user = User.find_or_initialize_by_email( :email => params[:order][:email], :name => "#{params[:order][:name]}" )
+			end
+			
 			if user.save
 				@order.user = user
 			else
@@ -246,6 +258,11 @@ class OrdersController < ApplicationController
 		
 		# Decrement inventory
 		@order.sku.decrement_inventory_by( @order.sku_quantity ) if @order.order_transaction.present?
+		
+		# Login if its an anonymous user and he just bought a platform subscription
+		if @current_user.anonymous? && @order.sku.items.first == Subscription.platform_builder
+			login( @order.user )  
+		end
 	end
 
 	def refund

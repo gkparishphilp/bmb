@@ -7,6 +7,26 @@
 
 		= form_for @author, :html => { :multipart => true } do |f|
 			= render :partial => 'settings_form', :locals => {:f => f}
+	
+	-if @subscriptions.present?
+		.form_group
+			%h1 Subscription Settings
+			%table.admin_table
+				%th Subscription
+				%th Status
+				%th Manage
+				-for subscribing in @subscriptions
+					%tr
+						%td= subscribing.subscription.title
+						-if subscribing.trial?
+							%td
+								Trial ends
+								= format_date_only subscribing.trial_end_date
+						-else 
+							%td= subscribing.status
+						%td
+							-if subscribing.active?
+								=link_to 'Cancel', cancel_subscribing_path( subscribing ), :confirm => "Canceling your subscription is effective IMMEDIATELY and there are NO PARTIAL MONTH REFUNDS given.  Are you sure you want to cancel your #{subscribing.subscription.title}? " 
 - content_for :right_column do
 	= render 'shared/help'
 	%hr

@@ -104,45 +104,15 @@ class EmailMessagesController < ApplicationController
 		@message = EmailMessage.find( params[:id] )
 		@subscriptions = @current_author.email_subscribings.subscribed
 		
-		# Check author's quota
 		if @current_author.has_email_quota_remaining?
-			count = 0
-			# Check and see how much quota we've got left on Amazon SES and break it up according to quota
-			# todo - this needs to be refactored for when multiple authors are sending newsletters
-			# Need to look at the delayed_job queues and see how many email slots are open for that day
-		
-			quota_remaining = EmailDelivery.quota_remaining
-
-			for @subscription in @subscriptions
-			
-				# Create an email_delivery entry so we have a unique tracking code to track status of this email over time
-				@delivery_record = @subscription.email_deliveries.create
-				@delivery_record.update_delivery_record_for( @message, 'created' )
-			
-				# Create HTML email message to be sent through AWS SES
-				html_body = @message.build_html_email(:unsubscribe_code => @subscription.unsubscribe_code, :delivery_code => @delivery_record.code)
-			
-				#Calculate n days away we can schedule the send based on quota availability
-				n = count.divmod( quota_remaining).first.to_i
-			
-				# Kick it to delayed_job to manage the send time and send load
-				if Delayed::Job.enqueue( SendEmailJob.new(@subscription.subscriber, "#{@current_author.pen_name} <donotreply@backmybook.com>", "#{@message.subject}", html_body), 0 , n.days.from_now.getutc )
-					@delivery_record.update_attributes :status => 'sent'
-				else 
-					pop_flash( "Error sending email to #{@subscription.subscriber.email} ", :error )
-				end
-	
-				count += 1
-			
-			end
+			# Kick the looping through subscribers (@message.deliver_to) into a send_later Delayed Job method to return control back to the author
+			@message.send_later(:deliver_to, @subscriptions ) 
 			pop_flash( "Your newsletter has been successfully queued for delivery!")
-			@message.update_attributes :status => "Sent #{Time.now.to_date}"
-			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
-		
 		else
-			pop_flash "You've run out of email sends for this month!  Please contact us for assistance.", :error
-			redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
+			pop_flash "You've run out of email credits for this month!  Please contact us for assistance.", :error
 		end
+		
+		redirect_to admin_author_email_campaign_email_messages_path( @admin, @admin.email_campaigns.first)
 	end
 	
 	#######################################################

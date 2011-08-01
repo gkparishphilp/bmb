@@ -12,7 +12,7 @@
 				Let's face it - most websites suck. Running a website is generally confusing, time-consuming, and costly.  <b>But you need one.</b>  Your Website should work for you - you shouldn't have to work for your website.  Let us put your website to work and let you get back to writing.
 				
 			.get_started
-				= link_to image_tag( "get_started_button.png" ), author_signup_path
+				= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
 			-#= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
 
 			%h2
@@ -51,7 +51,7 @@
 				
 			
 			.get_started
-				= link_to image_tag( "get_started_button.png" ), author_signup_path
+				= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
 			
 			%br
 			%br.clear
