@@ -5,48 +5,50 @@
 		#hp_promo
 			.top_promo
 				%h1
-					%span.author Authors:
-					%span Sell your books &amp; merch directly to your readers
+					%span Author
+					%span Websites that don't suck :)
 			
 			.text
-				We make it easy and economical to create lasting relationships with your customers through your own online bookstore.
+				Let's face it - most websites suck. Running a website is generally confusing, time-consuming, and costly.  <b>But you need one.</b>  Your Website should work for you - you shouldn't have to work for your website.  Let us put your website to work and let you get back to writing.
 				
 			.get_started
 				= link_to image_tag( "get_started_button.png" ), author_signup_path
 			-#= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
 
 			%h2
-				= image_tag( "logo_icon.png" )
-				BackMyBook gives you
-			%ul
-				%li <span class="green">Free</span> online store - sell e-books in ANY format, audio-books, even hardcovers and merchandise
-				%li Industry-leading 85/15 royalties
-				%li Email marketing -- sign-up your readers and send newsletters
+				Your Online Partner
+			%ul.text
+				%li Over 15 years experience creating websites and online communities
+				%li Free consultation to get you started plus personalized service and support
+				%li Free content migration from wordpress
+				%li Cancel at any time with no obligation
+			
+			%h2 Easy
+			.text
+				%b
+					Never EVER 
+				see anything that looks like this:
+				%blockquote
+					= "<br /><a href='feed:<?php bloginfo('rss2_url'); ?>'>Entries (RSS)</a>and <a href='feed:<?php bloginfo('comments_rss2_url'); ?>'>Comments (RSS)</a>."
+			
+			
 			%h2
-				= image_tag( "trial_icon.png" )
-				Upgrade to the <span class="green">Author Platform Builder Account</span>
+				Simply Everything You Need
 
 			%ul
-				%li We'll take care of your website and let you get back to writing
-				%li Email marketing -- sign-up your readers and send newsletters plus personalized fulfillment emails and auto-responders
-				%li Your Brand -- Custom themes, colors, and graphics
+				%li <b>Your Brand</b> -- Custom themes, colors, and graphics
+				%li <b>Your Domain</b> -- run your BackMyBook Author Website on any domain.  We'll help you register or redirect domains.
+				%li <b>Your Book(s)</b> -- custom book pages with free samples and user reviews
+				%li <b>Your Store</b> -- sell your book directly to your readers in any digital format -- also take orders for physical books and merchandise.
 				%li Community features -- Blogs, forums, event calendar
+				%li Email marketing -- sign-up your readers and send newsletters plus personalized fulfillment emails and auto-responders
 				%li Create custom promotion codes and coupons to power your marketing
 				%li Pro Reporting -- trending and analysis at your fingertips
-				%li Free consultation to get you started
-				%li Personalized service and support
-				%li Cancel at any time with no obligation
+				
 				%br
 				
 				= link_to 'Learn More', platform_builder_authors_path, :class => 'buttons', :style => 'margin-top:10px;'
 				
-				
-			%h2
-				= image_tag( "cost_icon.png" )
-				How much does it cost?
-			%ul
-				%li The BackMyBook basic store service is <span class='green'>Free</span>.  When you sell a book, you keep 85% of the revenue, we keep 15%  No upfront fees, charges, or minimums.
-				%li  The Author Platform Builder Account is $19.99 per month.
 			
 			.get_started
 				= link_to image_tag( "get_started_button.png" ), author_signup_path
