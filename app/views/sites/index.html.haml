@@ -5,23 +5,23 @@
 		#hp_promo
 			.top_promo
 				%h1
-					%span Author
-					%span Websites that don't suck :)
+					Get Back to Writing :)
 			
 			.text
-				Let's face it - most websites suck. Running a website is generally confusing, time-consuming, and costly.  <b>But you need one.</b>  Your Website should work for you - you shouldn't have to work for your website.  Let us put your website to work and let you get back to writing.
-				
+				Running a website is generally confusing, time-consuming, and costly.  <b>But you need one.</b>  Your Website should work for you - you shouldn't have to work for your website.  Let us put your website to work and let you get back to writing.
+			
 			.get_started
 				= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
-			-#= link_to image_tag( "get_started_banner.jpg" ), 'get-started'
+			.highlighted
+				Free 30-Day Trial!
 
 			%h2
 				Your Online Partner
 			%ul.text
-				%li Over 15 years experience creating websites and online communities
+				%li We have over 15 years experience creating websites and online communities
 				%li Free consultation to get you started plus personalized service and support
-				%li Free content migration from wordpress
-				%li Cancel at any time with no obligation
+				%li Free content migration from Word Press
+				%li 30-day free trial, plus cancel at any time with no obligation
 			
 			%h2 Easy
 			.text
