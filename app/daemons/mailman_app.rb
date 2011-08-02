@@ -47,6 +47,6 @@ Mailman::Application.run do
 	end
 
 	default do
-		Mailman.logger.info('INFO - Not an email from Amazon Email Abuse')
+		Mailman.logger.info("INFO - Not an email from Amazon Email Abuse \n")
 	end
 end
