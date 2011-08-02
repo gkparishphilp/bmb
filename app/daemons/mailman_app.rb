@@ -25,7 +25,7 @@ Mailman.config.poll_interval = 3600
 Mailman::Application.run do
 	from 'complaints@email-abuse.amazonses.com' do
 		body=''
-		message_body = message.to_s
+		message_body = message.body.decoded
 		message_body.each_line { |line|
 			line.chomp!
 			line.chomp!('=')
@@ -48,6 +48,5 @@ Mailman::Application.run do
 
 	default do
 		Mailman.logger.info('INFO - Not an email from Amazon Email Abuse')
-		Mailman.logger.info("#{message.subject} \n")
 	end
 end
