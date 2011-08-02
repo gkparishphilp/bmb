@@ -7,7 +7,7 @@ require 'mailman/receiver/pop3'
 
 Mailman.config.rails_root = '../../'
 Mailman.config.pop3 = {
-  :username => 'test@groundswellenterprises.com',
+  :username => 'donotreply@backmybook.com',
   :password => 'gr0undsw3ll',
   :server   => 'pop.gmail.com',
   :port     => 995, # defaults to 110
