@@ -2,6 +2,26 @@
 require 'mailman'
 require 'mailman/receiver/pop3'
 
+# ---------- Initialization values ---------------------------
+# Some are dependent on current location of this script
+
+Mailman.config.rails_root = '../../'
+Mailman.config.pop3 = {
+  :username => 'test@groundswellenterprises.com',
+  :password => 'gr0undsw3ll',
+  :server   => 'pop.gmail.com',
+  :port     => 995, # defaults to 110
+  :ssl      => true # defaults to false
+}
+
+Mailman.config.logger = Logger.new('../../log/mailman.log')
+Mailman.config.ignore_stdin = true
+Mailman.config.poll_interval = 3600
+
+
+
+# ---------- DSL routes to process incoming mail --------------
+
 Mailman::Application.run do
 	from 'complaints@email-abuse.amazonses.com' do
 
