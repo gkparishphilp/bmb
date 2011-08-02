@@ -1,7 +1,13 @@
 class EmailIncoming < ActionMailer::Base
 
 	def receive(mail)
-		logger.info("Got a mail from #{mail.from} about: #{mail.subject}")		
+		logger.info("Mail: #{mail.inspect}")
+		logger.info("Got a mail from #{mail.from} about: #{mail.subject}")
+		logger.info("USER Says: #{User.dog}")
+		sub = EmailSubscribing.first
+		sub.update_attributes :status => "unsubscribed - spam abuse"
+		logger.info("SUB: #{sub.id}")
+		
 		mail_from = mail.from.to_s
 		mail_body = mail.body.to_s
 		# Process abuse complaints by unsubscribing the user	
@@ -17,9 +23,9 @@ class EmailIncoming < ActionMailer::Base
 			code = code_array[1].to_s
 			logger.info("CODE = #{code}")
 			
-			if sub = EmailSubscribing.find_by_unsubscribe_code( code )
-				sub.update_attributes :status => "unsubscribed - spam abuse"
-			end
+			sub = EmailSubscribing.find_by_unsubscribe_code( code )
+			sub.update_attributes :status => "unsubscribed - spam abuse"
+			logger.info("SUB: #{sub.id}")
 		end
 	end
 end

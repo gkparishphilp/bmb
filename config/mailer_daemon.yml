@@ -3,7 +3,7 @@ defaults: &defaults
   server: imap.gmail.com  # server hostname
   port: 993                    # 993 for IMAPs
   ssl: true                 # Remove if not using SSL
-  username: donotreply@backmybook.com                 # Username
+  username: test@groundswellenterprises.com                 # Username
   password: gr0undsw3ll                # Password
   receiver: EmailIncoming                # ActionMailer that will receive mail
   use_login: true           # Required for GMAIL
