@@ -16,6 +16,7 @@ gem 'delayed_job'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'aws-ses', '~> 0.4.1', :require => 'aws/ses'
 gem 'liquid'
+gem 'mailman'
 
 source "http://gems.github.com"
 gem 'ambethia-recaptcha', :require => "recaptcha/rails"
