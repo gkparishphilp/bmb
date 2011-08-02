@@ -7,3 +7,5 @@ Mailman.config.pop3 = {
 }
 
 Mailman.config.logger = Logger.new('log/mailman.log')
+Mailman.config.ignore_stdin = true
+Mailman.config.poll_interval = 3600
