@@ -35,18 +35,18 @@ Mailman::Application.run do
 		if bd = body.match(/http:\/\/backmybook.com\/unsubscribe\/(.{40})/)
 			if sub = EmailSubscribing.find_by_unsubscribe_code( bd[1] )
 				sub.update_attributes :status => 'unsubscribed with spamflag'
-				Mailman.logger.info("SUCCESS - unsubscribed #{bd[1]} \n")
+				Mailman.logger.info("#{Time.now} SUCCESS - unsubscribed #{bd[1]} \n")
 			else
-				Mailman.logger.info("ERROR - could not unsubscribe #{bd[1]} \n")
+				Mailman.logger.info("#{Time.now} ERROR - could not unsubscribe #{bd[1]} \n")
 			end
 		else
-			Mailman.logger.info('ERROR - could not find unsubscribe link in message')
+			Mailman.logger.info('#{Time.now} ERROR - could not find unsubscribe link in message')
 			Mailman.logger.info("#{message.to_s} \n")
 		end
 		
 	end
 
 	default do
-		Mailman.logger.info("INFO - Not an email from Amazon Email Abuse \n")
+		Mailman.logger.info("#{Time.now} INFO - Not an email from Amazon Email Abuse \n")
 	end
 end
