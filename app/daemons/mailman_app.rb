@@ -24,11 +24,6 @@ Mailman.config.poll_interval = 3600
 
 Mailman::Application.run do
 	from 'complaints@email-abuse.amazonses.com' do
-
-		
-	end
-
-	default do
 		body=''
 		message_body = message.to_s
 		message_body.each_line { |line|
@@ -49,5 +44,10 @@ Mailman::Application.run do
 			Mailman.logger.info("#{message.to_s} \n")
 		end
 		
+	end
+
+	default do
+		Mailman.logger.info('INFO - Not an email from Amazon Email Abuse')
+		Mailman.logger.info("#{message.subject} \n")
 	end
 end
