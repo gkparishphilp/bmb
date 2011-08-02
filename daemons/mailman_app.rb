@@ -5,7 +5,7 @@ require 'mailman/receiver/pop3'
 # ---------- Initialization values ---------------------------
 # Some are dependent on current location of this script
 
-Mailman.config.rails_root = '../../'
+Mailman.config.rails_root = '../'
 Mailman.config.pop3 = {
   :username => 'donotreply@backmybook.com',
   :password => 'gr0undsw3ll',
@@ -14,7 +14,7 @@ Mailman.config.pop3 = {
   :ssl      => true # defaults to false
 }
 
-Mailman.config.logger = Logger.new('../../log/mailman.log')
+Mailman.config.logger = Logger.new('../log/mailman.log')
 Mailman.config.ignore_stdin = true
 Mailman.config.poll_interval = 3600
 
