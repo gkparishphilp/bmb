@@ -94,26 +94,31 @@
 				
 - content_for :right_column do
 	- if @sku.owner == Site.first
+	
+		%h4{ :style => 'margin-top:15px; color:red' }
+			Your credit card won't be charged until end of 30 day trial period
+	
 		%h4{ :style => 'margin-top:15px;' }
 			Everything you need to take your on-line presence to a professional level:
 		%ul
 			%li.bulleted
-				Customizable Author website'
+				Customizable author website
 			%li.bulleted
-				Fully built professional Author Blog
+				Easy to use blog
 			%li.bulleted
-				Reader Forums
+				Reader forums
 			%li.bulleted
-				Event Calendar 
+				Event calendar 
 			%li.bulleted
-				Seamlessly integrated with the BackMyBook Store
+				Seamlessly integrated with the BackMyBook Storefront
 			%li.bulleted
-				Coupons and Discount Codes
+				Coupons and discount codes
 			%li.bulleted
 				Newsletter engine: unlimited subscribers and up to 1000 sends per month
 			%li.bulleted
-				Pro Reporting
+				Pro reporting
+
 
 		%h4{ :style => 'margin-top:15px;' }
-			No risk --can be cancelled at any time without obligation
+			No risk - can be cancelled at any time without obligation
 

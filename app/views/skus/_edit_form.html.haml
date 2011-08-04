@@ -1,3 +1,6 @@
+- unless @sku.has_sales?
+	=f.label 'Item Name'
+	=f.text_field :title, :value => @sku.title
 
 = f.label 'Price ($):'
 = f.text_field :price, :value => cents_to_dollars( @sku.price )
