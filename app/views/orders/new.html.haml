@@ -14,13 +14,13 @@
 					per month
 			-if @sku.contains_merch?		
 				%b 
-					Shipping & handling fee of 
+					Domestic (US) shipping & handling fee per quantity is 
 					= number_to_currency( @sku.domestic_shipping_price.to_f / 100 )
-					per book applies to US orders.
+					\.
 					%br
-					Shipping & handling fee of 
+					International shipping & handling fee per quantity is 
 					= number_to_currency( @sku.international_shipping_price.to_f / 100) 
-					per book applies to International orders.
+					\.
 					%br
 					Taxes added for 
 					=@sku.owner.user.billing_address.state
