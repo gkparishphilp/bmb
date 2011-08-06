@@ -223,6 +223,7 @@ Backmybook::Application.routes.draw do
 	
 	resources :site_admin do
 		get :blog, :on => :collection
+		get :author, :on => :collection
 		get :new_blog, :on => :collection
 		get :edit_blog, :on => :collection
 		get :users, :on => :collection

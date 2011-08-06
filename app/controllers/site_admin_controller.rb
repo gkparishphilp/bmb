@@ -7,12 +7,17 @@ class SiteAdminController < ApplicationController
 	helper_method	:sort_column, :sort_dir
 	
 	def index
-		@authors = Author.order('created_at desc')
+		@authors = Author.order('created_at desc').limit(5)
+		@orders = Order.successful.order('created_at desc').dated_between(Time.now.beginning_of_day.getutc, Time.now.getutc)
 	end
 	
 	def blog
 		@article = Article.new
 		@articles = @current_site.articles.order( 'publish_at desc' ).paginate( :per_page => 50, :page => params[:page] )
+	end
+	
+	def author
+		@authors = Author.order('created_at desc')
 	end
 	
 	def new_blog

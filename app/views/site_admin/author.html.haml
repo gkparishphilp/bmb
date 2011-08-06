@@ -1,0 +1,25 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	%h1 Authors
+
+	%table.admin_table
+		%th Author Name
+		%th Email
+		%th Created
+		%th Subscription Type
+
+		-for author in @authors
+			%tr
+				%td
+					= author.pen_name
+				%td
+					= author.user.email
+				%td 
+					= format_date_only author.created_at
+				%td				
+					- for sub in author.user.subscribings
+						= sub.subscription.name
+						= sub.profile_id
+						= sub.status
+						%br
