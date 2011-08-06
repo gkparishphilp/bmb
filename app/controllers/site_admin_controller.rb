@@ -7,7 +7,7 @@ class SiteAdminController < ApplicationController
 	helper_method	:sort_column, :sort_dir
 	
 	def index
-		
+		@authors = Author.order('created_at desc')
 	end
 	
 	def blog
