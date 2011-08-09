@@ -14,7 +14,7 @@
 
 		-for author in @authors
 			%tr
-				%td= author.pen_name
+				%td= link_to author.pen_name, author
 				%td= format_date_only author.created_at
 				%td= author.user.email
 				%td				

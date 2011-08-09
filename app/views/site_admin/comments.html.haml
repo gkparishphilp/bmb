@@ -24,7 +24,7 @@
 					%br
 					= comment.ip
 				%td= comment.commentable.title if comment.commentable
-				%td= comment.content
+				%td= snip( comment.content, 500 )
 
 	- unless @comments.total_pages < 2
 		.pagination

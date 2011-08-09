@@ -12,7 +12,7 @@
 		-for author in @authors
 			%tr
 				%td
-					= author.pen_name
+					= link_to author.pen_name, author
 				%td
 					= author.user.email
 				%td 

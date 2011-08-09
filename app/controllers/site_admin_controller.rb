@@ -35,7 +35,7 @@ class SiteAdminController < ApplicationController
 	end
 	
 	def comments
-		@comments = Comment.order( 'created_at desc' ).paginate(:per_page => 5, :page => params[:page])
+		@comments = Comment.order( 'created_at desc' ).paginate(:per_page => 50, :page => params[:page])
 		render :layout => '2col'
 	end
 
