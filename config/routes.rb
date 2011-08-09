@@ -279,6 +279,8 @@ Backmybook::Application.routes.draw do
 	match '/author:author_id/search/(:term)' => 'authors#search', :as => 'search_author'
 	
 	match '/site/newsletter_signup' => 'sites#newsletter_signup', :as => 'site_newsletter_signup'
+	
+	match '/inquiry' => 'contacts#inquiry', :as => 'inquiry'
 		
 	match '/blog/archive/(:year/(:month))', :to => 'blog#index'
 	match '/authors/:author_id/blog/archive/(:year/(:month))', :to => 'blog#index'

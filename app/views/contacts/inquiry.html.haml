@@ -1,0 +1,62 @@
+- content_for :left_column do
+	.form_group
+		%h4
+			Please provide your information below and we'll get back to you.  We provide free consulting and setup with every new account.
+
+		= form_for @contact do |f|
+			= f.hidden_field :subject, :value => 'BMB Enquiry'
+			= f.hidden_field :contact_type, :value => 'info'
+		
+			%p
+				%b Your Email (required):
+
+			- if @current_user.anonymous?
+				= f.text_field :email
+			- else
+				= f.text_field :email, :value => @current_user.email
+
+			%p
+				%b Your Phone Number (optional):
+			= f.text_field :phone
+			
+			%p
+				%b Your Website (optional):
+			= f.text_field :web_address
+			
+			%p 
+				%b How did you hear about us (optional)?
+			= f.text_field :referrer
+			%p
+				Please let us know how we can help you:  			
+			%p
+				= f.text_area :content, :rows => 12, :cols => 72
+			%br
+			- unless @current_user.human?
+				Please type the words you see below:
+				= recaptcha_tags( :display => { :theme=>"clean" } ).html_safe
+			%br
+			= f.submit 'Enter', :class=>'buttons'
+			|
+			= link_to "Cancel", root_url
+
+- content_for :right_column do
+	#sidebar_promo
+		%h3
+			BackMyBook Features
+		%ul
+			%li <b>Free</b> online store
+			%li Industry-leading 85/15 royalties
+			%li We support <b>any</b> book format including audio-books and even hardcovers and merchandise
+			%li Detailed reporting
+		%h3 
+			Your store, Your customers
+		%ul
+			%li Email marketing -- sign-up your readers and send newsletters
+			%li Send personalized fulfillment emails and auto-responders
+			%li Social Marketing -- message your readers on all major social networks
+		%h3
+			Try us risk free
+		%ul
+			%li The BackMyBook Ecommerce service is <b>FREE</b> to use!  No upfront fees, charges, or subscriptions
+			%li Free branded store setup and customization
+			%li Personalized service and support

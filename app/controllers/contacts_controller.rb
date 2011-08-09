@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-	before_filter   :require_admin, :except=>[ :new, :create, :get_started ]
+	before_filter   :require_admin, :except=>[ :new, :create, :inquiry ]
 	
 	def admin
 		@contacts = @current_site.contacts.all
@@ -18,7 +18,7 @@ class ContactsController < ApplicationController
 		@subject = params[:subject] if params[:subject]
 	end
 	
-	def get_started
+	def inquiry
 		@contact = Contact.new
 	end
 
