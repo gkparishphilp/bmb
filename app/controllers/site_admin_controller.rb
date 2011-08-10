@@ -39,6 +39,9 @@ class SiteAdminController < ApplicationController
 		render :layout => '2col'
 	end
 
+	def spam
+		@filters = SpamFilter.order("filter_type desc")
+	end
 	
 end
 

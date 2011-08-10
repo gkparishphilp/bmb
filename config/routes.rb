@@ -228,6 +228,7 @@ Backmybook::Application.routes.draw do
 		get :edit_blog, :on => :collection
 		get :users, :on => :collection
 		get :comments, :on => :collection
+		get :spam, :on => :collection
 	end
 	
 	resources :spam_filters do

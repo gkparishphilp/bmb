@@ -1,0 +1,35 @@
+- content_for :left_column do
+	= render :partial => 'nav'
+- content_for :middle_column do
+	.admin_header
+		.admin_title
+			%h3
+				Spam Filters
+		.clear
+		
+	=form_for SpamFilter.new do |f|
+		.order_label 
+			Add Spam Keyword
+		.order_field
+			=f.text_field :filter_value
+		=f.hidden_field :filter_type, :value =>'keyword'
+		=f.hidden_field :filter_action, :value => 'spam'
+		=f.submit 'Add'
+	.clear
+	%hr
+	.admin_header
+		.admin_title
+			%h3
+				Existing Filters
+		.clear	
+	%table.admin_table
+		%th Type
+		%th Value
+		%th Action
+
+		- for filter in @filters
+			%tr
+				%td= filter.filter_type
+				%td= filter.filter_value
+				%td= filter.filter_action
+ 
