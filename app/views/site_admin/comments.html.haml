@@ -20,9 +20,9 @@
 						= comment.status.capitalize
 
 				%td
-					= comment.user.email
+					= link_to comment.user.email, add_email_spam_filters_path(:value => comment.user.email), :confirm => "Add this email to the spam filter?"
 					%br
-					= comment.ip
+					= link_to comment.ip, add_ip_spam_filters_path( :value => comment.ip ), :confirm => "Add this IP to the spam filter?"
 				%td= comment.commentable.title if comment.commentable
 				%td= snip( comment.content, 500 )
 

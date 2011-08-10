@@ -230,6 +230,12 @@ Backmybook::Application.routes.draw do
 		get :comments, :on => :collection
 	end
 	
+	resources :spam_filters do
+		get :add_ip, :on => :collection
+		get :add_email, :on => :collection
+		get :add_email, :on => :collection
+	end
+	
 	resources :static_pages do
 		get 'admin', :on => :collection
 	end
