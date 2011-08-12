@@ -12,6 +12,8 @@
 					Name
 				%th
 					Public?
+				%th
+					Action
 			%tr
 				%td
 					= radio_button_tag :id, 'none', @current_author.active_theme.nil?
@@ -20,7 +22,7 @@
 				%td
 					false
 				%td
-					true
+					%nbsp
 			- for theme in @default_themes
 				%tr
 					%td
@@ -31,7 +33,7 @@
 						= theme.public
 					- if theme.creator == @current_author
 						%td
-							= link_to 'edit', edit_author_theme_url( @current_author, theme )
+							= link_to 'Edit', edit_author_theme_url( @current_author, theme )
 			- for theme in @current_author.themes
 				%tr
 					%td
@@ -39,12 +41,10 @@
 					%td
 						= theme.name
 					%td
-						= theme.book_site
-					%td
 						= theme.public
 					- if theme.creator == @current_author
 						%td
-							= link_to 'edit', edit_author_theme_url( @current_author, theme )
+							= link_to 'Edit', edit_author_theme_url( @current_author, theme )
 		= submit_tag 'Activate', :class => 'buttons'
 			
 - content_for :right_column do

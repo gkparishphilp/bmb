@@ -12,7 +12,7 @@
 				%td( style = 'width:200px;' )
 					= link_to image_tag( 'view.png', :width => 20 ), event_path( event )
 					= link_to event.title, event_path( event )
-				%td.small= format_date_only event.starts_at
+				%td.small= format_date event.starts_at
 				%td.small= event.location
 				%td.small
 					= link_to image_tag( 'edit.png', :width => 20 ), edit_event_path( event ) 

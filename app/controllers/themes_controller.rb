@@ -80,7 +80,7 @@ class ThemesController < ApplicationController
 			pop_flash 'Theme could not be saved.', :error, @theme
 		end
 		
-		redirect_to admin_themes_path
+		redirect_to :back
 
 	end
 

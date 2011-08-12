@@ -46,7 +46,10 @@ class AuthorsController < ApplicationController
 	
 	def create
 		# Creating name from first name and last name
-		params[:billing_address][:name] = params[:billing_address][:first_name] + ' ' + params[:billing_address][:last_name]
+		if params[:billing_address]
+			params[:billing_address][:name] = params[:billing_address][:first_name] + ' ' + params[:billing_address][:last_name]
+			params[:billing_address][:address_type] = 'billing'
+		end
 		@author = Author.new params[:author]
 		@author.user = @current_user
 		@author.user.billing_address = GeoAddress.new params[:billing_address]
@@ -64,6 +67,9 @@ class AuthorsController < ApplicationController
 	def edit
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
+		# Stupid transformations to get first and last names separate for form.  Next time, we have first and last names as separate fields
+		@billing_address.first_name = @billing_address.name.split(/ /).first
+		@billing_address.last_name = @billing_address.name.split(/ /).last
 		@subscriptions = @current_author.user.subscribings.active
 		render :layout => '2col'
 		
@@ -101,7 +107,18 @@ class AuthorsController < ApplicationController
 			redirect_to root_path
 			return false
 		end
-		if @author.update_attributes params[:author]
+		
+		#Set up params for saving billing address if it exists (like from updating the Author Account information page in Admin) 
+		#Need to clean this up, there has to be a better way
+		if params[:billing_address]
+			params[:billing_address][:name] = params[:billing_address][:first_name] + ' ' + params[:billing_address][:last_name]
+			params[:billing_address][:address_type] = 'billing'
+			@author.user = @current_user
+			@author.user.billing_address = GeoAddress.new params[:billing_address]
+			@author.user.billing_address.save
+		end
+		
+		if @author.update_attributes params[:author] 
 			process_attachments_for( @author )
 			pop_flash "Author Profile Updated!"
 		else

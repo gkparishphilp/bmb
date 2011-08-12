@@ -1,6 +1,6 @@
 class CouponsController < ApplicationController
 	before_filter	:get_owner
-	before_filter	:get_admin, :only => [ :admin, :new, :edit ]
+	before_filter	:get_admin, :only => [ :admin, :new, :edit, :create ]
 	before_filter	:check_permissions, :only => [ :admin, :new, :edit ]
 	layout			:set_layout
 	helper_method	:sort_column, :sort_dir

@@ -5,6 +5,7 @@
 .order_label
 	= f.label "Upload Your Picture:"
 .order_field
+	= image_tag @author.avatar.location('thumb'), :width => @author.avatar.thumb_width if @author.avatar
 	= file_field_tag :attached_avatar_file
 .order_label
 	= f.label 'Your Author Bio:'
