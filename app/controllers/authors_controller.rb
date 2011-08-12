@@ -68,8 +68,10 @@ class AuthorsController < ApplicationController
 		@author = @current_author
 		@billing_address = @current_author.user.billing_address || @current_author.user.build_billing_address
 		# Stupid transformations to get first and last names separate for form.  Next time, we have first and last names as separate fields
-		@billing_address.first_name = @billing_address.name.split(/ /).first
-		@billing_address.last_name = @billing_address.name.split(/ /).last
+		if @billing_address.name.present?
+			@billing_address.first_name = @billing_address.name.split(/ /).first
+			@billing_address.last_name = @billing_address.name.split(/ /).last
+		end
 		@subscriptions = @current_author.user.subscribings.active
 		render :layout => '2col'
 		
