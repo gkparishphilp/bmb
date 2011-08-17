@@ -1,6 +1,6 @@
 class SitesController < ApplicationController
 	#before_filter	:require_admin, :except => :index
-	layout 'home', :only => :index
+	layout 'home', :only => [ :index, :thank_you ]
 	
 	def admin
 		@site = @current_author.sites.first
@@ -30,8 +30,12 @@ class SitesController < ApplicationController
 		end
 		
 		pop_flash "Thank you for signing up for the BackMyBook newsletter!"
-		redirect_to :back
+		redirect_to thank_you_path
 		
+	end
+	
+	def thank_you
+		@recent_blog_posts = @current_site.articles.published.empty? ? [] : ( @current_site.articles.published.order( "publish_at desc" ).limit( 5 ) )
 	end
 	
 	def edit
@@ -69,7 +73,7 @@ class SitesController < ApplicationController
 	
 	def index
 				
-		@recent_blog_posts = @current_site.articles.empty? ? [] : ( @current_site.articles.order( "publish_at desc" ).limit( 5 ) )
+		@recent_blog_posts = @current_site.articles.published.empty? ? [] : ( @current_site.articles.published.order( "publish_at desc" ).limit( 5 ) )
 		@recent_episodes = @current_site.podcasts.empty? ? [] : ( @current_site.podcasts.first.episodes.order( "created_at desc" ).limit( 5 ) )
 
 		@items = @recent_blog_posts + @recent_episodes

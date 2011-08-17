@@ -286,6 +286,7 @@ Backmybook::Application.routes.draw do
 	match '/author:author_id/search/(:term)' => 'authors#search', :as => 'search_author'
 	
 	match '/site/newsletter_signup' => 'sites#newsletter_signup', :as => 'site_newsletter_signup'
+	match '/thank_you' => 'sites#thank_you', :as => 'thank_you'
 	
 	match '/inquiry' => 'contacts#inquiry', :as => 'inquiry'
 		

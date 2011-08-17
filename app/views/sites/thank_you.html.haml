@@ -1,0 +1,31 @@
+- content_for :left_column do
+	.pad
+		%h3 Thanks for signing up for the BackMyBook Newsletter!
+		
+		We appreciate your interest and we'll try to get you as much good stuff as we can.  Your first issue should arrive in your inbox shortly.  In the meantime, please enjoy our guide to Author Branding and Community Building on the web.
+		
+		
+- content_for :right_column do
+	.hp_promo
+	= link_to image_tag( "bmb_sigler_hp_promo.jpg" ), 'authors/scott-sigler'
+
+	.follow-me.ui-helper-clearfix
+		%h3 Follow Us
+		%div
+			= link_to image_tag( 'twitter.jpg' ), "http://twitter.com/backmybook"
+			= link_to image_tag( 'facebook.jpg' ), "http://www.facebook.com/pages/BackMyBook/129259667097024"
+			= link_to image_tag( 'rss.jpg',:alt=>'rss feed' ), "http://feeds.feedburner.com/TheBackmybookBlog"
+		
+	.follow-me.ui-helper-clearfix
+		%h3 
+			Recent Blog Articles
+		= image_tag 'blog_title_icon.png'
+		%br.clear
+		.recent_posts
+			- for article in @recent_blog_posts
+				.text
+					.recent_preview
+						.recent_title
+							= link_to article.title, blog_link( article )
+						= snip article.content.html_safe, 140
+				%hr
