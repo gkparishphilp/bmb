@@ -109,6 +109,7 @@ Backmybook::Application.routes.draw do
 			get 'sort', :on => :collection
 			post 'add_item', :on => :member
 			post 'remove_item', :on => :member
+			get 'delete_sku', :on => :member
 		end
 		
 		resources :store do

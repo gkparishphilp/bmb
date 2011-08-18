@@ -32,7 +32,7 @@
 						%b Price
 					.sort_status
 						%b Status
-					.sort_action
+
 				%br.clear
 				%ul#sortable
 					- for sku in @skus
@@ -51,6 +51,9 @@
 								= format_status( sku.status )
 							.sort_action
 								= link_to '[edit]', edit_author_sku_path( @current_author, sku )
+							
+							- unless sku.has_sales?
+								= link_to '[delete]', delete_sku_author_sku_path( @current_author, sku ), :confirm => 'Are you sure you want to delete this store item?'
 							.clear
 
 

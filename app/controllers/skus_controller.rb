@@ -134,6 +134,16 @@ class SkusController < ApplicationController
 		redirect_to :back
 			 
 	end
+	
+	def delete_sku
+		@sku = Sku.find params[:id]
+		if @sku.delete_sku
+			pop_flash "Store Item deleted"
+		else
+			pop_flash "Could not remove store item", :error
+		end
+		redirect_to :back
+	end
 
 
 end
