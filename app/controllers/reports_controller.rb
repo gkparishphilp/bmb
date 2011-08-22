@@ -15,10 +15,10 @@ class ReportsController < ApplicationController
 		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day ).successful.order('created_at desc')
 		@orders_for_period = @orders.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
 		@orders_for_week_ending = @orders.dated_between( (@week_ending - 7.days).getutc, @week_ending.getutc).successful
-		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total 
+		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total.to_f
 		@total_sales ||= 0
 		@total_sales = @total_sales / 100 
-		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total 
+		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total.to_f 
 		@avg_daily_sales ||= 0
 		@avg_daily_sales = @avg_daily_sales / (@end_date.to_date - @start_date.to_date) / 100
 
