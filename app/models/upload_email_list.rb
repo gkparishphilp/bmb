@@ -58,8 +58,9 @@ class UploadEmailList < ActiveRecord::Base
 		CSV.foreach( path ) do |row|
 			name = row[0]
 			email = row[1]
-			name = email if name.blank?
+			name = email.gsub(/\W/, "_") if name.blank?
 			user = User.find_or_initialize_by_email( :email => email)
+			user.name = name
 			user.save( false )
 			if self.author
 				subscribing = EmailSubscribing.find_or_create_subscription( self.author, user)
