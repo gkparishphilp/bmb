@@ -3,6 +3,27 @@
 - content_for :middle_column do
 	%h1 Authors
 
+	=form_tag author_site_admin_index_path, :method => :get do
+		Search for Email Address: 
+		=text_field_tag :email
+		=submit_tag 'Search'
+		
+	- if @user.present?
+		%table.admin_table
+			%th Name
+			%th Email
+			%th Action
+			
+			- unless @user.author
+				%tr
+					%td= @user.name
+					%td= @user.email
+					%td
+						= link_to 'Comp Platform Builder Subscription', comp_platform_builder_user_path( @user )
+		
+			
+	%hr
+	
 	%table.admin_table
 		%th Author Name
 		%th Email

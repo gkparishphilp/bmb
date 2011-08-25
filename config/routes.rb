@@ -223,8 +223,8 @@ Backmybook::Application.routes.draw do
 	end
 	
 	resources :site_admin do
-		get :blog, :on => :collection
 		get :author, :on => :collection
+		get :blog, :on => :collection
 		get :new_blog, :on => :collection
 		get :edit_blog, :on => :collection
 		get :users, :on => :collection
@@ -266,6 +266,7 @@ Backmybook::Application.routes.draw do
 			post 'update_avatar'
 		end
 		get 'resend', :on => :member
+		get 'comp_platform_builder', :on => :member
 	end
 	
 	# named routes

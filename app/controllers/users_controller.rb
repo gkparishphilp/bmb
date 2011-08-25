@@ -208,6 +208,18 @@ class UsersController < ApplicationController
 		
 		redirect_to pending_sessions_path( :user_id => @user.id )
 	end
+	
+	def comp_platform_builder
+		@user = User.find params[:id]
+		if 	@user.make_author
+			@user.comp_subscription( Subscription.platform_builder )
+			pop_flash "User is now an author", :success
+		else
+			pop_flash "Can't make user into author", :error
+		end
+		
+		redirect_to :back
+	end
 
 end
 

@@ -229,6 +229,10 @@ class User < ActiveRecord::Base
 		author = Author.create :user_id => self.id, :pen_name => self.name
 	end
 	
+	def comp_subscription( sub )
+		Subscribing.create :subscription_id => sub.id, :user_id => self.id, :profile_id => 'comp', :status => 'ActiveProfile', :origin => 'comp'
+	end
+	
 	# Stuff for Social Media ---------------------------------------------
 		# Facebook -------------------------------------------------
 	def facebook_user?

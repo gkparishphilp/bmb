@@ -17,6 +17,9 @@ class SiteAdminController < ApplicationController
 	end
 	
 	def author
+		if params[:email]
+			@user = User.find_by_email( params[:email] )
+		end
 		@authors = Author.order('created_at desc')
 	end
 	
