@@ -44,7 +44,10 @@
 		%h3 
 			Featured books
 		.pad
-			= render @author.featured_books.published.reverse
+			- if @author.featured_books.published.first.feature_listing_order.blank?
+				= render @author.featured_books.published.reverse
+			-else
+				= render @author.featured_books.published.order('feature_listing_order asc')
 
 - unless @author.links.empty?
 	.sidebar_sections
