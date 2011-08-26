@@ -60,7 +60,7 @@ class UploadEmailList < ActiveRecord::Base
 			email = row[1]
 			name = email.gsub(/\W/, "_") if name.blank?
 			user = User.find_or_initialize_by_email( :email => email)
-			user.name = name
+			user.name = name.force_encoding('utf-8')
 			user.save( false )
 			if self.author
 				subscribing = EmailSubscribing.find_or_create_subscription( self.author, user)
