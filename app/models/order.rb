@@ -22,7 +22,7 @@
 #  sku_quantity            :integer(4)      default(1)
 #
 
-class Order < ActiveRecord::Base
+class Order < ActiveRecord::Base	
 	belongs_to	:user
 	belongs_to	:sku
 	has_one		:order_transaction, :dependent => :destroy
@@ -308,6 +308,18 @@ class Order < ActiveRecord::Base
 	end
 
 	def update_author_points
+	end
+
+	def process_promos
+	# todo - find a better architecture to handle after order callback actions like this one
+	
+	# Give a free copy of the ALL-PRO ebook and send out notice email to anyone who successfully buys it
+		if true # self.sku.id == 13 && self.status == 'success'
+			freebie = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
+			freebie.save( :validate => false )
+			freebie.sku.ownings.create :user => self.user, :status => 'active'
+			UserMailer.send_all_pro_freebie( self.user, freebie ).deliver
+		end
 	end
 
   private

@@ -245,6 +245,9 @@ class OrdersController < ApplicationController
 		end
 		
 		# Post purchase actions 
+		
+		#process promotions
+		@order.process_promos
 		# Add user to author's subscriber list if the subscribed box is checked
 		if @order.subscribe_to_author == 'true'
 			subscribing = EmailSubscribing.find_or_create_subscription(@order.sku.owner, @order.user)   # its the actual word 'true', not the boolean true

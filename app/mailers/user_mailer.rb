@@ -61,4 +61,10 @@ class UserMailer < ActionMailer::Base
 		@contact = contact
 		mail( :from => "donotreply@backmybook.com", :to => @contact.author.contact_email, :subject => "BackMyBook.com contact from #{@contact.email}" )
 	end
+	
+	def send_all_pro_freebie( user, order )
+		@user = user
+		@order = order
+		mail( :from => "donotreply@backmybook.com", :to => @user.email, :subject => "Your FREE ALL-PRO ebook")
+	end
 end

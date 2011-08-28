@@ -20,4 +20,8 @@ class OrderTransaction < ActiveRecord::Base
 	belongs_to :order
 	serialize :params
 	liquid_methods :reference
+	
+	def successful?
+		return self.sucess
+	end
 end

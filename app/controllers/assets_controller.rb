@@ -108,7 +108,7 @@ class AssetsController < ApplicationController
 	def deliver
 		@asset = Asset.find params[:id]
 		@order = Order.find params[:order_id]
-		if owning = Owning.find_by_sku_id_and_user_id( @order.sku.id, @order.user.id )
+		if owning = Owning.find_all_by_sku_id_and_user_id( @order.sku.id, @order.user.id ).last
 			if @current_user.anonymous? and owning.delivered == false
 				if @asset.document.remote?
 					@secure_url = @asset.generate_secure_url

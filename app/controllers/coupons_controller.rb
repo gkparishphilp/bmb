@@ -91,7 +91,7 @@ class CouponsController < ApplicationController
 			@order.sku = @sku
 			@order.email = @user.email
 			@order.ip = request.ip
-			@order.price = 0
+			@order.total = 0
 			@order.status = 'success'
 			@order.save( false )
 			@coupon.redemptions.create :status => 'redeemed', :order_id => @order.id, :user_id => @user.id

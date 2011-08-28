@@ -1,0 +1,16 @@
+Hi
+= @user.name
+, 
+%p
+	You get an ebook version for free! Select a format below to download. 
+	%br
+	Notice that the link only works once! If you need to download it again, login to BackMyBook.com/login with your email and download it from your user page.
+	
+%p
+	- for item in @order.sku.items
+		- if item.respond_to? 'document'
+			= link_to item.title, deliver_asset_url( item, :order_id => @order.id )
+			%br
+
+	
+	If you need to download it again, login to BackMyBook.com/login with your email and download it from your user page.
