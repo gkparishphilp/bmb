@@ -1,3 +1,14 @@
+# == Schema Information
+# Schema version: 20110826004210
+#
+# Table name: spam_filters
+#
+#  id            :integer(4)      not null, primary key
+#  filter_type   :string(255)
+#  filter_value  :string(255)
+#  filter_action :string(255)
+#
+
 class SpamFilter < ActiveRecord::Base
 	after_create :filter_comments
 	

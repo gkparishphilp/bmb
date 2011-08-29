@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: subscribings
 #
@@ -13,6 +13,7 @@
 #  origin          :string(255)
 #  created_at      :datetime
 #  updated_at      :datetime
+#  trial_end_date  :datetime
 #
 
 class Subscribing < ActiveRecord::Base

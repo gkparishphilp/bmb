@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: comments
 #
@@ -12,6 +12,7 @@
 #  content             :text
 #  created_at          :datetime
 #  updated_at          :datetime
+#  status              :string(255)     default("publish")
 #
 
 class Comment < ActiveRecord::Base

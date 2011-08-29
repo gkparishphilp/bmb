@@ -1,10 +1,9 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: tax_rates
 #
 #  id               :integer(4)      not null, primary key
-#  geo_state_id     :integer(4)
 #  rate             :float
 #  geo_state_abbrev :string(255)
 #

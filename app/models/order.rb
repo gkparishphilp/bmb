@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: orders
 #
@@ -314,7 +314,7 @@ class Order < ActiveRecord::Base
 	# todo - find a better architecture to handle after order callback actions like this one
 	
 	# Give a free copy of the ALL-PRO ebook and send out notice email to anyone who successfully buys it
-		if true # self.sku.id == 13 && self.status == 'success'
+		if true # (self.sku.id == 13 or self.sku.id == 12 ) && self.status == 'success'
 			freebie = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
 			freebie.save( :validate => false )
 			freebie.sku.ownings.create :user => self.user, :status => 'active'
