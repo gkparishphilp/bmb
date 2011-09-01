@@ -247,7 +247,7 @@ class OrdersController < ApplicationController
 		# Post purchase actions 
 		
 		#process promotions
-		#@order.process_promos 
+		#	@order.process_promos if @order.successful?
 		
 		# Add user to author's subscriber list if the subscribed box is checked
 		if @order.subscribe_to_author == 'true'

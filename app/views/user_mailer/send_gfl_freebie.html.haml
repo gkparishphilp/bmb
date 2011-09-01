@@ -1,0 +1,13 @@
+Hi
+= @user.name
+, 
+%p
+	Here is your free ebook from the Galactic Football series! Select a format below to download. 
+	%br
+	NOTE: This is a one time use link! If you need to download the ebook again, login to BackMyBook.com/login with your email to download it from your user page.
+	
+%p
+	- for item in @order.sku.items
+		- if item.respond_to? 'document'
+			= link_to item.title, deliver_asset_url( item, :order_id => @order.id )
+			%br

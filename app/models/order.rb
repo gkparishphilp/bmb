@@ -312,14 +312,38 @@ class Order < ActiveRecord::Base
 
 	def process_promos
 	# todo - find a better architecture to handle after order callback actions like this one
+	# todo - also need to plug into Amazon SES instead of AuthSMTP.  Would need to create a Liquid template for this
 	
 	# Give a free copy of the ALL-PRO ebook and send out notice email to anyone who successfully buys it
-		if true # (self.sku.id == 13 or self.sku.id == 12 ) && self.status == 'success'
+		if self.sku.id == 13 
 			freebie = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
 			freebie.save( :validate => false )
 			freebie.sku.ownings.create :user => self.user, :status => 'active'
-			UserMailer.send_all_pro_freebie( self.user, freebie ).deliver
+			UserMailer.send_gfl_freebie( self.user, freebie ).deliver
 		end
+		
+		if self.sku.id == 6 
+			freebie = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
+			freebie.save( :validate => false )
+			freebie.sku.ownings.create :user => self.user, :status => 'active'
+			UserMailer.send_gfl_freebie( self.user, freebie ).deliver
+		end
+		
+		if self.sku.id == 12 
+			freebie = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
+			freebie.save( :validate => false )
+			freebie.sku.ownings.create :user => self.user, :status => 'active'
+
+			freebie2 = Order.new :user_id => self.user.id, :sku_id => 2, :email => self.email, :ip => self.ip, :total => 0, :status => 'success'
+			freebie2.save( :validate => false )
+			freebie2.sku.ownings.create :user => self.user, :status => 'active'
+			
+			UserMailer.send_gfl_freebie( self.user, freebie ).deliver
+			UserMailer.send_gfl_freebie( self.user, freebie2 ).deliver
+		end
+		
+		
+		
 	end
 
   private
