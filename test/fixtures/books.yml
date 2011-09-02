@@ -1,24 +1,25 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: books
 #
-#  id             :integer(4)      not null, primary key
-#  author_id      :integer(4)
-#  genre_id       :integer(4)
-#  title          :string(255)
-#  view_count     :integer(4)      default(0)
-#  score          :integer(4)
-#  subtitle       :string(255)
-#  description    :text
-#  status         :string(255)     default("publish")
-#  age_aprop      :string(255)
-#  rating_average :float
-#  backing_url    :string(255)
-#  cached_slug    :string(255)
-#  created_at     :datetime
-#  updated_at     :datetime
-#  featured       :boolean(1)
+#  id                    :integer(4)      not null, primary key
+#  author_id             :integer(4)
+#  genre_id              :integer(4)
+#  title                 :string(255)
+#  view_count            :integer(4)      default(0)
+#  score                 :integer(4)
+#  subtitle              :string(255)
+#  description           :text
+#  status                :string(255)     default("publish")
+#  age_aprop             :string(255)
+#  rating_average        :float
+#  backing_url           :string(255)
+#  cached_slug           :string(255)
+#  created_at            :datetime
+#  updated_at            :datetime
+#  featured              :boolean(1)
+#  feature_listing_order :integer(4)
 #
 
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html

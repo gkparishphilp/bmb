@@ -1,10 +1,10 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: geo_addresses
 #
 #  id           :integer(4)      not null, primary key
-#  type         :string(255)
+#  address_type :string(255)
 #  user_id      :integer(4)
 #  title        :string(255)
 #  street       :string(255)
@@ -18,7 +18,6 @@
 #  updated_at   :datetime
 #  state        :string(255)
 #  name         :string(255)
-#  address_type :string(255)
 #
 
 class GeoAddress < ActiveRecord::Base

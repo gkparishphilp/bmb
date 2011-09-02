@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: authors
 #
@@ -12,6 +12,11 @@
 #  bio                    :text
 #  score                  :integer(4)
 #  cached_slug            :string(255)
+#  photo_file_name        :string(255)
+#  photo_content_type     :string(255)
+#  photo_file_size        :integer(4)
+#  photo_updated_at       :datetime
+#  photo_url              :string(255)
 #  created_at             :datetime
 #  updated_at             :datetime
 #  contact_email          :string(255)

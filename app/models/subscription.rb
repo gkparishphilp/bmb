@@ -1,5 +1,5 @@
 # == Schema Information
-# Schema version: 20110606205010
+# Schema version: 20110826004210
 #
 # Table name: subscriptions
 #
@@ -18,6 +18,7 @@
 #  created_at                  :datetime
 #  updated_at                  :datetime
 #  name                        :string(255)
+#  trial_length_in_days        :integer(4)      default(30)
 #
 
 class Subscription < ActiveRecord::Base
