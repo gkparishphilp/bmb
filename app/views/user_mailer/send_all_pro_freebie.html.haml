@@ -1,10 +1,20 @@
-Hi
-= @user.name
-, 
 %p
-	You get an ebook version for free! Select a format below to download. 
-	%br
-	Notice that the link only works once! If you need to download it again, login to BackMyBook.com/login with your email and download it from your user page.
+	Hello, Junkie!
+%p
+	If you're new in these parts, "Junkies" is the name the Sigler fans gave themselves many years ago. That means you is one, Junkie.		
+
+-if @order.sku.title.match(/all/i)
+
+	%p
+		You ordered THE ALL-PRO hardcover, and that includes getting THE ALL-PRO eBook for free. Please follow the link below to get your eBook. This link will only work for you, and it will only work once. The link will give you options as to what format you want: Mobi (for your Kindle) or ePub (for all other readers). 
+	
+-elsif @order.sku.title.match(/starter/i)
+	
+	%p
+		You ordered THE STARTER hardcover, and that includes getting THE STARTER eBook for free. Please follow the link below to get your eBook. This link will only work for you, and it will only work once. The link will give you options as to what format you want: Mobi (for your Kindle) or ePub (for all other readers). 
+		
+%p
+	Enjoy the read, and gooooooooooooooooooo KRAKENS!
 	
 %p
 	- for item in @order.sku.items
@@ -13,4 +23,3 @@ Hi
 			%br
 
 	
-	If you need to download it again, login to BackMyBook.com/login with your email and download it from your user page.

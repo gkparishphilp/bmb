@@ -13,6 +13,3 @@ task :ap_giveaway  => :environment do
 		puts "Sending to #{order.email}"
 	end
 end
-
-
-	
