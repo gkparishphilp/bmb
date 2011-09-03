@@ -7,7 +7,7 @@ class OrdersController < ApplicationController
 	helper_method :sort_column, :sort_dir
 	
 	def admin
-		@orders = Order.for_author( @current_author ).search( params[:q] ).order( "created_at desc" ).paginate( :page => params[:page], :per_page => 10 )
+		@orders = Order.successful.for_author( @current_author ).search( params[:q] ).order( "created_at desc" ).paginate( :page => params[:page], :per_page => 10 )
 		render :layout => '2col'
 	end
 	
@@ -247,7 +247,7 @@ class OrdersController < ApplicationController
 		# Post purchase actions 
 		
 		#process promotions
-			@order.process_promos if @order.successful?
+			@order.process_promos if @order.order_transaction && @order.successful?
 		
 		# Add user to author's subscriber list if the subscribed box is checked
 		if @order.subscribe_to_author == 'true'
