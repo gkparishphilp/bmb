@@ -11,6 +11,6 @@ task :ap_giveaway  => :environment do
 		
 		# Send email for free ebook 
 		UserMailer.send_gfl_freebie( order.user, freebie ).deliver
-		#puts "Sending to #{order.email}"
+		puts "Sending to #{order.email}"
 	end
 end
