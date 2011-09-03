@@ -65,7 +65,7 @@ class UserMailer < ActionMailer::Base
 	def send_gfl_freebie( user, order )
 		@user = user
 		@order = order
-		mail( :from => "donotreply@backmybook.com", :to => @user.email, :subject => "<Corrected> Your free copy of #{@order.sku.title}")
+		mail( :from => "donotreply@backmybook.com", :to => @user.email, :subject => "Your free copy of #{@order.sku.title}")
 	end
 	
 end
