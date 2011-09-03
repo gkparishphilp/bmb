@@ -10,7 +10,7 @@ task :ap_giveaway  => :environment do
 		freebie.sku.ownings.create :user => order.user, :status => 'active'
 		
 		# Send email for free ebook 
-		# UserMailer.send_gfl_freebie( order.user, freebie ).deliver
-		puts "Sending to #{order.email}"
+		UserMailer.send_gfl_freebie( order.user, freebie ).deliver
+		#puts "Sending to #{order.email}"
 	end
 end
