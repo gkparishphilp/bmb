@@ -7,11 +7,8 @@
 		#container.home
 			= render 'shared/header'
 			#bd
-				.home_left
-					= render 'shared/flash', :flash => flash
-					= yield :left_column
-				.home_right
-					= yield :right_column
+				= render 'shared/flash', :flash => flash
+				= yield
 			= render 'shared/footer'
 		= render 'shared/analytics'
 		= render 'shared/scripts'

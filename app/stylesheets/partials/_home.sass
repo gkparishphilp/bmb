@@ -1,121 +1,13 @@
-.home_left
-	:width 560px
-	:float left
-	:min-height 600px
-	:margin-left 10px
-	
-.home_right
-	:width 378px
-	:float right
-	:margin-right 20px
-
-#hp_promo
+.home 
 	.top_promo
-		text-align: center
-		:background-color #9fad49
-		:padding-top 10px
-		:margin 20px 0 5px 0
-	h1,h2
-		:font-size 18px
-		:color #000
-		:padding 17px 15px 20px 22px
-	h1
-		:font-weight bold
-		:margin 0
-		:background-color #dae0ba
-		:border-top 1px solid #fff
-		.author
-			:color #6d7f00
-	h2
-		:background-color #f2f4e7
-		:margin 20px 0
-		:padding-left 20px
-		font-size: 32px
-		img
-			:float left
-			:margin-top -30px
-			:padding-right 10px
-	.text
-		:padding 15px
-	ul
-		:padding 2px 1px 2px 25px
-		:margin-bottom 27px
-		li
-			:line-height 1.3em
-			:font-size 14px
-			:padding 1px 0 1px 19px
-			:background transparent url("../images/bullet_square.png") no-repeat 0 49%
-	.red
-		:color #e30000
-	.green
-		:font-weight bold
-		:color #6d7f00
-		
-	.get_started
-		:text-align center
-		:margin 10px 0 10px 0
-		
-	.highlighted
-		width: 75%
-		margin: 0 auto
-		padding: 10px
-		text-align: center
-		background-color: #ff0
-		font-size: 140%
-		font-weight: bold
-		
-		
-#sidebar_promo
-	margin-top: 20px
-	h3
-		margin-top: 10px
-	ul
-		margin-left: 30px
-		list-style: url(../images/arrow_rt.jpg)
-		li
-			line-height: 1.3em
-
-.hp_promo 
-	:padding 10px 0 10px 3px
-	
-.home_article_header
-	:width 100%
-	:height 32px
-	:margin-top 10px
-	:vertical-align bottom
-	
-	.type_icon
-		:vertical-align bottom
-		:width 36px
-		:float left
-	.title
-		:font-size 130%
-		:vertical-align bottom
-		:width 400px
-		:float left
-	.participate
-		:vertical-align bottom
-		:width 130px
-		:float left
-	.converse
-		:text-align center
-.follow-me
-	:border-top 10px solid #98c8d9
-	:margin-top 20px	
-	h3
-		:color #777777
-		:font-size 18px
-		:padding-top 18px
-.blog-entries
-	:margin-top 20px
-	h3
-		:background #98c8d9 url("../images/blog_title_icon.png") no-repeat 3% 50%
-		:padding 18px 18px 18px 60px
-		:margin 0
-		:color #FFFFFF
-		:font-size 17px
-		:font-weight bold
-.home
+		:border-bottom 1px solid #ccc
+		:margin-bottom 10px
+	#hd
+		:background none
+		:background-color #fff
+		:border-bottom 1px solid #ccc
+	#bd
+		:border none
 	.recent_posts
 		:padding 0
 		:margin-bottom 20px
@@ -130,4 +22,121 @@
 		:margin 0
 		:padding 3px 3px 3px 0
 		font-size: 110%
+	ul.top_user_menu
+		:margin-right 10px
+	h1,h2
+		:color #35c3ed
+	.presentation
+		:border-bottom 1px solid #ccc
+		.col1
+			:float left
+			:width 46%
+			:padding 18px
+		.col2
+			:float right
+			:width 45%
+			:padding 18px
+			.steps
+				:margin-top 10px
+				:padding 5px 10px
+				:width 80%
+				li
+					+rounded(8px)
+					:background-color #e8e8e8
+					:padding 5px 5px 10px 5px
+					:margin-bottom 15px
+				em
+					:float left
+					:font-size 50px
+					:color #35c3ed
+					:padding 0 5px
+					:font-family 'Rochester', cursive
+				p
+					:margin 0
+					:padding 6px 4px 2px 35px
+					:line-height 20px
+	#ft
+		:background-color #111
+		:border none
+
+#container.home
+	:background-color #fff
+	
+.home_nav
+	li
+		:float left
+		:position relative
+		:font-size 18px
+	a
+		:display block
+		:padding 0 63px
+		:line-height 25px
+		:color #aec42f
+		span
+			:border-bottom 1px dashed
+		&:hover
+			:text-decoration none
+	.sell
+		a
+			:color #35c4ee
+	.social
+		a
+			:display inline
+			:padding 0 3px
+
+.testimonials
+	:margin 15px 0
+	:padding 10px 0 36px 106px
+	:background url("../images/quote_top.jpg") no-repeat 0 0 transparent
+	:border-bottom 1px solid #ccc
+	ul
+		:background url("../images/quote_bottom.jpg") no-repeat right bottom transparent
+		:float left
+		:width 100%
+	li
+		:position relative
+		:float left
+		:height 204px
+		:width 200px
+		:margin 0 5px
+		:padding 17px 20px 0
+		&:hover
+			:background-color #e8e8e8
+	.crop
+		:background url("../images/testimonials_crop.png") no-repeat scroll 0 0 transparent
+		:height 224px
+		:width 240px
+		:position absolute
+		:left 0
+		:top 0
+.banners_about
+	:margin-bottom 20px
+	h2
+		:font-size 33px
+		:padding 0 0 10px 10px
+	h3
+		:text-align center
+		:color #aec42f
+		:font-family 'Rochester', cursive
+		:font-size 50px
+	.col
+		+rounded(10px)
+		:float left
+		:width 29.3%
+		:margin 0 0 0 15px
+		:padding 0 10px
+		:background-color #e8e8e8
+		:min-height 165px
+		span
+			:text-align right
+			:clear both
+			:padding-top 3px
+			:display block
+		a
+			:color #35c4ee
+	.col1
+
+.hp_promo 
+	:padding 10px 0 10px 3px
+
 		

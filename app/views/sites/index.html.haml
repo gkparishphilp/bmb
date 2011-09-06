@@ -1,119 +1,84 @@
-- content_for :left_column do
-	-# cache( :controller => 'site', :action => 'index', :action_suffix => 'left') do
-	.pad_content
-	
-		#hp_promo
-			.top_promo
-				%h1
-					We Put the Web to Work for Authors
-			
-			.text
-				Running a website is generally confusing, time-consuming, and costly.  <b>But you need one.</b>  Your Website should work for you - you shouldn't have to work for your website.  Let us put your website to work and let you get back to writing.
-			
-			.get_started
-				= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
-			.highlighted
-				Free 30-Day Trial!
+.pad_content
+	.top_promo.clearfix
+		%ul.home_nav
+			%li.sell
+				= link_to '#1' do
+					%span Sell your books
+			%li 
+				= link_to '#2' do
+					%span Features
+			%li 
+				= link_to '#3' do
+					%span About
+			%li 
+				= link_to '#4' do
+					%span Contact
+			%li.social
+				= link_to image_tag( "facebook.png" ), '#5'
+				= link_to image_tag( "twitter.png" ), '#6'
 
-			%h2
-				Your Online Partner
-			%ul.text
-				%li We have over 15 years experience creating websites and online communities
-				%li Free consultation to get you started plus personalized service and support
-				%li Free content migration from Word Press
-				%li 30-day free trial, plus cancel at any time with no obligation
-			%center{ :style => 'margin-top:-10px;'}
-				We are also happy to provide consultation and expertise to independent authors and publishers.
-				= link_to 'Contact Us', inquiry_path
-				to learn more.
-			
-			%h2 Easy
-			.text
-				%b
-					Never EVER 
-				see anything that looks like this:
-				%blockquote
-					= "<br /><a href='feed:<?php bloginfo('rss2_url'); ?>'>Entries (RSS)</a>and <a href='feed:<?php bloginfo('comments_rss2_url'); ?>'>Comments (RSS)</a>."
-			
-			
-			%h2
-				Simply Everything You Need
+	.presentation.clearfix
+		.col1
+			video
+		.col2
+			%h1 Simply Sell your books.
+			%ul.steps
+				%li
+					%em
+						1
+					%p
+						Create your store to start selling and receiving payments instantly.
+				%li
+					%em
+						2
+					%p
+						Keep your readers intereset in you and begin turning them into fans.
+				%li
+					%em
+						3
+					%p
+						FREE 30-day trial so you get back to writing... for at least a month.
 
-			%ul
-				%li <b>Your Brand</b> -- Custom themes, colors, and graphics
-				%li <b>Your Domain</b> -- run your BackMyBook Author Website on any domain.  We'll help you register or redirect domains.
-				%li <b>Your Book(s)</b> -- custom book pages with free samples and user reviews
-				%li <b>Your Store</b> -- sell your book directly to your readers in any digital format -- also take orders for physical books and merchandise.
-				%li Community features -- Blogs, forums, event calendar
-				%li Email marketing -- sign-up your readers and send newsletters plus personalized fulfillment emails and auto-responders
-				%li Create custom promotion codes and coupons to power your marketing
-				%li Pro Reporting -- trending and analysis at your fingertips
-				
-				%br
-				
-				= link_to 'Learn More', platform_builder_authors_path, :class => 'buttons', :style => 'margin-top:10px;'
-				
-			
-			.get_started
-				= link_to image_tag( "get_started_button.png" ), new_order_url( :sku => Subscription.platform_builder.sku.id, :protocol => SSL_PROTOCOL )
-			
-			%br
-			%br.clear
-
+	.testimonials.clearfix
+		%ul
+			%li.test1
+				.crop
+				I saw my sales grow and my fanbase grow because of Backmybook. Great service and guys!
+				%p -Scott Siegler
+			%li.test2
+				.crop
+				Backmybook is easy to use and an essential for any author.
+				%p -Jane Doe
+			%li.test3
+				.crop
+				I was able to sell my books, tshirts, and keep in touch with my readers all in one place.
+				%p - John Doe
 		
-			
+		
+	.banners_about.clearfix
+		%h2 We are...
+		.ft_banners
+			.col.col1
+				%h3
+					easy
+				%p
+					Make a professional looking website and online store by leaving all the coding and brackets to [us].
+					%span
+						= link_to 'Get started',''
+			.col.col2
+				%h3
+					resourceful
+				%p
+					We will provide you a branded store, setup your books for sale, an dintegrate with you rexisting website for free!
+					%span
+						= link_to 'Features',''
+			.col.col3
+				%h3
+					experienced
+				%p
+					Over 15 years of experience in creating online communites and we're still really nice.
+					%span
+						= link_to 'About',''
 	
-- content_for :right_column do
-
-	.hp_promo
-		= link_to image_tag( "bmb_sigler_hp_promo.jpg" ), 'authors/scott-sigler'
-
-	.follow-me.ui-helper-clearfix
-		%h3 Follow Us
-		%div
-			= link_to image_tag( 'twitter.jpg' ), "http://twitter.com/backmybook"
-			= link_to image_tag( 'facebook.jpg' ), "http://www.facebook.com/pages/BackMyBook/129259667097024"
-			= link_to image_tag( 'rss.jpg',:alt=>'rss feed' ), "http://feeds.feedburner.com/TheBackmybookBlog"
-	.follow-me.ui-helper-clearfix
-		%h3 Join our newsletter
-		= image_tag( 'mail.jpg' )
-		#newsletter_form
-			%br.clear
-			= form_tag site_newsletter_signup_path, :style => 'margin:10px 0px 5px 5px;' do
-				%b Name:
-				= text_field_tag :name
-				%br
-				%b Email:
-				= text_field_tag :email
-				
-				= submit_tag 'Submit', :class => 'buttons'
-			.tiny{ :style => 'padding:5px;' }
-				BackMyBook respects your privacy.  You will be able to cancel your newsletter at any time, and your information will not be shared with any 3rd parties.
-	
-	%div
-		- unless @current_site.podcasts.empty?
-			%h3 
-				=link_to 'Podcast', podcasts_url
-			%div.text 
-				- for episode in @current_site.podcasts.first.episodes
-					.episode
-						= image_tag "podcast_icon.png", :width => 20
-						= link_to episode.title, podcast_episode_url( episode.podcast, episode )
-			
-	.follow-me.ui-helper-clearfix
-		%h3 
-			Recent Blog Articles
-		= image_tag 'blog_title_icon.png'
-		%br.clear
-		.recent_posts
-			- for article in @recent_blog_posts
-				.text
-					.recent_preview
-						.recent_title
-							= link_to article.title, blog_link( article )
-						= snip article.content.html_safe, 140
-				%hr
-
-
-
+	%br.clear
 
