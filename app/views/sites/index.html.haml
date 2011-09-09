@@ -2,57 +2,70 @@
 	.top_promo.clearfix
 		%ul.home_nav
 			%li.sell
-				= link_to '#1' do
-					%span Sell your books
-			%li 
-				= link_to '#2' do
+				= link_to '/features' do
 					%span Features
 			%li 
-				= link_to '#3' do
-					%span About
+				= link_to '/faq' do
+					%span FAQs
 			%li 
-				= link_to '#4' do
-					%span Contact
+				= link_to '/about' do
+					%span About Us
+			%li 
+				= link_to '/contacts/new' do
+					%span Contact Us
 			%li.social
-				= link_to image_tag( "facebook.png" ), '#5'
-				= link_to image_tag( "twitter.png" ), '#6'
+				= link_to image_tag( "facebook.png" ), 'http://www.facebook.com/pages/BackMyBook/129259667097024?sk=wall'
+				= link_to image_tag( "twitter.png" ), 'http://twitter.com/backmybook'
 
 	.presentation.clearfix
 		.col1
-			video
+			<iframe width="480" height="300" src="http://www.youtube.com/embed/bMiDFiAT6BE" frameborder="0" allowfullscreen></iframe>
 		.col2
-			%h1 Simply Sell your books.
 			%ul.steps
 				%li
 					%em
 						1
 					%p
-						Create your store to start selling and receiving payments instantly.
+						Create your Author Website to start promoting and selling your books online instantly.
 				%li
 					%em
 						2
 					%p
-						Keep your readers intereset in you and begin turning them into fans.
+						Use our direct-marketing tools to keep your readers engaged and begin turning them into fans.
 				%li
 					%em
 						3
 					%p
-						FREE 30-day trial so you get back to writing... for at least a month.
+						FREE 30-day trial so you get back to writing... for at least a month :)
+				.get_started
+					%p
+						= link_to image_tag( 'get_started_button.png' ), 'https://backmybook.com/orders/new?sku=25' 
 
 	.testimonials.clearfix
 		%ul
 			%li.test1
 				.crop
-				I saw my sales grow and my fanbase grow because of Backmybook. Great service and guys!
-				%p -Scott Siegler
+				.headshot= image_tag 'sigler_hs.jpg'
+				The BackMyBook system makes it easy to sell hardcovers, paperbacks, eBooks, downloadable audiobooks and any other kind of merchandise. It's an exceptional solution for authors that want to take more control of their own brand and product line.
+				%p.bold 
+					&#45; 
+					= link_to 'Scott Sigler', 'http://backmybook.com/authors/scott-sigler/store'
+				New York Times best-selling author
 			%li.test2
 				.crop
-				Backmybook is easy to use and an essential for any author.
-				%p -Jane Doe
+				.headshot= image_tag 'limber_hs.jpg'
+				The BackMyBook team has been there for me anytime I've needed them.  They've helped me with every step of my journey on the Internet.  I'd highly recommend them to any author who is looking to maximize their Internet potential.
+				%p.bold 
+					&#45; 
+					= link_to 'Jill Limber', 'http://jilllimber.com'
+				Former President Romance Writers of America
 			%li.test3
 				.crop
-				I was able to sell my books, tshirts, and keep in touch with my readers all in one place.
-				%p - John Doe
+				.headshot= image_tag 'gregory_hs.jpg'
+				BackMyBook always packs the room at our conference, giving out great insights and advice to our authors on how to best utilize the Internet, social networks, and technology overall.
+				%p.bold 
+					&#45; Michael Steven Gregory
+				Executive Director Southern California Writers' Conference
 		
 		
 	.banners_about.clearfix
@@ -64,21 +77,21 @@
 				%p
 					Make a professional looking website and online store by leaving all the coding and brackets to [us].
 					%span
-						= link_to 'Get started',''
+						= link_to 'Get started', 'https://backmybook.com/orders/new?sku=25'
 			.col.col2
 				%h3
 					resourceful
 				%p
-					We will provide you a branded store, setup your books for sale, an dintegrate with you rexisting website for free!
+					We will provide you a branded store, setup your books for sale, and integrate with your existing website for free!
 					%span
-						= link_to 'Features',''
+						= link_to 'Features', '/features'
 			.col.col3
 				%h3
 					experienced
 				%p
-					Over 15 years of experience in creating online communites and we're still really nice.
+					Over 15 years of experience in creating online communities and we're still really nice.
 					%span
-						= link_to 'About',''
+						= link_to 'About', '/about'
 	
 	%br.clear
 

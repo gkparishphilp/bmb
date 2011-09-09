@@ -96,19 +96,21 @@
 	li
 		:position relative
 		:float left
-		:height 204px
 		:width 200px
+		:height 300px
 		:margin 0 5px
 		:padding 17px 20px 0
-		&:hover
-			:background-color #e8e8e8
-	.crop
-		:background url("../images/testimonials_crop.png") no-repeat scroll 0 0 transparent
-		:height 224px
-		:width 240px
-		:position absolute
-		:left 0
-		:top 0
+		:border 1px solid #ddd
+		+shadow
+		+rounded(10px)
+		.bold
+			:font-weight bold
+		.headshot
+			:float left
+			:margin 0 10px 5px 0
+			img
+				:width 80px
+
 .banners_about
 	:margin-bottom 20px
 	h2

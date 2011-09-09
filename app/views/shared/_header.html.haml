@@ -2,7 +2,7 @@
 	.wrapper
 		= link_to image_tag( 'logo_sml.png', :class => :logo ), root_url( :host => @current_site.domain )
 		%span.tagline
-			The perfect setting for a bestseller
+			We Put the Web to Work for Authors
 		%ul.top_user_menu
 			- if @current_user.anonymous?
 				%li= link_to "Login", login_url
