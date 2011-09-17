@@ -35,11 +35,13 @@ class ReportsController < ApplicationController
 		@refund_shipping_total = 0.0
 		@refund_item_total = 0.0
 		
-		for order in @refunded_orders	
-			@refund_total += ( order.refund.total.to_f / 100 )
-			@refund_tax_total += ( order.refund.tax_amount.to_f / 100 )
-			@refund_shipping_total += ( order.refund.shipping_amount.to_f / 100 )
-			@refund_item_total += ( order.refund.item_amount.to_f / 100 )
+		for order in @refunded_orders
+			if order.refund	# This is because some orders were marked as refunded after being refunded in the Paypal UI.  This was before you could do refunds entirely through BmB
+				@refund_total += ( order.refund.total.to_f / 100 ) 
+				@refund_tax_total += ( order.refund.tax_amount.to_f / 100 ) 
+				@refund_shipping_total += ( order.refund.shipping_amount.to_f / 100 ) 
+				@refund_item_total += ( order.refund.item_amount.to_f / 100 ) 
+			end
 		end
 		
 		@daily_sales = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.total) as total" ).map { |o| [o.created_at.to_s, o.total.to_f / 100] } ]
