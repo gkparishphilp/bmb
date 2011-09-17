@@ -42,7 +42,7 @@
 - unless @author.featured_books.empty?
 	.sidebar_sections
 		%h3 
-			Featured books
+			Featured Books
 		.pad
 			- if @author.featured_books.published.first.feature_listing_order.blank?
 				= render @author.featured_books.published.reverse
