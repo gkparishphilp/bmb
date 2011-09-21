@@ -52,12 +52,42 @@
 	= render :partial => 'shared/date_picker'
 	%br			
 	%h4 Total Sales in Period
-	= number_to_currency( @total_sales )
+	
+	%p
+		Total Sales:
+		= number_to_currency( @total_sales )
+	%p
+		Sales: 
+		= number_to_currency( @total_sales - @total_sales_shipping - @total_sales_tax)
+	%p
+		Taxes:
+		= number_to_currency( @total_sales_tax )
+	%p
+		Shipping:
+		= number_to_currency( @total_sales_shipping )
 
 	%br
-	%br
+
 	%h4 Average Daily Sales in Period
-	= number_to_currency( @avg_daily_sales )
+	%p= number_to_currency( @avg_daily_sales )
+
+	%br 
+	
+	-if @refunded_orders.count > 0
+		%h4 Refunds in Period
+		
+		%p
+			Total Refunded:
+			= number_to_currency( @refund_total)
+		%p
+			Item Amount Refunded:
+			= number_to_currency( @refund_item_total)
+		%p
+			Tax Refunded:
+			= number_to_currency( @refund_tax_total)
+		%p
+			Shipping Refunded:
+			= number_to_currency( @refund_shipping_total)
 
 	
 	- if @orders_for_period.count > 0 

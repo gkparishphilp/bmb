@@ -10,18 +10,40 @@ class ReportsController < ApplicationController
 		@end_date = params[:end_date] || Time.now.getutc 
 		@week_ending = params[:week_ending] || Time.now.beginning_of_week
 		
-		@orders = Order.for_author( @current_author ).not_refunded
+		@orders = Order.for_author( @current_author )
 		# Active relation just passes in the day, starting at midnight.  So forwarding the end date by 1 day to capture today's purchases
 		@orders_past_day = @orders.dated_between( 1.day.ago.getutc, Time.now.getutc + 1.day ).successful.order('created_at desc')
 		@orders_for_period = @orders.dated_between( @start_date.to_date.beginning_of_day.getutc, @end_date.to_date.end_of_day.getutc).successful
 		@orders_for_week_ending = @orders.dated_between( (@week_ending - 7.days).getutc, @week_ending.getutc).successful
 		@total_sales = @orders_for_period.select( "sum(orders.total) as total").first.total.to_f
+		@total_sales_tax = @orders_for_period.select( "sum(orders.tax_amount) as total").first.total.to_f
+		@total_sales_shipping = @orders_for_period.select( "sum(orders.shipping_amount) as total").first.total.to_f
 		@total_sales ||= 0
 		@total_sales = @total_sales / 100 
+		@total_sales_tax ||= 0
+		@total_sales_tax = @total_sales_tax / 100
+		@total_sales_shipping ||= 0
+		@total_sales_shipping = @total_sales_shipping / 100
 		@avg_daily_sales = @orders_for_period.select( "sum(orders.total) as total").first.total.to_f 
 		@avg_daily_sales ||= 0
 		@avg_daily_sales = @avg_daily_sales / (@end_date.to_date - @start_date.to_date) / 100
 
+		# todo - Is there a way to do this with a triple join between orders, refunds, and sku's to make it @refund_total = Refund.for_author(@current_author).dated_between(...)
+		@refunded_orders = @orders_for_period.refunded
+		@refund_total= 0.0
+		@refund_tax_total = 0.0
+		@refund_shipping_total = 0.0
+		@refund_item_total = 0.0
+		
+		for order in @refunded_orders
+			if order.refund	# This is because some orders were marked as refunded after being refunded in the Paypal UI.  This was before you could do refunds entirely through BmB
+				@refund_total += ( order.refund.total.to_f / 100 ) 
+				@refund_tax_total += ( order.refund.tax_amount.to_f / 100 ) 
+				@refund_shipping_total += ( order.refund.shipping_amount.to_f / 100 ) 
+				@refund_item_total += ( order.refund.item_amount.to_f / 100 ) 
+			end
+		end
+		
 		@daily_sales = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.total) as total" ).map { |o| [o.created_at.to_s, o.total.to_f / 100] } ]
 		@daily_orders = [ @orders_for_period.group( "date(orders.created_at)" ).select( "orders.created_at, sum(orders.sku_quantity) as count" ).map { |o| [o.created_at.to_s, o.count] } ]
 		@orders_by_sku_week_ending = [ @orders_for_week_ending.group( "orders.sku_id" ).select( "orders.sku_id, sum(orders.sku_quantity) as count").map {|o| [o.sku_id, o.count]} ]

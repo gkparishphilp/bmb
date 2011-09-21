@@ -23,6 +23,10 @@ class Refund < ActiveRecord::Base
 	validate_on_create :validate_amount, :validate_refundable
 	liquid_methods :item_amount, :shipping_amount, :tax_amount, :total, :order, :comment
 	
+	scope :dated_between, lambda { |*args| 
+		where( "refunds.created_at between ? and ?", (args.first.to_date || 7.days.ago.getutc), (args.second.to_time || Time.now.getutc) ) 
+	}
+	
 	def process
 		response = GATEWAY.credit( self.total, self.order.order_transaction.reference )
 
