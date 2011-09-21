@@ -26,10 +26,10 @@
 					%td.small
 						= order.sku_quantity
 					%td.small
-						-if order.refund.nil? 
+						-if order.refund.present?
+							Refunded
+						-elsif order.refund.nil? && ((Date.today - order.created_at.to_date).to_i < 90 ) 
 							=link_to 'Refund', refund_order_path( order ) 
-						-else
-							Refunded 
 						
 	- unless @orders.total_pages < 2
 		.pagination
