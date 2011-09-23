@@ -353,3 +353,77 @@ input.register_field
 		:background #fff6bf url(../images/close_notice.png) 99.5% 19% no-repeat
 		+flash( #ffd324 )
 		
+
+.static_pages
+	:padding 15px 2px 2px
+	:color #877778
+	h2
+		:font-size 21px
+		:margin-bottom 18px
+	h3
+		:color #AEC42F
+		:font-size 20px
+	p
+		:line-height 26px
+	.caption
+		:font-size 11px
+	.description
+		:display block
+		:padding-bottom 10px
+	.sub-nav
+		.current
+			:font-weight bold
+		&:after
+			+clearfix
+		:margin 13px 0 50px 0
+		:font-size 14px
+		li
+			:float left
+			:margin 0 5px 0 0
+			:padding 0 5px 0 0
+			:border-right 1px solid #ccc
+			:line-height 18px
+			&.last
+				:border none
+		a
+			:color #877778
+			:text-decoration underline
+	.bullets
+		:margin 2px 0 40px 0
+		li
+			:line-height 21px
+			:padding 5px 2px 0 36px
+			:margin-left 10px
+			:background url('/images/check-mark.png') no-repeat 0 0 transparent
+	.thirds
+		&:after
+			+clearfix
+	.col1
+		:float left
+		:width 600px
+	.col2
+		:float right
+		:width 300px
+		h2
+			:margin-bottom 8px
+		hr
+			:margin-bottom 28px
+			
+	.get_started
+		:width 400px
+		:margin 60px auto 10px
+		:text-align center
+		.start-button
+			:padding 20px 77px
+			:line-height 75px
+			:font-size 30px
+			:font-weight bold
+			:background url('/images/get_started.png') no-repeat 0 0 transparent
+		& a:hover
+			:text-decoration none
+		p
+			:font-size 17px
+			& a 
+				:color #a1ad14
+				:text-decoration underline
+				
