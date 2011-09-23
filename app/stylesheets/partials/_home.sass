@@ -26,35 +26,82 @@
 		:margin-right 10px
 	h1,h2
 		:color #35c3ed
+	h1
+		:text-align center
+		:font-size 37px
+	.intro
+		:text-align center
+		:font-family "Rochester",cursive
+		:font-size 27px
+		:font-weight bold
+		:color #069dcf
+		:letter-spacing 1px
 	.presentation
 		:border-bottom 1px solid #ccc
-		.col1
-			:float left
-			:width 46%
-			:padding 18px
-		.col2
-			:float right
-			:width 45%
-			:padding 18px
-			.steps
-				:margin-top 10px
-				:padding 5px 10px
-				:width 80%
-				li
-					+rounded(8px)
-					:background-color #e8e8e8
-					:padding 5px 5px 10px 5px
-					:margin-bottom 15px
-				em
-					:float left
-					:font-size 50px
-					:color #35c3ed
-					:padding 0 5px
-					:font-family 'Rochester', cursive
-				p
-					:margin 0
-					:padding 6px 4px 2px 35px
-					:line-height 20px
+		:margin-top 35px
+		.steps
+			:margin 10px auto 0
+			:padding 5px 0
+			:width 86%
+			li
+				:background url('/images/features_bg.png') no-repeat 0 0 transparent
+				:padding 0 25px 5px
+				:margin 0 10px 5px 0
+				:float left
+				:width 26%
+				:text-align center
+				:min-height 200px
+				h2
+					:font-family "Rochester",cursive
+					:font-size 23px
+					:color #a1ad14
+					:text-shadow 1px 1px 0 #737173
+					:letter-spacing 1px
+			.icon
+				:width 63px
+				:height 65px
+				:margin -27px auto 8px
+			.setup
+				.icon
+					:background url('/images/feature_icons.png') no-repeat 0 0 transparent
+			.readers
+				.icon
+					:background url('/images/feature_icons.png') no-repeat -83px 0 transparent
+			.affordable
+				.icon
+					:background url('/images/feature_icons.png') no-repeat -182px 0 transparent
+			em
+				:padding 10px
+				:width 40px
+				:margin auto
+				:line-height 20px
+			p
+				:font-size 13px
+				:margin 0
+				:padding 6px 4px 2px 5px
+				:line-height 18px
+	.get_started
+		:width 400px
+		:margin 10px auto
+		:text-align center
+		.start-button
+			:padding 20px 77px
+			:line-height 75px
+			:font-size 30px
+			:font-weight bold
+			:background url('/images/get_started.png') no-repeat 0 0 transparent
+		& a:hover
+			:text-decoration none
+		p
+			:font-size 17px
+			& a 
+				:color #a1ad14
+				:text-decoration underline
+	.risk_free
+		:color #a1ad14
+		:text-align center
+		:font-size 37px
+			
 	#ft
 		:background-color #111
 		:border none
@@ -88,7 +135,6 @@
 	:margin 15px 0
 	:padding 10px 0 36px 106px
 	:background url("../images/quote_top.jpg") no-repeat 0 0 transparent
-	:border-bottom 1px solid #ccc
 	ul
 		:background url("../images/quote_bottom.jpg") no-repeat right bottom transparent
 		:float left
@@ -110,33 +156,62 @@
 			:margin 0 10px 5px 0
 			img
 				:width 80px
-
-.banners_about
-	:margin-bottom 20px
+.lower-hp
+	:padding 20px 0 0
 	h2
-		:font-size 33px
-		:padding 0 0 10px 10px
+		:text-align center
+		:font-family "Rochester",cursive
+		:font-size 37px
+		:font-weight bold
+		:color #069dcf
+		:letter-spacing 2px
+		:margin 25px 0
+	.message
+		:text-align center
+	.get_started
+		:margin 40px auto 30px
+		
+.samples
+	:width 87%
+	:margin auto
 	h3
 		:text-align center
 		:color #aec42f
-		:font-family 'Rochester', cursive
-		:font-size 50px
-	.col
-		+rounded(10px)
-		:float left
-		:width 29.3%
-		:margin 0 0 0 15px
-		:padding 0 10px
-		:background-color #e8e8e8
-		:min-height 165px
-		span
-			:text-align right
-			:clear both
-			:padding-top 3px
-			:display block
+		:font-size 20px
 		a
-			:color #35c4ee
+			:color #aec42f
+		&:hover
+			:text-decoration none 
+	.col
+		:float left
+		:margin 0
+		:padding 0
+		:min-height 165px
+		:text-align center
 	.col1
+		h3
+			:padding 15px 0 0 50px
+		p
+			:padding 0 0 0 50px
+		img
+			:margin-top -12px
+	.col3
+		h3
+			:padding 15px 50px 0 0
+		p
+			:padding 0 50px 0 0
+		img
+			:margin-top -12px		
+	p
+		:clear both
+		:padding-top 3px
+		:margin 1px 0
+		:display block
+		:color #009ccc
+		:font-size 11px
+	a
+		:color #35c4ee
+	
 
 .hp_promo 
 	:padding 10px 0 10px 3px

@@ -17,81 +17,103 @@
 				= link_to image_tag( "facebook.png" ), 'http://www.facebook.com/pages/BackMyBook/129259667097024?sk=wall'
 				= link_to image_tag( "twitter.png" ), 'http://twitter.com/backmybook'
 
+	%p.intro
+		Finally... A website, e  marketing & e  commerce tools just for writers.
+	%h1
+		Author’s Website & Marketing Toolkit
+	
 	.presentation.clearfix
-		.col1
-			<iframe width="480" height="300" src="http://www.youtube.com/embed/bMiDFiAT6BE" frameborder="0" allowfullscreen></iframe>
-		.col2
-			%ul.steps
-				%li
-					%em
-						1
-					%p
-						Create your Author Website to start promoting and selling your books online instantly.
-				%li
-					%em
-						2
-					%p
-						Use our direct-marketing tools to keep your readers engaged and begin turning them into fans.
-				%li
-					%em
-						3
-					%p
-						FREE 30-day trial so you get back to writing... for at least a month :)
-				.get_started
-					%p
-						= link_to image_tag( 'get_started_button.png' ), 'https://backmybook.com/orders/new?sku=25' 
-
-	.testimonials.clearfix
-		%ul
-			%li.test1
-				.crop
-				.headshot= image_tag 'sigler_hs.jpg'
-				The BackMyBook system makes it easy to sell hardcovers, paperbacks, eBooks, downloadable audiobooks and any other kind of merchandise. It's an exceptional solution for authors that want to take more control of their own brand and product line.
-				%p.bold 
-					&#45; 
-					= link_to 'Scott Sigler', 'http://backmybook.com/authors/scott-sigler/store'
-				New York Times best-selling author
-			%li.test2
-				.crop
-				.headshot= image_tag 'limber_hs.jpg'
-				The BackMyBook team has been there for me anytime I've needed them.  They've helped me with every step of my journey on the Internet.  I'd highly recommend them to any author who is looking to maximize their Internet potential.
-				%p.bold 
-					&#45; 
-					= link_to 'Jill Limber', 'http://jilllimber.com'
-				Former President Romance Writers of America
-			%li.test3
-				.crop
-				.headshot= image_tag 'gregory_hs.jpg'
-				BackMyBook always packs the room at our conference, giving out great insights and advice to our authors on how to best utilize the Internet, social networks, and technology overall.
-				%p.bold 
-					&#45; Michael Steven Gregory
-				Executive Director Southern California Writers' Conference
+		%ul.steps.clearfix
+			%li.setup
+				.icon
+					&nbsp;
+				%h2
+					Setup Your Website
+				%p
+					Built just for authors, you get powerful marketing and selling tools in one easy-to-use package. It’s all here, and we support you 100% of the way.
+			%li.readers
+				.icon
+					&nbsp;
+				%h2
+					Connect to Readers
+				%p
+					Remove the mystery around marketing to find new readers. With our online e-marketing tools you can build a community and find your audience.
+			%li.affordable
+				.icon
+					&nbsp;
+				%h2
+					Keep it Affordable
+				%p
+					For $19.99 a month you get a website, hosting, a store to sell books and merchandise, e-mail marketing, a blog, and more. And if you’re still on the fence...
+		%p.risk_free
+			Try It FREE - Take a 30 Day, No-Risk Trial
+		.get_started
+			= link_to 'Get Started!', 'https://backmybook.com/orders/new?sku=25', :class=>'start-button'
+			%p
+				= link_to 'View Complete Feature List', 'https://backmybook.com/features'
+	
+	.lower-hp
+		%h2
+			A Few Samples...
 		
-		
-	.banners_about.clearfix
-		%h2 We are...
-		.ft_banners
+		.samples.clearfix
 			.col.col1
 				%h3
-					easy
+					= link_to 'http://backmybook.com/authors/christof-laputka/bio' do 
+						Christoph Laputka
 				%p
-					Make a professional looking website and online store by leaving all the coding and brackets to [us].
-					%span
-						= link_to 'Get started', 'https://backmybook.com/orders/new?sku=25'
+					Science Fiction Author
+				= link_to image_tag('christoph-laputka.png'), 'http://backmybook.com/authors/christof-laputka/bio'
+				
 			.col.col2
 				%h3
-					resourceful
+					= link_to 'http://backmybook.com/authors/scott-sigler/books' do 
+						Scott Sigler
 				%p
-					We will provide you a branded store, setup your books for sale, and integrate with your existing website for free!
-					%span
-						= link_to 'Features', '/features'
+					New York Times Bestselling Author
+				= link_to image_tag('scott-sigler.png'), 'http://backmybook.com/authors/scott-sigler/books'
+				
 			.col.col3
 				%h3
-					experienced
+					= link_to 'http://backmybook.com/authors/virginia-brown/books/dixie-divas' do 
+						Virginia Brown
 				%p
-					Over 15 years of experience in creating online communities and we're still really nice.
-					%span
-						= link_to 'About', '/about'
+					Romantic Times Reviewer’s Choice Nominee
+				= link_to image_tag('virginia-brown.png'), 'http://backmybook.com/authors/virginia-brown/books/dixie-divas'
+
+		.testimonials.clearfix
+			%ul
+				%li.test1
+					.crop
+					.headshot= image_tag 'sigler_hs.jpg'
+					The BackMyBook system makes it easy to sell hardcovers, paperbacks, eBooks, downloadable audiobooks and any other kind of merchandise. It's an exceptional solution for authors that want to take more control of their own brand and product line.
+					%p.bold 
+						&#45; 
+						= link_to 'Scott Sigler', 'http://backmybook.com/authors/scott-sigler/store'
+					New York Times best-selling author
+				%li.test2
+					.crop
+					.headshot= image_tag 'limber_hs.jpg'
+					The BackMyBook team has been there for me anytime I've needed them.  They've helped me with every step of my journey on the Internet.  I'd highly recommend them to any author who is looking to maximize their Internet potential.
+					%p.bold 
+						&#45; 
+						= link_to 'Jill Limber', 'http://jilllimber.com'
+					Former President Romance Writers of America
+				%li.test3
+					.crop
+					.headshot= image_tag 'gregory_hs.jpg'
+					BackMyBook always packs the room at our conference, giving out great insights and advice to our authors on how to best utilize the Internet, social networks, and technology overall.
+					%p.bold 
+						&#45; Michael Steven Gregory
+					Executive Director Southern California Writers' Conference
+		.message
+			%h2
+				A Message From Our Founders...
+	
+			<iframe width="480" height="300" src="http://www.youtube.com/embed/bMiDFiAT6BE" frameborder="0" allowfullscreen></iframe>
+		
+			.get_started
+				= link_to 'Get Started!', 'https://backmybook.com/orders/new?sku=25', :class=>'start-button'
 	
 	%br.clear
 
