@@ -5,6 +5,7 @@
 		.admin_title
 			%h3 Comments 
 		.clear
+	= link_to 'Show published', comments_site_admin_index_url( :filter => 'published' )
 	%table.admin_table
 		%th Action
 		%th User / IP
