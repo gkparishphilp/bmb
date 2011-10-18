@@ -15,7 +15,7 @@
 							Filed under:
 							- for topic in @article.topics
 								= link_to separated_list( @article.topics, topic.name, "," ), blog_index_link( :topic => topic.name )
-
+				= render 'shared/sharing_widget'
 			.article_content.text
 				= @article.content.html_safe
 		
