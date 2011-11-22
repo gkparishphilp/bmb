@@ -106,7 +106,7 @@ class EmailMessagesController < ApplicationController
 		
 		if @current_author.has_email_quota_remaining?
 			# Kick the looping through subscribers (@message.deliver_to) into a send_later Delayed Job method to return control back to the author
-			@message.send_later(:deliver_to, @subscriptions ) 
+			@message.deliver_to( @subscriptions ) 
 			pop_flash( "Your newsletter has been successfully queued for delivery!")
 		else
 			pop_flash "You've run out of email credits for this month!  Please contact us for assistance.", :error
