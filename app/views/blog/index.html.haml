@@ -24,6 +24,7 @@
 			for
 			= @year
 	#article_list
+		= render 'shared/sharing_widget'
 		- for article in @articles
 			= render article
 	%br
